@@ -1,5 +1,7 @@
 # GitFlow and Git Style Guideline
 
+## Branch- and Commit Format
+
 - Main Branch: 'master'
   
   - Only gets commits by merging the development-branch into it after it has passed all the tests
@@ -32,8 +34,11 @@
     
     - example: `#1 Added xcode project`
 
-## 
-
 ## Git-Flow Diagram
 
 ![](git_flow.svg)
+
+## Additional Guidelines
+
+- Every contributer should only have a single issue 'In Progress' at a time. When you work on a second issue, move the first one into 'Waiting/Stuck' until you continue working on it
+- Have as little active issues as possible
