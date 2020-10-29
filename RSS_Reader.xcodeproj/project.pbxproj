@@ -15,6 +15,7 @@
 		1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */; };
 		1BD2A3DE254B036F00FCA510 /* RSS_ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3DD254B036F00FCA510 /* RSS_ReaderTests.swift */; };
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
+		1BD2A480254B156D00FCA510 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A47F254B156D00FCA510 /* MenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 		1BD2A3E4254B036F00FCA510 /* RSS_ReaderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RSS_ReaderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_ReaderUITests.swift; sourceTree = "<group>"; };
 		1BD2A3EA254B036F00FCA510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1BD2A47F254B156D00FCA510 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,7 @@
 		1BD2A3C5254B036E00FCA510 /* RSS_Reader */ = {
 			isa = PBXGroup;
 			children = (
+				1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */,
 				1BD2A3C6254B036E00FCA510 /* RSS_ReaderApp.swift */,
 				1BD2A3C8254B036E00FCA510 /* ContentView.swift */,
 				1BD2A3CA254B036F00FCA510 /* Assets.xcassets */,
@@ -106,6 +110,7 @@
 				1BD2A3D4254B036F00FCA510 /* Info.plist */,
 				1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */,
 				1BD2A3CC254B036F00FCA510 /* Preview Content */,
+				1BD2A47F254B156D00FCA510 /* MenuView.swift */,
 			);
 			path = RSS_Reader;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BD2A3D0254B036F00FCA510 /* Persistence.swift in Sources */,
+				1BD2A480254B156D00FCA510 /* MenuView.swift in Sources */,
 				1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */,
 				1BD2A3C9254B036E00FCA510 /* ContentView.swift in Sources */,
 				1BD2A3C7254B036E00FCA510 /* RSS_ReaderApp.swift in Sources */,
@@ -425,6 +431,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RSS_Reader/RSS_Reader.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"RSS_Reader/Preview Content\"";
 				DEVELOPMENT_TEAM = 7H3X64CV7G;
@@ -437,6 +444,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nrssa.RSS-Reader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -447,6 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RSS_Reader/RSS_Reader.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"RSS_Reader/Preview Content\"";
 				DEVELOPMENT_TEAM = 7H3X64CV7G;
@@ -459,6 +468,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nrssa.RSS-Reader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
