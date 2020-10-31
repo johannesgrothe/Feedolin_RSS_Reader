@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ View that represets an article in the article list
+ */
 struct ListEntryView: View {
     
     let title: String

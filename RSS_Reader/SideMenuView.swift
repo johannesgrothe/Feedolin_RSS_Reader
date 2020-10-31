@@ -7,16 +7,9 @@
 
 import SwiftUI
 
-
-//HStack {
-//    Image(systemName: "person")
-//    Text("Profile")
-//}.onTapGesture {
-//    print("My Profile")
-//}
-
-
-// Content of the Menu
+/**
+ Content of the side Menu
+ */
 struct MenuContent: View {
     var body: some View {
         List {
@@ -40,21 +33,13 @@ struct MenuContent: View {
             }.onTapGesture {
                 print("Settings")
             }
-            
-//            Text("My Profile").onTapGesture {
-//                print("My Profile")
-//            }
-//            Text("Posts").onTapGesture {
-//                print("Posts")
-//            }
-//            Text("Logout").onTapGesture {
-//                print("Logout")
-//            }
         }
     }
 }
 
-// View for the Side Menu
+/**
+ View for the side menu
+ */
 struct SideMenuView: View {
     let width: CGFloat
     let isOpen: Bool

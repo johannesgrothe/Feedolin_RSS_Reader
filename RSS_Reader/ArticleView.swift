@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ View that contains the whole article. Used to read the article.
+ */
 struct ArticleView: View {
     var body: some View {
         Text("Article")

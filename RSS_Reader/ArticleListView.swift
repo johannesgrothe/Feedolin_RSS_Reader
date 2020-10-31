@@ -10,7 +10,7 @@ import SwiftUI
 struct ArticleListView: View {
     var body: some View {
         List(model.data) {
-            dataSet in Text(dataSet.title)
+            dataSet in ListEntryView(title: dataSet.title)
         }
         
 //        List {
