@@ -21,6 +21,7 @@
 		EB08E124254D7BD200006B70 /* DummyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E123254D7BD200006B70 /* DummyDetailView.swift */; };
 		EB08E129254D7BF000006B70 /* ListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E128254D7BF000006B70 /* ListEntryView.swift */; };
 		EB08E12E254D7C1200006B70 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E12D254D7C1200006B70 /* SideMenuView.swift */; };
+		EB08E139254D7EBD00006B70 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E138254D7EBD00006B70 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		EB08E123254D7BD200006B70 /* DummyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyDetailView.swift; sourceTree = "<group>"; };
 		EB08E128254D7BF000006B70 /* ListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEntryView.swift; sourceTree = "<group>"; };
 		EB08E12D254D7C1200006B70 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
+		EB08E138254D7EBD00006B70 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				EB08E123254D7BD200006B70 /* DummyDetailView.swift */,
 				EB08E128254D7BF000006B70 /* ListEntryView.swift */,
 				EB08E12D254D7C1200006B70 /* SideMenuView.swift */,
+				EB08E138254D7EBD00006B70 /* Model.swift */,
 			);
 			path = RSS_Reader;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */,
 				1BD2A3C9254B036E00FCA510 /* ContentView.swift in Sources */,
 				EB08E11F254D7BAD00006B70 /* ArticleView.swift in Sources */,
+				EB08E139254D7EBD00006B70 /* Model.swift in Sources */,
 				EB08E129254D7BF000006B70 /* ListEntryView.swift in Sources */,
 				1BD2A3C7254B036E00FCA510 /* RSS_ReaderApp.swift in Sources */,
 			);

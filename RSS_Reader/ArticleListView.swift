@@ -9,22 +9,26 @@ import SwiftUI
 
 struct ArticleListView: View {
     var body: some View {
-        List {
-            NavigationLink(destination: ArticleView()) {
-                ListEntryView(title: "Entry 1")
-            }
-            .navigationBarTitle("Master view")
-            
-            NavigationLink(destination: ArticleView()) {
-                ListEntryView(title: "Entry 2")
-            }
-            .navigationBarTitle("Master view")
-            
-            NavigationLink(destination: ArticleView()) {
-                ListEntryView(title: "Entry 3")
-            }
-            .navigationBarTitle("Master view")
+        List(model.data) {
+            dataSet in Text(dataSet.title)
         }
+        
+//        List {
+//            NavigationLink(destination: ArticleView()) {
+//                ListEntryView(title: "Entry 1")
+//            }
+//            .navigationBarTitle("Master view")
+//
+//            NavigationLink(destination: ArticleView()) {
+//                ListEntryView(title: "Entry 2")
+//            }
+//            .navigationBarTitle("Master view")
+//
+//            NavigationLink(destination: ArticleView()) {
+//                ListEntryView(title: "Entry 3")
+//            }
+//            .navigationBarTitle("Master view")
+//        }
     }
 }
 

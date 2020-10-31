@@ -8,11 +8,15 @@
 import SwiftUI
 import CoreData
 
+/**
+ Launchscreen of the app
+ */
 struct ContentView: View {
     @State var menuOpen: Bool = false
-
+    
     var body: some View {
         
+        // Drag gesture to open the side menu by swiping
         let drag = DragGesture().onEnded {
                         if $0.translation.width > -100 {
                             withAnimation {
@@ -25,7 +29,6 @@ struct ContentView: View {
             NavigationView {
                 
                 ArticleListView()
-                
                 .navigationBarTitle("Master view", displayMode: .inline)
                 .navigationBarItems(
                     leading:
