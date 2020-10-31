@@ -9,70 +9,47 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    
-    @State var showMenu = false
-    
+    @State var menuOpen: Bool = false
+
     var body: some View {
         
-        let drag = DragGesture()
-                    .onEnded {
-                        if $0.translation.width < -100 {
+        let drag = DragGesture().onEnded {
+                        if $0.translation.width > -100 {
                             withAnimation {
-                                self.showMenu = false
+                                self.menuOpen = true
                             }
                         }
                     }
         
-        return NavigationView {
-            GeometryReader { geometry in
-            ZStack(alignment: .leading){
-                MainView(showMenu: self.$showMenu).frame(width: geometry.size.width, height: geometry.size.height)
-                    .offset(x: self.showMenu ? geometry.size.width/2 : 0)
-                    .disabled(self.showMenu ? true : false)
-                if self.showMenu {
-                    MenuView()
-                        .frame(width: geometry.size.width/2)
-                        .transition(.move(edge: .leading))
-                    }
-            }
-            .gesture(drag)
-        }
-            .navigationBarTitle("Side Menu", displayMode: .inline)
-            .navigationBarItems(leading: (
-                                Button(action: {
-                                    withAnimation {
-                                        self.showMenu.toggle()
-                                    }
-                                }) {
-                                    Image(systemName: "line.horizontal.3")
-                                        .imageScale(.large)
-                                }
-                            ))
-        }
-    }
-}
-
-struct MainView: View {
-    
-    @Binding var showMenu: Bool
-    
-    var body: some View {
-        List {
-            Text("Article 1").onTapGesture {
-                print("Article 1")
-            }
-            Text("Article 2").onTapGesture {
-                print("Article 2")
-            }
-            Text("Article 3").onTapGesture {
-                print("Article 3")
-            }
+        ZStack {
+            NavigationView {
+                
+                ArticleListView()
+                
+                .navigationBarTitle("Master view", displayMode: .inline)
+                .navigationBarItems(
+                    leading:
+                        Button(action: {
+                            print("SF Symbol button pressed...")
+                            self.menuOpen.toggle()
+                        }) {
+                            Image(systemName: "calendar.circle").imageScale(.large)
+                        },
+                    trailing:
+                        NavigationLink(destination: DummyDetailView()) {
+                            Image(systemName: "gear").imageScale(.large)
+                        }
+                        .navigationBarTitle("Master view")
+                )
+            }.gesture(drag)
+            
+            SideMenuView(width: 270,
+                         isOpen: self.menuOpen,
+                         menuClose: self.openMenu)
         }
     }
-}
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews:some View{
-        ContentView()
+    func openMenu() {
+        self.menuOpen.toggle()
     }
 }
