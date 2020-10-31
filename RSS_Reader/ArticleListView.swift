@@ -9,26 +9,9 @@ import SwiftUI
 
 struct ArticleListView: View {
     var body: some View {
-        List(model.data) {
+        List(model.article_data) {
             dataSet in ListEntryView(title: dataSet.title)
         }
-        
-//        List {
-//            NavigationLink(destination: ArticleView()) {
-//                ListEntryView(title: "Entry 1")
-//            }
-//            .navigationBarTitle("Master view")
-//
-//            NavigationLink(destination: ArticleView()) {
-//                ListEntryView(title: "Entry 2")
-//            }
-//            .navigationBarTitle("Master view")
-//
-//            NavigationLink(destination: ArticleView()) {
-//                ListEntryView(title: "Entry 3")
-//            }
-//            .navigationBarTitle("Master view")
-//        }
     }
 }
 
