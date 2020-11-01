@@ -15,7 +15,10 @@ struct ListEntryView: View {
     let title: String
     
     var body: some View {
-        Text(title)
+        NavigationLink(destination: DummyDetailView()) {
+            Text(title)
+        }
+        .navigationBarTitle("Feed")
     }
 }
 

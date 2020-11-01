@@ -10,7 +10,20 @@ import Foundation
 /**
  Model for the app, contains every information the views are using
  */
-struct Model {
+class Model {
+    
+    init() {
+        self.article_data = []
+        self.feed_data = []
+        self.filter_keywords = []
+    }
+    
+    init(article_data: [ArticleData]) {
+        self.article_data = article_data
+        self.feed_data = []
+        self.filter_keywords = []
+    }
+    
     var article_data: [ArticleData]
     
     var feed_data: [NewsFeedProvider]
@@ -18,16 +31,11 @@ struct Model {
     var filter_keywords: [FilterKeyword]
 }
 
+//var model = Model()
+
 var model = Model(
     article_data: [
-        ArticleData(article_id: "df23uhr8wef9hg",
-                    title: "Yolo",
-                    description: "desc",
-                    link: "www.blub.de",
-                    author: "mr. yolo",
-                    src_feed: UUID(),
-                    pub_date: Date())
-    ],
-    feed_data:[
-        NewsFeedProvider()
+        ArticleData(article_id: "sdfwer3", title: "TestArt", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feed: NewsFeed(url: "/blub.rss", name: "BlubFeed", show_in_main: true, use_filters: true, image: nil)),
+        ArticleData(article_id: "sdfwer4", title: "TestArt 2", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feed: NewsFeed(url: "/blub.rss", name: "BlubFeed", show_in_main: true, use_filters: true, image: nil)),
+        ArticleData(article_id: "sdfwer5", title: "TestArt 3", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feed: NewsFeed(url: "/blub.rss", name: "BlubFeed", show_in_main: true, use_filters: true, image: nil)),
     ])
