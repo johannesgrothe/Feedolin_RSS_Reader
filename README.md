@@ -29,3 +29,11 @@ Xcode (Main IDE): [‎Xcode on the Mac App Store](https://apps.apple.com/us/ap
 draw.io (UML & sequence diagrams): [Releases · jgraph/drawio-desktop · GitHub](https://github.com/jgraph/drawio-desktop/releases)
 
 Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
+
+### Git Flow:
+
+![](documentation/git_flow.svg)
+
+### UML:
+
+![](documentation/uml.svg)
