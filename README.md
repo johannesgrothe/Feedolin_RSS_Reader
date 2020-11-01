@@ -37,3 +37,5 @@ Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 ### UML:
 
 ![](documentation/uml.svg)
+
+### Wireframes
