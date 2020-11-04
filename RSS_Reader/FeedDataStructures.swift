@@ -10,7 +10,7 @@ import Foundation
 /**
  Class that represents a news feed provider
  */
-class NewsFeedProvider {
+class NewsFeedProvider: Identifiable {
 
     init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
         self.url = url
@@ -58,7 +58,7 @@ class NewsFeedProvider {
 /**
  Class that represents a newsfeed
  */
-class NewsFeed {
+class NewsFeed: Identifiable {
     
     init(url: String, name: String, show_in_main: Bool, use_filters: Bool, image: FeedTitleImage?) {
         self.url = url

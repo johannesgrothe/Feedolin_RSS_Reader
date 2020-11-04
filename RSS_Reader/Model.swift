@@ -29,6 +29,18 @@ class Model {
     var feed_data: [NewsFeedProvider]
     
     var filter_keywords: [FilterKeyword]
+    
+    /**
+     Adds an article to the database after checking if it already exists
+     */
+    func addArticle(_ article: ArticleData) {
+        for list_article in article_data {
+            if list_article.article_id == article.article_id {
+                return;
+            }
+        }
+        article_data.append(article)
+    }
 }
 
 //var model = Model()

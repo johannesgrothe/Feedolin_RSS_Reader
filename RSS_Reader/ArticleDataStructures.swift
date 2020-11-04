@@ -22,7 +22,6 @@ class ArticleData: Identifiable {
         self.parent_feed = parent_feed
     }
     
-    let id = UUID()
     let article_id: String
     let title: String
     let description: String

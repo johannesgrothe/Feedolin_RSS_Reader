@@ -29,20 +29,20 @@ struct ContentView: View {
             NavigationView {
                 
                 ArticleListView()
-                .navigationBarTitle("Master view", displayMode: .inline)
+                .navigationBarTitle("Feed", displayMode: .inline)
                 .navigationBarItems(
                     leading:
                         Button(action: {
-                            print("SF Symbol button pressed...")
+                            print("MenuButton pressed")
                             self.menuOpen.toggle()
                         }) {
                             Image(systemName: "calendar.circle").imageScale(.large)
                         },
                     trailing:
-                        NavigationLink(destination: DummyDetailView()) {
+                        NavigationLink(destination: SettingsView()) {
                             Image(systemName: "gear").imageScale(.large)
                         }
-                        .navigationBarTitle("Master view")
+                        .navigationBarTitle("Feed")
                 )
             }.gesture(drag)
             
