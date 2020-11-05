@@ -21,7 +21,7 @@ class ArticleData: Identifiable {
         self.author = author
         self.parent_feeds = parent_feeds
     }
-    
+
     let article_id: String
     let title: String
     let description: String
@@ -30,7 +30,7 @@ class ArticleData: Identifiable {
     let author: String?
     
     var parent_feeds: [NewsFeed]
-    
+
     /**
      Adds all of the passed feeds to the articles parent feed lists
      */
@@ -39,7 +39,7 @@ class ArticleData: Identifiable {
             addParentFeed(feed)
         }
     }
-    
+
     /**
      Adds feed to parent feed list
      */
@@ -48,7 +48,7 @@ class ArticleData: Identifiable {
             parent_feeds.append(feed)
         }
     }
-    
+
     /**
      Checks whether the passed parent feed is a parent of the article
      */
