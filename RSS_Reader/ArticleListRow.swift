@@ -32,7 +32,7 @@ struct ArticleListRow: View {
                 .frame(width: 130, height: 115)
         }
 
-        .frame(width: 390, height: 120, alignment: .center)
+        .frame(width: 370, height: 120, alignment: .center)
     }
 }
 
