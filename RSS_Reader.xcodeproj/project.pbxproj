@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		EB3F6AAB2552F7F0003FA72F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F6AAA2552F7F0003FA72F /* SettingsView.swift */; };
 		EB3F6AB02552F9F2003FA72F /* FeedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F6AAF2552F9F2003FA72F /* FeedSettingsView.swift */; };
 		EB3F6AB525530CAA003FA72F /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F6AB425530CAA003FA72F /* FeedParser.swift */; };
+		EB3F6ABB2554046F003FA72F /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = EB3F6ABA2554046F003FA72F /* XMLCoder */; };
 		EB6702DF254D983A006BD9C1 /* ArticleDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */; };
 		EB6702E7254DA694006BD9C1 /* FeedDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */; };
 		EB6702EC254DABE6006BD9C1 /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702EB254DABE6006BD9C1 /* FilterDataStructures.swift */; };
@@ -81,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB3F6ABB2554046F003FA72F /* XMLCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +192,9 @@
 			dependencies = (
 			);
 			name = RSS_Reader;
+			packageProductDependencies = (
+				EB3F6ABA2554046F003FA72F /* XMLCoder */,
+			);
 			productName = RSS_Reader;
 			productReference = 1BD2A3C3254B036E00FCA510 /* RSS_Reader.app */;
 			productType = "com.apple.product-type.application";
@@ -261,6 +266,9 @@
 				Base,
 			);
 			mainGroup = 1BD2A3BA254B036E00FCA510;
+			packageReferences = (
+				EB3F6AB92554046E003FA72F /* XCRemoteSwiftPackageReference "XMLCoder" */,
+			);
 			productRefGroup = 1BD2A3C4254B036E00FCA510 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -642,6 +650,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EB3F6AB92554046E003FA72F /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.11.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EB3F6ABA2554046F003FA72F /* XMLCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB3F6AB92554046E003FA72F /* XCRemoteSwiftPackageReference "XMLCoder" */;
+			productName = XMLCoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */ = {

@@ -6,15 +6,38 @@
 //
 
 import Foundation
+import XMLCoder
 
 class FeedParser {
-    
-    private var url: String?
-    
+
     private var data: String?
     
+    private var url_protocol: String?
+    private var main_url: String?
+    private var sub_url: String?
+    
     func fetchData(url: String) -> Bool {
-        self.url = url
+        
+        // Check URL
+        let result_group = getRegexGroups(for: "(https?://)([^:^/]*)(:\\d*)?(.*)?", in: url)
+        if !result_group.isEmpty {
+            let parsed_url_goup = result_group[0]
+            self.url_protocol = parsed_url_goup[1]
+            self.main_url = parsed_url_goup[2]
+            
+            var buf_sub_url = parsed_url_goup[4]
+            buf_sub_url.remove(at: buf_sub_url.startIndex)
+            self.sub_url = buf_sub_url
+            
+            if url_protocol == "" || main_url == "" || sub_url == "" {
+                print("Parts of the URL are missing")
+                return false
+            }
+        } else {
+            print("Couldn't split URL propperly")
+            return false
+        }
+        
         if let buf_url = URL(string: url) {
             do {
                 let result = try String(contentsOf: buf_url)
@@ -22,12 +45,12 @@ class FeedParser {
                 return true
             } catch {
                 // contents could not be loaded
-                print("Loading not successful")
+                print("Loading data not successful")
                 return false
             }
         } else {
             // the URL was bad!
-            print("Broken url")
+            print("The URL somehow was still broken after checking")
             return false
         }
     }
@@ -94,147 +117,119 @@ class FeedParser {
     }
     
     private func parseArticle(_ article_str: String) -> ArticleData? {
-        var fetch_ok = true
         
-        var art_id: String
-        var art_title: String
-        var art_desc: String
-        var art_link: String
-        var art_pub_date: Date
-        var art_author: String?
-        
-        var result = getRegexMatches(for: "<guid(.+?)>(.+?)</guid>", in: article_str)
-        if !result.isEmpty {
-            art_id = result[0]
-        } else {
-            art_id = "<err>"
-            print("err getting article guid")
-            print(article_str)
-            fetch_ok = false
+        struct XMLArticle: Codable {
+            let title: String
+            let description: String
+            let thumbnail: String?
+            let link: String
+            let pubDate: String
+            let guid: String
         }
         
-        result = getRegexMatches(for: "<title>(.+?)</title>", in: article_str)
-        if !result.isEmpty {
-            art_title = result[0].replacingOccurrences(of: "<title>", with: "").replacingOccurrences(of: "</title>", with: "")
-        } else {
-            art_title = "<err>"
-            print("err getting article title")
-            fetch_ok = false
-        }
+        guard let data = article_str.data(using: .utf8) else { return nil }
+
+        let art_data = try? XMLDecoder().decode(XMLArticle.self, from: data)
         
-        result = getRegexMatches(for: "<description>(.+?)</description>", in: article_str)
-        if !result.isEmpty {
-            art_desc = result[0].replacingOccurrences(of: "<description>", with: "").replacingOccurrences(of: "</description>", with: "")
-        } else {
-            art_desc = ""
-        }
-        
-        result = getRegexMatches(for: "<link>(.+?)</link>", in: article_str)
-        if !result.isEmpty {
-            art_link = result[0].replacingOccurrences(of: "<link>", with: "").replacingOccurrences(of: "</link>", with: "")
-        } else {
-            art_link = "<err>"
-            print("err getting article link")
-            fetch_ok = false
-        }
-        
-        result = getRegexMatches(for: "<pubDate>(.+?)</pubDate>", in: article_str)
-        if !result.isEmpty {
-            let date_str = result[0].replacingOccurrences(of: "<pubDate>", with: "").replacingOccurrences(of: "</pubDate>", with: "")
-            
-            // Create date from ISO8601 string
-            let dateFormatter = ISO8601DateFormatter()
-            let date = dateFormatter.date(from:date_str)
-            if date == nil {
-                print("Error parsing date: '\(date_str)'")
-                art_pub_date = Date()
-            } else {
-                art_pub_date = date!
-            }
-        } else {
-            art_pub_date = Date()
-            print("err getting article date")
-            fetch_ok = false
-        }
-        
-        result = getRegexMatches(for: "<author>(.+?)</author>", in: article_str)
-        if !result.isEmpty {
-            art_author = result[0].replacingOccurrences(of: "<author>", with: "").replacingOccurrences(of: "</author>", with: "")
-        } else {
-            art_author = nil
-        }
-        
-        if fetch_ok {
-            let buf_art_data = ArticleData(article_id: art_id, title: art_title, description: art_desc, link: art_link, pub_date: art_pub_date, author: art_author, parent_feed: nil)
-            return buf_art_data
-        } else {
-            print("Error fetching article from:")
-            print(article_str)
+        if art_data == nil {
             return nil
         }
+        
+        var art_pub_date: Date?
+        
+        // Create date from ISO8601 string
+        let dateFormatter = ISO8601DateFormatter()
+        let date = dateFormatter.date(from: art_data!.pubDate)
+        if date == nil {
+            print("Error parsing date: '\(art_data!.pubDate)'")
+            art_pub_date = Date()
+        } else {
+            art_pub_date = date!
+        }
+        
+        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, author: nil, parent_feed: nil)
     }
     
     func parseData() -> FetchedFeedInfo? {
         if data == nil {
+            print("Cannot parse: no data fetched")
             return nil
         }
         
-        let header_only = replaceRegexMatches(for: "<item>(.+?)</item>", in: data!, with: "<_xD_>")
-        
-        if header_only == nil {
-            print("Cannot get header")
+        if url_protocol == nil || main_url == nil || sub_url == nil {
+            print("Cannot parse: no legal url data found")
             return nil
         }
         
-        var title: String
-        var description: String
-        var language: String
+        struct RSSChannelMeta: Codable {
+            let title: String
+            let link: String
+            let description: String
+            let language: String
+        }
         
-        var url_protocol: String
-        var main_url: String
-        var sub_url:String
+        struct RSSDoc: Codable {
+            let rss: String
+        }
+        
+        struct RSSChannel: Codable {
+            let channel: String
+        }
+
+        // RSS parse
+        guard let checked_data = data!.data(using: .utf8) else {
+            print("Parsing failed: illegal encoding")
+            return nil
+        }
+        
+        let rss_doc = try? XMLDecoder().decode(RSSDoc.self, from: checked_data)
+
+        if rss_doc == nil {
+            print("Parsing failed: no legal rss feed document")
+            print(data!)
+            return nil
+        }
+        if rss_doc!.rss == "" {
+            print("Parsing failed: empty rss feed document")
+            return nil
+        }
+        // RSS parse end
+        
+        // Channel parse
+        guard let checked_rss = rss_doc!.rss.data(using: .utf8) else {
+            print("Parsing failed: illegal encoding")
+            return nil
+        }
+        
+        let channel_data = try? XMLDecoder().decode(RSSChannel.self, from: checked_rss)
+        
+        if channel_data == nil {
+            print("Parsing failed: no channel found")
+            return nil
+        }
+        if channel_data!.channel == "" {
+            print("Parsing failed: empty channel found")
+            return nil
+        }
+        // Channel parse end
+        
+        // Meta parse
+        guard let checked_channel = channel_data!.channel.data(using: .utf8) else {
+            print("Parsing failed: illegal encoding")
+            return nil
+        }
+        
+        let meta_data = try? XMLDecoder().decode(RSSChannelMeta.self, from: checked_channel)
+        
+        if meta_data == nil {
+            print("Parsing failed: couldn't parse meta data")
+            return nil
+        }
         
         var article_data: [ArticleData] = []
         
-        var result = getRegexMatches(for: "<title>(.+?)</title>", in: header_only!)
-        if !result.isEmpty {
-            title = result[0].replacingOccurrences(of: "<title>", with: "").replacingOccurrences(of: "</title>", with: "")
-        } else {
-            return nil
-        }
-        
-        result = getRegexMatches(for: "<description>(.+?)</description>", in: header_only!)
-        if !result.isEmpty {
-            description = result[0].replacingOccurrences(of: "<description>", with: "").replacingOccurrences(of: "</description>", with: "")
-        } else {
-            return nil
-        }
-        
-        result = getRegexMatches(for: "<language>(.+?)</language>", in: header_only!)
-        if !result.isEmpty {
-            language = result[0].replacingOccurrences(of: "<language>", with: "").replacingOccurrences(of: "</language>", with: "")
-        } else {
-            return nil
-        }
-        
-        // Check URL
-        let result_group = getRegexGroups(for: "(https?://)([^:^/]*)(:\\d*)?(.*)?", in: url!)
-        if !result_group.isEmpty {
-            let parsed_url_goup = result_group[0]
-            url_protocol = parsed_url_goup[1]
-            main_url = parsed_url_goup[2]
-            sub_url = parsed_url_goup[4]
-            sub_url.remove(at: sub_url.startIndex)
-            
-            if url_protocol == "" || main_url == "" || sub_url == "" {
-                return nil
-            }
-        } else {
-            return nil
-        }
-        
         // Load Feeds
-        result = getRegexMatches(for: "<item>(.+?)</item>", in: data!)
+        let result = getRegexMatches(for: "<item(.+?)</item>", in: data!)
         if !result.isEmpty {
             for article_str in result {
                 
@@ -244,11 +239,10 @@ class FeedParser {
                 }
             }
         } else {
-            print("No article date fetched")
+            print("No article data fetched")
         }
         
-        
-        let news_feed = NewsFeedMeta(title: title, description: description, language: language, url_protocol: url_protocol, main_url: main_url, sub_url: sub_url)
+        let news_feed = NewsFeedMeta(title: meta_data!.title, description: meta_data!.description, language: meta_data!.language, url_protocol: url_protocol!, main_url: main_url!, sub_url: sub_url!)
         
         return FetchedFeedInfo(feed_info: news_feed, articles: article_data)
     }
