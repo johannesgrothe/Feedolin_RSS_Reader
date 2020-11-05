@@ -13,8 +13,6 @@ class FeedParser {
     
     private var data: String?
     
-    private var fetched_feed_info: FetchedFeedInfo?
-    
     func fetchData(url: String) -> Bool {
         self.url = url
         if let buf_url = URL(string: url) {
@@ -143,7 +141,16 @@ class FeedParser {
         result = getRegexMatches(for: "<pubDate>(.+?)</pubDate>", in: article_str)
         if !result.isEmpty {
             let date_str = result[0].replacingOccurrences(of: "<pubDate>", with: "").replacingOccurrences(of: "</pubDate>", with: "")
-            art_pub_date = Date()
+            
+            // Create date from ISO8601 string
+            let dateFormatter = ISO8601DateFormatter()
+            let date = dateFormatter.date(from:date_str)
+            if date == nil {
+                print("Error parsing date: '\(date_str)'")
+                art_pub_date = Date()
+            } else {
+                art_pub_date = date!
+            }
         } else {
             art_pub_date = Date()
             print("err getting article date")
@@ -167,16 +174,16 @@ class FeedParser {
         }
     }
     
-    func parseData() -> Bool {
+    func parseData() -> FetchedFeedInfo? {
         if data == nil {
-            return false
+            return nil
         }
         
         let header_only = replaceRegexMatches(for: "<item>(.+?)</item>", in: data!, with: "<_xD_>")
         
         if header_only == nil {
             print("Cannot get header")
-            return false
+            return nil
         }
         
         var title: String
@@ -193,21 +200,21 @@ class FeedParser {
         if !result.isEmpty {
             title = result[0].replacingOccurrences(of: "<title>", with: "").replacingOccurrences(of: "</title>", with: "")
         } else {
-            return false
+            return nil
         }
         
         result = getRegexMatches(for: "<description>(.+?)</description>", in: header_only!)
         if !result.isEmpty {
             description = result[0].replacingOccurrences(of: "<description>", with: "").replacingOccurrences(of: "</description>", with: "")
         } else {
-            return false
+            return nil
         }
         
         result = getRegexMatches(for: "<language>(.+?)</language>", in: header_only!)
         if !result.isEmpty {
             language = result[0].replacingOccurrences(of: "<language>", with: "").replacingOccurrences(of: "</language>", with: "")
         } else {
-            return false
+            return nil
         }
         
         // Check URL
@@ -220,10 +227,10 @@ class FeedParser {
             sub_url.remove(at: sub_url.startIndex)
             
             if url_protocol == "" || main_url == "" || sub_url == "" {
-                return false
+                return nil
             }
         } else {
-            return false
+            return nil
         }
         
         // Load Feeds
@@ -243,15 +250,8 @@ class FeedParser {
         
         let news_feed = NewsFeedMeta(title: title, description: description, language: language, url_protocol: url_protocol, main_url: main_url, sub_url: sub_url)
         
-        fetched_feed_info = FetchedFeedInfo(feed_info: news_feed, articles: article_data)
-        
-        return true
+        return FetchedFeedInfo(feed_info: news_feed, articles: article_data)
     }
-    
-    func getParsedData() -> FetchedFeedInfo? {
-        return fetched_feed_info
-    }
-    
 }
 
 struct FetchedFeedInfo {
