@@ -150,6 +150,50 @@ class FeedParser {
         return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, author: nil, parent_feed: nil)
     }
     
+    func parseChannel(_ channel_str: String) -> FetchedFeedInfo? {
+        
+        struct RSSChannelMeta: Codable {
+            let title: String
+            let link: String
+            let description: String
+            let language: String
+        }
+        
+        // Meta parse
+        guard let checked_channel_str = channel_str.data(using: .utf8) else {
+            print("Parsing failed: illegal encoding")
+            return nil
+        }
+        
+        let channel_data = try? XMLDecoder().decode(RSSChannelMeta.self, from: checked_channel_str)
+        
+        if channel_data == nil {
+            print("Parsing failed: no channel found")
+            return nil
+        }
+        // Meta parse end
+        
+        var article_data: [ArticleData] = []
+        
+        // Load Feeds
+        let article_data_list = getRegexMatches(for: "<item(.+?)</item>", in: data!)
+        if !article_data_list.isEmpty {
+            for article_str in article_data_list {
+                
+                let buf_art = parseArticle(article_str)
+                if buf_art != nil {
+                    article_data.append(buf_art!)
+                }
+            }
+        } else {
+            print("No article data fetched")
+        }
+        
+        let news_feed = NewsFeedMeta(title: channel_data!.title, description: channel_data!.description, language: channel_data!.language, url_protocol: url_protocol!, main_url: main_url!, sub_url: sub_url!)
+        
+        return FetchedFeedInfo(feed_info: news_feed, articles: article_data)
+    }
+    
     func parseData() -> FetchedFeedInfo? {
         if data == nil {
             print("Cannot parse: no data fetched")
@@ -161,90 +205,20 @@ class FeedParser {
             return nil
         }
         
-        struct RSSChannelMeta: Codable {
-            let title: String
-            let link: String
-            let description: String
-            let language: String
-        }
-        
-        struct RSSDoc: Codable {
-            let rss: String
-        }
-        
-        struct RSSChannel: Codable {
-            let channel: String
-        }
-
-        // RSS parse
-        guard let checked_data = data!.data(using: .utf8) else {
-            print("Parsing failed: illegal encoding")
-            return nil
-        }
-        
-        let rss_doc = try? XMLDecoder().decode(RSSDoc.self, from: checked_data)
-
-        if rss_doc == nil {
-            print("Parsing failed: no legal rss feed document")
-            print(data!)
-            return nil
-        }
-        if rss_doc!.rss == "" {
-            print("Parsing failed: empty rss feed document")
-            return nil
-        }
-        // RSS parse end
-        
-        // Channel parse
-        guard let checked_rss = rss_doc!.rss.data(using: .utf8) else {
-            print("Parsing failed: illegal encoding")
-            return nil
-        }
-        
-        let channel_data = try? XMLDecoder().decode(RSSChannel.self, from: checked_rss)
-        
-        if channel_data == nil {
-            print("Parsing failed: no channel found")
-            return nil
-        }
-        if channel_data!.channel == "" {
-            print("Parsing failed: empty channel found")
-            return nil
-        }
-        // Channel parse end
-        
-        // Meta parse
-        guard let checked_channel = channel_data!.channel.data(using: .utf8) else {
-            print("Parsing failed: illegal encoding")
-            return nil
-        }
-        
-        let meta_data = try? XMLDecoder().decode(RSSChannelMeta.self, from: checked_channel)
-        
-        if meta_data == nil {
-            print("Parsing failed: couldn't parse meta data")
-            return nil
-        }
-        
-        var article_data: [ArticleData] = []
-        
-        // Load Feeds
-        let result = getRegexMatches(for: "<item(.+?)</item>", in: data!)
-        if !result.isEmpty {
-            for article_str in result {
-                
-                let buf_art = parseArticle(article_str)
-                if buf_art != nil {
-                    article_data.append(buf_art!)
-                }
+        let channel_str_list = getRegexMatches(for: "<channel(.+?)</channel>", in: data!)
+        if !channel_str_list.isEmpty {
+            if channel_str_list.endIndex == 1 {
+                let channel_data = parseChannel(channel_str_list[0])
+                return channel_data
+            } else {
+                // TODO: handle
+                print("Found multiple channels in one feed")
             }
         } else {
-            print("No article data fetched")
+            print("No channel data found")
         }
         
-        let news_feed = NewsFeedMeta(title: meta_data!.title, description: meta_data!.description, language: meta_data!.language, url_protocol: url_protocol!, main_url: main_url!, sub_url: sub_url!)
-        
-        return FetchedFeedInfo(feed_info: news_feed, articles: article_data)
+    return nil
     }
 }
 
