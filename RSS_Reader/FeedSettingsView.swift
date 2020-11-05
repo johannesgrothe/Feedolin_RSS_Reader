@@ -90,16 +90,25 @@ struct AddFeedView: View {
 
 struct FeedSettingsList: View {
     var body: some View {
-        List(model.feed_data) {
-            feed_provider in FeedProviderSettingsListView(feed_provider: feed_provider)
+//        ScrollView(.vertical, showsIndicators: false) {
+        List {
+            ForEach(model.feed_data) { feed_provider in
+                FeedProviderSettingListEntry(feed_provider: feed_provider)
+                ForEach(feed_provider.feeds) { feed in
+                    FeedSettingsListEntry(feed: feed)
+                }
+          }
         }
     }
 }
 
-struct FeedProviderSettingsListView: View {
+
+struct FeedProviderSettingListEntry: View {
+    
     let feed_provider: NewsFeedProvider
+    
     var body: some View {
-        NavigationLink(destination: FeedSettingsListView(feed_provider: feed_provider)) {
+        NavigationLink(destination: DummyDetailView()) {
             HStack {
                 Image(systemName: "person").imageScale(.large)
                 Text(feed_provider.name).font(.headline)
@@ -109,33 +118,23 @@ struct FeedProviderSettingsListView: View {
 }
 
 
-struct FeedSettingsListView: View {
+struct FeedSettingsListEntry: View {
     
-    let feed_provider: NewsFeedProvider
+    let feed: NewsFeed
     
     var body: some View {
-        VStack {
-            NavigationLink(destination: DummyDetailView()) {
-                HStack {
-                    Image(systemName: "smiley").imageScale(.large)
-                    Text(feed_provider.name).font(.headline)
-                }
+        NavigationLink(destination: DummyDetailView()) {
+            HStack {
+                Image(systemName: "smiley").imageScale(.large)
+                Text(feed.name)
             }
-            
-            List(feed_provider.feeds) {
-                feed in NavigationLink(destination: DummyDetailView()) {
-                    HStack {
-                        Image(systemName: "person").imageScale(.large)
-                        Text(feed_provider.name)
-                    }
-                }
-            }
-        }.navigationTitle(feed_provider.name)
+        }
     }
 }
 
 
 struct FeedSettingsView_Previews: PreviewProvider {
+    
     static var previews: some View {
         FeedSettingsView()
     }
