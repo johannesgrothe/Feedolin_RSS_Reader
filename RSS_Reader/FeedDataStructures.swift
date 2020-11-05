@@ -90,11 +90,12 @@ class NewsFeedProvider: Identifiable {
  */
 class NewsFeed: Identifiable {
     
-    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, image: FeedTitleImage?) {
+    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
         self.url = url
         self.name = name
         self.show_in_main = show_in_main
         self.use_filters = use_filters
+        self.parent_feed = parent_feed
         
         self.image = image
     }
@@ -120,6 +121,11 @@ class NewsFeed: Identifiable {
      Determines whether any of the selected filters should be applied
      */
     var use_filters: Bool
+    
+    /**
+     Parent feed of the news feed
+     */
+    let parent_feed: NewsFeedProvider
     
     /**
      Optional title image for the feed

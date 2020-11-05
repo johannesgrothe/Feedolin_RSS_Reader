@@ -8,6 +8,9 @@
 import Foundation
 import XMLCoder
 
+/**
+ Class to parse a rss webfeed
+ */
 class FeedParser {
 
     private var data: String?
@@ -15,45 +18,6 @@ class FeedParser {
     private var url_protocol: String?
     private var main_url: String?
     private var sub_url: String?
-    
-    func fetchData(url: String) -> Bool {
-        
-        // Check URL
-        let result_group = getRegexGroups(for: "(https?://)([^:^/]*)(:\\d*)?(.*)?", in: url)
-        if !result_group.isEmpty {
-            let parsed_url_goup = result_group[0]
-            self.url_protocol = parsed_url_goup[1]
-            self.main_url = parsed_url_goup[2]
-            
-            var buf_sub_url = parsed_url_goup[4]
-            buf_sub_url.remove(at: buf_sub_url.startIndex)
-            self.sub_url = buf_sub_url
-            
-            if url_protocol == "" || main_url == "" || sub_url == "" {
-                print("Parts of the URL are missing")
-                return false
-            }
-        } else {
-            print("Couldn't split URL propperly")
-            return false
-        }
-        
-        if let buf_url = URL(string: url) {
-            do {
-                let result = try String(contentsOf: buf_url)
-                self.data = result
-                return true
-            } catch {
-                // contents could not be loaded
-                print("Loading data not successful")
-                return false
-            }
-        } else {
-            // the URL was bad!
-            print("The URL somehow was still broken after checking")
-            return false
-        }
-    }
     
     /**
      Finds all matches for the regex in the passed text and returns them as a list of strings
@@ -116,6 +80,12 @@ class FeedParser {
         }
     }
     
+    
+    /**
+     Parses the data out of an article xml string
+     # String Structure
+     "<item> ... </item>"
+     */
     private func parseArticle(_ article_str: String) -> ArticleData? {
         
         struct XMLArticle: Codable {
@@ -138,19 +108,37 @@ class FeedParser {
         var art_pub_date: Date?
         
         // Create date from ISO8601 string
-        let dateFormatter = ISO8601DateFormatter()
-        let date = dateFormatter.date(from: art_data!.pubDate)
+        let isoDateFormatter = ISO8601DateFormatter()
+        var date = isoDateFormatter.date(from: art_data!.pubDate)
         if date == nil {
-            print("Error parsing date: '\(art_data!.pubDate)'")
-            art_pub_date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss +zzzz"
+            date = dateFormatter.date(from: art_data!.pubDate)
+            if date == nil {
+                dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
+                date = dateFormatter.date(from: art_data!.pubDate)
+                if date == nil {
+                    print("Error parsing date: '\(art_data!.pubDate)'")
+                    art_pub_date = Date()
+                } else {
+                    art_pub_date = date!
+                }
+            } else {
+                art_pub_date = date!
+            }
         } else {
             art_pub_date = date!
         }
         
-        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, author: nil, parent_feed: nil)
+        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, author: nil, parent_feeds: [])
     }
     
-    func parseChannel(_ channel_str: String) -> FetchedFeedInfo? {
+    /**
+     Parses the data out of an channel xml string
+     # String Structure
+     "<channel> ... </channel>"
+     */
+    private func parseChannel(_ channel_str: String) -> FetchedFeedInfo? {
         
         struct RSSChannelMeta: Codable {
             let title: String
@@ -194,6 +182,9 @@ class FeedParser {
         return FetchedFeedInfo(feed_info: news_feed, articles: article_data)
     }
     
+    /**
+     Parses previously fetched data as an rss feed
+     */
     func parseData() -> FetchedFeedInfo? {
         if data == nil {
             print("Cannot parse: no data fetched")
@@ -220,13 +211,61 @@ class FeedParser {
         
     return nil
     }
+    
+    /**
+     Gets the data for the ressource behind the url from the webserver and returns whether that was successful
+     */
+    func fetchData(url: String) -> Bool {
+        
+        // Check URL
+        let result_group = getRegexGroups(for: "(https?://)([^:^/]*)(:\\d*)?(.*)?", in: url)
+        if !result_group.isEmpty {
+            let parsed_url_goup = result_group[0]
+            self.url_protocol = parsed_url_goup[1]
+            self.main_url = parsed_url_goup[2]
+            
+            var buf_sub_url = parsed_url_goup[4]
+            buf_sub_url.remove(at: buf_sub_url.startIndex)
+            self.sub_url = buf_sub_url
+            
+            if url_protocol == "" || main_url == "" || sub_url == "" {
+                print("Parts of the URL are missing")
+                return false
+            }
+        } else {
+            print("Couldn't split URL propperly")
+            return false
+        }
+        
+        if let buf_url = URL(string: url) {
+            do {
+                let result = try String(contentsOf: buf_url)
+                self.data = result
+                return true
+            } catch {
+                // contents could not be loaded
+                print("Loading data not successful")
+                return false
+            }
+        } else {
+            // the URL was bad!
+            print("The URL somehow was still broken after checking")
+            return false
+        }
+    }
 }
 
+/**
+ Return container of the fetch operation. Contains feed meta information and an list of articles
+ */
 struct FetchedFeedInfo {
     let feed_info: NewsFeedMeta
     let articles: [ArticleData]
 }
 
+/**
+ Raw meta information for an article
+ */
 struct NewsFeedMeta {
     let title: String
     let description: String
