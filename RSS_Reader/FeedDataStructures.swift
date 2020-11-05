@@ -12,7 +12,8 @@ import Foundation
  */
 class NewsFeedProvider: Identifiable {
 
-    init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
+    init(web_protocol: String, url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
+        self.web_protocol = web_protocol
         self.url = url
         self.name = name
         self.token = token
@@ -21,10 +22,32 @@ class NewsFeedProvider: Identifiable {
     }
     
     /**
-     Adds a feed to the feed provider
+     Adds a feed to the feed provider if a feed with the same url does not already exist
      */
-    func addFeed(feed: NewsFeed) {
+    func addFeed(feed: NewsFeed) -> Bool {
+        for list_feed in feeds {
+            if list_feed.url == feed.url {
+                print("Failed to add '\(feed.url)' to '\(url)'")
+                return false
+            }
+        }
+        print("Adding '\(feed.url)' to '\(url)'")
+        
         self.feeds.append(feed)
+        
+        return true
+    }
+    
+    /**
+     Returns the feed for the given url
+     */
+    func getFeed(url: String) -> NewsFeed? {
+        for feed_data in feeds {
+            if feed_data.url == url {
+                return feed_data
+            }
+        }
+        return nil
     }
     
     /**
@@ -33,6 +56,13 @@ class NewsFeedProvider: Identifiable {
      'www.nzz.ch'
      */
     let url: String
+    
+    /**
+     Protocol of the feed proider website
+     # Example
+     'https://'
+     */
+    let web_protocol: String
     
     /**
      Name of the feed provider

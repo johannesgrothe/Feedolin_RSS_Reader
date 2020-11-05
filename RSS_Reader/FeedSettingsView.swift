@@ -35,10 +35,8 @@ struct AddFeedView: View {
                 print(text)
                 addFeed(url: text)
             }
-//                .foregroundColor(.white)
-                .padding()
-//                .background(Color.accentColor)
-                .cornerRadius(8)
+            .padding()
+            .cornerRadius(8)
         }
     }
     
@@ -48,15 +46,34 @@ struct AddFeedView: View {
             if parser.parseData() {
                 let parsed_feed_info = parser.getParsedData()
                 if parsed_feed_info != nil {
-                    print("Yayyyy")
+                
+                    let feed_meta = parsed_feed_info!.feed_info
                     
-                    let blub1 = NewsFeedProvider(url: parsed_feed_info!.feed_info.main_url, name: parsed_feed_info!.feed_info.main_url, token: "", icon: NewsFeedIcon(url: "blub.de/x.png"), feeds: [NewsFeed(url: parsed_feed_info!.feed_info.sub_url, name: parsed_feed_info!.feed_info.title, show_in_main: true, use_filters: true, image: nil)])
-                    model.feed_data.append(blub1)
+                    var parent_feed = model.getFeedProviderForURL(feed_meta.main_url)
                     
-                    print("Adding \(parsed_feed_info!.articles.endIndex) Articles to collection")
-                    for feed in parsed_feed_info!.articles {
-                        model.addArticle(feed)
+                    if parent_feed == nil {
+                        parent_feed = NewsFeedProvider(web_protocol: feed_meta.url_protocol, url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon: NewsFeedIcon(url: ""), feeds: [])
+                        model.feed_data.append(parent_feed!)
                     }
+                    
+                    let sub_feed = NewsFeed(url: feed_meta.sub_url, name: feed_meta.title, show_in_main: true, use_filters: false, image: nil)
+                    
+                    let add_successful = parent_feed!.addFeed(feed: sub_feed)
+                    
+                    if !add_successful {
+                        print("Feed with url '\(feed_meta.main_url)' - '\(feed_meta.sub_url)' altready exists")
+                        return
+                    }
+                    
+                    var new_article_data: [ArticleData] = []
+                    
+                    for article in parsed_feed_info!.articles {
+                        new_article_data.append(ArticleData(article_id: article.article_id, title: article.title, description: article.description, link: article.link, pub_date: article.pub_date, author: article.author, parent_feed: sub_feed))
+                    }
+                    
+                    let added_feeds = model.addArticles(new_article_data)
+                    
+                    print("Added \(added_feeds) of \(parsed_feed_info!.articles.count) feeds to \(parent_feed!.url)\(sub_feed.url)")
                     
                 } else {
                     print("Parsing failed... somehow??")
@@ -74,31 +91,46 @@ struct AddFeedView: View {
 struct FeedSettingsList: View {
     var body: some View {
         List(model.feed_data) {
-            dataSet in FeedProviderSettingsListView(feed_provider: dataSet)
+            feed_provider in FeedProviderSettingsListView(feed_provider: feed_provider)
+        }
+    }
+}
+
+struct FeedProviderSettingsListView: View {
+    let feed_provider: NewsFeedProvider
+    var body: some View {
+        NavigationLink(destination: FeedSettingsListView(feed_provider: feed_provider)) {
+            HStack {
+                Image(systemName: "person").imageScale(.large)
+                Text(feed_provider.name).font(.headline)
+            }
         }
     }
 }
 
 
-struct FeedProviderSettingsListView: View {
+struct FeedSettingsListView: View {
     
     let feed_provider: NewsFeedProvider
     
     var body: some View {
-        
         VStack {
             NavigationLink(destination: DummyDetailView()) {
                 HStack {
-                    Image(systemName: "person").imageScale(.large)
+                    Image(systemName: "smiley").imageScale(.large)
                     Text(feed_provider.name).font(.headline)
                 }
             }
+            
             List(feed_provider.feeds) {
-                feed_data in NavigationLink(destination: DummyDetailView()) {
-                    Text(feed_data.name)
+                feed in NavigationLink(destination: DummyDetailView()) {
+                    HStack {
+                        Image(systemName: "person").imageScale(.large)
+                        Text(feed_provider.name)
+                    }
                 }
             }
-        }
+        }.navigationTitle(feed_provider.name)
     }
 }
 

@@ -12,7 +12,7 @@ import Foundation
  */
 class ArticleData: Identifiable {
     
-    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feed: NewsFeed) {
+    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feed: NewsFeed?) {
         self.article_id = article_id
         self.title = title
         self.description = description
@@ -29,5 +29,5 @@ class ArticleData: Identifiable {
     let pub_date: Date
     let author: String?
     
-    let parent_feed: NewsFeed
+    let parent_feed: NewsFeed?
 }

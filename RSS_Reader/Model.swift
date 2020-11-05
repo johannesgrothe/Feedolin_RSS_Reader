@@ -33,14 +33,46 @@ class Model {
     /**
      Adds an article to the database after checking if it already exists
      */
-    func addArticle(_ article: ArticleData) {
+    func addArticle(_ article: ArticleData) -> Bool{
         for list_article in article_data {
             if list_article.article_id == article.article_id {
-                return;
+                print("id \(list_article.article_id) already in use")
+                return false
             }
         }
         article_data.append(article)
+        return true
     }
+    
+    /**
+     Adds the articles from the list and returns how many were added successful
+     */
+    func addArticles(_ articles: [ArticleData]) -> Int {
+        var added_articles = 0
+        for article in articles {
+            if addArticle(article) {
+                added_articles += 1
+            }
+        }
+        return added_articles
+    }
+    
+    /**
+     Gets the NewsFeedProvider for the given url
+     # Example
+     'www.blub.de'
+     # Additional Info
+     Do not include protocol 'http://' or any '/' after the url
+     */
+    func getFeedProviderForURL(_ url: String) -> NewsFeedProvider? {
+        for feed_provider in feed_data {
+            if feed_provider.url == url {
+                return feed_provider;
+            }
+        }
+        return nil
+    }
+
 }
 
 //var model = Model()

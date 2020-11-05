@@ -95,6 +95,78 @@ class FeedParser {
         }
     }
     
+    private func parseArticle(_ article_str: String) -> ArticleData? {
+        var fetch_ok = true
+        
+        var art_id: String
+        var art_title: String
+        var art_desc: String
+        var art_link: String
+        var art_pub_date: Date
+        var art_author: String?
+        
+        var result = getRegexMatches(for: "<guid(.+?)>(.+?)</guid>", in: article_str)
+        if !result.isEmpty {
+            art_id = result[0]
+        } else {
+            art_id = "<err>"
+            print("err getting article guid")
+            print(article_str)
+            fetch_ok = false
+        }
+        
+        result = getRegexMatches(for: "<title>(.+?)</title>", in: article_str)
+        if !result.isEmpty {
+            art_title = result[0].replacingOccurrences(of: "<title>", with: "").replacingOccurrences(of: "</title>", with: "")
+        } else {
+            art_title = "<err>"
+            print("err getting article title")
+            fetch_ok = false
+        }
+        
+        result = getRegexMatches(for: "<description>(.+?)</description>", in: article_str)
+        if !result.isEmpty {
+            art_desc = result[0].replacingOccurrences(of: "<description>", with: "").replacingOccurrences(of: "</description>", with: "")
+        } else {
+            art_desc = ""
+        }
+        
+        result = getRegexMatches(for: "<link>(.+?)</link>", in: article_str)
+        if !result.isEmpty {
+            art_link = result[0].replacingOccurrences(of: "<link>", with: "").replacingOccurrences(of: "</link>", with: "")
+        } else {
+            art_link = "<err>"
+            print("err getting article link")
+            fetch_ok = false
+        }
+        
+        result = getRegexMatches(for: "<pubDate>(.+?)</pubDate>", in: article_str)
+        if !result.isEmpty {
+            let date_str = result[0].replacingOccurrences(of: "<pubDate>", with: "").replacingOccurrences(of: "</pubDate>", with: "")
+            art_pub_date = Date()
+        } else {
+            art_pub_date = Date()
+            print("err getting article date")
+            fetch_ok = false
+        }
+        
+        result = getRegexMatches(for: "<author>(.+?)</author>", in: article_str)
+        if !result.isEmpty {
+            art_author = result[0].replacingOccurrences(of: "<author>", with: "").replacingOccurrences(of: "</author>", with: "")
+        } else {
+            art_author = nil
+        }
+        
+        if fetch_ok {
+            let buf_art_data = ArticleData(article_id: art_id, title: art_title, description: art_desc, link: art_link, pub_date: art_pub_date, author: art_author, parent_feed: nil)
+            return buf_art_data
+        } else {
+            print("Error fetching article from:")
+            print(article_str)
+            return nil
+        }
+    }
+    
     func parseData() -> Bool {
         if data == nil {
             return false
@@ -107,8 +179,6 @@ class FeedParser {
             return false
         }
         
-        print(header_only!)
-        
         var title: String
         var description: String
         var language: String
@@ -117,9 +187,7 @@ class FeedParser {
         var main_url: String
         var sub_url:String
         
-        var feed_data: [ArticleData] = []
-        
-        let parent_feed = NewsFeed(url: "--", name: "--", show_in_main: true, use_filters: false, image: nil)
+        var article_data: [ArticleData] = []
         
         var result = getRegexMatches(for: "<title>(.+?)</title>", in: header_only!)
         if !result.isEmpty {
@@ -148,7 +216,12 @@ class FeedParser {
             let parsed_url_goup = result_group[0]
             url_protocol = parsed_url_goup[1]
             main_url = parsed_url_goup[2]
-            sub_url = parsed_url_goup[3]
+            sub_url = parsed_url_goup[4]
+            sub_url.remove(at: sub_url.startIndex)
+            
+            if url_protocol == "" || main_url == "" || sub_url == "" {
+                return false
+            }
         } else {
             return false
         }
@@ -157,76 +230,10 @@ class FeedParser {
         result = getRegexMatches(for: "<item>(.+?)</item>", in: data!)
         if !result.isEmpty {
             for article_str in result {
-//                print(article_str)
-//                print("-----")
                 
-                var fetch_ok = true
-                
-                var art_id: String
-                var art_title: String
-                var art_desc: String
-                var art_link: String
-                var art_pub_date: Date
-                var art_author: String?
-                
-                result = getRegexMatches(for: "<guid(.+?)>(.+?)</guid>", in: article_str)
-                if !result.isEmpty {
-                    art_id = result[0]
-                } else {
-                    art_id = "<err>"
-                    print("err getting article guid")
-                    print(article_str)
-                    fetch_ok = false
-                }
-                
-                result = getRegexMatches(for: "<title>(.+?)</title>", in: article_str)
-                if !result.isEmpty {
-                    art_title = result[0].replacingOccurrences(of: "<title>", with: "").replacingOccurrences(of: "</title>", with: "")
-                } else {
-                    art_title = "<err>"
-                    print("err getting article title")
-                    fetch_ok = false
-                }
-                
-                result = getRegexMatches(for: "<description>(.+?)</description>", in: article_str)
-                if !result.isEmpty {
-                    art_desc = result[0].replacingOccurrences(of: "<description>", with: "").replacingOccurrences(of: "</description>", with: "")
-                } else {
-                    art_desc = ""
-                }
-                
-                result = getRegexMatches(for: "<link>(.+?)</link>", in: article_str)
-                if !result.isEmpty {
-                    art_link = result[0].replacingOccurrences(of: "<link>", with: "").replacingOccurrences(of: "</link>", with: "")
-                } else {
-                    art_link = "<err>"
-                    print("err getting article link")
-                    fetch_ok = false
-                }
-                
-                result = getRegexMatches(for: "<pubDate>(.+?)</pubDate>", in: article_str)
-                if !result.isEmpty {
-                    let date_str = result[0].replacingOccurrences(of: "<pubDate>", with: "").replacingOccurrences(of: "</pubDate>", with: "")
-                    art_pub_date = Date()
-                } else {
-                    art_pub_date = Date()
-                    print("err getting article date")
-                    fetch_ok = false
-                }
-                
-                result = getRegexMatches(for: "<author>(.+?)</author>", in: article_str)
-                if !result.isEmpty {
-                    art_author = result[0].replacingOccurrences(of: "<author>", with: "").replacingOccurrences(of: "</author>", with: "")
-                } else {
-                    art_author = nil
-                }
-                
-                if fetch_ok {
-                    let buf_art_data = ArticleData(article_id: art_id, title: art_title, description: art_desc, link: art_link, pub_date: art_pub_date, author: art_author, parent_feed: parent_feed)
-                    feed_data.append(buf_art_data)
-                } else {
-                    print("Error fetching article from:")
-                    print(article_str)
+                let buf_art = parseArticle(article_str)
+                if buf_art != nil {
+                    article_data.append(buf_art!)
                 }
             }
         } else {
@@ -236,7 +243,7 @@ class FeedParser {
         
         let news_feed = NewsFeedMeta(title: title, description: description, language: language, url_protocol: url_protocol, main_url: main_url, sub_url: sub_url)
         
-        fetched_feed_info = FetchedFeedInfo(feed_info: news_feed, articles: feed_data)
+        fetched_feed_info = FetchedFeedInfo(feed_info: news_feed, articles: article_data)
         
         return true
     }
