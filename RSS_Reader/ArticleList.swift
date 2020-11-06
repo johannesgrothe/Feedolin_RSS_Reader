@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ View that represents a list of article cells*/
+
 struct ArticleList: View {
     
     var body: some View {

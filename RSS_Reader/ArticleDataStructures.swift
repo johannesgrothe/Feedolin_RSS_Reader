@@ -60,4 +60,16 @@ class ArticleData: Identifiable {
         }
         return false
     }
+
+    /**
+     Function that returns a Date-/Timestamp as a String
+     */
+    func date_to_string() -> String{
+
+        let date_formatter = DateFormatter()
+            date_formatter.timeStyle = .medium
+
+        return date_formatter.string(from: pub_date)
+    }
+
 }

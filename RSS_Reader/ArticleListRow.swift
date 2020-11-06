@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/**
+ View that represents a article cell
+ */
+
 struct ArticleListRow: View {
 
     var article: ArticleData
@@ -19,7 +23,7 @@ struct ArticleListRow: View {
                 Text(article.title)
                     .font(.custom("article_titel", size: 19))
 
-                Text(date_to_string(date: article.pub_date))
+                Text(article.date_to_string())
                     .font(.custom("article_pub_date", size: 12))
 
                 Text(article.description)
@@ -34,14 +38,6 @@ struct ArticleListRow: View {
 
         .frame(width: 370, height: 120, alignment: .center)
     }
-}
-
-func date_to_string(date: Date) -> String{
-    
-    let date_formatter = DateFormatter()
-        date_formatter.timeStyle = .medium
-    
-    return date_formatter.string(from: date)
 }
 
 struct ArticleListRow_Previews: PreviewProvider {
