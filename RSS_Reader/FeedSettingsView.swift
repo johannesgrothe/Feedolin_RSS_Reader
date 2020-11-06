@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ The View containing the navigation settings
+ */
 struct FeedSettingsView: View {
     
     @State private var show_add_feed_view = false
@@ -14,46 +17,77 @@ struct FeedSettingsView: View {
     var body: some View {
         FeedSettingsList()
             .navigationTitle("Feed Settings")
-            .navigationBarItems(
-                trailing:
-                    Button(action: {
-                        self.show_add_feed_view.toggle()
-                    }) {
-                        Image(systemName: "plus").imageScale(.large)
-                    }.sheet(isPresented: $show_add_feed_view) {
-                        AddFeedView()
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Button(action: {
+                            print("Add feed button clicked")
+                            self.show_add_feed_view.toggle()
+                        }) {
+                            Label("Add Feed", systemImage: "plus")
+                        }
+
+                        Button(action: {
+                            print("Remove feed button clicked")
+                        }) {
+                            Label("Remove feed", systemImage: "trash")
+                        }
                     }
-            )
+                    label: {
+                        Label("Edit", systemImage: "square.and.pencil").imageScale(.large)
+                    }
+                }
+            }.sheet(isPresented: self.$show_add_feed_view) {
+                AddFeedView()
+            }
     }
 }
 
-
+/**
+ The view that lets you type in an url and add it to the feeds
+ */
 struct AddFeedView: View {
     @State private var text = ""
+    @State private var loading = false
     
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        VStack {
-            Text("Add Feed").padding(.top, 10)
-            TextField(
-                "Enter URL",
-                text: $text
-            ).textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding(.horizontal, 25.0)
-            Button("Add Feed") {
-                model.addFeed(url: text)
-                self.presentationMode.wrappedValue.dismiss()
-            }
-            .padding()
-            .cornerRadius(8)
-            Spacer()
+        ZStack {
+            VStack {
+                Text("Add Feed").padding(.top, 10)
+                TextField(
+                    "Enter URL",
+                    text: $text
+                ).textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal, 25.0)
+                Button("Add Feed") {
+                    loading = true
+                    let _ = model.addFeed(url: text)
+                    loading = false
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+                .padding()
+                .cornerRadius(8)
+                Spacer()
+            }.disabled(self.loading)
+            .blur(radius: self.loading ? 3 : 0)
+            VStack {
+                Text("Loading...")
+                ProgressView()
+            }.disabled(self.loading)
+            .opacity(self.loading ? 1 : 0)
         }
     }
 }
 
-
+/**
+ View that presents all of the feeds and feed providers
+ */
 struct FeedSettingsList: View {
+    
+//    @EnvironmentObject var model: Model
+    
     var body: some View {
         List {
             ForEach(model.feed_data) { feed_provider in
@@ -66,7 +100,9 @@ struct FeedSettingsList: View {
     }
 }
 
-
+/**
+ View that presents a feed provider list entry for the settings menu
+ */
 struct FeedProviderSettingListEntry: View {
     
     let feed_provider: NewsFeedProvider
@@ -81,7 +117,9 @@ struct FeedProviderSettingListEntry: View {
     }
 }
 
-
+/**
+ View that presents a feed list entry for the settings menu
+ */
 struct FeedSettingsListEntry: View {
     
     let feed: NewsFeed

@@ -10,7 +10,7 @@ import Foundation
 /**
  Model for the app, contains every information the views are using
  */
-class Model {
+final class Model: ObservableObject {
     
     /**
      Default constructor
@@ -43,8 +43,9 @@ class Model {
     /**
      Adds an article to the database after checking if it already exists
      - Parameter article: The article thats supposed to be added
+     - Returns: Whether adding the article was successful
      */
-    func addArticle(_ article: ArticleData) -> Bool{
+    func addArticle(_ article: ArticleData) -> Bool {
         for list_article in article_data {
             // Check if article exists
             if list_article.article_id == article.article_id {
@@ -63,6 +64,7 @@ class Model {
     /**
      Returns the article for the given id
      - Parameter id: The id of the article that is wanted
+     - Returns: A the article data  if one is found, nil otherwiese
      */
     func getArticle(_ id: String) -> ArticleData? {
         for article in article_data {
@@ -76,8 +78,9 @@ class Model {
     /**
      Adds new feed to the model
      - Parameter url: The URL of the feed thats supposed to be added
+     - Returns: Whether adding the feed was successful
      */
-    func addFeed(url: String) {
+    func addFeed(url: String) -> Bool {
         // Parser to fetch data from the selected url
         let parser = FeedParser()
         let lower_url = url.lowercased()
@@ -108,11 +111,11 @@ class Model {
                     if !parent_feed!.addFeed(feed: sub_feed!) {
                         // Should NEVER happen
                         print("Something stupid happened while adding '\(lower_url)'")
-                        return
+                        return false
                     }
                 } else {
                     print("Feed with url '\(lower_url)' altready exists")
-                    return
+                    return false
                 }
                 
                 // Add sub-feed to all articles (its the parent feed for them)
@@ -125,6 +128,7 @@ class Model {
                 
                 // Celebrate
                 print("Added \(added_feeds) of \(parsed_feed_info!.articles.count) feeds to \(parent_feed!.url)/\(sub_feed!.url)")
+                return true
                 
             } else {
                 print("Parsing Feed failed")
@@ -132,10 +136,13 @@ class Model {
         } else {
             print("Loading data from URL failed")
         }
+        return false
     }
     
     /**
-     Adds the articles from the list and returns how many were added successful
+     Adds articles that are not altrady present to the storage
+     - Parameter articles: The articles that are supposed to be added
+     - Returns: How many articles were added
      */
     func addArticles(_ articles: [ArticleData]) -> Int {
         // Counter for the added articles
@@ -158,6 +165,7 @@ class Model {
      Do not include protocol 'http://' or any '/' after the url, just something looking like the example above
      
      - Parameter url: The url of the feed provider that is wanted
+     - Returns: A the feed provicer if one is found, nil otherwiese
      */
     func getFeedProviderForURL(_ url: String) -> NewsFeedProvider? {
         let lower_url = url.lowercased()
