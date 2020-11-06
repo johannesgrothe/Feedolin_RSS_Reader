@@ -32,13 +32,13 @@ final class Model: ObservableObject {
     }
     
     // Storage for all the articles
-    var article_data: [ArticleData]
+    @Published var article_data: [ArticleData]
     
     // Storage for all the feeds
-    var feed_data: [NewsFeedProvider]
+    @Published var feed_data: [NewsFeedProvider]
     
     // Storage for all the filter keywords
-    var filter_keywords: [FilterKeyword]
+    @Published var filter_keywords: [FilterKeyword]
     
     /**
      Adds an article to the database after checking if it already exists
@@ -81,6 +81,7 @@ final class Model: ObservableObject {
      - Returns: Whether adding the feed was successful
      */
     func addFeed(url: String) -> Bool {
+        
         // Parser to fetch data from the selected url
         let parser = FeedParser()
         let lower_url = url.lowercased()
@@ -94,7 +95,7 @@ final class Model: ObservableObject {
                 let feed_meta = parsed_feed_info!.feed_info
                 
                 // Get possible parent feed
-                var parent_feed = model.getFeedProviderForURL(feed_meta.main_url)
+                var parent_feed = self.getFeedProviderForURL(feed_meta.main_url)
                 
                 // Create parent feed if it doesnt already exist and add it to model
                 if parent_feed == nil {
