@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1BA01EDF2554449C00EAFB79 /* ArticleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA01EDE2554449C00EAFB79 /* ArticleList.swift */; };
-		1BBFF7EE25531F5C0091541B /* DummyRes.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7ED25531F5C0091541B /* DummyRes.json */; };
 		1BBFF7F425531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */; };
 		1BBFF7F525531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */; };
 		1BBFF80D25532AD30091541B /* ArticleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBFF80C25532AD20091541B /* ArticleListRow.swift */; };
@@ -53,7 +52,6 @@
 
 /* Begin PBXFileReference section */
 		1BA01EDE2554449C00EAFB79 /* ArticleList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleList.swift; sourceTree = "<group>"; };
-		1BBFF7ED25531F5C0091541B /* DummyRes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DummyRes.json; sourceTree = "<group>"; };
 		1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg"; sourceTree = "<group>"; };
 		1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg"; sourceTree = "<group>"; };
 		1BBFF80C25532AD20091541B /* ArticleListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListRow.swift; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 		1BBFF7DC2552E4080091541B /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				1BBFF7ED25531F5C0091541B /* DummyRes.json */,
 				1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */,
 				1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */,
 			);
@@ -307,7 +304,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BBFF7F525531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg in Resources */,
-				1BBFF7EE25531F5C0091541B /* DummyRes.json in Resources */,
 				1BD2A3CE254B036F00FCA510 /* Preview Assets.xcassets in Resources */,
 				1BBFF7F425531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg in Resources */,
 				1BD2A3CB254B036F00FCA510 /* Assets.xcassets in Resources */,
