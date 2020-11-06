@@ -15,9 +15,8 @@ class FeedParser {
 
     private var data: String?
     
-    private var url_protocol: String?
     private var main_url: String?
-    private var sub_url: String?
+    private var complete_url: String?
     
     /**
      Finds all matches for the regex in the passed text and returns them as a list of strings
@@ -60,6 +59,9 @@ class FeedParser {
         }
     }
     
+    /**
+     Gets all regex groups from the selected regex and the passed text
+     */
     private func getRegexGroups(for regex: String, in text: String) -> [[String]] {
         do {
             let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
@@ -177,7 +179,7 @@ class FeedParser {
             print("No article data fetched")
         }
         
-        let news_feed = NewsFeedMeta(title: channel_data!.title, description: channel_data!.description, language: channel_data!.language, url_protocol: url_protocol!, main_url: main_url!, sub_url: sub_url!)
+        let news_feed = NewsFeedMeta(title: channel_data!.title, description: channel_data!.description, language: channel_data!.language, main_url: main_url!, complete_url: complete_url!)
         
         return FetchedFeedInfo(feed_info: news_feed, articles: article_data)
     }
@@ -191,7 +193,7 @@ class FeedParser {
             return nil
         }
         
-        if url_protocol == nil || main_url == nil || sub_url == nil {
+        if complete_url == nil || main_url == nil {
             print("Cannot parse: no legal url data found")
             return nil
         }
@@ -217,18 +219,15 @@ class FeedParser {
      */
     func fetchData(url: String) -> Bool {
         
+        complete_url = url.lowercased()
+        
         // Check URL
-        let result_group = getRegexGroups(for: "(https?://)([^:^/]*)(:\\d*)?(.*)?", in: url)
+        let result_group = getRegexGroups(for: "(https?://)([a-z0-9]+)\\.([^:^/]*)(:\\d*)?(.*)?", in: complete_url!)
         if !result_group.isEmpty {
             let parsed_url_goup = result_group[0]
-            self.url_protocol = parsed_url_goup[1]
-            self.main_url = parsed_url_goup[2]
+            self.main_url = parsed_url_goup[3]
             
-            var buf_sub_url = parsed_url_goup[4]
-            buf_sub_url.remove(at: buf_sub_url.startIndex)
-            self.sub_url = buf_sub_url
-            
-            if url_protocol == "" || main_url == "" || sub_url == "" {
+            if main_url == "" {
                 print("Parts of the URL are missing")
                 return false
             }
@@ -237,7 +236,7 @@ class FeedParser {
             return false
         }
         
-        if let buf_url = URL(string: url) {
+        if let buf_url = URL(string: complete_url!) {
             do {
                 let result = try String(contentsOf: buf_url)
                 self.data = result
@@ -270,7 +269,6 @@ struct NewsFeedMeta {
     let title: String
     let description: String
     let language: String
-    let url_protocol: String
     let main_url: String
-    let sub_url: String
+    let complete_url: String
 }

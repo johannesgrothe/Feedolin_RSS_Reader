@@ -23,9 +23,6 @@ struct FeedSettingsView: View {
                     }.sheet(isPresented: $show_add_feed_view) {
                         AddFeedView()
                     }
-//                    NavigationLink(destination: AddFeedView()) {
-//                        Image(systemName: "plus").imageScale(.large)
-//                    }
             )
     }
 }
@@ -45,8 +42,6 @@ struct AddFeedView: View {
             ).textFieldStyle(RoundedBorderTextFieldStyle())
             .padding(.horizontal, 25.0)
             Button("Add Feed") {
-                print("Adding Feed:")
-                print(text)
                 model.addFeed(url: text)
                 self.presentationMode.wrappedValue.dismiss()
             }

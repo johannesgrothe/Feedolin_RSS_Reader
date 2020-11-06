@@ -12,8 +12,7 @@ import Foundation
  */
 class NewsFeedProvider: Identifiable {
 
-    init(web_protocol: String, url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
-        self.web_protocol = web_protocol
+    init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
         self.token = token
@@ -53,16 +52,9 @@ class NewsFeedProvider: Identifiable {
     /**
      URL of the feed proider website 'www.nzz.ch'
      # Example
-     'www.nzz.ch'
+     'nzz.ch'
      */
     let url: String
-    
-    /**
-     Protocol of the feed proider website
-     # Example
-     'https://'
-     */
-    let web_protocol: String
     
     /**
      Name of the feed provider
@@ -103,7 +95,7 @@ class NewsFeed: Identifiable {
     /**
      URL of the feed
      # Example
-     'feeds/wirtschaft.rss'
+     'https://www.nzz.ch/feeds/wirtschaft.rss'
      */
     let url: String
     

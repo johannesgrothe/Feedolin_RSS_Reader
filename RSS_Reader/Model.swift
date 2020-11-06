@@ -12,26 +12,37 @@ import Foundation
  */
 class Model {
     
+    /**
+     Default constructor
+     */
     init() {
         self.article_data = []
         self.feed_data = []
         self.filter_keywords = []
     }
     
+    /**
+     Testing constructor
+     - Parameter article_data: Some data to fill up the article list
+     */
     init(article_data: [ArticleData]) {
         self.article_data = article_data
         self.feed_data = []
         self.filter_keywords = []
     }
     
+    // Storage for all the articles
     var article_data: [ArticleData]
     
+    // Storage for all the feeds
     var feed_data: [NewsFeedProvider]
     
+    // Storage for all the filter keywords
     var filter_keywords: [FilterKeyword]
     
     /**
      Adds an article to the database after checking if it already exists
+     - Parameter article: The article thats supposed to be added
      */
     func addArticle(_ article: ArticleData) -> Bool{
         for list_article in article_data {
@@ -49,6 +60,10 @@ class Model {
         return true
     }
     
+    /**
+     Returns the article for the given id
+     - Parameter id: The id of the article that is wanted
+     */
     func getArticle(_ id: String) -> ArticleData? {
         for article in article_data {
             if article.article_id == id {
@@ -60,13 +75,15 @@ class Model {
     
     /**
      Adds new feed to the model
+     - Parameter url: The URL of the feed thats supposed to be added
      */
     func addFeed(url: String) {
         // Parser to fetch data from the selected url
         let parser = FeedParser()
+        let lower_url = url.lowercased()
         
         // Chechs the URL, fetches data and returns if operation was successfull
-        if parser.fetchData(url: url) {
+        if parser.fetchData(url: lower_url) {
             let parsed_feed_info = parser.parseData()
             
             // Check if parsing was successful
@@ -76,30 +93,37 @@ class Model {
                 // Get possible parent feed
                 var parent_feed = model.getFeedProviderForURL(feed_meta.main_url)
                 
+                // Create parent feed if it doesnt already exist and add it to model
                 if parent_feed == nil {
-                    parent_feed = NewsFeedProvider(web_protocol: feed_meta.url_protocol, url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon: NewsFeedIcon(url: ""), feeds: [])
-                    model.feed_data.append(parent_feed!)
+                    parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon: NewsFeedIcon(url: ""), feeds: [])
+                    self.feed_data.append(parent_feed!)
                 }
                 
-                var sub_feed = parent_feed?.getFeed(url: feed_meta.sub_url)
+                // Get possible sub-feed
+                var sub_feed = parent_feed!.getFeed(url: lower_url)
                 
+                // Create sub-feed if it doesnt altrady exist and add it to parent feed
                 if sub_feed == nil {
-                    sub_feed = NewsFeed(url: feed_meta.sub_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!, image: nil)
-                }
-                
-                let add_successful = parent_feed!.addFeed(feed: sub_feed!)
-                
-                if !add_successful {
-                    print("Feed with url '\(feed_meta.main_url)'/'\(feed_meta.sub_url)' altready exists")
+                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!, image: nil)
+                    if !parent_feed!.addFeed(feed: sub_feed!) {
+                        // Should NEVER happen
+                        print("Something stupid happened while adding '\(lower_url)'")
+                        return
+                    }
+                } else {
+                    print("Feed with url '\(lower_url)' altready exists")
                     return
                 }
                 
+                // Add sub-feed to all articles (its the parent feed for them)
                 for article in parsed_feed_info!.articles {
                     article.addParentFeed(sub_feed!)
                 }
                 
+                // Add all articles to model
                 let added_feeds = addArticles(parsed_feed_info!.articles)
                 
+                // Celebrate
                 print("Added \(added_feeds) of \(parsed_feed_info!.articles.count) feeds to \(parent_feed!.url)/\(sub_feed!.url)")
                 
             } else {
@@ -114,7 +138,10 @@ class Model {
      Adds the articles from the list and returns how many were added successful
      */
     func addArticles(_ articles: [ArticleData]) -> Int {
+        // Counter for the added articles
         var added_articles = 0
+        
+        // Add all the articles
         for article in articles {
             if addArticle(article) {
                 added_articles += 1
@@ -126,13 +153,16 @@ class Model {
     /**
      Gets the NewsFeedProvider for the given url
      # Example
-     'www.blub.de'
+     'blub.de'
      # Additional Info
-     Do not include protocol 'http://' or any '/' after the url
+     Do not include protocol 'http://' or any '/' after the url, just something looking like the example above
+     
+     - Parameter url: The url of the feed provider that is wanted
      */
     func getFeedProviderForURL(_ url: String) -> NewsFeedProvider? {
+        let lower_url = url.lowercased()
         for feed_provider in feed_data {
-            if feed_provider.url == url {
+            if feed_provider.url == lower_url {
                 return feed_provider;
             }
         }
@@ -144,19 +174,25 @@ class Model {
      */
     func fetchFeeds() {
         print("Fetching new articles...")
+        
+        // Parser object to get the data
         let parser = FeedParser()
+        
+        // Counter for the added feeds
         var added_feeds = 0
+        
         for feed_provider in feed_data {
             for feed in feed_provider.feeds {
-                let feed_url = feed_provider.web_protocol + feed_provider.url + "/" + feed.url
-                if parser.fetchData(url: feed_url) {
+                if parser.fetchData(url: feed.url) {
                     let feed_data = parser.parseData()
                     if feed_data != nil {
                         let feed_articles = feed_data!.articles
                         for article in feed_articles {
                             
+                            // Add the parent feed to the article
                             article.addParentFeed(feed)
                             
+                            // Adds the article to the database, moves over the parent feeds if it already exists
                             if addArticle(article) {
                                 added_feeds += 1
                             } else {
@@ -165,10 +201,10 @@ class Model {
                             }
                         }
                     } else {
-                        print("Parsing '\(feed_url)' failed")
+                        print("Parsing '\(feed.url)' failed")
                     }
                 } else {
-                    print("Fetching '\(feed_url)' failed")
+                    print("Fetching '\(feed.url)' failed")
                 }
             }
         }

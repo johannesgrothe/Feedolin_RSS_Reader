@@ -1,0 +1,10 @@
+https://www.nzz.ch/wirtschaft.rss
+
+https://www.spiegel.de/wissenschaft/index.rss
+https://www.spiegel.de/netzwelt/index.rss
+https://www.spiegel.de/kultur/index.rss
+https://www.spiegel.de/wirtschaft/service/index.rss
+https://www.spiegel.de/wirtschaft/unternehmen/index.rss
+
+http://rss.cnn.com/rss/edition_space.rss
+http://rss.cnn.com/rss/edition_sport.rss
