@@ -19,6 +19,10 @@ struct ArticleListRow: View {
     var body: some View {
         
         HStack {
+            image
+                .resizable()
+                .frame(width: 130, height: 115)
+            
             VStack{
                 Text(article.title)
                     .font(.custom("article_titel", size: 19))
@@ -29,11 +33,8 @@ struct ArticleListRow: View {
                 Text(article.description)
                     .font(.subheadline)
             }
-            Spacer()
             //article.image
-            image
-                .resizable()
-                .frame(width: 130, height: 115)
+            Spacer()
         }
 
         .frame(width: 370, height: 120, alignment: .center)
@@ -44,7 +45,6 @@ struct ArticleListRow_Previews: PreviewProvider {
     static var previews: some View {
         
         let img0 = Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
-
         let img1 = Image("c9f82579-efeb-4ed5-bf07-e10edafc3a4d")
 
         Group{

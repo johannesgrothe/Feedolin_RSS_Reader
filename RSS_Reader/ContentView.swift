@@ -28,7 +28,7 @@ struct ContentView: View {
         ZStack {
             NavigationView {
                 
-                ArticleListView()
+                ArticleList()
                 .navigationBarTitle("Feed", displayMode: .inline)
                 .navigationBarItems(
                     leading:
