@@ -107,7 +107,8 @@ struct FeedSettingsList: View {
  */
 struct FeedProviderSettingListEntry: View {
     
-    let feed_provider: NewsFeedProvider
+    // Needs to be observed object to be propperly refreshed once changed
+    @ObservedObject var feed_provider: NewsFeedProvider
     
     var body: some View {
         NavigationLink(destination: FeedProviderSettingsView(feed_provider: feed_provider)) {

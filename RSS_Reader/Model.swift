@@ -224,8 +224,6 @@ final class Model: ObservableObject {
     }
 }
 
-//var model = Model()
-
 var preview_model = Model(
     article_data: [
         ArticleData(article_id: "sdfwer3", title: "TestArt", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feeds: []),

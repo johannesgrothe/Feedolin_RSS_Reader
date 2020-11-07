@@ -7,7 +7,16 @@
 
 import Foundation
 
-struct FilterKeyword {
+class FilterKeyword: ObservableObject {
+    init(keywords: [String], feeds: [NewsFeed]?) {
+        self.keywords = []
+        if feeds == nil {
+            self.feeds = []
+        } else {
+            self.feeds = feeds!
+        }
+    }
+    
     let keywords: [String]
-    var feeds: [NewsFeed]
+    @Published var feeds: [NewsFeed]
 }

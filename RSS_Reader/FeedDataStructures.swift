@@ -10,7 +10,7 @@ import Foundation
 /**
  Class that represents a news feed provider
  */
-class NewsFeedProvider: Identifiable {
+class NewsFeedProvider: Identifiable, ObservableObject {
 
     init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
         self.url = url
@@ -59,12 +59,12 @@ class NewsFeedProvider: Identifiable {
     /**
      Name of the feed provider
      */
-    var name: String
+    @Published var name: String
     
     /**
      Short version (Abkürzung)
      */
-    var token: String
+    @Published var token: String
     
     /**
      Icon of the Feed provider
@@ -74,13 +74,13 @@ class NewsFeedProvider: Identifiable {
     /**
      List of all news feeds
      */
-    var feeds: [NewsFeed]
+    @Published var feeds: [NewsFeed]
 }
 
 /**
  Class that represents a newsfeed
  */
-class NewsFeed: Identifiable {
+class NewsFeed: Identifiable, ObservableObject {
     
     init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
         self.url = url
@@ -102,17 +102,17 @@ class NewsFeed: Identifiable {
     /**
      Name of the feed
      */
-    var name: String
+    @Published var name: String
     
     /**
      Determines whether the articles fetched from that source should be shown in the main feed
      */
-    var show_in_main: Bool
+    @Published var show_in_main: Bool
     
     /**
      Determines whether any of the selected filters should be applied
      */
-    var use_filters: Bool
+    @Published var use_filters: Bool
     
     /**
      Parent feed of the news feed

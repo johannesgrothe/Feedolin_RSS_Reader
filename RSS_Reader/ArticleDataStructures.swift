@@ -10,7 +10,7 @@ import Foundation
 /**
  Dataset for used by the model to store article information loaded from the database or fetched from the network
  */
-class ArticleData: Identifiable {
+class ArticleData: Identifiable, ObservableObject {
     
     init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [NewsFeed]) {
         self.article_id = article_id
@@ -29,7 +29,7 @@ class ArticleData: Identifiable {
     let pub_date: Date
     let author: String?
     
-    var parent_feeds: [NewsFeed]
+    @Published var parent_feeds: [NewsFeed]
 
     /**
      Adds all of the passed feeds to the articles parent feed lists
