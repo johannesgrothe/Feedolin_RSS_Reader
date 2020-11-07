@@ -40,6 +40,9 @@ final class Model: ObservableObject {
     // Storage for all the filter keywords
     @Published var filter_keywords: [FilterKeyword]
     
+    // Model Singleton
+    static let shared = Model()
+    
     /**
      Adds an article to the database after checking if it already exists
      - Parameter article: The article thats supposed to be added
@@ -223,11 +226,11 @@ final class Model: ObservableObject {
 
 //var model = Model()
 
-var model = Model(
+var preview_model = Model(
     article_data: [
         ArticleData(article_id: "sdfwer3", title: "TestArt", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feeds: []),
-        
+
         ArticleData(article_id: "sdfwer4", title: "TestArt 2", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feeds: []),
-        
+
         ArticleData(article_id: "sdfwer5", title: "TestArt 3", description: "testdescr", link: "www.blub.to", pub_date: Date(), author: "blub@web.de", parent_feeds: []),
     ])

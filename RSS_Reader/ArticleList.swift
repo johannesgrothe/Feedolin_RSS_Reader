@@ -12,6 +12,8 @@ import SwiftUI
 
 struct ArticleList: View {
     
+    @ObservedObject var model: Model = .shared
+    
     var body: some View {
         List {
             ForEach(model.article_data){ article in

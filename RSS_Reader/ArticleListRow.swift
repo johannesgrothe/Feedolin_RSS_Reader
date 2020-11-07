@@ -46,14 +46,17 @@ struct ArticleListRow: View {
     }
     
     struct ArticleListRow_Previews: PreviewProvider {
+        
+        @ObservedObject var model: Model = .shared
+        
         static var previews: some View {
             
             let img0 = Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
             let img1 = Image("c9f82579-efeb-4ed5-bf07-e10edafc3a4d")
             
             Group{
-                ArticleListRow(article: model.article_data[0],image: img0)
-                ArticleListRow(article: model.article_data[1],image: img1)
+                ArticleListRow(article: preview_model.article_data[0],image: img0)
+                ArticleListRow(article: preview_model.article_data[1],image: img1)
             }
         }
     }

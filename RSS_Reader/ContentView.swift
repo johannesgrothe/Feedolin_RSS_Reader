@@ -14,6 +14,9 @@ import CoreData
 struct ContentView: View {
     @State var menuOpen: Bool = false
     
+    // Model Singleton
+    @ObservedObject var model: Model = .shared
+    
     var body: some View {
         
         // Drag gesture to open the side menu by swiping
@@ -27,7 +30,6 @@ struct ContentView: View {
         
         ZStack {
             NavigationView {
-                
                 ArticleList()
                 .navigationBarTitle("Feed", displayMode: .inline)
                 .navigationBarItems(

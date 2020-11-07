@@ -52,6 +52,8 @@ struct AddFeedView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @ObservedObject var model: Model = .shared
+    
     var body: some View {
         ZStack {
             VStack {
@@ -86,7 +88,7 @@ struct AddFeedView: View {
  */
 struct FeedSettingsList: View {
     
-//    @EnvironmentObject var model: Model
+    @ObservedObject var model: Model = .shared
     
     var body: some View {
         List {
