@@ -110,7 +110,7 @@ struct FeedProviderSettingListEntry: View {
     let feed_provider: NewsFeedProvider
     
     var body: some View {
-        NavigationLink(destination: DummyDetailView()) {
+        NavigationLink(destination: FeedProviderSettingsView(feed_provider: feed_provider)) {
             HStack {
                 Image(systemName: "person").imageScale(.large)
                 Text(feed_provider.name).font(.headline)
