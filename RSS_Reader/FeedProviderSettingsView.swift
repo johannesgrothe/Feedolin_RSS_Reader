@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ A view to let the user edit feed provider settings
+ */
 struct FeedProviderSettingsView: View {
     
     let feed_provider: NewsFeedProvider
@@ -17,6 +20,7 @@ struct FeedProviderSettingsView: View {
     
     var body: some View {
         VStack {
+            // Dummy image for now
             Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
                 .resizable()
                 .frame(width: 130, height: 130)
