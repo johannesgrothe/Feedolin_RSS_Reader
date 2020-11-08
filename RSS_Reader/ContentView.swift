@@ -29,28 +29,32 @@ struct ContentView: View {
                     }
         
         ZStack {
-            NavigationView {
-                ArticleList()
-                .navigationBarTitle("Feed", displayMode: .inline)
-                .navigationBarItems(
-                    leading:
-                        Button(action: {
-                            print("MenuButton pressed")
-                            self.menuOpen.toggle()
-                        }) {
-                            Image(systemName: "calendar.circle").imageScale(.large)
-                        },
-                    trailing:
-                        NavigationLink(destination: SettingsView()) {
-                            Image(systemName: "gear").imageScale(.large)
-                        }
-                        .navigationBarTitle("Feed")
-                )
-            }.gesture(drag)
-            
-            SideMenuView(width: 270,
-                         isOpen: self.menuOpen,
-                         menuClose: self.openMenu)
+
+            GeometryReader{
+                geometry in
+                NavigationView {
+                    RefreshableScrollView(width: geometry.size.width, height: geometry.size.height, model: preview_model)
+                        .navigationBarTitle("Feed", displayMode: .inline)
+                        .navigationBarItems(
+                            leading:
+                                Button(action: {
+                                    print("MenuButton pressed")
+                                    self.menuOpen.toggle()
+                                }) {
+                                    Image(systemName: "calendar.circle").imageScale(.large)
+                                },
+                            trailing:
+                                NavigationLink(destination: SettingsView()) {
+                                    Image(systemName: "gear").imageScale(.large)
+                                }
+                                .navigationBarTitle("Feed")
+                        )
+                }.gesture(drag)
+                
+                SideMenuView(width: 270,
+                             isOpen: self.menuOpen,
+                             menuClose: self.openMenu)
+            }
         }
     }
 

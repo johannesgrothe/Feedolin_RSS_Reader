@@ -26,6 +26,6 @@ struct ArticleList: View {
 
 struct ArticleList_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleList()
+        ArticleList(model: preview_model)
     }
 }
