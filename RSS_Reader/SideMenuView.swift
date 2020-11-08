@@ -14,34 +14,70 @@ struct MenuContent: View {
     init() {
         UITableView.appearance().backgroundColor = .clear
         UITableViewCell.appearance().backgroundColor = .clear
+	}    
+
+    func createMenuItem() -> [MenuItem] {
+        var menu_item_list: [MenuItem] = []
+            
+            for feed_provider in model.feed_data {
+                var feed_provider_item = MenuItem(id: UUID(), name: feed_provider.name, image: feed_provider.icon.url, subMenuItems: [])
+                
+                for sub_feed in feed_provider.feeds {
+                    let sub_feed_item = MenuItem(id: UUID(), name: sub_feed.name, image: nil, subMenuItems: nil)
+                    feed_provider_item.subMenuItems?.append(sub_feed_item)
+                }
+                
+                menu_item_list.append(feed_provider_item)
+            }
+        return menu_item_list
     }
     
     var body: some View {
-        List {
+        VStack {
             HStack {
-                Image(systemName: "person").imageScale(.large)
-                Text("Profile").font(.headline)
-                Spacer()
-            }.onTapGesture {
-                print("My Profile")
+                
+                Image()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+         
+                Text(item.name)
+                    .font(.system(.title3, design: .rounded))
+                    .bold()
             }
             .foregroundColor(Color(UIColor(named: "ButtonColor")!))
             .listRowBackground(Color.clear)
             
-            HStack {
-                Image(systemName: "envelope").imageScale(.large)
-                Text("Profile").font(.headline)
-            }.onTapGesture {
-                print("Messages")
+            Button(action: {
+                print("Show All Feeds Button pressed")
+            }) {
+                Label("All", systemImage: "newspaper")
             }
             .foregroundColor(Color(UIColor(named: "ButtonColor")!))
             .listRowBackground(Color.clear)
             
-            HStack {
-                Image(systemName: "gear").imageScale(.large)
-                Text("Settings").font(.headline)
-            }.onTapGesture {
-                print("Settings")
+            Button(action: {
+                print("Saved Button pressed")
+            }) {
+                Label("Saved", systemImage: "tray.2")
+            }
+            
+            
+    //        List(createMenuItem(), children: \.subMenuItems) { item in
+            List(sampleMenuItems, children: \.subMenuItems) { item in
+    //        List {
+                HStack {
+                    if item.image != nil {
+                    Image(item.image!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                    }
+             
+                    Text(item.name)
+                        .font(.system(.title3, design: .rounded))
+                        .bold()
+                }
             }
             .foregroundColor(Color(UIColor(named: "ButtonColor")!))
             .listRowBackground(Color.clear)
@@ -49,6 +85,42 @@ struct MenuContent: View {
         .background(Color(UIColor(named: "BackgroundColor")!))
     }
 }
+
+struct MenuItem: Identifiable {
+    var id = UUID()
+    var name: String
+    var image: String?
+    var subMenuItems: [MenuItem]?
+}
+
+// Sub-menu items for Espressco Machines
+let espressoMachineMenuItems = [ MenuItem(name: "Leva", image: "leva-x", subMenuItems: [ MenuItem(name: "Leva X", image: "leva-x"), MenuItem(name: "Leva S", image: "leva-s") ]),
+                                 MenuItem(name: "Strada", image: "strada-ep", subMenuItems: [ MenuItem(name: "Strada EP", image: "strada-ep"), MenuItem(name: "Strada AV", image: "strada-av"), MenuItem(name: "Strada MP", image: "strada-mp"), MenuItem(name: "Strada EE", image: "strada-ee") ]),
+                                 MenuItem(name: "KB90", image: "kb90"),
+                                 MenuItem(name: "Linea", image: "linea-pb-x", subMenuItems: [ MenuItem(name: "Linea PB X", image: "linea-pb-x"), MenuItem(name: "Linea PB", image: "linea-pb"), MenuItem(name: "Linea Classic", image: "linea-classic") ]),
+                                 MenuItem(name: "GB5", image: "gb5"),
+                                 MenuItem(name: "Home", image: "gs3", subMenuItems: [ MenuItem(name: "GS3", image: "gs3"), MenuItem(name: "Linea Mini", image: "linea-mini") ])
+                                ]
+
+// Sub-menu items for Grinder
+let grinderMenuItems = [ MenuItem(name: "Swift", image: "swift"),
+                         MenuItem(name: "Vulcano", image: "vulcano"),
+                         MenuItem(name: "Swift Mini", image: "swift-mini"),
+                         MenuItem(name: "Lux D", image: "lux-d")
+                        ]
+
+// Sub-menu items for other equipment
+let otherMenuItems = [ MenuItem(name: "Espresso AV", image: "espresso-av"),
+                         MenuItem(name: "Espresso EP", image: "espresso-ep"),
+                         MenuItem(name: "Pour Over", image: "pourover"),
+                         MenuItem(name: "Steam", image: "steam")
+                        ]
+
+// Main menu items
+let sampleMenuItems = [ MenuItem(name: "Espresso Machines", image: "linea-mini", subMenuItems: espressoMachineMenuItems),
+                        MenuItem(name: "Grinders", image: "swift-mini", subMenuItems: grinderMenuItems),
+                        MenuItem(name: "Other Equipment", image: "espresso-ep", subMenuItems: otherMenuItems)
+                    ]
 
 /**
  View for the side menu
