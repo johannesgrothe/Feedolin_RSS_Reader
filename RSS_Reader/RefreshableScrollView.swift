@@ -7,16 +7,26 @@
 
 import SwiftUI
 
+/**
+ View that wraps the ArticleList() in a pull down to refresh view.
+ */
+
 struct RefreshableScrollView: UIViewRepresentable {
     var width : CGFloat
     var height : CGFloat
     
     @ObservedObject var model: Model = .shared
     
+    /**
+        creates Coordinator
+     */
     func makeCoordinator() -> Coordinator {
         Coordinator(self, model: model)
     }
     
+    /**
+        makes the RefreshView
+     */
     func makeUIView(context: Context) -> UIScrollView {
         let control = UIScrollView()
         control.refreshControl = UIRefreshControl()
@@ -32,6 +42,9 @@ struct RefreshableScrollView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIScrollView, context: Context) {}
     
+    /**
+     Class that represents a Coordinator
+     */
     class Coordinator: NSObject {
         var control: RefreshableScrollView
         var model : Model

@@ -8,7 +8,8 @@
 import SwiftUI
 
 /**
- View that represents a list of article cells*/
+ View that represents a list of article cells
+ */
 
 struct ArticleList: View {
     
