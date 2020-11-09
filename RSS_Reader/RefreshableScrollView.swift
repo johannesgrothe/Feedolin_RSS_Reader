@@ -25,7 +25,7 @@ struct RefreshableScrollView: UIViewRepresentable {
     }
     
     /**
-        makes the RefreshView
+        Function that makes the wrapped View to a child_view and put it into the refreshableView
      */
     func makeUIView(context: Context) -> UIScrollView {
         let control = UIScrollView()
@@ -33,10 +33,10 @@ struct RefreshableScrollView: UIViewRepresentable {
         control.refreshControl?.addTarget(context.coordinator, action:
                                             #selector(Coordinator.handleRefreshControl),
                                           for: .valueChanged)
-        let childView = UIHostingController(rootView: ArticleList(model: model))
-        childView.view.frame = CGRect(x: -20, y: -40, width: width+40, height: height)
+        let child_view = UIHostingController(rootView: ArticleList())
+        child_view.view.frame = CGRect(x: -20, y: -40, width: width+40, height: height)
         
-        control.addSubview(childView.view)
+        control.addSubview(child_view.view)
         return control
     }
     
@@ -56,6 +56,7 @@ struct RefreshableScrollView: UIViewRepresentable {
         
         @objc func handleRefreshControl(sender: UIRefreshControl) {
             sender.endRefreshing()
+            model.fetchFeeds() 
         }
     }
 
