@@ -34,7 +34,7 @@ struct RefreshableScrollView: UIViewRepresentable {
                                             #selector(Coordinator.handleRefreshControl),
                                           for: .valueChanged)
         let childView = UIHostingController(rootView: ArticleList(model: model))
-        childView.view.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        childView.view.frame = CGRect(x: -20, y: -40, width: width+40, height: height)
         
         control.addSubview(childView.view)
         return control
@@ -65,9 +65,7 @@ struct RefreshableScrollView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader{
             geometry in
-            NavigationView{
-                RefreshableScrollView(width: geometry.size.width, height: geometry.size.height,model: preview_model)
-            }
+            RefreshableScrollView(width: geometry.size.width, height: geometry.size.height,model: preview_model)
         }
     }
 }

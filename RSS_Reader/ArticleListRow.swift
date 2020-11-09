@@ -20,7 +20,8 @@ struct ArticleListRow: View {
         NavigationLink(destination: ArticleView()){
             HStack {
                 
-                VStack{
+                VStack(alignment: .leading){
+      
                     Text(article.title)
                         .font(.custom("article_titel", size: 19))
                     HStack{
@@ -41,7 +42,6 @@ struct ArticleListRow: View {
                     .resizable()
                     .frame(width: 130, height: 115)
             }
-            .frame(alignment: .center)
         }
     }
     

@@ -33,7 +33,8 @@ struct ContentView: View {
             GeometryReader{
                 geometry in
                 NavigationView {
-                    RefreshableScrollView(width: geometry.size.width, height: geometry.size.height, model: preview_model)
+
+                    RefreshableScrollView(width: geometry.size.width, height: geometry.size.height)
                         .navigationBarTitle("Feed", displayMode: .inline)
                         .navigationBarItems(
                             leading:

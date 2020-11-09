@@ -14,6 +14,7 @@ import SwiftUI
 struct ArticleList: View {
     
     @ObservedObject var model: Model = .shared
+
     
     var body: some View {
         List {
@@ -21,7 +22,6 @@ struct ArticleList: View {
                 ArticleListRow(article: article, image: Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f"))
             }
         }
-        .frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
     }
 }
 
