@@ -21,22 +21,22 @@ struct ArticleListRow: View {
             HStack {
                 
                 VStack(alignment: .leading){
-      
+                    
                     Text(article.title)
-                        .font(.custom("article_titel", size: 19))
+                        .font(.title2)
+                        .lineLimit(1)
                     HStack{
-                        Text("feed_provider_name")
-                            .font(.custom("parent_feed_provider_name", size: 10))
+                        Text("provider_name")
+                            .font(.caption2)
                         
                         Text(article.date_to_string())
-                            .font(.custom("article_pub_date", size: 10))
+                            .font(.caption2)
                     }
                     Text(article.description)
                         .font(.subheadline)
                 }
-                
+                .frame(minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 115, maxHeight: 115)
                 Spacer()
-                
                 //Image(article.image)
                 image
                     .resizable()
