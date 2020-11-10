@@ -26,9 +26,15 @@ struct ArticleListRow: View {
                         .font(.title2)
                         .lineLimit(1)
                     HStack{
-                        Text("provider_name")
-                            .font(.caption2)
                         
+                        if article.parent_feeds.isEmpty {
+                            Text("Saved")
+                                .font(.caption2)
+                        } else {
+                            Text("\(article.parent_feeds[0].parent_feed.token) - \(article.parent_feeds[0].name)")
+                                .font(.caption2)
+                                .lineLimit(2)
+                        }
                         Text(article.date_to_string())
                             .font(.caption2)
                     }
