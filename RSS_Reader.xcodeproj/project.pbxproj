@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B68EA3D255B32BE00504207 /* AddEditFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B68EA3C255B32BE00504207 /* AddEditFeedView.swift */; };
 		1BBFF7F425531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */; };
 		1BBFF7F525531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */; };
 		1BBFF80D25532AD30091541B /* ArticleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBFF80C25532AD20091541B /* ArticleListRow.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B68EA3C255B32BE00504207 /* AddEditFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditFeedView.swift; sourceTree = "<group>"; };
 		1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg"; sourceTree = "<group>"; };
 		1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg"; sourceTree = "<group>"; };
 		1BBFF80C25532AD20091541B /* ArticleListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListRow.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				EB3F6AB425530CAA003FA72F /* FeedParser.swift */,
 				EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */,
 				1BC46CB325576D0C0029D436 /* RefreshableScrollView.swift */,
+				1B68EA3C255B32BE00504207 /* AddEditFeedView.swift */,
 			);
 			path = RSS_Reader;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				1BC46CA42556CD1A0029D436 /* ArticleList.swift in Sources */,
 				EB08E129254D7BF000006B70 /* ListEntryView.swift in Sources */,
 				1BD2A3C7254B036E00FCA510 /* RSS_ReaderApp.swift in Sources */,
+				1B68EA3D255B32BE00504207 /* AddEditFeedView.swift in Sources */,
 				1BC46CB425576D0C0029D436 /* RefreshableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,9 +516,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RSS_Reader/RSS_Reader.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"RSS_Reader/Preview Content\"";
-				DEVELOPMENT_TEAM = P6P399B3AF;
+				DEVELOPMENT_TEAM = 7H3X64CV7G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = RSS_Reader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -536,9 +541,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RSS_Reader/RSS_Reader.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"RSS_Reader/Preview Content\"";
-				DEVELOPMENT_TEAM = P6P399B3AF;
+				DEVELOPMENT_TEAM = 7H3X64CV7G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = RSS_Reader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

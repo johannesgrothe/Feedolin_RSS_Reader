@@ -95,7 +95,7 @@ struct FeedSettingsList: View {
             ForEach(model.feed_data) { feed_provider in
                 FeedProviderSettingListEntry(feed_provider: feed_provider)
                 ForEach(feed_provider.feeds) { feed in
-                    FeedSettingsListEntry(feed: feed)
+                    FeedSettingsListEntry(feed_article: feed)
                 }
           }
         }
@@ -125,13 +125,13 @@ struct FeedProviderSettingListEntry: View {
  */
 struct FeedSettingsListEntry: View {
     
-    let feed: NewsFeed
+    @ObservedObject var feed_article: NewsFeed
     
     var body: some View {
-        NavigationLink(destination: DummyDetailView()) {
+        NavigationLink(destination: AddEditFeedView(feed_article:feed_article)) {
             HStack {
                 Image(systemName: "smiley").imageScale(.large)
-                Text(feed.name)
+                Text(feed_article.name)
             }
         }
     }
