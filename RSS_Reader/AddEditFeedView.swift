@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/**
+ A view to let the user edit feed articles settings
+ */
+
 struct AddEditFeedView: View {
     
     let feed_article: NewsFeed
