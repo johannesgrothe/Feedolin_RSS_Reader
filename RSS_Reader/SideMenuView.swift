@@ -11,14 +11,22 @@ import SwiftUI
  Content of the side Menu
  */
 struct MenuContent: View {
+    init() {
+        UITableView.appearance().backgroundColor = .clear
+        UITableViewCell.appearance().backgroundColor = .clear
+    }
+    
     var body: some View {
         List {
             HStack {
                 Image(systemName: "person").imageScale(.large)
                 Text("Profile").font(.headline)
+                Spacer()
             }.onTapGesture {
                 print("My Profile")
             }
+            .foregroundColor(Color(UIColor(named: "ButtonColor")!))
+            .listRowBackground(Color.clear)
             
             HStack {
                 Image(systemName: "envelope").imageScale(.large)
@@ -26,6 +34,8 @@ struct MenuContent: View {
             }.onTapGesture {
                 print("Messages")
             }
+            .foregroundColor(Color(UIColor(named: "ButtonColor")!))
+            .listRowBackground(Color.clear)
             
             HStack {
                 Image(systemName: "gear").imageScale(.large)
@@ -33,7 +43,10 @@ struct MenuContent: View {
             }.onTapGesture {
                 print("Settings")
             }
+            .foregroundColor(Color(UIColor(named: "ButtonColor")!))
+            .listRowBackground(Color.clear)
         }
+        .background(Color(UIColor(named: "BackgroundColor")!))
     }
 }
 
@@ -50,7 +63,7 @@ struct SideMenuView: View {
             GeometryReader { _ in
                 EmptyView()
             }
-            .background(Color.gray.opacity(0.1))
+            .background(Color.black.opacity(0.1))
             .opacity(self.isOpen ? 1.0 : 0.0)
             .animation(Animation.easeIn.delay(0.25))
             .onTapGesture {
@@ -60,7 +73,6 @@ struct SideMenuView: View {
             HStack {
                 MenuContent()
                     .frame(width: self.width)
-                    .background(Color.white)
                     .offset(x: self.isOpen ? 0 : -self.width)
                     .animation(.default)
                 
