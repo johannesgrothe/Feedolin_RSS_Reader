@@ -36,6 +36,7 @@ struct ContentView: View {
 
                     RefreshableScrollView(width: geometry.size.width, height: geometry.size.height)
                         .navigationBarTitle("Feed", displayMode: .inline)
+                        
                         .navigationBarItems(
                             leading:
                                 Button(action: {
@@ -51,6 +52,7 @@ struct ContentView: View {
                                 .navigationBarTitle("Feed")
                         )
                 }.gesture(drag)
+                .accentColor(Color(UIColor(named: "ButtonColor")!))
                 
                 SideMenuView(width: 270,
                              isOpen: self.menuOpen,
@@ -61,6 +63,17 @@ struct ContentView: View {
 
     func openMenu() {
         self.menuOpen.toggle()
+    }
+}
+
+extension UINavigationController{
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "TopbarColor")!
+        navigationBar.standardAppearance = appearance
     }
 }
 

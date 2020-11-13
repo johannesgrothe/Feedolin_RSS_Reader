@@ -64,6 +64,7 @@ struct SideMenuView: View {
                 EmptyView()
             }
             .background(Color.black.opacity(0.1))
+            .edgesIgnoringSafeArea([.top, .bottom])
             .opacity(self.isOpen ? 1.0 : 0.0)
             .animation(Animation.easeIn.delay(0.25))
             .onTapGesture {
@@ -85,6 +86,9 @@ struct SideMenuView: View {
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+        Group {
+            Text("Hello World")
+            Text("Hello World")
+        }
     }
 }
