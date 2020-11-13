@@ -11,11 +11,7 @@ import SwiftUI
  Content of the side Menu
  */
 struct MenuContent: View {
-    init() {
-        UITableView.appearance().backgroundColor = .clear
-        UITableViewCell.appearance().backgroundColor = .clear
-	}    
-
+    
     func createMenuItem() -> [MenuItem] {
         var menu_item_list: [MenuItem] = []
             
@@ -45,16 +41,12 @@ struct MenuContent: View {
                     .font(.system(.title3, design: .rounded))
                     .bold()
             }
-            .foregroundColor(Color(UIColor(named: "ButtonColor")!))
-            .listRowBackground(Color.clear)
             
             Button(action: {
                 print("Show All Feeds Button pressed")
             }) {
                 Label("All", systemImage: "newspaper")
             }
-            .foregroundColor(Color(UIColor(named: "ButtonColor")!))
-            .listRowBackground(Color.clear)
             
             Button(action: {
                 print("Saved Button pressed")
@@ -79,10 +71,7 @@ struct MenuContent: View {
                         .bold()
                 }
             }
-            .foregroundColor(Color(UIColor(named: "ButtonColor")!))
-            .listRowBackground(Color.clear)
         }
-        .background(Color(UIColor(named: "BackgroundColor")!))
     }
 }
 
@@ -135,8 +124,7 @@ struct SideMenuView: View {
             GeometryReader { _ in
                 EmptyView()
             }
-            .background(Color.black.opacity(0.1))
-            .edgesIgnoringSafeArea([.top, .bottom])
+            .background(Color.gray.opacity(0.1))
             .opacity(self.isOpen ? 1.0 : 0.0)
             .animation(Animation.easeIn.delay(0.25))
             .onTapGesture {
@@ -146,6 +134,7 @@ struct SideMenuView: View {
             HStack {
                 MenuContent()
                     .frame(width: self.width)
+                    .background(Color.white)
                     .offset(x: self.isOpen ? 0 : -self.width)
                     .animation(.default)
                 
@@ -153,12 +142,11 @@ struct SideMenuView: View {
                 
             }
         }
-        .background(Color.clear)
     }
 }
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-            Text("Hello World")
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
