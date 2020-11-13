@@ -10,7 +10,6 @@ import SwiftUI
 /**
  View that represents a article cell
  */
-
 struct ArticleListRow: View {
     
     var article: ArticleData

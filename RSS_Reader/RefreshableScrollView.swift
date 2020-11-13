@@ -10,7 +10,6 @@ import SwiftUI
 /**
  View that wraps the ArticleList() in a pull down to refresh view.
  */
-
 struct RefreshableScrollView: UIViewRepresentable {
     var width : CGFloat
     var height : CGFloat

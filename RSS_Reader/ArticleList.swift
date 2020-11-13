@@ -10,7 +10,6 @@ import SwiftUI
 /**
  View that represents a list of article cells
  */
-
 struct ArticleList: View {
     
     @ObservedObject var model: Model = .shared

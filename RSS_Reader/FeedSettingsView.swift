@@ -128,7 +128,7 @@ struct FeedSettingsListEntry: View {
     @ObservedObject var feed_article: NewsFeed
     
     var body: some View {
-        NavigationLink(destination: AddEditFeedView(feed_article:feed_article)) {
+        NavigationLink(destination: FeedEditSettingsView(feed:feed_article)) {
             HStack {
                 Image(systemName: "smiley").imageScale(.large)
                 Text(feed_article.name)
