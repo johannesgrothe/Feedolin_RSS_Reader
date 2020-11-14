@@ -32,20 +32,45 @@ struct MenuContent: View {
     var body: some View {
         VStack {
 
-//            Button(action: {
-//                print("Show All Feeds Button pressed")
-//            }) {
+            Text("Feeds")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+//                    .multilineTextAlignment(.leading)
+            
+            Button(action: {
+                print("Show All Feeds Button pressed")
+            }) {
 //                Label("All", systemImage: "newspaper")
-//            }
-//
-//            Button(action: {
-//                print("Saved Button pressed")
-//            }) {
-//                Label("Saved", systemImage: "tray.2")
-//            }
+                
+                HStack {
+                        Image(systemName: "newspaper")
+                            .font(.title)
+                            .padding()
+                        Text("All")
+                            .font(.title)
+                        Spacer()
+                    }
+                .background(Color("LightGreen"))
+                .frame(minWidth: 0, maxWidth: .infinity)
+            }
+
+            Button(action: {
+                print("Saved Button pressed")
+            }) {
+                HStack {
+                        Image(systemName: "tray.2")
+                            .font(.title)
+                            .padding()
+                        Text("Saved")
+                            .font(.title)
+                        Spacer()
+                    }
+                .background(Color("LightGreen"))
+                .frame(minWidth: 0, maxWidth: .infinity)
+            }
                             
-//            List(createMenuItem(), children: \.subMenuItems) { item in
-            List(sampleMenuItems, children: \.subMenuItems) { item in
+            List(createMenuItem(), children: \.subMenuItems) { item in
+//            List(sampleMenuItems, children: \.subMenuItems) { item in
     //        List {
                 HStack {
                     if item.image != nil {
@@ -58,6 +83,7 @@ struct MenuContent: View {
                     Text(item.name)
                         .font(.system(.title3, design: .rounded))
                         .bold()
+                    Spacer()
                 }
             }
         }
