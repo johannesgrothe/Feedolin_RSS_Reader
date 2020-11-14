@@ -73,6 +73,7 @@ struct FeedProviderSettingsView: View {
                 }
         )
         .background(Color(UIColor(named: "BackgroundColor")!))
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

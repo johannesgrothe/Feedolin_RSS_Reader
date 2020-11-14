@@ -15,7 +15,6 @@ struct RSS_ReaderApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .background(Color.red)
         }
     }
 }

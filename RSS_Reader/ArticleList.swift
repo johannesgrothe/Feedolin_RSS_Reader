@@ -20,7 +20,7 @@ struct ArticleList: View {
                 ArticleListRow(article: article, image: Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f"))
                     .padding(.all, 10)
                     .background(Color(UIColor(named: "ArticleColor")!))
-                    .cornerRadius(17)
+                    .cornerRadius(10)
             }
             .listRowBackground(Color.clear)
         }
