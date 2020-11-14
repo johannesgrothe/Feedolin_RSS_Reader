@@ -16,8 +16,15 @@ struct SettingsView: View {
                     Text("Feed Settings").font(.headline)
                 }
             }
+            .listRowBackground(Color.clear)
             .navigationBarTitle("Settings")
         }
+        .onAppear(perform: {
+            UITableView.appearance().backgroundColor = .clear
+            UITableViewCell.appearance().backgroundColor = .clear
+        })
+        .background(Color(UIColor(named: "BackgroundColor")!))
+        .edgesIgnoringSafeArea(.bottom)
         
     }
 }

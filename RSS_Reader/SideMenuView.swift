@@ -81,14 +81,12 @@ struct SideMenuView: View {
                 
             }
         }
+        .background(Color.clear)
     }
 }
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
             Text("Hello World")
-            Text("Hello World")
-        }
     }
 }

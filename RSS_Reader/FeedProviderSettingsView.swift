@@ -72,6 +72,7 @@ struct FeedProviderSettingsView: View {
                     Text("Save")
                 }
         )
+        .background(Color(UIColor(named: "BackgroundColor")!))
     }
 }
 

@@ -26,7 +26,7 @@ struct FeedSettingsView: View {
                         }) {
                             Label("Add Feed", systemImage: "plus")
                         }
-
+                        
                         Button(action: {
                             print("Remove feed button clicked")
                         }) {
@@ -102,8 +102,15 @@ struct FeedSettingsList: View {
                 ForEach(feed_provider.feeds) { feed in
                     FeedSettingsListEntry(feed_article: feed)
                 }
-          }
+            }
+            .listRowBackground(Color.clear)
         }
+        .onAppear(perform: {
+            UITableView.appearance().backgroundColor = .clear
+            UITableViewCell.appearance().backgroundColor = .clear
+        })
+        .background(Color(UIColor(named: "BackgroundColor")!))
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

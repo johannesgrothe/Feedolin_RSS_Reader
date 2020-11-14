@@ -32,9 +32,10 @@ struct RefreshableScrollView: UIViewRepresentable {
         control.refreshControl?.addTarget(context.coordinator, action:
                                             #selector(Coordinator.handleRefreshControl),
                                           for: .valueChanged)
+        control.backgroundColor = .clear
         let child_view = UIHostingController(rootView: ArticleList())
         child_view.view.frame = CGRect(x: -20, y: -40, width: width+40, height: height)
-        
+        child_view.view.backgroundColor = .clear
         control.addSubview(child_view.view)
         return control
     }

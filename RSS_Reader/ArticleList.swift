@@ -22,8 +22,12 @@ struct ArticleList: View {
                     .background(Color(UIColor(named: "ArticleColor")!))
                     .cornerRadius(17)
             }
+            .listRowBackground(Color.clear)
         }
-        
+        .onAppear(perform: {
+            UITableView.appearance().backgroundColor = .clear
+            UITableViewCell.appearance().backgroundColor = .clear
+        })
     }
 }
 

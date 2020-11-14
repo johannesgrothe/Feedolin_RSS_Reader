@@ -51,9 +51,12 @@ struct ContentView: View {
                                 }
                                 .navigationBarTitle("Feed")
                         )
+//                        .background(Color(UIColor(named: "BackgroundColor")!))
+//                        .edgesIgnoringSafeArea(.bottom)
+                        .background(Color.clear)
                 }.gesture(drag)
                 .accentColor(Color(UIColor(named: "ButtonColor")!))
-                
+                .background(Color.clear)
                 SideMenuView(width: 270,
                              isOpen: self.menuOpen,
                              menuClose: self.openMenu)
