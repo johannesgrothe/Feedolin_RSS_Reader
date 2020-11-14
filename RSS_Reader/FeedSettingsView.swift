@@ -71,16 +71,21 @@ struct AddFeedView: View {
                 }
                 .padding()
                 .cornerRadius(8)
+                .accentColor(Color(UIColor(named: "ButtonColor")!))
                 Spacer()
             }.disabled(self.loading)
             .blur(radius: self.loading ? 3 : 0)
+            .background(Color(UIColor(named: "BackgroundColor")!))
+            .edgesIgnoringSafeArea(.bottom)
             VStack {
                 Text("Loading...")
                 ProgressView()
             }.disabled(self.loading)
             .opacity(self.loading ? 1 : 0)
         }
+        
     }
+    
 }
 
 /**
