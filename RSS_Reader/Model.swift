@@ -19,6 +19,7 @@ final class Model: ObservableObject {
         self.article_data = []
         self.feed_data = []
         self.filter_keywords = []
+        self.filtered_article_data = []
         self.collection_data = [
             Collection(name: "Politik")
             ,Collection(name: "Wirtschaft")
@@ -36,6 +37,7 @@ final class Model: ObservableObject {
         self.article_data = article_data
         self.feed_data = []
         self.filter_keywords = []
+        self .filtered_article_data = []
         self.collection_data = []
     }
     
@@ -48,6 +50,8 @@ final class Model: ObservableObject {
     // Storage for all the filter keywords
     @Published var filter_keywords: [FilterKeyword]
     
+    // Storage for all filtered articles
+    @Published var filtered_article_data: [ArticleData]
     // Storage for all the filter keywords
     @Published var collection_data: [Collection]
     
@@ -87,6 +91,15 @@ final class Model: ObservableObject {
             }
         }
         return nil
+    }
+    
+    /**
+     Sorts @article_data and assigns it to the @filtered_article_data list
+     */
+    func sortArticlesByDate(){
+        filtered_article_data = article_data.sorted{
+            $0.pub_date > $1.pub_date
+        }
     }
     
     /**
@@ -143,6 +156,7 @@ final class Model: ObservableObject {
                 
                 // Celebrate
                 print("Added \(added_feeds) of \(parsed_feed_info!.articles.count) feeds to \(parent_feed!.url)/\(sub_feed!.url)")
+                sortArticlesByDate()
                 return true
                 
             } else {

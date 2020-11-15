@@ -67,9 +67,7 @@ class ArticleData: Identifiable, ObservableObject {
     func date_to_string() -> String{
 
         let date_formatter = DateFormatter()
-            date_formatter.timeStyle = .medium
-
+        date_formatter.dateFormat = "dd-MM-yyyy HH:mm"
         return date_formatter.string(from: pub_date)
     }
-
 }
