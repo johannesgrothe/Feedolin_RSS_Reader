@@ -103,6 +103,16 @@ final class Model: ObservableObject {
     }
     
     /**
+     Sorts @filtered_article_data by the show_in_main value in feeds and updates the @filtered_article_data list
+     */
+    func sortArticlesByShowInMain(){
+        sortArticlesByDate()
+        filtered_article_data.removeAll{
+            $0.parent_feeds[0].show_in_main == false
+        }
+    }
+    
+    /**
      Adds new feed to the model
      - Parameter url: The URL of the feed thats supposed to be added
      - Returns: Whether adding the feed was successful

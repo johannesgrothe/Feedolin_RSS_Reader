@@ -47,15 +47,24 @@ struct FeedEditSettingsView: View {
             
             HStack{
                 Toggle("Show in Main Feed", isOn: $show_in_main)
+                    .onAppear(){
+                        show_in_main = feed.show_in_main
+                    }
                     .onChange(of: show_in_main){value in
                         feed.show_in_main = value
                         print("Called toggle Show in Main Feed = \(feed.show_in_main)")
+                    }
+                    .onDisappear(){
+                        Model.shared.sortArticlesByShowInMain()
                     }
                     .padding(.horizontal,20.0)
             }
             
             HStack{
                 Toggle("Use Filters",isOn: $use_filters)
+                    .onAppear(){
+                        show_in_main = feed.show_in_main
+                    }
                     .onChange(of: use_filters){value in
                         feed.use_filters = value
                         print("Called toggle User Filters = \(feed.use_filters)")
