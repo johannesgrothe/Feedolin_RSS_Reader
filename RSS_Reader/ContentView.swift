@@ -68,6 +68,9 @@ struct ContentView: View {
     }
 }
 
+/**
+ UINavigationController for the overall UINavigationBarAppearance
+ */
 extension UINavigationController{
     override open func viewDidLoad() {
         super.viewDidLoad()
