@@ -18,6 +18,14 @@ struct SettingsView: View {
             }
             .listRowBackground(Color.clear)
             .navigationBarTitle("Settings")
+            NavigationLink(destination: CollectionSettingsView()) {
+                HStack {
+                    Image(systemName: "folder").imageScale(.large)
+                    Text("Collection Settings").font(.headline)
+                }
+            }
+            .listRowBackground(Color.clear)
+            .navigationBarTitle("Settings")
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
