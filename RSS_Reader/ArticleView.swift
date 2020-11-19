@@ -13,12 +13,14 @@ import WebKit
  */
 struct ArticleView: View {
     
-    let url: String
+    // the complete article in the view
+    let article: ArticleData
     
     var body: some View {
         VStack{
-            ArticleWebView(url: url)
+            ArticleWebView(url: article.link)
         }
+        .navigationBarTitle(article.title, displayMode: .inline)
         .background(Color(UIColor(named: "BackgroundColor")!))
         .edgesIgnoringSafeArea(.bottom)
     }
@@ -29,6 +31,7 @@ struct ArticleView: View {
  */
 struct ArticleWebView: UIViewRepresentable {
     
+    // String that represents the url of the article, that is shown
     let url: String
     
     /**
@@ -39,12 +42,13 @@ struct ArticleWebView: UIViewRepresentable {
         guard let url = URL(string: self.url) else {
             return WKWebView()
         }
-        // creates request and load url
+        // the url-request from url
         let request = URLRequest(url: url)
-        let wkView = WKWebView()
-        wkView.load(request)
+        // the WebkitView that loads the website
+        let wk_view = WKWebView()
+        wk_view.load(request)
         
-        return wkView
+        return wk_view
     }
     
     /**
@@ -60,6 +64,6 @@ struct ArticleWebView: UIViewRepresentable {
 
 struct ArticleView_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleView(url: "https://www.apple.com")
+        ArticleView(article: ArticleData(article_id: "001", title: "TestArticle", description: "article for test", link: "https://www.apple.com", pub_date: Date(), author: "Test", parent_feeds: []))
     }
 }

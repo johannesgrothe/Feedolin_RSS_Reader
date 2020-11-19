@@ -16,7 +16,7 @@ struct ArticleListRow: View {
     var image: Image
     
     var body: some View {
-        NavigationLink(destination: ArticleView(url: article.link)){
+        NavigationLink(destination: ArticleView(article: article)){
             HStack {
                 
                 VStack(alignment: .leading){
