@@ -38,10 +38,12 @@ Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 
 ![](documentation/uml.svg)
 
-### Wireframes
+### Wireframes:
 
 ![](documentation/wireframes.svg)
 
-### Glossary
+### Glossary:
 
-![](documentation/glossary.md)
+<sub>documentation/glossary.md</sub>
+
+[](/documentation/glossary.md)
