@@ -35,6 +35,7 @@
 		EB6702DF254D983A006BD9C1 /* ArticleDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */; };
 		EB6702E7254DA694006BD9C1 /* FeedDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */; };
 		EB6702EC254DABE6006BD9C1 /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702EB254DABE6006BD9C1 /* FilterDataStructures.swift */; };
+		EBAB4B9D25680F9F00ABF623 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */; };
 		EBADDEC2255743A3008AD1C5 /* FeedProviderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDataStructures.swift; sourceTree = "<group>"; };
 		EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataStructures.swift; sourceTree = "<group>"; };
 		EB6702EB254DABE6006BD9C1 /* FilterDataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDataStructures.swift; sourceTree = "<group>"; };
+		EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedProviderSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +153,7 @@
 		1BD2A3C5254B036E00FCA510 /* RSS_Reader */ = {
 			isa = PBXGroup;
 			children = (
+				EBAB4B9B25680F6B00ABF623 /* helper_structures */,
 				1BBFF7DC2552E4080091541B /* Ressources */,
 				1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */,
 				1BD2A3C6254B036E00FCA510 /* RSS_ReaderApp.swift */,
@@ -206,6 +209,14 @@
 				1BD2A3EA254B036F00FCA510 /* Info.plist */,
 			);
 			path = RSS_ReaderUITests;
+			sourceTree = "<group>";
+		};
+		EBAB4B9B25680F6B00ABF623 /* helper_structures */ = {
+			isa = PBXGroup;
+			children = (
+				EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */,
+			);
+			path = helper_structures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,6 +363,7 @@
 				1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */,
 				1BD2A3C9254B036E00FCA510 /* ContentView.swift in Sources */,
 				1BBFF80D25532AD30091541B /* ArticleListRow.swift in Sources */,
+				EBAB4B9D25680F9F00ABF623 /* AsyncImage.swift in Sources */,
 				EB3F6AAB2552F7F0003FA72F /* SettingsView.swift in Sources */,
 				EBADDEC2255743A3008AD1C5 /* FeedProviderSettingsView.swift in Sources */,
 				EB6702EC254DABE6006BD9C1 /* FilterDataStructures.swift in Sources */,
