@@ -75,7 +75,7 @@ struct CollectionDetailSettingsView: View {
             Button(action: {
                 print("Add New Collection Button clicked.")
             }) {
-                Label("Add Collection", systemImage: "plus")
+                Label("Add Feed", systemImage: "plus")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             .listRowBackground(Color.clear)
@@ -99,6 +99,7 @@ struct CollectionSettingsView_Previews: PreviewProvider {
 
 struct CollectionDetailSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        CollectionSettingsView()
+        let collection = Collection(name: "Bla", feed_list: [])
+        CollectionDetailSettingsView(collection: collection)
     }
 }
