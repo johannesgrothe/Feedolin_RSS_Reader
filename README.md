@@ -44,6 +44,4 @@ Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 
 ### Glossary:
 
-<sub>documentation/glossary.md</sub>
-
-[](/documentation/glossary.md)
+[glossary](documentation/glossary.md)
