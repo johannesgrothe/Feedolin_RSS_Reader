@@ -41,3 +41,7 @@ Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 ### Wireframes
 
 ![](documentation/wireframes.svg)
+
+### Glossary
+
+![](documentation/glossary.md)
