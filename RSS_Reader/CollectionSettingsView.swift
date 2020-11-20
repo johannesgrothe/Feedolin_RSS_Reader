@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ ToDo comment
+ */
 struct CollectionSettingsView: View {
     var body: some View {
         CollectionSettingsList()
@@ -35,10 +38,11 @@ struct CollectionSettingsView: View {
 }
 
 /**
- ToDo
+ ToDo comment
  */
 struct CollectionSettingsList: View {
-    
+
+    // ToDo: comment
     @ObservedObject var model: Model = .shared
     
     var body: some View {
@@ -59,7 +63,9 @@ struct CollectionSettingsList: View {
     }
 }
 
-
+/**
+ ToDo comment
+ */
 struct CollectionDetailSettingsView: View {
     
     // ToDo: comment
@@ -71,14 +77,6 @@ struct CollectionDetailSettingsView: View {
                 Text(feed.name).font(.headline)
             }
             .listRowBackground(Color.clear)
-            
-            Button(action: {
-                print("Add New Collection Button clicked.")
-            }) {
-                Label("Add Feed", systemImage: "plus")
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            .listRowBackground(Color.clear)
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
@@ -86,8 +84,33 @@ struct CollectionDetailSettingsView: View {
         })
         .background(Color(UIColor(named: "BackgroundColor")!))
         .edgesIgnoringSafeArea(.bottom)
+        .navigationTitle(collection.name)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button(action: {
+                        print("Add Feed to Collection Button clicked.")
+                    }) {
+                        Label("Add Feed", systemImage: "plus")
+                    }
+                    
+                    Button(action: {
+                        print("Remove Feed from Collection Button clicked.")
+                    }) {
+                        Label("Remove Feed", systemImage: "trash")
+                    }
+                }
+                label: {
+                    Label("Edit", systemImage: "square.and.pencil").imageScale(.large)
+                }
+            }
+        }
     }
 }
+
+
+
+
 
 
 
