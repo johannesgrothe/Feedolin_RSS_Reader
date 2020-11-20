@@ -11,7 +11,13 @@ import SwiftUI
  Content of the side Menu
  */
 struct MenuContent: View {
+    
     @ObservedObject var model: Model = .shared
+    
+    init() {
+            UITableView.appearance().backgroundColor = .clear
+            UITableViewCell.appearance().backgroundColor = .clear
+    }
     
     func createMenuItem() -> [MenuItem] {
         var menu_item_list: [MenuItem] = []
