@@ -8,7 +8,8 @@
 import SwiftUI
 
 /**
- ToDo comment
+ Root View for the Collections settings.
+ Here you see a list of all collections.
  */
 struct CollectionSettingsView: View {
     var body: some View {
@@ -38,11 +39,13 @@ struct CollectionSettingsView: View {
 }
 
 /**
- ToDo comment
+ A List of all collections
  */
 struct CollectionSettingsList: View {
 
-    // ToDo: comment
+    /**
+     The model
+     */
     @ObservedObject var model: Model = .shared
     
     var body: some View {
@@ -64,11 +67,14 @@ struct CollectionSettingsList: View {
 }
 
 /**
- ToDo comment
+ The detailed view of a specific collection
+ Here you see a list of feeds
  */
 struct CollectionDetailSettingsView: View {
     
-    // ToDo: comment
+    /**
+     The collection that is displayed in the view
+     */
     @ObservedObject var collection: Collection
     
     var body: some View {
@@ -108,12 +114,9 @@ struct CollectionDetailSettingsView: View {
     }
 }
 
-
-
-
-
-
-
+/**
+ Previews
+ */
 struct CollectionSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         CollectionSettingsView()
@@ -122,7 +125,7 @@ struct CollectionSettingsView_Previews: PreviewProvider {
 
 struct CollectionDetailSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let collection = Collection(name: "Bla", feed_list: [])
+        let collection = Collection(name: "Bla")
         CollectionDetailSettingsView(collection: collection)
     }
 }

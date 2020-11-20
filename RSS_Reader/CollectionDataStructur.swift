@@ -8,19 +8,17 @@
 import SwiftUI
 
 /**
- __ToDo:__
- Create a datastructure containing the collection name and a list of all feeds inside of the collection
- Create screens (as seen in the wireframes) to add feeds to the collection
+ Groups feeds
  */
-
 class Collection: Identifiable, ObservableObject {
     
     /**
      Initialized a Collection
+     - Parameter name The name of the collection.
      */
-    init(name: String, feed_list: [NewsFeed]) {
+    init(name: String) {
         self.name = name
-        self.feed_list = feed_list
+        self.feed_list = []
     }
     
     /**

@@ -20,11 +20,11 @@ final class Model: ObservableObject {
         self.feed_data = []
         self.filter_keywords = []
         self.collection_data = [
-            Collection(name: "Politik", feed_list: [])
-            ,Collection(name: "Wirtschaft", feed_list: [])
-            ,Collection(name: "Technik", feed_list: [])
-            ,Collection(name: "Gaming", feed_list: [])
-            ,Collection(name: "Unterhaltung", feed_list: [])
+            Collection(name: "Politik")
+            ,Collection(name: "Wirtschaft")
+            ,Collection(name: "Technik")
+            ,Collection(name: "Gaming")
+            ,Collection(name: "Unterhaltung")
         ]
     }
     
