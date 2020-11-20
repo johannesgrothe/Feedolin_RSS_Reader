@@ -19,6 +19,13 @@ final class Model: ObservableObject {
         self.article_data = []
         self.feed_data = []
         self.filter_keywords = []
+        self.collection_data = [
+            Collection(name: "Politik", feed_list: [])
+            ,Collection(name: "Wirtschaft", feed_list: [])
+            ,Collection(name: "Technik", feed_list: [])
+            ,Collection(name: "Gaming", feed_list: [])
+            ,Collection(name: "Unterhaltung", feed_list: [])
+        ]
     }
     
     /**
@@ -29,6 +36,7 @@ final class Model: ObservableObject {
         self.article_data = article_data
         self.feed_data = []
         self.filter_keywords = []
+        self.collection_data = []
     }
     
     // Storage for all the articles
@@ -39,6 +47,9 @@ final class Model: ObservableObject {
     
     // Storage for all the filter keywords
     @Published var filter_keywords: [FilterKeyword]
+    
+    // Storage for all the filter keywords
+    @Published var collection_data: [Collection]
     
     // Model Singleton
     static let shared = Model()
