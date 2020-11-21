@@ -8,6 +8,18 @@
 import Foundation
 
 /**
+ Enum containing every filter option selectable
+ */
+enum FilterSetting {
+    case All
+    case Collection
+    case FeedProvider
+    case Feed
+    case SearchWord
+    case Bookmarked
+}
+
+/**
  Model for the app, contains every information the views are using
  */
 final class Model: ObservableObject {
@@ -257,6 +269,117 @@ final class Model: ObservableObject {
         }
         print("New articles fetched: \(added_feeds)")
     }
+    
+    ///
+    /// BEGIN OF THE FILTERING
+    ///
+    
+    /**
+     Stores the currently active filter option
+     */
+    private var stored_filter_option: FilterSetting = .All
+    
+    /**
+     Stores the last selected collection to filter by
+     */
+//    private var selected_collection: Collection?
+    
+    /**
+     Stores the last selected feed provider to filter by
+     */
+    private var selected_feed_provider: NewsFeedProvider?
+    
+    /**
+     Stores the last selected feed to filter by
+     */
+    private var selected_feed: NewsFeed?
+    
+    /**
+     Stores the last selected filter keyword to filter by
+     */
+    private var selected_filter_keyword: String?
+    
+    /**
+     The currently selected filter option
+     */
+    var filter_option: FilterSetting {
+        get {
+            return stored_filter_option
+        }
+    }
+    
+    /**
+     Sets the filter to 'All'. Every feed, that has the 'show in main feed'-flag set will be shown.
+     */
+    func setFilterAll() {
+        stored_filter_option = .All
+    }
+    
+    /**
+     Sets the filter to 'Collection'. Every feed inside of the selected collection will be shown.
+     */
+    func setFilterCollection() { // TODO: Collection needed
+        stored_filter_option = .Collection
+//        selected_collection =
+    }
+    
+    /**
+     Sets the filter to 'Feed Provider'. Every feed, provided by the selected feed provider will be shown.
+     - Parameter feed_provider  The feed provider which articles shall be shown
+     */
+    func setFilterFeedProvider(_ feed_provider: NewsFeedProvider) {
+        stored_filter_option = .FeedProvider
+        selected_feed_provider = feed_provider
+    }
+    
+    /**
+     Sets the filter to 'Feed'. Only the selected feed will be shown.
+     - Parameter feed: NewsFeed that should be displayed
+     */
+    func setFilterFeed(_ feed: NewsFeed) {
+        stored_filter_option = .Feed
+        selected_feed = feed
+    }
+    
+    /**
+     Sets the filter to 'Filter Keyword'. All artices will be shown if title or description contain the filter phrase.
+     - Parameter searchword The phrase that shouldn be searched for
+     */
+    func setFilterSearchWord(_ searchword: String) {
+        stored_filter_option = .SearchWord
+        selected_filter_keyword = searchword
+    }
+    
+    /**
+     Sets the filter to 'Boommarked'. Only articles bookmarked will be shown.
+     */
+    func setFilterBookmarked() {
+        stored_filter_option = .Bookmarked
+    }
+    
+    /**
+     Re-applies the filter so that every new feed or other changes are applied.
+     */
+    func refreshFilter() {
+        switch stored_filter_option {
+        case .All:
+            print("Applying filter 'All'")
+        case .Collection:
+            print("Applying filter 'Collection'")
+        case .FeedProvider:
+            print("Applying filter 'FeedProvider'")
+        case .Feed:
+            print("Applying filter 'Feed'")
+        case .SearchWord:
+            print("Applying filter 'SearchWord'")
+        case .Bookmarked:
+            print("Applying filter 'Bookmarked'")
+        }
+    }
+    
+    ///
+    /// END OF THE FILTERING
+    ///
 }
 
 var preview_model = Model(
