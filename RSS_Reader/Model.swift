@@ -15,7 +15,7 @@ enum FilterSetting {
     case Collection
     case FeedProvider
     case Feed
-    case SearchWord
+    case SearchPhrase
     case Bookmarked
 }
 
@@ -285,22 +285,22 @@ final class Model: ObservableObject {
     private var stored_filter_option: FilterSetting = .All
     
     /**
-     Stores the last selected collection to filter by
+     Stores the last selected collection to filter by. Is not nil when the stored_filter_option  is .Collection
      */
-//    private var selected_collection: Collection?
+    private var selected_collection: Collection?
     
     /**
-     Stores the last selected feed provider to filter by
+     Stores the last selected feed provider to filter by. Is not nil when the stored_filter_option  is .FeedProvider
      */
     private var selected_feed_provider: NewsFeedProvider?
     
     /**
-     Stores the last selected feed to filter by
+     Stores the last selected feed to filter by.  Is not nil when the stored_filter_option  is .NewsFeed
      */
     private var selected_feed: NewsFeed?
     
     /**
-     Stores the last selected filter keyword to filter by
+     Stores the last selected filter keyword to filter by.  Is not nil when the stored_filter_option  is .SearchPhrase
      */
     private var selected_filter_keyword: String?
     
@@ -308,6 +308,7 @@ final class Model: ObservableObject {
      The currently selected filter option
      */
     var filter_option: FilterSetting {
+        // Only getter is defined, the property should not be set from the outside
         get {
             return stored_filter_option
         }
@@ -323,11 +324,10 @@ final class Model: ObservableObject {
     /**
      Sets the filter to 'Collection'. Every feed inside of the selected collection will be shown.
      */
-    func setFilterCollection() { // TODO: Collection needed
+    func setFilterCollection(_ collection: Collection) {
         stored_filter_option = .Collection
-//        selected_collection =
+        selected_collection = collection
     }
-    
     
     /**
      Sets the filter to 'Feed Provider'. Every feed, provided by the selected feed provider will be shown.
@@ -348,12 +348,12 @@ final class Model: ObservableObject {
     }
     
     /**
-     Sets the filter to 'Filter Keyword'. All artices will be shown if title or description contain the filter phrase.
-     - Parameter searchword: The phrase that shouldn be searched for
+     Sets the filter to 'SearchPhrase'. All artices will be shown if title or description contain the filter phrase.
+     - Parameter search_phrase: The phrase that shouldn be searched for
      */
-    func setFilterSearchWord(_ searchword: String) {
-        stored_filter_option = .SearchWord
-        selected_filter_keyword = searchword
+    func setFilterSearchPhrase(_ search_phrase: String) {
+        stored_filter_option = .SearchPhrase
+        selected_filter_keyword = search_phrase
     }
     
     /**
@@ -383,8 +383,8 @@ final class Model: ObservableObject {
         case .Feed:
             print("Applying filter 'Feed'")
             applyFilterFeed()
-        case .SearchWord:
-            print("Applying filter 'SearchWord'")
+        case .SearchPhrase:
+            print("Applying filter 'SearchPhrase'")
             applyFilterSearchPhrase()
         case .Bookmarked:
             print("Applying filter 'Bookmarked'")
