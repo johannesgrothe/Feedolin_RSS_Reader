@@ -12,7 +12,7 @@ struct SettingsView: View {
         List {
             NavigationLink(destination: FeedSettingsView()) {
                 HStack {
-                    Image(systemName: "person").imageScale(.large)
+                    Image(systemName: "newspaper").imageScale(.large)
                     Text("Feed Settings").font(.headline)
                 }
             }

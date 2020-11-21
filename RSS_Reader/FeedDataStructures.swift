@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 /**
  Class that represents a news feed provider
@@ -18,8 +19,19 @@ class NewsFeedProvider: Identifiable, ObservableObject {
         self.token = token
         self.feeds = feeds
         
-        // Google-API for getting an icon for the url
-        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)")
+        /**
+         Google-API for getting an icon for the url
+         */
+        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: "newspaper")
+        
+        /**
+          the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
+          This way, the NewsFeedProvider is changing as soon as the image is changing, updating
+          every connected view in the process
+         */
+        icon_loaded_indicator = icon.objectWillChange.sink { _ in
+            self.objectWillChange.send()
+        }
     }
     
     /**
@@ -67,6 +79,11 @@ class NewsFeedProvider: Identifiable, ObservableObject {
      Short version (Abkürzung)
      */
     @Published var token: String
+    
+    /**
+     Indicator to auto-refresh Views when Icon is changed
+     */
+    private var icon_loaded_indicator: AnyCancellable? = nil
     
     /**
      Icon of the Feed provider
