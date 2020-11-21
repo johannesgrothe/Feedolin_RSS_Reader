@@ -136,7 +136,7 @@ final class Model: ObservableObject {
                 
                 // Create parent feed if it doesnt already exist and add it to model
                 if parent_feed == nil {
-                    parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon: NewsFeedIcon(url: ""), feeds: [])
+                    parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
                     self.feed_data.append(parent_feed!)
                 }
                 

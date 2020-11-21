@@ -12,11 +12,11 @@ import Foundation
  */
 class NewsFeedProvider: Identifiable, ObservableObject {
 
-    init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
+    init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
         self.token = token
-        self.icon = icon
+        self.icon = AsyncImage(icon_url)
         self.feeds = feeds
     }
     
@@ -69,7 +69,7 @@ class NewsFeedProvider: Identifiable, ObservableObject {
     /**
      Icon of the Feed provider
      */
-    let icon: NewsFeedIcon
+    @Published var icon: AsyncImage
 
     /**
      List of all news feeds

@@ -125,7 +125,9 @@ struct FeedProviderSettingListEntry: View {
     var body: some View {
         NavigationLink(destination: FeedProviderSettingsView(feed_provider: feed_provider)) {
             HStack {
-                Image(systemName: "person").imageScale(.large)
+                (feed_provider.icon.img)
+                    .resizable()
+                    .frame(width: 25, height: 25)
                 Text(feed_provider.name).font(.headline)
             }
         }

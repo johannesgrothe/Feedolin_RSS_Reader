@@ -79,6 +79,6 @@ struct FeedProviderSettingsView: View {
 
 struct FeedProviderSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedProviderSettingsView(feed_provider: NewsFeedProvider(url: "test.de", name: "TestProvider", token: "TP", icon: NewsFeedIcon(url: "blub/x.jpg"), feeds: []))
+        FeedProviderSettingsView(feed_provider: NewsFeedProvider(url: "test.de", name: "TestProvider", token: "TP", icon_url: "blub/x.jpg", feeds: []))
     }
 }
