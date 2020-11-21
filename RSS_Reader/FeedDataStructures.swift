@@ -16,8 +16,10 @@ class NewsFeedProvider: Identifiable, ObservableObject {
         self.url = url
         self.name = name
         self.token = token
-        self.icon = AsyncImage(icon_url)
         self.feeds = feeds
+        
+        // Google-API for getting an icon for the url
+        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)")
     }
     
     /**

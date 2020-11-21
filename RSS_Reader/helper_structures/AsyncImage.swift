@@ -12,38 +12,12 @@ class AsyncImage: ObservableObject {
     
     init(_ url: String) {
         self.url = URL(string: url)
+        load()
     }
     
     private let url: URL?
     
-    @Published private var stored_img: Image?
-//    {
-//        willSet {
-//            objectWillChange.send()
-//        }
-//    }
-    
-//    private var stored_img = Image(systemName: "newspaper")  {
-//        willSet {
-//            objectWillChange.send()
-//        }
-//    }
-    
-    /**
-     Computed property, loads the image async
-     */
-    var img: Image {
-        if stored_img == nil {
-            stored_img = Image(systemName: "newspaper")
-            load()
-        }
-        return stored_img!
-    }
-    
-//    lazy var img: Image = {
-//        load()
-//        return stored_img
-//    }()
+    @Published var img: Image = Image(systemName: "newspaper")
     
     private func load() {
         if url != nil {
@@ -60,13 +34,13 @@ class AsyncImage: ObservableObject {
        getData(from: url) {
           data, response, error in
           guard let data = data, error == nil else {
-             return
+            print("Error loading Image")
+            return
           }
           DispatchQueue.main.async() {
             let buf_img = UIImage(data: data)
             if buf_img != nil {
-                self.stored_img = Image(uiImage: buf_img!)
-                self.objectWillChange.send()
+                self.img = Image(uiImage: buf_img!)
                 print("Image Loadad!!")
             }
          }

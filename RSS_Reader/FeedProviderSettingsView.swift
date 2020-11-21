@@ -21,7 +21,7 @@ struct FeedProviderSettingsView: View {
     var body: some View {
         VStack {
             // Dummy image for now
-            Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
+            feed_provider.icon.img
                 .resizable()
                 .frame(width: 130, height: 130)
                 .padding(.horizontal, 15.0)
