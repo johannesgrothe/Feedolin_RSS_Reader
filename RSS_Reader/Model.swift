@@ -218,7 +218,7 @@ final class Model: ObservableObject {
      - Parameter url: The url of the feed provider that is wanted
      - Returns: A the feed provicer if one is found, nil otherwiese
      */
-    func getFeedProviderForURL(_ url: String) -> NewsFeedProvider? {
+    private func getFeedProviderForURL(_ url: String) -> NewsFeedProvider? {
         let lower_url = url.lowercased()
         for feed_provider in feed_data {
             if feed_provider.url == lower_url {
@@ -268,6 +268,11 @@ final class Model: ObservableObject {
             }
         }
         print("New articles fetched: \(added_feeds)")
+        
+        // Refresh viewed articles if any new artices were fetched
+        if added_feeds != 0 {
+            refreshFilter()
+        }
     }
     
     ///
@@ -323,9 +328,10 @@ final class Model: ObservableObject {
 //        selected_collection =
     }
     
+    
     /**
      Sets the filter to 'Feed Provider'. Every feed, provided by the selected feed provider will be shown.
-     - Parameter feed_provider  The feed provider which articles shall be shown
+     - Parameter feed_provider:  The feed provider which articles shall be shown
      */
     func setFilterFeedProvider(_ feed_provider: NewsFeedProvider) {
         stored_filter_option = .FeedProvider
@@ -343,7 +349,7 @@ final class Model: ObservableObject {
     
     /**
      Sets the filter to 'Filter Keyword'. All artices will be shown if title or description contain the filter phrase.
-     - Parameter searchword The phrase that shouldn be searched for
+     - Parameter searchword: The phrase that shouldn be searched for
      */
     func setFilterSearchWord(_ searchword: String) {
         stored_filter_option = .SearchWord
@@ -361,20 +367,67 @@ final class Model: ObservableObject {
      Re-applies the filter so that every new feed or other changes are applied.
      */
     func refreshFilter() {
+        // Clean filter list
+        // TODO
+        
+        // Reapply filter
         switch stored_filter_option {
         case .All:
             print("Applying filter 'All'")
         case .Collection:
             print("Applying filter 'Collection'")
+            applyFilterCollection()
         case .FeedProvider:
             print("Applying filter 'FeedProvider'")
+            applyFilterFeedProvider()
         case .Feed:
             print("Applying filter 'Feed'")
+            applyFilterFeed()
         case .SearchWord:
             print("Applying filter 'SearchWord'")
+            applyFilterSearchPhrase()
         case .Bookmarked:
             print("Applying filter 'Bookmarked'")
+            applyFilterBookmarked()
         }
+        
+        // Sort articles by date
+        // TODO
+    }
+    
+    /**
+     (Re)applies the collection filter
+     */
+    private func applyFilterCollection() {
+        // TODO: implement
+    }
+    
+    /**
+     (Re)applies the feed provider filter
+     */
+    private func applyFilterFeedProvider() {
+        // TODO: implement
+    }
+    
+    /**
+     (Re)applies the feed filter
+     */
+    private func applyFilterFeed() {
+        // TODO: implement
+    }
+    
+    /**
+     (Re)applies the searchphrase filter
+     */
+    private func applyFilterSearchPhrase() {
+        // TODO: implement
+    }
+    
+    /**
+     (Re)applies the bookmarks filter
+     */
+    private func applyFilterBookmarked() {
+        // TODO: implement
     }
     
     ///
