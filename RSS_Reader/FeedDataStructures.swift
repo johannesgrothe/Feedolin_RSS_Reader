@@ -145,13 +145,6 @@ class NewsFeed: Identifiable, ObservableObject {
 }
 
 /**
- Icon for an feed provider
- */
-struct NewsFeedIcon {
-    let url: String
-}
-
-/**
  Title-image for an feed
  */
 struct FeedTitleImage {
