@@ -75,7 +75,7 @@ final class Model: ObservableObject {
      - Parameter article: The article thats supposed to be added
      - Returns: Whether adding the article was successful
      */
-    func addArticle(_ article: ArticleData) -> Bool {
+    private func addArticle(_ article: ArticleData) -> Bool {
         for list_article in article_data {
             // Check if article exists
             if list_article.article_id == article.article_id {
@@ -92,11 +92,29 @@ final class Model: ObservableObject {
     }
     
     /**
+     Adds articles that are not altrady present to the storage
+     - Parameter articles: The articles that are supposed to be added
+     - Returns: How many articles were added
+     */
+    private func addArticles(_ articles: [ArticleData]) -> Int {
+        // Counter for the added articles
+        var added_articles = 0
+        
+        // Add all the articles
+        for article in articles {
+            if addArticle(article) {
+                added_articles += 1
+            }
+        }
+        return added_articles
+    }
+    
+    /**
      Returns the article for the given id
      - Parameter id: The id of the article that is wanted
      - Returns: A the article data  if one is found, nil otherwiese
      */
-    func getArticle(_ id: String) -> ArticleData? {
+    private func getArticle(_ id: String) -> ArticleData? {
         for article in article_data {
             if article.article_id == id {
                 return article
@@ -149,17 +167,9 @@ final class Model: ObservableObject {
                     return false
                 }
                 
-                // Add sub-feed to all articles (its the parent feed for them)
-                for article in parsed_feed_info!.articles {
-                    article.addParentFeed(sub_feed!)
-                }
+                // Fetch new articles from this and every other feed
+                fetchFeeds()
                 
-                // Add all articles to model
-                let added_feeds = addArticles(parsed_feed_info!.articles)
-                
-                // Celebrate
-                print("Added \(added_feeds) of \(parsed_feed_info!.articles.count) feeds to \(parent_feed!.url)/\(sub_feed!.url)")
-                sortArticlesByDate()
                 return true
                 
             } else {
@@ -169,24 +179,6 @@ final class Model: ObservableObject {
             print("Loading data from URL failed")
         }
         return false
-    }
-    
-    /**
-     Adds articles that are not altrady present to the storage
-     - Parameter articles: The articles that are supposed to be added
-     - Returns: How many articles were added
-     */
-    func addArticles(_ articles: [ArticleData]) -> Int {
-        // Counter for the added articles
-        var added_articles = 0
-        
-        // Add all the articles
-        for article in articles {
-            if addArticle(article) {
-                added_articles += 1
-            }
-        }
-        return added_articles
     }
     
     /**
