@@ -106,25 +106,6 @@ final class Model: ObservableObject {
     }
     
     /**
-     Sorts @article_data and assigns it to the @filtered_article_data list
-     */
-    func sortArticlesByDate(){
-        filtered_article_data = article_data.sorted{
-            $0.pub_date > $1.pub_date
-        }
-    }
-    
-    /**
-     Sorts @filtered_article_data by the show_in_main value in feeds and updates the @filtered_article_data list
-     */
-    func sortArticlesByShowInMain(){
-        sortArticlesByDate()
-        filtered_article_data.removeAll{
-            $0.parent_feeds[0].show_in_main == false
-        }
-    }
-    
-    /**
      Adds new feed to the model
      - Parameter url: The URL of the feed thats supposed to be added
      - Returns: Whether adding the feed was successful
@@ -364,16 +345,17 @@ final class Model: ObservableObject {
     }
     
     /**
-     Re-applies the filter so that every new feed or other changes are applied.
+     Re-applies the filter so that every new feed or other changes are applied. Call this method every time you change something in the settings having something to do withthe article lsit
      */
     func refreshFilter() {
-        // Clean filter list
-        // TODO
+        // Copy every element of the article list to the filtered article list and sort them
+        sortArticlesByDate()
         
         // Reapply filter
         switch stored_filter_option {
         case .All:
             print("Applying filter 'All'")
+            applyFilterAll()
         case .Collection:
             print("Applying filter 'Collection'")
             applyFilterCollection()
@@ -390,9 +372,25 @@ final class Model: ObservableObject {
             print("Applying filter 'Bookmarked'")
             applyFilterBookmarked()
         }
-        
-        // Sort articles by date
-        // TODO
+    }
+    
+    /**
+     Sorts @article_data and assigns it to the @filtered_article_data list
+     */
+    private func sortArticlesByDate() {
+        filtered_article_data = article_data.sorted{
+            $0.pub_date > $1.pub_date
+        }
+    }
+    
+    /**
+     (Re)applies the 'All' filter.
+     Sorts @filtered_article_data by the show_in_main value in feeds and updates the @filtered_article_data list
+     */
+    private func applyFilterAll() {
+        filtered_article_data.removeAll{
+            $0.parent_feeds[0].show_in_main == false
+        }
     }
     
     /**

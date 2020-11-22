@@ -55,7 +55,7 @@ struct FeedEditSettingsView: View {
                         print("Called toggle Show in Main Feed = \(feed.show_in_main)")
                     }
                     .onDisappear(){
-                        Model.shared.sortArticlesByShowInMain()
+                        Model.shared.refreshFilter()
                     }
                     .padding(.horizontal,20.0)
             }
