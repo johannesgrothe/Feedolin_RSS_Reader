@@ -12,10 +12,10 @@ import Foundation
  */
 enum FilterSetting {
     case All
-    case Collection
-    case FeedProvider
-    case Feed
-    case SearchPhrase
+    case Collection(Collection)
+    case FeedProvider(NewsFeedProvider)
+    case Feed(NewsFeed)
+    case SearchPhrase(String)
     case Bookmarked
 }
 
@@ -258,24 +258,9 @@ final class Model: ObservableObject {
     private var stored_filter_option: FilterSetting = .All
     
     /**
-     Stores the last selected collection to filter by. Is not nil when the stored_filter_option  is .Collection
+     Stores the last selected filter option to got back if necessary
      */
-    private var selected_collection: Collection?
-    
-    /**
-     Stores the last selected feed provider to filter by. Is not nil when the stored_filter_option  is .FeedProvider
-     */
-    private var selected_feed_provider: NewsFeedProvider?
-    
-    /**
-     Stores the last selected feed to filter by.  Is not nil when the stored_filter_option  is .NewsFeed
-     */
-    private var selected_feed: NewsFeed?
-    
-    /**
-     Stores the last selected filter keyword to filter by.  Is not nil when the stored_filter_option  is .SearchPhrase
-     */
-    private var selected_filter_keyword: String?
+    private var last_filter_option: FilterSetting = .All
     
     /**
      The currently selected filter option
@@ -288,18 +273,25 @@ final class Model: ObservableObject {
     }
     
     /**
+     Sets the selected filter option
+     */
+    private func setFilter(_ filter_option: FilterSetting) {
+        last_filter_option = stored_filter_option
+        stored_filter_option = filter_option
+    }
+    
+    /**
      Sets the filter to 'All'. Every feed, that has the 'show in main feed'-flag set will be shown.
      */
     func setFilterAll() {
-        stored_filter_option = .All
+        setFilter(.All)
     }
     
     /**
      Sets the filter to 'Collection'. Every feed inside of the selected collection will be shown.
      */
     func setFilterCollection(_ collection: Collection) {
-        stored_filter_option = .Collection
-        selected_collection = collection
+        setFilter(.Collection(collection))
     }
     
     /**
@@ -307,8 +299,7 @@ final class Model: ObservableObject {
      - Parameter feed_provider:  The feed provider which articles shall be shown
      */
     func setFilterFeedProvider(_ feed_provider: NewsFeedProvider) {
-        stored_filter_option = .FeedProvider
-        selected_feed_provider = feed_provider
+        setFilter(.FeedProvider(feed_provider))
     }
     
     /**
@@ -316,35 +307,37 @@ final class Model: ObservableObject {
      - Parameter feed: NewsFeed that should be displayed
      */
     func setFilterFeed(_ feed: NewsFeed) {
-        stored_filter_option = .Feed
-        selected_feed = feed
+        setFilter(.Feed(feed))
     }
     
     /**
      Sets the filter to 'SearchPhrase'. All artices will be shown if title or description contain the filter phrase.
+     This method differs from the other filters in that it is applied ON TOP of the current filter.
      - Parameter search_phrase: The phrase that shouldn be searched for
      */
     func setFilterSearchPhrase(_ search_phrase: String) {
-        stored_filter_option = .SearchPhrase
-        selected_filter_keyword = search_phrase
+        setFilter(.SearchPhrase(search_phrase))
     }
     
     /**
      Sets the filter to 'Boommarked'. Only articles bookmarked will be shown.
      */
     func setFilterBookmarked() {
-        stored_filter_option = .Bookmarked
+        setFilter(.Bookmarked)
     }
     
     /**
-     Re-applies the filter so that every new feed or other changes are applied. Call this method every time you change something in the settings having something to do withthe article lsit
+     Switch back to the last filter option ans set the current one as 'last'
      */
-    func refreshFilter() {
-        // Copy every element of the article list to the filtered article list and sort them
-        sortArticlesByDate()
-        
-        // Reapply filter
-        switch stored_filter_option {
+    func toggleFilter() {
+        setFilter(last_filter_option)
+    }
+    
+    /**
+     Method to apply the given filter option
+     */
+    private func applyFilter(_ filter_option: FilterSetting) {
+        switch filter_option {
         case .All:
             print("Applying filter 'All'")
             applyFilterAll()
@@ -364,6 +357,17 @@ final class Model: ObservableObject {
             print("Applying filter 'Bookmarked'")
             applyFilterBookmarked()
         }
+    }
+    
+    /**
+     Re-applies the filter so that every new feed or other changes are applied. Call this method every time you change something in the settings having something to do withthe article lsit
+     */
+    func refreshFilter() {
+        // Copy every element of the article list to the filtered article list and sort them
+        sortArticlesByDate()
+        
+        // Reapply filter
+        applyFilter(stored_filter_option)
     }
     
     /**
