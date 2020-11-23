@@ -40,6 +40,28 @@ enum FilterSetting {
      Only shows bookamred articles
      */
     case Bookmarked
+    
+    /**
+     Custom comparator function. Ignores the arguments while comparing.
+     */
+    static func ==(lhs: FilterSetting, rhs: FilterSetting) -> Bool {
+        switch (lhs, rhs) {
+        case (.All, .All):
+            return true
+        case (.Collection(_), .Collection(_)):
+            return true
+        case (.Feed(_), .Feed(_)):
+            return true
+        case (.FeedProvider(_), .FeedProvider(_)):
+            return true
+        case (.SearchPhrase(_), .SearchPhrase(_)):
+            return true
+        case (.Bookmarked, .Bookmarked):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 /**
@@ -299,7 +321,14 @@ final class Model: ObservableObject {
      Sets the selected filter option
      */
     private func setFilter(_ filter_option: FilterSetting) {
-        last_filter_option = stored_filter_option
+        // Do not save as 'new filter option' when its just another search phrase
+        if !(filter_option == .SearchPhrase("") && last_filter_option == .SearchPhrase("")) {
+            
+            // Save present filter option as 'last'
+            last_filter_option = stored_filter_option
+        }
+        
+        // Set new filter option
         stored_filter_option = filter_option
     }
     
