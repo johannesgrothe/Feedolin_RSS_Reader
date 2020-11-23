@@ -73,7 +73,7 @@ final class Model: ObservableObject {
      Default constructor
      */
     init() {
-        self.article_data = []
+        self.stored_article_data = []
         self.feed_data = []
         self.filter_keywords = []
         self.filtered_article_data = []
@@ -91,28 +91,43 @@ final class Model: ObservableObject {
      - Parameter article_data: Some data to fill up the article list
      */
     init(article_data: [ArticleData]) {
-        self.article_data = article_data
+        self.stored_article_data = article_data
         self.feed_data = []
         self.filter_keywords = []
         self .filtered_article_data = []
         self.collection_data = []
     }
     
-    // Storage for all the articles
-    @Published var article_data: [ArticleData]
+    /**
+     Storage for all the articles
+     */
+    @Published var stored_article_data: [ArticleData]
     
-    // Storage for all the feeds
+    /**
+     Storage for all filtered artices that should be displayed in the main view
+     */
+    @Published var filtered_article_data: [ArticleData]
+    
+    /**
+     Storage for all of the feeds
+     */
     @Published var feed_data: [NewsFeedProvider]
     
-    // Storage for all the filter keywords
+    /**
+     Storage for all of the filter keywords
+     */
     @Published var filter_keywords: [FilterKeyword]
     
-    // Storage for all filtered articles
-    @Published var filtered_article_data: [ArticleData]
-    // Storage for all the filter keywords
+    /**
+     Storage for all of the collection data
+     */
     @Published var collection_data: [Collection]
     
-    // Model Singleton
+    /**
+     Singleton for the Model.
+     
+     Use '@ObservedObject var model: Model = .shared' to access model in views.
+     */
     static let shared = Model()
     
     /**
@@ -121,7 +136,7 @@ final class Model: ObservableObject {
      - Returns: Whether adding the article was successful
      */
     private func addArticle(_ article: ArticleData) -> Bool {
-        for list_article in article_data {
+        for list_article in stored_article_data {
             // Check if article exists
             if list_article.article_id == article.article_id {
                 print("id \(list_article.article_id) already in use")
@@ -132,7 +147,7 @@ final class Model: ObservableObject {
                 return false
             }
         }
-        article_data.append(article)
+        stored_article_data.append(article)
         return true
     }
     
@@ -160,7 +175,7 @@ final class Model: ObservableObject {
      - Returns: A the article data  if one is found, nil otherwiese
      */
     private func getArticle(_ id: String) -> ArticleData? {
-        for article in article_data {
+        for article in stored_article_data {
             if article.article_id == id {
                 return article
             }
@@ -440,7 +455,7 @@ final class Model: ObservableObject {
      */
     private func applyFilterAll() {
         // Fills up the filtered article list
-        filtered_article_data = article_data
+        filtered_article_data = stored_article_data
         
         // Removes every entry that should not be shown in main feed
         filtered_article_data.removeAll{
