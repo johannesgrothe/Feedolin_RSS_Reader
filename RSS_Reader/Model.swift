@@ -11,11 +11,34 @@ import Foundation
  Enum containing every filter option selectable
  */
 enum FilterSetting {
+    /**
+     Shows all Articles that have 'show_in_main' set to true
+     */
     case All
+    
+    /**
+     Shows only articles connected to a feed from the selected collection
+     */
     case Collection(Collection)
+    
+    /**
+     Only shows aretices connected to a child feed of the selected feed provider
+     */
     case FeedProvider(NewsFeedProvider)
+    
+    /**
+     Only shows articles connected to the selected feed
+     */
     case Feed(NewsFeed)
+    
+    /**
+     Only shows articles compliant to the previous filter setting and containing the search phrase in title or description
+     */
     case SearchPhrase(String)
+    
+    /**
+     Only shows bookamred articles
+     */
     case Bookmarked
 }
 
@@ -363,8 +386,8 @@ final class Model: ObservableObject {
      Re-applies the filter so that every new feed or other changes are applied. Call this method every time you change something in the settings having something to do withthe article lsit
      */
     func refreshFilter() {
-        // Copy every element of the article list to the filtered article list
-        filtered_article_data = article_data
+        // Resets the shown article list list
+        filtered_article_data = []
         
         // Reapply filter
         applyFilter(stored_filter_option)
@@ -374,7 +397,7 @@ final class Model: ObservableObject {
     }
     
     /**
-     Sorts @article_data and assigns it to the @filtered_article_data list
+     Sorts  the @filtered_article_data list by date
      */
     private func sortArticlesByDate() {
         filtered_article_data = filtered_article_data.sorted{
@@ -387,6 +410,10 @@ final class Model: ObservableObject {
      Sorts @filtered_article_data by the show_in_main value in feeds and updates the @filtered_article_data list
      */
     private func applyFilterAll() {
+        // Fills up the filtered article list
+        filtered_article_data = article_data
+        
+        // Removes every entry that should not be shown in main feed
         filtered_article_data.removeAll{
             $0.parent_feeds[0].show_in_main == false
         }
