@@ -363,18 +363,21 @@ final class Model: ObservableObject {
      Re-applies the filter so that every new feed or other changes are applied. Call this method every time you change something in the settings having something to do withthe article lsit
      */
     func refreshFilter() {
-        // Copy every element of the article list to the filtered article list and sort them
-        sortArticlesByDate()
+        // Copy every element of the article list to the filtered article list
+        filtered_article_data = article_data
         
         // Reapply filter
         applyFilter(stored_filter_option)
+        
+        // Sort all the filtered articles by date
+        sortArticlesByDate()
     }
     
     /**
      Sorts @article_data and assigns it to the @filtered_article_data list
      */
     private func sortArticlesByDate() {
-        filtered_article_data = article_data.sorted{
+        filtered_article_data = filtered_article_data.sorted{
             $0.pub_date > $1.pub_date
         }
     }
