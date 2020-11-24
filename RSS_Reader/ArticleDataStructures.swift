@@ -11,9 +11,9 @@ import SwiftUI
 /**
  Dataset for used by the model to store article information loaded from the database or fetched from the network
  */
-class ArticleData: Identifiable, ObservableObject {
+class ArticleData: Identifiable, ObservableObject, Codable {
     
-    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [NewsFeed]) {
+    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [UUID]) {
         self.article_id = article_id
         self.title = title
         self.description = description
@@ -30,8 +30,10 @@ class ArticleData: Identifiable, ObservableObject {
         default:
             self.image = nil
         }
+        self.id = UUID.init()
     }
-
+    
+    let id: UUID
     let article_id: String
     let title: String
     let description: String
@@ -40,12 +42,24 @@ class ArticleData: Identifiable, ObservableObject {
     let author: String?
     let image: Image?
     
-    @Published var parent_feeds: [NewsFeed]
-
+    var parent_feeds: [UUID]
+    
+    func getId() -> UUID{
+        return self.id
+    }
+    
+    func getRootParentFeedID() -> UUID{
+        return self.parent_feeds[0]
+    }
+    
+    func getParentFeedsID() -> [UUID]{
+        return self.parent_feeds
+    }
+    
     /**
      Adds all of the passed feeds to the articles parent feed lists
      */
-    func addParentFeeds(_ feeds: [NewsFeed]) {
+    func addParentFeeds(_ feeds: [UUID]) {
         for feed in feeds {
             addParentFeed(feed)
         }
@@ -54,7 +68,7 @@ class ArticleData: Identifiable, ObservableObject {
     /**
      Adds feed to parent feed list
      */
-    func addParentFeed(_ feed: NewsFeed) {
+    func addParentFeed(_ feed: UUID) {
         if !hasParentFeed(feed) {
             parent_feeds.append(feed)
         }
@@ -63,9 +77,9 @@ class ArticleData: Identifiable, ObservableObject {
     /**
      Checks whether the passed parent feed is a parent of the article
      */
-    func hasParentFeed(_ feed: NewsFeed) -> Bool {
+    func hasParentFeed(_ feed: UUID) -> Bool {
         for list_feed in parent_feeds {
-            if feed.url == list_feed.url && feed.parent_feed.url == list_feed.parent_feed.url {
+            if feed == list_feed {
                 return true
             }
         }
@@ -76,7 +90,6 @@ class ArticleData: Identifiable, ObservableObject {
      Function that returns a Date-/Timestamp as a String
      */
     func date_to_string() -> String{
-
         let date_formatter = DateFormatter()
         date_formatter.dateFormat = "dd-MM-yyyy HH:mm"
         return date_formatter.string(from: pub_date)

@@ -11,19 +11,20 @@ import Combine
 /**
  Class that represents a news feed provider
  */
-class NewsFeedProvider: Identifiable, ObservableObject {
+class NewsFeedProvider: Identifiable, ObservableObject, Codable {
 
     init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
         self.token = token
         self.feeds = feeds
-        
+        self.id = UUID.init()
+
         /**
          Google-API for getting an icon for the url
          */
         self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: "newspaper")
-        
+
         /**
           the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
           This way, the NewsFeedProvider is changing as soon as the image is changing, updating
@@ -63,6 +64,20 @@ class NewsFeedProvider: Identifiable, ObservableObject {
         return nil
     }
     
+    func getFeedById(id: UUID) -> NewsFeed? {
+        for feed in feeds {
+            if feed.id == id {
+                return feed
+            }
+        }
+        return nil
+    }
+
+    func getId() -> UUID {
+        return self.id
+    }
+
+    let id: UUID
     /**
      URL of the feed proider website 'www.nzz.ch'
      # Example
@@ -84,7 +99,7 @@ class NewsFeedProvider: Identifiable, ObservableObject {
      Indicator to auto-refresh Views when Icon is changed
      */
     private var icon_loaded_indicator: AnyCancellable? = nil
-    
+
     /**
      Icon of the Feed provider
      */
@@ -99,7 +114,7 @@ class NewsFeedProvider: Identifiable, ObservableObject {
 /**
  Class that represents a newsfeed
  */
-class NewsFeed: Identifiable, ObservableObject {
+class NewsFeed: Identifiable, ObservableObject, Codable {
     
     init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
         self.url = url
@@ -109,8 +124,10 @@ class NewsFeed: Identifiable, ObservableObject {
         self.parent_feed = parent_feed
         
         self.image = image
+        self.id = UUID.init()
     }
     
+    let id: UUID
     /**
      URL of the feed
      # Example
@@ -145,9 +162,16 @@ class NewsFeed: Identifiable, ObservableObject {
 }
 
 /**
+ Icon for an feed provider
+ */
+struct NewsFeedIcon: Codable {
+    let url: String
+}
+
+/**
  Title-image for an feed
  */
-struct FeedTitleImage {
+struct FeedTitleImage: Codable {
     let url: String
     let title: String?
 }

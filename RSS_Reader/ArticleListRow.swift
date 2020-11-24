@@ -30,6 +30,20 @@ struct ArticleListRow: View {
                 VStack(alignment: .leading, spacing: 8.0){
                     
                     Text(article.title)
+                        .font(.title2)
+                        .lineLimit(1)
+                    HStack{
+                        
+                        if article.parent_feeds.isEmpty {
+                            Text("Saved")
+                                .font(.caption2)
+                        } else {
+                            let parent_feed = Model.shared.getParentFeedByFeedId(feed_id: article.parent_feeds[0])
+                            Text("\(parent_feed!.getFeedById(id: article.parent_feeds[0])!.name) - \(parent_feed!.token)")
+                                .font(.caption2)
+                                .lineLimit(2)
+                        }
+                        Text(article.date_to_string())
                         .font(.subheadline)
                         .bold()
                         .lineLimit(4)

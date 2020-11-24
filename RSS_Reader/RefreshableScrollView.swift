@@ -64,7 +64,7 @@ struct RefreshableScrollView: UIViewRepresentable {
         
         @objc func handleRefreshControl(sender: UIRefreshControl) {
             sender.endRefreshing()
-            model.fetchFeeds() 
+            model.fetchFeeds()
         }
     }
 

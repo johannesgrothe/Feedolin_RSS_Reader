@@ -15,32 +15,32 @@ enum FilterSetting {
      Shows all Articles that have 'show_in_main' set to true
      */
     case All
-    
+
     /**
      Shows only articles connected to a feed from the selected collection
      */
     case Collection(Collection)
-    
+
     /**
      Only shows aretices connected to a child feed of the selected feed provider
      */
     case FeedProvider(NewsFeedProvider)
-    
+
     /**
      Only shows articles connected to the selected feed
      */
     case Feed(NewsFeed)
-    
+
     /**
      Only shows articles compliant to the previous filter setting and containing the search phrase in title or description
      */
     case SearchPhrase(String)
-    
+
     /**
      Only shows bookamred articles
      */
     case Bookmarked
-    
+
     /**
      Custom comparator function. Ignores the arguments while comparing.
      */
@@ -107,7 +107,7 @@ final class Model: ObservableObject {
      Storage for all filtered artices that should be displayed in the main view
      */
     @Published var filtered_article_data: [ArticleData]
-    
+
     /**
      Storage for all of the feeds
      */
@@ -125,7 +125,7 @@ final class Model: ObservableObject {
     
     /**
      Singleton for the Model.
-     
+
      Use '@ObservedObject var model: Model = .shared' to access model in views.
      */
     static let shared = Model()
@@ -159,7 +159,7 @@ final class Model: ObservableObject {
     private func addArticles(_ articles: [ArticleData]) -> Int {
         // Counter for the added articles
         var added_articles = 0
-        
+
         // Add all the articles
         for article in articles {
             if addArticle(article) {
@@ -168,7 +168,7 @@ final class Model: ObservableObject {
         }
         return added_articles
     }
-    
+
     /**
      Returns the article for the given id
      - Parameter id: The id of the article that is wanted
@@ -182,7 +182,7 @@ final class Model: ObservableObject {
         }
         return nil
     }
-    
+
     /**
      Adds new feed to the model
      - Parameter url: The URL of the feed thats supposed to be added
@@ -229,7 +229,7 @@ final class Model: ObservableObject {
                 
                 // Fetch new articles from this and every other feed
                 fetchFeeds()
-                
+
                 return true
                 
             } else {
@@ -240,7 +240,7 @@ final class Model: ObservableObject {
         }
         return false
     }
-    
+
     /**
      Gets the NewsFeedProvider for the given url
      # Example
@@ -301,27 +301,27 @@ final class Model: ObservableObject {
             }
         }
         print("New articles fetched: \(added_feeds)")
-        
+
         // Refresh viewed articles if any new artices were fetched
         if added_feeds != 0 {
             refreshFilter()
         }
     }
-    
+
     ///
     /// BEGIN OF THE FILTERING
     ///
-    
+
     /**
      Stores the currently active filter option
      */
     private var stored_filter_option: FilterSetting = .All
-    
+
     /**
      Stores the last selected filter option to got back if necessary
      */
     private var last_filter_option: FilterSetting = .All
-    
+
     /**
      The currently selected filter option
      */
@@ -331,36 +331,36 @@ final class Model: ObservableObject {
             return stored_filter_option
         }
     }
-    
+
     /**
      Sets the selected filter option
      */
     private func setFilter(_ filter_option: FilterSetting) {
         // Do not save as 'new filter option' when its just another search phrase
         if !(filter_option == .SearchPhrase("") && last_filter_option == .SearchPhrase("")) {
-            
+
             // Save present filter option as 'last'
             last_filter_option = stored_filter_option
         }
-        
+
         // Set new filter option
         stored_filter_option = filter_option
     }
-    
+
     /**
      Sets the filter to 'All'. Every feed, that has the 'show in main feed'-flag set will be shown.
      */
     func setFilterAll() {
         setFilter(.All)
     }
-    
+
     /**
      Sets the filter to 'Collection'. Every feed inside of the selected collection will be shown.
      */
     func setFilterCollection(_ collection: Collection) {
         setFilter(.Collection(collection))
     }
-    
+
     /**
      Sets the filter to 'Feed Provider'. Every feed, provided by the selected feed provider will be shown.
      - Parameter feed_provider:  The feed provider which articles shall be shown
@@ -368,7 +368,7 @@ final class Model: ObservableObject {
     func setFilterFeedProvider(_ feed_provider: NewsFeedProvider) {
         setFilter(.FeedProvider(feed_provider))
     }
-    
+
     /**
      Sets the filter to 'Feed'. Only the selected feed will be shown.
      - Parameter feed: NewsFeed that should be displayed
@@ -376,7 +376,7 @@ final class Model: ObservableObject {
     func setFilterFeed(_ feed: NewsFeed) {
         setFilter(.Feed(feed))
     }
-    
+
     /**
      Sets the filter to 'SearchPhrase'. All artices will be shown if title or description contain the filter phrase.
      This method differs from the other filters in that it is applied ON TOP of the current filter.
@@ -385,21 +385,21 @@ final class Model: ObservableObject {
     func setFilterSearchPhrase(_ search_phrase: String) {
         setFilter(.SearchPhrase(search_phrase))
     }
-    
+
     /**
      Sets the filter to 'Boommarked'. Only articles bookmarked will be shown.
      */
     func setFilterBookmarked() {
         setFilter(.Bookmarked)
     }
-    
+
     /**
      Switch back to the last filter option ans set the current one as 'last'
      */
     func toggleFilter() {
         setFilter(last_filter_option)
     }
-    
+
     /**
      Method to apply the given filter option
      */
@@ -425,21 +425,21 @@ final class Model: ObservableObject {
             applyFilterBookmarked()
         }
     }
-    
+
     /**
      Re-applies the filter so that every new feed or other changes are applied. Call this method every time you change something in the settings having something to do withthe article lsit
      */
     func refreshFilter() {
         // Resets the shown article list list
         filtered_article_data = []
-        
+
         // Reapply filter
         applyFilter(stored_filter_option)
-        
+
         // Sort all the filtered articles by date
         sortArticlesByDate()
     }
-    
+
     /**
      Sorts  the @filtered_article_data list by date
      */
@@ -448,7 +448,7 @@ final class Model: ObservableObject {
             $0.pub_date > $1.pub_date
         }
     }
-    
+
     /**
      (Re)applies the 'All' filter.
      Sorts @filtered_article_data by the show_in_main value in feeds and updates the @filtered_article_data list
@@ -456,48 +456,89 @@ final class Model: ObservableObject {
     private func applyFilterAll() {
         // Fills up the filtered article list
         filtered_article_data = stored_article_data
-        
+
         // Removes every entry that should not be shown in main feed
         filtered_article_data.removeAll{
             $0.parent_feeds[0].show_in_main == false
         }
     }
-    
+
     /**
      (Re)applies the collection filter
      */
     private func applyFilterCollection() {
         // TODO: implement
     }
-    
+
     /**
      (Re)applies the feed provider filter
      */
     private func applyFilterFeedProvider() {
         // TODO: implement
     }
-    
+
     /**
      (Re)applies the feed filter
      */
     private func applyFilterFeed() {
         // TODO: implement
     }
-    
+
+
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+
+    func writeObjectStringToJsonFile(json_string: String, file_name: String){
+        let filename = getDocumentsDirectory().appendingPathComponent("\(file_name).json")
+        do {
+            print(filename)
+            try json_string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            print("failed to write file")
+        }
+    }
+
+    func save(){
+        let json_encoder = JSONEncoder()
+        for feed_provider in feed_provider_data{
+            let json_data = try! json_encoder.encode(feed_provider)
+            let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+            writeObjectStringToJsonFile(json_string: json_string, file_name:feed_provider.name)
+        }
+
+        for article in article_data{
+            let json_data = try! json_encoder.encode(article)
+            let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+            writeObjectStringToJsonFile(json_string: json_string, file_name: article.title)
+        }
+
+    }
+
+    func getParentFeedByFeedId(feed_id: UUID) -> NewsFeedProvider?{
+        for feed_provider in feed_provider_data{
+            if feed_provider.getFeedById(id: feed_id) != nil{
+                return feed_provider
+            }
+        }
+        return nil
+    }
+
     /**
      (Re)applies the searchphrase filter
      */
     private func applyFilterSearchPhrase() {
         // TODO: implement
     }
-    
+
     /**
      (Re)applies the bookmarks filter
      */
     private func applyFilterBookmarked() {
         // TODO: implement
     }
-    
+
     ///
     /// END OF THE FILTERING
     ///
