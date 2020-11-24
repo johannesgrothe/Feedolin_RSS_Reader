@@ -70,4 +70,14 @@ class ArticleData: Identifiable, ObservableObject {
         date_formatter.dateFormat = "dd-MM-yyyy HH:mm"
         return date_formatter.string(from: pub_date)
     }
+    
+    /**
+     Function that returns the timeAgoDate frim Date() as a String
+     */
+    func time_ago_date_to_string() -> String {
+        
+        let date_formatter = RelativeDateTimeFormatter()
+        date_formatter.unitsStyle = .short
+        return date_formatter.localizedString(for: pub_date, relativeTo: Date())
+    }
 }
