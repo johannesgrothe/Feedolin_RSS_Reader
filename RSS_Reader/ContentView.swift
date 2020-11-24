@@ -61,6 +61,7 @@ struct ContentView: View {
                              menuClose: self.openMenu)
             }
         }
+        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
     }
 
     func openMenu() {
@@ -84,6 +85,6 @@ extension UINavigationController{
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(menuOpen: false, model: preview_model)
     }
 }

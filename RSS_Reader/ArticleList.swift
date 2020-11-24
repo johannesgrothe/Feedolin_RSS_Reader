@@ -16,14 +16,15 @@ struct ArticleList: View {
     
     var body: some View {
         List {
-            ForEach(model.filtered_article_data){ article in
+            //for preview the not filtered article_data ; model.filtered_article_data
+            ForEach(model.article_data){ article in
                 ArticleListRow(article: article, image: Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f"))
-                    .padding(.all, 10)
-                    .background(Color(UIColor(named: "ArticleColor")!))
-                    .cornerRadius(10)
+                    
             }
             .listRowBackground(Color.clear)
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .listStyle(DefaultListStyle())
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear

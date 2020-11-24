@@ -17,37 +17,49 @@ struct ArticleListRow: View {
     
     var body: some View {
         NavigationLink(destination: ArticleView(article: article)){
+            // VStack with text to the left and image to the right
             HStack {
-                
-                VStack(alignment: .leading){
+                // article.title on top following by HStack and article.description
+                VStack(alignment: .leading, spacing: 8.0){
                     
                     Text(article.title)
-                        .font(.title2)
-                        .lineLimit(1)
-                    HStack{
-                        
-                        if article.parent_feeds.isEmpty {
-                            Text("Saved")
-                                .font(.caption2)
-                        } else {
-                            Text("\(article.parent_feeds[0].parent_feed.token) - \(article.parent_feeds[0].name)")
-                                .font(.caption2)
-                                .lineLimit(2)
-                        }
+                        .font(.subheadline)
+                        .bold()
+                        .lineLimit(4)
+                        .layoutPriority(1)
+                    // parent_feed indicators to the left than seperator and pubdate to the right
+                    HStack {
+                        Text("\(article.parent_feeds[0].parent_feed.token) - \(article.parent_feeds[0].name)")
+                            .font(.caption2)
+                            .lineLimit(1)
+                        Text("|").font(.caption2)
                         Text(article.date_to_string())
                             .font(.caption2)
+                            .italic()
+                            .lineLimit(1)
+                        
                     }
+                    
                     Text(article.description)
-                        .font(.subheadline)
+                        .font(.caption)
+                        .lineLimit(4)
                 }
-                .frame(minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 115, maxHeight: 115)
+                
                 Spacer()
+                
                 //Image(article.image)
                 image
                     .resizable()
-                    .frame(width: 130, height: 115)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
+                
             }
         }
+        .frame(minHeight: 120, maxHeight: 200)
+        .padding(.all, 10.0)
+        .background(Color(UIColor(named: "ArticleColor")!))
+        .cornerRadius(10)
+        
     }
     
     struct ArticleListRow_Previews: PreviewProvider {
