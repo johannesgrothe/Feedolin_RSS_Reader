@@ -22,7 +22,7 @@ The whole project will realized as an Xcode project, with optimizations for each
   
   We are currently not quite happy with our rss readers, so we want to build a better one and use it ourself.
 
-### Software to be used:
+### Software to be used
 
 Xcode (Main IDE): [‎Xcode on the Mac App Store](https://apps.apple.com/us/app/xcode/id497799835)
 
@@ -30,18 +30,31 @@ draw.io (UML & sequence diagrams): [Releases · jgraph/drawio-desktop · GitHub]
 
 Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 
-### Git Flow:
+### Git Flow
+
+#### Git Hooks
+
+We are using git hooks to enforce the propper naming of branches and commit messages.
+
+To activate them, open the repository source folder in a terminal and execute:
+`git config core.hooksPath .githooks` 
+
+If that does not work, update your git version to at least 2.9.
+
+#### Git-Flow Diagram
+
+
 
 ![](documentation/git_flow.svg)
 
-### UML:
+### UML
 
 ![](documentation/uml.svg)
 
-### Wireframes:
+### Wireframes
 
 ![](documentation/wireframes.svg)
 
-### Glossary:
+### Glossary
 
 read glossary [here](documentation/glossary.md)

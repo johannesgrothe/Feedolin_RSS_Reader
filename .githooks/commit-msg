@@ -1,0 +1,3 @@
+#!/bin/sh
+branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+python .githooks/commit-msg.py $1 $branch
