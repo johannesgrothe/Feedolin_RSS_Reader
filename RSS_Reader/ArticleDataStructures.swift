@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /**
  Dataset for used by the model to store article information loaded from the database or fetched from the network
@@ -20,6 +21,15 @@ class ArticleData: Identifiable, ObservableObject {
         self.pub_date = pub_date
         self.author = author
         self.parent_feeds = parent_feeds
+        
+        switch Int.random(in: ClosedRange<Int>(uncheckedBounds: (0,3))) {
+        case 0:
+            image = Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
+        case 1:
+            image = Image("c9f82579-efeb-4ed5-bf07-e10edafc3a4d")
+        default:
+            image = nil
+        }
     }
 
     let article_id: String
@@ -28,6 +38,7 @@ class ArticleData: Identifiable, ObservableObject {
     let link: String
     let pub_date: Date
     let author: String?
+    let image: Image?
     
     @Published var parent_feeds: [NewsFeed]
 

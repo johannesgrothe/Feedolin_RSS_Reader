@@ -18,8 +18,7 @@ struct ArticleList: View {
         List {
             //for preview the not filtered article_data ; model.filtered_article_data
             ForEach(model.article_data){ article in
-                ArticleListRow(article: article, image: Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f"))
-                    
+                ArticleListRow(article: article)
             }
             .listRowBackground(Color.clear)
         }
