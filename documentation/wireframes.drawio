@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2020-11-26T13:35:03.911Z" agent="5.0 (Macintosh; Intel Mac OS X 10_16_0) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/13.9.9 Chrome/85.0.4183.121 Electron/10.1.5 Safari/537.36" etag="QQU7_yArvYbYY0YtOI16" compressed="false" version="13.9.9" type="device">
+<mxfile host="Electron" modified="2020-11-26T13:58:44.075Z" agent="5.0 (Macintosh; Intel Mac OS X 10_16_0) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/13.9.9 Chrome/85.0.4183.121 Electron/10.1.5 Safari/537.36" etag="h-bUwExZM7AFyhFYgSpy" compressed="false" version="13.9.9" type="device">
   <diagram id="r_diUwGo9RGok3hw4kvb" name="Wireframes">
-    <mxGraphModel dx="6265" dy="5026" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4373" dy="3682" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="N6LhWgBp62tD6HMa2VJL-0" />
         <mxCell id="N6LhWgBp62tD6HMa2VJL-1" parent="N6LhWgBp62tD6HMa2VJL-0" />
@@ -1296,10 +1296,11 @@
         </mxCell>
         <mxCell id="t3Ic-TG8_IldfPgCIFjd-404" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;fontSize=19;fontColor=#000000;" parent="N6LhWgBp62tD6HMa2VJL-1" source="t3Ic-TG8_IldfPgCIFjd-66" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1936" y="-1200" as="targetPoint" />
+            <mxPoint x="1930" y="-1200" as="targetPoint" />
             <Array as="points">
               <mxPoint x="1302" y="-1290" />
-              <mxPoint x="1936" y="-1290" />
+              <mxPoint x="1930" y="-1290" />
+              <mxPoint x="1930" y="-1200" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -1895,6 +1896,24 @@
         </mxCell>
         <mxCell id="orDnvlcrRDZUVHWyzbNt-240" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;fontSize=18;fontColor=#000000;" edge="1" parent="N6LhWgBp62tD6HMa2VJL-1" source="orDnvlcrRDZUVHWyzbNt-238" target="orDnvlcrRDZUVHWyzbNt-155">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="orDnvlcrRDZUVHWyzbNt-244" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;fontSize=18;fontColor=#000000;" edge="1" parent="N6LhWgBp62tD6HMa2VJL-1" source="orDnvlcrRDZUVHWyzbNt-241">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1930" y="-1200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="690" y="-937" />
+              <mxPoint x="690" y="-1290" />
+              <mxPoint x="1930" y="-1290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="orDnvlcrRDZUVHWyzbNt-245" value="Edit App Settings" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=18;fontColor=#000000;" vertex="1" connectable="0" parent="orDnvlcrRDZUVHWyzbNt-244">
+          <mxGeometry x="-0.6278" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="orDnvlcrRDZUVHWyzbNt-241" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.settings;" vertex="1" parent="N6LhWgBp62tD6HMa2VJL-1">
+          <mxGeometry x="521.9599999999999" y="-952.16" width="30" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
