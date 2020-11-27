@@ -77,6 +77,13 @@ struct CollectionDetailSettingsView: View {
      */
     @ObservedObject var collection: Collection
     
+    /**
+    Model Singleton
+     */
+    @ObservedObject var model: Model = .shared
+    
+    @State private var show_add_feed_view = false
+    
     var body: some View {
         List {
             ForEach(collection.feed_list) { feed in
@@ -96,6 +103,7 @@ struct CollectionDetailSettingsView: View {
                 Menu {
                     Button(action: {
                         print("Add Feed to Collection Button clicked.")
+                        self.show_add_feed_view.toggle()
                     }) {
                         Label("Add Feed", systemImage: "plus")
                     }
@@ -110,8 +118,73 @@ struct CollectionDetailSettingsView: View {
                     Label("Edit", systemImage: "square.and.pencil").imageScale(.large)
                 }
             }
+        }.sheet(isPresented: self.$show_add_feed_view) {
+            AddFeedsToCollectionView(collection: collection)
         }
     }
+}
+
+/**
+ The View that displayes a List of all feeds from the model that are not in the collection yet.
+ _Parameter collection:_ The collection to which one or more feeds should be added
+ */
+struct AddFeedsToCollectionView: View {
+    @State private var text = ""
+    @State private var loading = false
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    @ObservedObject var model: Model = .shared
+    
+    @ObservedObject var collection: Collection
+    
+    var body: some View {
+        ZStack {
+            List {
+                ForEach(getFeedsNotInCollection()) { feed in
+                    Text(feed.name).font(.headline)
+                }
+            .listRowBackground(Color.clear)
+                
+//            VStack {
+//                Text("Add Feed").padding(.top, 10)
+
+//                Button("Add Feed") {
+//                    loading = true
+//                    let _ = model.addFeed(url: text)
+//                    loading = false
+//                    self.presentationMode.wrappedValue.dismiss()
+//                }
+//                .padding()
+//                .cornerRadius(8)
+//                .accentColor(Color(UIColor(named: "ButtonColor")!))
+//                Spacer()
+            }.disabled(self.loading)
+            .blur(radius: self.loading ? 3 : 0)
+            .background(Color(UIColor(named: "BackgroundColor")!))
+            .edgesIgnoringSafeArea(.bottom)
+            VStack {
+                Text("Loading...")
+                ProgressView()
+            }.disabled(self.loading)
+            .opacity(self.loading ? 1 : 0)
+        }
+        
+    }
+    
+    /**
+     Returns a list of all feeds from the model which are not in this collection yet.
+     _return:_ List of NewsFeedProvider that are not in this collection
+     */
+    func getFeedsNotInCollection() -> [NewsFeedProvider] {
+
+        let feed_list = model.feed_data
+        let coll_feed_list = collection.feed_list
+        
+        print( feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) }) )
+        return feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) })
+    }
+    
 }
 
 /**
