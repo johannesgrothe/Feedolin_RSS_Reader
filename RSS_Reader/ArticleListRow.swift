@@ -15,7 +15,15 @@ struct ArticleListRow: View {
     var article: ArticleData
     
     var body: some View {
-        NavigationLink(destination: ArticleView(article: article)){
+        // undelaying navigation link and on top the content in HStack
+        ZStack {
+            // hacky way to hide the navigation link arrow
+            NavigationLink(destination: ArticleView(article: article)){
+               EmptyView()
+            }
+            .opacity(0)
+            .buttonStyle(PlainButtonStyle())
+            
             // VStack with text to the left and image to the right
             HStack {
                 // article.title on top following by HStack and article.description
@@ -53,11 +61,11 @@ struct ArticleListRow: View {
                     .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
                 
             }
+            .frame(minHeight: 120, maxHeight: 200)
+            .padding(.all, 10.0)
+            .background(Color(UIColor(named: "ArticleColor")!))
+            .cornerRadius(10)
         }
-        .frame(minHeight: 120, maxHeight: 200)
-        .padding(.all, 10.0)
-        .background(Color(UIColor(named: "ArticleColor")!))
-        .cornerRadius(10)
         
     }
     
