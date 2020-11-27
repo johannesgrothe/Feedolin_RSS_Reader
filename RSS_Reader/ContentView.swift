@@ -53,7 +53,8 @@ struct ContentView: View {
                         )
                         .background(Color(UIColor(named: "BackgroundColor")!))
                         .edgesIgnoringSafeArea(.bottom)
-                }.gesture(drag)
+                        .gesture(drag)
+                }
                 .accentColor(Color(UIColor(named: "ButtonColor")!))
                 
                 SideMenuView(width: 270,
