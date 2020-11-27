@@ -142,7 +142,7 @@ final class Model: ObservableObject {
      Use '@ObservedObject var model: Model = .shared' to access model in views.
      */
     static let shared = Model()
-    
+
     /**
      Adds an article to the database after checking if it already exists
      - Parameter article: The article thats supposed to be added
@@ -156,7 +156,7 @@ final class Model: ObservableObject {
                 
                 // Add FeedProviders of the article that was supposed to be added to the existing article
                 list_article.addParentFeeds(article.parent_feeds)
-                
+
                 return false
             }
         }
@@ -220,7 +220,7 @@ final class Model: ObservableObject {
                 
                 // Create parent feed if it doesnt already exist and add it to model
                 if parent_feed == nil {
-                    parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
+                    parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon: NewsFeedIcon(url: ""), feeds: [])
                     self.feed_data.append(parent_feed!)
                 }
                 
@@ -497,7 +497,6 @@ final class Model: ObservableObject {
         // TODO: implement
     }
 
-
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let path = paths[0].appendingPathComponent("\(directory_name)")
@@ -533,7 +532,7 @@ final class Model: ObservableObject {
 
         switch path.pathComponents[path.pathComponents.count-1] {
         case "FeedProviders":
-            for feed_provider in feed_provider_data{
+            for feed_provider in feed_data{
                 let json_data = try! json_encoder.encode(feed_provider)
                 let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
                 writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: feed_provider.id.uuidString)
@@ -578,7 +577,7 @@ final class Model: ObservableObject {
                     for feed in object.feeds{
                         feed.parent_feed = object
                     }
-                    feed_provider_data.append(object)
+                    feed_data.append(object)
                 case "Articles":
                     let object = try! decoder.decode(ArticleData.self, from: json_data)
                     for feed_id in object.parent_feeds_ids{
@@ -602,7 +601,7 @@ final class Model: ObservableObject {
     }
 
     func getFeedProviderByFeedId(feed_id: UUID) -> NewsFeedProvider?{
-        for feed_provider in feed_provider_data{
+        for feed_provider in feed_data{
             if feed_provider.getFeedById(id: feed_id) != nil{
                 return feed_provider
             }
@@ -628,8 +627,9 @@ final class Model: ObservableObject {
     /// END OF THE FILTERING
     ///
 
+
     func getFeedProviderById(feed_provider_id: UUID) -> NewsFeedProvider?{
-        for feed_provider in feed_provider_data{
+        for feed_provider in feed_data{
             if feed_provider_id == feed_provider.id{
                 return feed_provider
             }
@@ -638,7 +638,7 @@ final class Model: ObservableObject {
     }
 
     func getFeedById(feed_id: UUID) -> NewsFeed?{
-        for feed_provider in feed_provider_data{
+        for feed_provider in feed_data{
             for feed in feed_provider.feeds{
                 if feed_id == feed.id{
                     return feed
