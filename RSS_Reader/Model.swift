@@ -113,17 +113,11 @@ final class Model: ObservableObject {
      */
     @Published var feed_data: [NewsFeedProvider]
 
-    // Storage for all the filter keywords
-
     /**
      Storage for all of the filter keywords
      */
     @Published var filter_keywords: [FilterKeyword]
-    
-    // Storage for all filtered articles
-    @Published var filtered_article_data: [ArticleData]
 
-    // Storage for all the filter keywords
     /**
      Storage for all of the collection data
      */
@@ -138,7 +132,6 @@ final class Model: ObservableObject {
     /**Path property to the directory where all the Collection json's are saved*/
     let collections_path = getPathURL(directory_name: "Collections")
 
-    // Model Singleton
     /**
      Singleton for the Model.
 
@@ -499,6 +492,24 @@ final class Model: ObservableObject {
     private func applyFilterFeed() {
         // TODO: implement
     }
+
+    /**
+     (Re)applies the searchphrase filter
+     */
+    private func applyFilterSearchPhrase() {
+        // TODO: implement
+    }
+
+    /**
+     (Re)applies the bookmarks filter
+     */
+    private func applyFilterBookmarked() {
+        // TODO: implement
+    }
+
+    ///
+    /// END OF THE FILTERING
+    ///
     
     /**Generates a path to the IOS app storage of this app and generates for all DataStructers an own direcotry where the instance of the objects can be saved as json data.
      ( A path where you can read and write your app's files there without worrying about colliding with other apps).
@@ -547,7 +558,7 @@ final class Model: ObservableObject {
                 writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: feed_provider.id.uuidString)
             }
         case "Articles":
-            for article in article_data{
+            for article in stored_article_data{
                 let json_data = try! json_encoder.encode(article)
                 let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
                 writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: article.id.uuidString)
@@ -594,7 +605,7 @@ final class Model: ObservableObject {
                     for feed_id in object.parent_feeds_ids{
                         object.parent_feeds.append(getFeedById(feed_id: feed_id)!)
                     }
-                    article_data.append(object)
+                    stored_article_data.append(object)
                 case "Collections":
                     let object = try! decoder.decode(Collection.self, from: json_data)
                     for feed_id in object.feed_id_list{
@@ -612,44 +623,6 @@ final class Model: ObservableObject {
     }
 
     /**Returns a Instance of NewsFeed by the NewsFeed's id*/
-
-    func getFeedProviderByFeedId(feed_id: UUID) -> NewsFeedProvider?{
-        for feed_provider in feed_data{
-            if feed_provider.getFeedById(id: feed_id) != nil{
-                return feed_provider
-            }
-        }
-        return nil
-    }
-
-    /**
-     (Re)applies the searchphrase filter
-     */
-    private func applyFilterSearchPhrase() {
-        // TODO: implement
-    }
-
-    /**
-     (Re)applies the bookmarks filter
-     */
-    private func applyFilterBookmarked() {
-        // TODO: implement
-    }
-
-    ///
-    /// END OF THE FILTERING
-    ///
-
-
-    func getFeedProviderById(feed_provider_id: UUID) -> NewsFeedProvider?{
-        for feed_provider in feed_data{
-            if feed_provider_id == feed_provider.id{
-                return feed_provider
-            }
-        }
-        return nil
-    }
-
     func getFeedById(feed_id: UUID) -> NewsFeed?{
         for feed_provider in feed_data{
             for feed in feed_provider.feeds{

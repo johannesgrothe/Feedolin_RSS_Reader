@@ -19,7 +19,7 @@ struct RSS_ReaderApp: App {
     
     init(){
         model.loadData()
-        model.sortArticlesByShowInMain()
+        model.refreshFilter()
     }
     
     var body: some Scene {
