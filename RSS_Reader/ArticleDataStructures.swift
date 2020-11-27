@@ -24,11 +24,11 @@ class ArticleData: Identifiable, ObservableObject {
         
         switch Int.random(in: ClosedRange<Int>(uncheckedBounds: (0,3))) {
         case 0:
-            image = Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
+            self.image = Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
         case 1:
-            image = Image("c9f82579-efeb-4ed5-bf07-e10edafc3a4d")
+            self.image = Image("c9f82579-efeb-4ed5-bf07-e10edafc3a4d")
         default:
-            image = nil
+            self.image = nil
         }
     }
 
