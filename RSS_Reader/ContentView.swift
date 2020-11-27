@@ -27,7 +27,7 @@ struct ContentView: View {
                             }
                         }
                     }
-        
+        //  underlaying NavigationView and overlaying SideMenu
         ZStack {
 
             GeometryReader{
@@ -54,6 +54,7 @@ struct ContentView: View {
                         .background(Color(UIColor(named: "BackgroundColor")!))
                         .edgesIgnoringSafeArea(.bottom)
                         .gesture(drag)
+                        
                 }
                 .accentColor(Color(UIColor(named: "ButtonColor")!))
                 
@@ -61,8 +62,10 @@ struct ContentView: View {
                              isOpen: self.menuOpen,
                              menuClose: self.openMenu)
             }
+            
         }
-        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
+        
+        .edgesIgnoringSafeArea(.bottom)
     }
 
     func openMenu() {

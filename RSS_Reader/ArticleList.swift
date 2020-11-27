@@ -16,14 +16,14 @@ struct ArticleList: View {
     
     var body: some View {
         List {
-            //for preview the not filtered article_data ; model.filtered_article_data
-            ForEach(model.article_data){ article in
+            // for preview  model.article_data and not model.filtered_article_data
+            ForEach(model.filtered_article_data){ article in
                 ArticleListRow(article: article)
             }
             .listRowBackground(Color.clear)
         }
         .edgesIgnoringSafeArea(.bottom)
-        .listStyle(DefaultListStyle())
+        .listStyle(PlainListStyle())
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear

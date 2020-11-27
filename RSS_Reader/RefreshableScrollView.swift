@@ -11,6 +11,7 @@ import SwiftUI
  View that wraps the ArticleList() in a pull down to refresh view.
  */
 struct RefreshableScrollView: UIViewRepresentable {
+    // width and height from the parent view
     var width : CGFloat
     var height : CGFloat
     
@@ -27,17 +28,24 @@ struct RefreshableScrollView: UIViewRepresentable {
         Function that makes the wrapped View to a child_view and put it into the refreshableView
      */
     func makeUIView(context: Context) -> UIScrollView {
-        let control = UIScrollView()
-        control.refreshControl = UIRefreshControl()
-        control.refreshControl?.addTarget(context.coordinator, action:
+        // the UIScrollView who has everything else in its view
+        let view = UIScrollView()
+        view.backgroundColor = .clear
+        view.showsVerticalScrollIndicator = false
+        // added the refresh control
+        view.refreshControl = UIRefreshControl()
+        view.refreshControl?.addTarget(context.coordinator, action:
                                             #selector(Coordinator.handleRefreshControl),
                                           for: .valueChanged)
-        control.backgroundColor = .clear
+        
+        // created childview with the ArticleList()
+        // for preview add ArticleList(model: preview_model)
         let child_view = UIHostingController(rootView: ArticleList())
-        child_view.view.frame = CGRect(x: -20, y: -40, width: width+40, height: height)
+        child_view.view.frame = CGRect(x: 0, y: 0, width: width, height: height)
         child_view.view.backgroundColor = .clear
-        control.addSubview(child_view.view)
-        return control
+        // add child to Scrollview
+        view.addSubview(child_view.view)
+        return view
     }
     
     func updateUIView(_ uiView: UIScrollView, context: Context) {}
@@ -66,7 +74,7 @@ struct RefreshableScrollView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader{
             geometry in
-            RefreshableScrollView(width: geometry.size.width, height: geometry.size.height,model: preview_model)
+            RefreshableScrollView(width: geometry.size.width, height: geometry.size.height, model: preview_model)
         }
     }
 }

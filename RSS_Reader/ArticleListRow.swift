@@ -61,7 +61,7 @@ struct ArticleListRow: View {
                     .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
                 
             }
-            .frame(minHeight: 120, maxHeight: 200)
+            .frame(minHeight: 0, maxHeight: 200)
             .padding(.all, 10.0)
             .background(Color(UIColor(named: "ArticleColor")!))
             .cornerRadius(10)
