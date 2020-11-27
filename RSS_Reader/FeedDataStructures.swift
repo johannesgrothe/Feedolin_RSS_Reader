@@ -35,11 +35,11 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         url = try container.decode(String.self, forKey: .url)
         name = try container.decode(String.self, forKey: .name)
         token = try container.decode(String.self, forKey: .token)
-        icon = try container.decode(NewsFeedIcon.self, forKey: .icon)
+        icon = try container.decode(AsyncImage.self, forKey: .icon)
         feeds = try container.decode([NewsFeed].self, forKey: .feeds)
     }
 
-    init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
+    init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
         self.token = token

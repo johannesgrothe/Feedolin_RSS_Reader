@@ -8,14 +8,32 @@
 import Foundation
 import SwiftUI
 
-class AsyncImage: ObservableObject {
+class AsyncImage: ObservableObject, Codable {
     
+    enum CodingKeys: CodingKey {
+        case url, default_img, stored_img
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(url, forKey: .url)
+        try container.encode(default_img, forKey: .default_img)
+    }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        url = try container.decode(URL?.self, forKey: .url)
+        default_img = try container.decode(String.self, forKey: .default_img)
+    }
+
     init(_ url: String, default_image: String?) {
         self.url = URL(string: url)
         if default_image != nil {
-            self.default_img = Image(systemName: default_image!)
+            self.default_img = default_image!
         } else {
-            self.default_img = Image(systemName: "xmark.octagon")
+            self.default_img = "xmark.octagon"
         }
     }
     
@@ -23,7 +41,7 @@ class AsyncImage: ObservableObject {
     let url: URL?
     
     // Default image to be displayed
-    private let default_img: Image
+    private let default_img: String
     
     private var stored_img: Image?
     
@@ -33,7 +51,7 @@ class AsyncImage: ObservableObject {
                 return stored_img!
             }
             load()
-            return default_img
+            return Image(default_img)
         }
         set(newValue) {
             stored_img = newValue
