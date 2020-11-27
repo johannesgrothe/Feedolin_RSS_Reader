@@ -12,10 +12,16 @@ import SwiftUI
  */
 class Collection: Identifiable, ObservableObject, Codable{
     
+    /**
+     Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value", "name":"value"...
+     */
     enum CodingKeys: CodingKey {
-        case id, name, feed_list, feed_id_list
+        case id, name, feed_id_list
     }
     
+    /**
+     Encode function to serialize a instance of Collection to a json string, writes out all the properties attached to their respective key
+     */
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
@@ -24,6 +30,9 @@ class Collection: Identifiable, ObservableObject, Codable{
         try container.encode(feed_id_list, forKey: .feed_id_list)
     }
     
+    /**
+     Decoding constructor to deserialize the archived json data into a instance of Collection
+     */
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -51,6 +60,7 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.feed_id_list = []
     }
     
+    /**Unique id belong to the instance of a Collection*/
     let id: UUID
     
     /**
@@ -63,5 +73,8 @@ class Collection: Identifiable, ObservableObject, Codable{
      */
     @Published var feed_list: [NewsFeed]
     
+    /**
+     List of the feeds ids belong to the collection
+     */
     var feed_id_list: [UUID]
 }

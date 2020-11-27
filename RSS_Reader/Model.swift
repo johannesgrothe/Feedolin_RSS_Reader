@@ -129,10 +129,13 @@ final class Model: ObservableObject {
      */
     @Published var collection_data: [Collection]
     
+    /**Path property to the directory where all the NewFeedProvider json's are saved*/
     let feed_providers_path = getPathURL(directory_name: "FeedProviders")
 
+    /**Path property to the directory where all the ArticleData json's are saved*/
     let articles_path = getPathURL(directory_name: "Articles")
 
+    /**Path property to the directory where all the Collection json's are saved*/
     let collections_path = getPathURL(directory_name: "Collections")
 
     // Model Singleton
@@ -497,6 +500,9 @@ final class Model: ObservableObject {
         // TODO: implement
     }
     
+    /**Generates a path to the IOS app storage of this app and generates for all DataStructers an own direcotry where the instance of the objects can be saved as json data.
+     ( A path where you can read and write your app's files there without worrying about colliding with other apps).
+     */
     static func getPathURL(directory_name: String) -> URL{
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let path = paths[0].appendingPathComponent("\(directory_name)")
@@ -511,6 +517,7 @@ final class Model: ObservableObject {
         return path
     }
 
+    /**Writes in the given path a json data from a given json_string and names it after the given file_name*/
     func writeObjectStringToJsonFile(path: URL, json_string: String, file_name: String){
         let filename = path.appendingPathComponent("\(file_name).json")
         do {
@@ -520,6 +527,7 @@ final class Model: ObservableObject {
         }
     }
 
+    /** saves all the Instances of our objects in the right order to avoid conflicts */
     func saveData(){
         save(path: feed_providers_path)
         save(path: articles_path)
@@ -527,6 +535,7 @@ final class Model: ObservableObject {
         print("Saving Data")
     }
 
+    /**saves all the Instances of our objects, function knows wich object to save by checking given path*/
     private func save(path: URL){
         let json_encoder = JSONEncoder()
 
@@ -554,6 +563,7 @@ final class Model: ObservableObject {
         }
     }
 
+    /** loades all the Instances of our objects in the right order to avoid conflicts */
     func loadData() {
         load(path: feed_providers_path)
         load(path: articles_path)
@@ -561,6 +571,7 @@ final class Model: ObservableObject {
         print("Loading Data")
     }
 
+    /**loades all the Instances of our objects, function knows wich object to load by checking given path*/
     private func load(path: URL){
         let fileManager = FileManager.default
         let decoder = JSONDecoder()
@@ -599,6 +610,8 @@ final class Model: ObservableObject {
             print("Failed to read Directory")
         }
     }
+
+    /**Returns a Instance of NewsFeed by the NewsFeed's id*/
 
     func getFeedProviderByFeedId(feed_id: UUID) -> NewsFeedProvider?{
         for feed_provider in feed_data{

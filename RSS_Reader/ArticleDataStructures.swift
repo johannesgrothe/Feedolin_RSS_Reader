@@ -13,10 +13,16 @@ import SwiftUI
  */
 class ArticleData: Identifiable, ObservableObject, Codable {
     
+    /**
+     Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"...
+     */
     enum CodingKeys: CodingKey {
-        case id, article_id, title, description, link, pub_date, author, parent_feeds, parent_feeds_ids
+        case id, article_id, title, description, link, pub_date, author, parent_feeds_ids
     }
     
+    /**
+     Encode function to serialize a instance of ArticleData to a json string, writes out all the properties attached to their respective key
+     */
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
@@ -30,6 +36,9 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         try container.encode(parent_feeds_ids, forKey: .parent_feeds_ids)
     }
     
+    /**
+     Decoding constructor to deserialize the archived json data into a instance of ArticleData
+     */
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -65,16 +74,32 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         self.parent_feeds_ids = parent_feeds_ids
     }
     
+    /**Unique id belong to a instance of ArticleData*/
     let id: UUID
+    
+    /**Unique id belong to a instance of ArticleData*/
     let article_id: String
+    
+    /**Title of an article*/
     let title: String
+    
+    /**Description of an article*/
     let description: String
+    
+    /**Link to an article*/
     let link: String
+    
+    /**Published Date of an article*/
     let pub_date: Date
+    
+    /**Author of an article*/
     let author: String?
+    
+    /**List with id's of all the feeds that includes this article*/
     var parent_feeds_ids: [UUID]
     let image: Image?
     
+    /**List instance of NewsFeed of all the feeds that includes this article*/
     @Published var parent_feeds: [NewsFeed]
     
     /**get the Article's first Feed*/

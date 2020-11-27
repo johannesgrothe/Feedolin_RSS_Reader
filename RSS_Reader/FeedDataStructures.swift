@@ -12,14 +12,20 @@ import Combine
  Class that represents a news feed provider
  */
 class NewsFeedProvider: Codable, Identifiable, ObservableObject{
-
+    
+    /**
+     Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"...
+     */
     enum CodingKeys: CodingKey {
         case id, url, name, token, icon, feeds
     }
-
-   func encode(to encoder: Encoder) throws {
+    
+    /**
+     Encode function to serialize a instance of NewsFeedProvider to a json string, writes out all the properties attached to their respective key
+     */
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-
+        
         try container.encode(id, forKey: .id)
         try container.encode(url, forKey: .url)
         try container.encode(name, forKey: .name)
@@ -27,10 +33,13 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         try container.encode(icon, forKey: .icon)
         try container.encode(feeds, forKey: .feeds)
     }
-
+    
+    /**
+     Decoding constructor to deserialize the archived json data into a instance of NewsFeedProvider
+     */
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
+        
         id = try container.decode(UUID.self, forKey: .id)
         url = try container.decode(String.self, forKey: .url)
         name = try container.decode(String.self, forKey: .name)
@@ -38,23 +47,23 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         icon = try container.decode(AsyncImage.self, forKey: .icon)
         feeds = try container.decode([NewsFeed].self, forKey: .feeds)
     }
-
+    
     init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
         self.token = token
         self.feeds = feeds
         self.id = UUID.init()
-
+        
         /**
          Google-API for getting an icon for the url
          */
         self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: "newspaper")
-
+        
         /**
-          the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
-          This way, the NewsFeedProvider is changing as soon as the image is changing, updating
-          every connected view in the process
+         the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
+         This way, the NewsFeedProvider is changing as soon as the image is changing, updating
+         every connected view in the process
          */
         icon_loaded_indicator = icon.objectWillChange.sink { _ in
             self.objectWillChange.send()
@@ -101,12 +110,8 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         }
         return nil
     }
-
-
-    func getId() -> UUID {
-        return self.id
-    }
-
+    
+    /**Unique id belong to a instance of NewsFeedProvider*/
     let id: UUID
     /**
      URL of the feed proider website 'www.nzz.ch'
@@ -129,12 +134,12 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      Indicator to auto-refresh Views when Icon is changed
      */
     private var icon_loaded_indicator: AnyCancellable? = nil
-
+    
     /**
      Icon of the Feed provider
      */
     @Published var icon: AsyncImage
-
+    
     /**
      List of all news feeds
      */
@@ -145,14 +150,20 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
  Class that represents a newsfeed
  */
 class NewsFeed: Codable, Identifiable, ObservableObject {
-
+    
+    /**
+     Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"...
+     */
     enum CodingKeys: CodingKey {
-        case id, url, name, show_in_main, use_filters, provider_id, provider, image
+        case id, url, name, show_in_main, use_filters, provider_id, image
     }
     
+    /**
+     Encode function to serialize a instance of NewsFeed to a json string, writes out all the properties attached to their respective key
+     */
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-
+        
         try container.encode(id, forKey: .id)
         try container.encode(url, forKey: .url)
         try container.encode(name, forKey: .name)
@@ -161,10 +172,13 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         try container.encode(provider_id, forKey: .provider_id)
         try container.encode(image, forKey: .image)
     }
-
+    
+    /**
+     Decoding constructor to deserialize the archived json data into a instance of NewsFeed
+     */
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
+        
         id = try container.decode(UUID.self, forKey: .id)
         url = try container.decode(String.self, forKey: .url)
         name = try container.decode(String.self, forKey: .name)
@@ -174,7 +188,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         image = try container.decode(FeedTitleImage?.self, forKey: .image)
         parent_feed = nil
     }
-
+    
     init(url: String, name: String, show_in_main: Bool, use_filters: Bool, provider_id: UUID, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
         self.url = url
         self.name = name
@@ -213,7 +227,8 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      Parent feed of the news feed
      */
     var parent_feed: NewsFeedProvider?
-
+    
+    /** Unique id to the NewsFeedProvider of a instance of NewsFeed*/
     let provider_id: UUID
     
     /**
@@ -223,38 +238,9 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
 }
 
 /**
- Icon for an feed provider
- */
-struct NewsFeedIcon: Codable {
-    enum CodingKeys: CodingKey{
-        case url
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-
-        try container.encode(url, forKey: .url)
-    }
-
-    let url: String
-}
-
-/**
  Title-image for an feed
  */
 struct FeedTitleImage: Codable {
-
-    enum CodingKeys: CodingKey {
-        case url, title
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-
-        try container.encode(url, forKey: .url)
-        try container.encode(title, forKey: .title)
-    }
-
     let url: String
     let title: String?
 }
