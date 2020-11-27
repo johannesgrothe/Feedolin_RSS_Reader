@@ -112,17 +112,30 @@ final class Model: ObservableObject {
      Storage for all of the feeds
      */
     @Published var feed_data: [NewsFeedProvider]
-    
+
+    // Storage for all the filter keywords
+
     /**
      Storage for all of the filter keywords
      */
     @Published var filter_keywords: [FilterKeyword]
     
+    // Storage for all filtered articles
+    @Published var filtered_article_data: [ArticleData]
+
+    // Storage for all the filter keywords
     /**
      Storage for all of the collection data
      */
     @Published var collection_data: [Collection]
     
+    let feed_providers_path = getPathURL(directory_name: "FeedProviders")
+
+    let articles_path = getPathURL(directory_name: "Articles")
+
+    let collections_path = getPathURL(directory_name: "Collections")
+
+    // Model Singleton
     /**
      Singleton for the Model.
 
@@ -216,7 +229,7 @@ final class Model: ObservableObject {
                 
                 // Create sub-feed if it doesnt altrady exist and add it to parent feed
                 if sub_feed == nil {
-                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!, image: nil)
+                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, provider_id: parent_feed!.id, parent_feed: parent_feed!, image: nil)
                     if !parent_feed!.addFeed(feed: sub_feed!) {
                         // Should NEVER happen
                         print("Something stupid happened while adding '\(lower_url)'")
@@ -487,36 +500,108 @@ final class Model: ObservableObject {
 
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
+        let path = paths[0].appendingPathComponent("\(directory_name)")
+        let path_string = path.path
+        let fileManager = FileManager.default
+
+        do{
+            try fileManager.createDirectory(atPath: path_string, withIntermediateDirectories: true, attributes: nil)
+        } catch   {
+            print("error")
+        }
+        return path
     }
 
-    func writeObjectStringToJsonFile(json_string: String, file_name: String){
-        let filename = getDocumentsDirectory().appendingPathComponent("\(file_name).json")
+    func writeObjectStringToJsonFile(path: URL, json_string: String, file_name: String){
+        let filename = path.appendingPathComponent("\(file_name).json")
         do {
-            print(filename)
             try json_string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
         } catch {
             print("failed to write file")
         }
     }
 
-    func save(){
-        let json_encoder = JSONEncoder()
-        for feed_provider in feed_provider_data{
-            let json_data = try! json_encoder.encode(feed_provider)
-            let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-            writeObjectStringToJsonFile(json_string: json_string, file_name:feed_provider.name)
-        }
-
-        for article in article_data{
-            let json_data = try! json_encoder.encode(article)
-            let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-            writeObjectStringToJsonFile(json_string: json_string, file_name: article.title)
-        }
-
+    func saveData(){
+        save(path: feed_providers_path)
+        save(path: articles_path)
+        save(path: collections_path)
+        print("Saving Data")
     }
 
-    func getParentFeedByFeedId(feed_id: UUID) -> NewsFeedProvider?{
+    private func save(path: URL){
+        let json_encoder = JSONEncoder()
+
+        switch path.pathComponents[path.pathComponents.count-1] {
+        case "FeedProviders":
+            for feed_provider in feed_provider_data{
+                let json_data = try! json_encoder.encode(feed_provider)
+                let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+                writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: feed_provider.id.uuidString)
+            }
+        case "Articles":
+            for article in article_data{
+                let json_data = try! json_encoder.encode(article)
+                let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+                writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: article.id.uuidString)
+            }
+        case "Collections":
+            for collection in collection_data{
+                let json_data = try! json_encoder.encode(collection)
+                let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+                writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: collection.id.uuidString)
+            }
+        default:
+            print("ERROR: Path = \(path.pathComponents[path.pathComponents.count-1]) not supported")
+        }
+    }
+
+    func loadData() {
+        load(path: feed_providers_path)
+        load(path: articles_path)
+        load(path: collections_path)
+        print("Loading Data")
+    }
+
+    private func load(path: URL){
+        let fileManager = FileManager.default
+        let decoder = JSONDecoder()
+
+        do {
+            let items = try fileManager.contentsOfDirectory(atPath: path.path)
+            for item in items{
+                let item_path = "\(path)\(item)"
+                let json_data = try Data(contentsOf: URL(string:item_path)!)
+
+                switch path.pathComponents[path.pathComponents.count-1] {
+                case "FeedProviders":
+                    let object = try! decoder.decode(NewsFeedProvider.self, from: json_data)
+                    for feed in object.feeds{
+                        feed.parent_feed = object
+                    }
+                    feed_provider_data.append(object)
+                case "Articles":
+                    let object = try! decoder.decode(ArticleData.self, from: json_data)
+                    for feed_id in object.parent_feeds_ids{
+                        object.parent_feeds.append(getFeedById(feed_id: feed_id)!)
+                    }
+                    article_data.append(object)
+                case "Collections":
+                    let object = try! decoder.decode(Collection.self, from: json_data)
+                    for feed_id in object.feed_id_list{
+                        object.feed_list.append(getFeedById(feed_id: feed_id)!)
+                    }
+                    collection_data.append(object)
+                default:
+                    print("ERROR: Path = \(path.pathComponents[path.pathComponents.count-1]) not supported")
+                }
+            }
+        }
+        catch {
+            print("Failed to read Directory")
+        }
+    }
+
+    func getFeedProviderByFeedId(feed_id: UUID) -> NewsFeedProvider?{
         for feed_provider in feed_provider_data{
             if feed_provider.getFeedById(id: feed_id) != nil{
                 return feed_provider
@@ -542,6 +627,27 @@ final class Model: ObservableObject {
     ///
     /// END OF THE FILTERING
     ///
+
+    func getFeedProviderById(feed_provider_id: UUID) -> NewsFeedProvider?{
+        for feed_provider in feed_provider_data{
+            if feed_provider_id == feed_provider.id{
+                return feed_provider
+            }
+        }
+        return nil
+    }
+
+    func getFeedById(feed_id: UUID) -> NewsFeed?{
+        for feed_provider in feed_provider_data{
+            for feed in feed_provider.feeds{
+                if feed_id == feed.id{
+                    return feed
+                }
+            }
+        }
+        return nil
+    }
+
 }
 
 var preview_model = Model(

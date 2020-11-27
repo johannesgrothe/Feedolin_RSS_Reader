@@ -14,6 +14,8 @@ struct ArticleListRow: View {
     
     var article: ArticleData
     
+    @ObservedObject var model: Model = .shared
+    
     var body: some View {
         // undelaying navigation link and on top the content in HStack
         ZStack {
@@ -38,8 +40,7 @@ struct ArticleListRow: View {
                             Text("Saved")
                                 .font(.caption2)
                         } else {
-                            let parent_feed = Model.shared.getParentFeedByFeedId(feed_id: article.parent_feeds[0])
-                            Text("\(parent_feed!.getFeedById(id: article.parent_feeds[0])!.name) - \(parent_feed!.token)")
+                            Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
                                 .font(.caption2)
                                 .lineLimit(2)
                         }

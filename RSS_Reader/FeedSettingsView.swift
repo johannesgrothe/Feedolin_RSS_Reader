@@ -151,7 +151,6 @@ struct FeedSettingsListEntry: View {
     }
 }
 
-
 struct FeedSettingsView_Previews: PreviewProvider {
     
     static var previews: some View {

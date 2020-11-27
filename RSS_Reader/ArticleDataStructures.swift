@@ -13,7 +13,38 @@ import SwiftUI
  */
 class ArticleData: Identifiable, ObservableObject, Codable {
     
-    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [UUID]) {
+    enum CodingKeys: CodingKey {
+        case id, article_id, title, description, link, pub_date, author, parent_feeds, parent_feeds_ids
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(id, forKey: .id)
+        try container.encode(article_id, forKey: .article_id)
+        try container.encode(title, forKey: .title)
+        try container.encode(description, forKey: .description)
+        try container.encode(link, forKey: .link)
+        try container.encode(pub_date, forKey: .pub_date)
+        try container.encode(author, forKey: .author)
+        try container.encode(parent_feeds_ids, forKey: .parent_feeds_ids)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(UUID.self, forKey: .id)
+        article_id = try container.decode(String.self, forKey: .article_id)
+        title = try container.decode(String.self, forKey: .title)
+        description = try container.decode(String.self, forKey: .description)
+        link = try container.decode(String.self, forKey: .link)
+        pub_date = try container.decode(Date.self, forKey: .pub_date)
+        author = try container.decode(String?.self, forKey: .author)
+        parent_feeds_ids = try container.decode([UUID].self, forKey: .parent_feeds_ids)
+        parent_feeds = []
+    }
+    
+    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [NewsFeed], parent_feeds_ids:[UUID]) {
         self.article_id = article_id
         self.title = title
         self.description = description
@@ -31,6 +62,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
             self.image = nil
         }
         self.id = UUID.init()
+        self.parent_feeds_ids = parent_feeds_ids
     }
     
     let id: UUID
@@ -40,26 +72,25 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     let link: String
     let pub_date: Date
     let author: String?
+    var parent_feeds_ids: [UUID]
     let image: Image?
     
-    var parent_feeds: [UUID]
+    @Published var parent_feeds: [NewsFeed]
     
-    func getId() -> UUID{
-        return self.id
-    }
-    
-    func getRootParentFeedID() -> UUID{
+    /**get the Article's first Feed*/
+    func getRootParentFeedID() -> NewsFeed{
         return self.parent_feeds[0]
     }
     
-    func getParentFeedsID() -> [UUID]{
+    /**get a List of feeds of all the feed's of the Article */
+    func getParentFeedsID() -> [NewsFeed]{
         return self.parent_feeds
     }
     
     /**
      Adds all of the passed feeds to the articles parent feed lists
      */
-    func addParentFeeds(_ feeds: [UUID]) {
+    func addParentFeeds(_ feeds: [NewsFeed]) {
         for feed in feeds {
             addParentFeed(feed)
         }
@@ -68,18 +99,19 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     /**
      Adds feed to parent feed list
      */
-    func addParentFeed(_ feed: UUID) {
+    func addParentFeed(_ feed: NewsFeed) {
         if !hasParentFeed(feed) {
             parent_feeds.append(feed)
+            parent_feeds_ids.append(feed.id)
         }
     }
 
     /**
      Checks whether the passed parent feed is a parent of the article
      */
-    func hasParentFeed(_ feed: UUID) -> Bool {
+    func hasParentFeed(_ feed: NewsFeed) -> Bool {
         for list_feed in parent_feeds {
-            if feed == list_feed {
+            if feed.id == list_feed.id && feed.provider_id == list_feed.provider_id {
                 return true
             }
         }

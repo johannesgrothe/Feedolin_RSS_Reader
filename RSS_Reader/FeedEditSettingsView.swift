@@ -32,6 +32,8 @@ struct FeedEditSettingsView: View {
      */
     @Environment(\.presentationMode) var presentationMode
     
+    @ObservedObject var model: Model = .shared
+
     var body: some View {
         VStack {
             
@@ -55,7 +57,7 @@ struct FeedEditSettingsView: View {
                         print("Called toggle Show in Main Feed = \(feed.show_in_main)")
                     }
                     .onDisappear(){
-                        Model.shared.refreshFilter()
+                        model.refreshFilter()
                     }
                     .padding(.horizontal,20.0)
             }

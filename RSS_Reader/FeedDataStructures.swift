@@ -11,9 +11,35 @@ import Combine
 /**
  Class that represents a news feed provider
  */
-class NewsFeedProvider: Identifiable, ObservableObject, Codable {
+class NewsFeedProvider: Codable, Identifiable, ObservableObject{
 
-    init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
+    enum CodingKeys: CodingKey {
+        case id, url, name, token, icon, feeds
+    }
+
+   func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(url, forKey: .url)
+        try container.encode(name, forKey: .name)
+        try container.encode(token, forKey: .token)
+        try container.encode(icon, forKey: .icon)
+        try container.encode(feeds, forKey: .feeds)
+    }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(UUID.self, forKey: .id)
+        url = try container.decode(String.self, forKey: .url)
+        name = try container.decode(String.self, forKey: .name)
+        token = try container.decode(String.self, forKey: .token)
+        icon = try container.decode(NewsFeedIcon.self, forKey: .icon)
+        feeds = try container.decode([NewsFeed].self, forKey: .feeds)
+    }
+
+    init(url: String, name: String, token: String, icon: NewsFeedIcon, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
         self.token = token
@@ -64,6 +90,9 @@ class NewsFeedProvider: Identifiable, ObservableObject, Codable {
         return nil
     }
     
+    /**
+     Returns the feed for the given UUID
+     */
     func getFeedById(id: UUID) -> NewsFeed? {
         for feed in feeds {
             if feed.id == id {
@@ -72,6 +101,7 @@ class NewsFeedProvider: Identifiable, ObservableObject, Codable {
         }
         return nil
     }
+
 
     func getId() -> UUID {
         return self.id
@@ -114,15 +144,44 @@ class NewsFeedProvider: Identifiable, ObservableObject, Codable {
 /**
  Class that represents a newsfeed
  */
-class NewsFeed: Identifiable, ObservableObject, Codable {
+class NewsFeed: Codable, Identifiable, ObservableObject {
+
+    enum CodingKeys: CodingKey {
+        case id, url, name, show_in_main, use_filters, provider_id, provider, image
+    }
     
-    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(url, forKey: .url)
+        try container.encode(name, forKey: .name)
+        try container.encode(show_in_main, forKey: .show_in_main)
+        try container.encode(use_filters, forKey: .use_filters)
+        try container.encode(provider_id, forKey: .provider_id)
+        try container.encode(image, forKey: .image)
+    }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(UUID.self, forKey: .id)
+        url = try container.decode(String.self, forKey: .url)
+        name = try container.decode(String.self, forKey: .name)
+        show_in_main = try container.decode(Bool.self, forKey: .show_in_main)
+        use_filters = try container.decode(Bool.self, forKey: .use_filters)
+        provider_id = try container.decode(UUID.self, forKey: .provider_id)
+        image = try container.decode(FeedTitleImage?.self, forKey: .image)
+        parent_feed = nil
+    }
+
+    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, provider_id: UUID, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
         self.url = url
         self.name = name
         self.show_in_main = show_in_main
         self.use_filters = use_filters
+        self.provider_id = provider_id
         self.parent_feed = parent_feed
-        
         self.image = image
         self.id = UUID.init()
     }
@@ -153,7 +212,9 @@ class NewsFeed: Identifiable, ObservableObject, Codable {
     /**
      Parent feed of the news feed
      */
-    let parent_feed: NewsFeedProvider
+    var parent_feed: NewsFeedProvider?
+
+    let provider_id: UUID
     
     /**
      Optional title image for the feed
@@ -165,6 +226,16 @@ class NewsFeed: Identifiable, ObservableObject, Codable {
  Icon for an feed provider
  */
 struct NewsFeedIcon: Codable {
+    enum CodingKeys: CodingKey{
+        case url
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(url, forKey: .url)
+    }
+
     let url: String
 }
 
@@ -172,6 +243,18 @@ struct NewsFeedIcon: Codable {
  Title-image for an feed
  */
 struct FeedTitleImage: Codable {
+
+    enum CodingKeys: CodingKey {
+        case url, title
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(url, forKey: .url)
+        try container.encode(title, forKey: .title)
+    }
+
     let url: String
     let title: String?
 }
