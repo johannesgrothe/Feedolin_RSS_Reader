@@ -82,12 +82,15 @@ struct CollectionDetailSettingsView: View {
      */
     @ObservedObject var model: Model = .shared
     
+    /**
+     indicates if the add feed view is shown or not
+     */
     @State private var show_add_feed_view = false
     
     var body: some View {
         List {
             ForEach(collection.feed_list) { feed in
-                Text(feed.name).font(.headline)
+                Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
             }
             .listRowBackground(Color.clear)
         }
@@ -102,10 +105,10 @@ struct CollectionDetailSettingsView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button(action: {
-                        print("Add Feed to Collection Button clicked.")
+                        print("Add Feeds to Collection Button clicked.")
                         self.show_add_feed_view.toggle()
                     }) {
-                        Label("Add Feed", systemImage: "plus")
+                        Label("Add Feeds", systemImage: "plus")
                     }
                     
                     Button(action: {
@@ -129,47 +132,57 @@ struct CollectionDetailSettingsView: View {
  _Parameter collection:_ The collection to which one or more feeds should be added
  */
 struct AddFeedsToCollectionView: View {
-    @State private var text = ""
-    @State private var loading = false
-    
+
     @Environment(\.presentationMode) var presentationMode
     
+    /**
+     Model Singleton
+     */
     @ObservedObject var model: Model = .shared
     
+    /**
+     The collection that is displayed in the view
+     */
     @ObservedObject var collection: Collection
     
+    /**
+     indicates if the view is  loading or not
+     */
+    @State private var loading = false
+    
     var body: some View {
-        ZStack {
-            List {
-                ForEach(getFeedsNotInCollection()) { feed in
-                    Text(feed.name).font(.headline)
-                }
-            .listRowBackground(Color.clear)
+        NavigationView {
+                    
+        List {
+            ForEach(getFeedsNotInCollection()) { feed in
                 
-//            VStack {
-//                Text("Add Feed").padding(.top, 10)
 
-//                Button("Add Feed") {
-//                    loading = true
-//                    let _ = model.addFeed(url: text)
-//                    loading = false
-//                    self.presentationMode.wrappedValue.dismiss()
-//                }
-//                .padding()
-//                .cornerRadius(8)
-//                .accentColor(Color(UIColor(named: "ButtonColor")!))
-//                Spacer()
-            }.disabled(self.loading)
-            .blur(radius: self.loading ? 3 : 0)
-            .background(Color(UIColor(named: "BackgroundColor")!))
-            .edgesIgnoringSafeArea(.bottom)
-            VStack {
-                Text("Loading...")
-                ProgressView()
-            }.disabled(self.loading)
-            .opacity(self.loading ? 1 : 0)
-        }
+                Button(action: {
+                    let result = collection.addFeed(new_feed: feed)
+                    print(result)
+                }) {
+                    Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                }
+            }
+        .listRowBackground(Color.clear)
+            
+        }.disabled(self.loading)
+        .blur(radius: self.loading ? 3 : 0)
+        .background(Color(UIColor(named: "BackgroundColor")!))
+        .edgesIgnoringSafeArea(.bottom)
         
+        
+        
+        .navigationBarTitle("Add Feeds", displayMode: .inline)
+        .navigationBarItems(
+            trailing:
+                Button(action: {
+                    print("save_btn pressed")
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                }
+        )}
     }
     
     /**
@@ -188,9 +201,6 @@ struct AddFeedsToCollectionView: View {
             }
         }
         
-//        let feed_list = model.feed_data
-//        let coll_feed_list = collection.feed_list   /**BUG: Just feed providers, no feed will be insert!!!!!*/
-        
         print( feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) }) )
         return feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) })
     }
@@ -208,7 +218,7 @@ struct CollectionSettingsView_Previews: PreviewProvider {
 
 struct CollectionDetailSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let collection = Collection(name: "Bla")
+        let collection = Collection(name: "Coll")
         CollectionDetailSettingsView(collection: collection)
     }
 }
