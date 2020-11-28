@@ -16,7 +16,7 @@ struct ArticleList: View {
     
     var body: some View {
         List {
-            // for preview  model.article_data and not model.filtered_article_data
+            // for preview  model.stored_article_data and not model.filtered_article_data
             ForEach(model.filtered_article_data){ article in
                 ArticleListRow(article: article)
             }

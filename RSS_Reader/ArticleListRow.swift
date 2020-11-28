@@ -74,7 +74,7 @@ struct ArticleListRow: View {
         @ObservedObject var model: Model = .shared
         
         static var previews: some View {
-            ArticleListRow(article: preview_model.article_data[0])
+            ArticleListRow(article: preview_model.stored_article_data[0])
         }
     }
 }
