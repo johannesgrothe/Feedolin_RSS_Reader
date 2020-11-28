@@ -50,6 +50,16 @@ class Collection: Identifiable, ObservableObject, Codable{
     }
     
     /**
+    Name of the collection
+     */
+    @Published var name: String
+    
+    /**
+     List of the feeds belong to the collection
+     */
+    @Published var feed_list: [NewsFeed]
+    
+    /**
      Initialized a Collection
      - Parameter name The name of the collection.
      */
@@ -69,7 +79,7 @@ class Collection: Identifiable, ObservableObject, Codable{
     @Published var name: String
     
     /**
-     List of the feeds belong to the collection
+     Adds a feed to the collection if a feed with the same url does not already exist in this collection
      */
     @Published var feed_list: [NewsFeed]
     
@@ -77,4 +87,18 @@ class Collection: Identifiable, ObservableObject, Codable{
      List of the feeds ids belong to the collection
      */
     var feed_id_list: [UUID]
+    func addFeed(new_feed: NewsFeed) -> Bool {
+        
+        for feed in feed_list {
+            if feed.url == new_feed.url {
+                print("Feed with the url '\(new_feed.url)' is allready part of this collection.")
+                return false
+            }
+        }
+        print("Adding feed '\(new_feed.url)' to collection '\(self.name)'")
+        
+        self.feed_list.append(new_feed)
+        
+        return true
+    }
 }

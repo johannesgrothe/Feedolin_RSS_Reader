@@ -176,10 +176,20 @@ struct AddFeedsToCollectionView: View {
      Returns a list of all feeds from the model which are not in this collection yet.
      _return:_ List of NewsFeedProvider that are not in this collection
      */
-    func getFeedsNotInCollection() -> [NewsFeedProvider] {
+    func getFeedsNotInCollection() -> [NewsFeed] {
 
-        let feed_list = model.feed_data
         let coll_feed_list = collection.feed_list
+
+        var feed_list: [NewsFeed] = []
+
+        for feed_provider in model.feed_data {
+            for feed in feed_provider.feeds {
+                feed_list.append(feed)
+            }
+        }
+        
+//        let feed_list = model.feed_data
+//        let coll_feed_list = collection.feed_list   /**BUG: Just feed providers, no feed will be insert!!!!!*/
         
         print( feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) }) )
         return feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) })
