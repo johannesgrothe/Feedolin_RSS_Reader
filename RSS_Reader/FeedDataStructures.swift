@@ -99,18 +99,6 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         return nil
     }
     
-    /**
-     Returns the feed for the given UUID
-     */
-    func getFeedById(id: UUID) -> NewsFeed? {
-        for feed in feeds {
-            if feed.id == id {
-                return feed
-            }
-        }
-        return nil
-    }
-    
     /**Unique id belong to a instance of NewsFeedProvider*/
     let id: UUID
     /**
