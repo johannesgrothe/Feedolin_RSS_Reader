@@ -90,7 +90,13 @@ struct CollectionDetailSettingsView: View {
     var body: some View {
         List {
             ForEach(collection.feed_list) { feed in
-                Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                // a row that contains the name of a feed, his parent token and icon
+                HStack {
+                    feed.parent_feed.icon.img
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                    Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                }
             }
             .listRowBackground(Color.clear)
         }
@@ -161,7 +167,13 @@ struct AddFeedsToCollectionView: View {
                     let result = collection.addFeed(new_feed: feed)
                     print(result)
                 }) {
-                    Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                    // a row that contains the name of a feed, his parent token and icon
+                    HStack {
+                        feed.parent_feed.icon.img
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                        Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                    }
                 }
             }
         .listRowBackground(Color.clear)
