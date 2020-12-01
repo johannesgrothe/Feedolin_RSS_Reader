@@ -149,7 +149,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
      */
     func hasParentFeed(_ feed: NewsFeed) -> Bool {
         for list_feed in parent_feeds {
-            if feed.id == list_feed.id && feed.provider_id == list_feed.provider_id {
+            if feed.id == list_feed.id{
                 return true
             }
         }

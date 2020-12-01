@@ -609,9 +609,6 @@ final class Model: ObservableObject {
                 switch path.pathComponents[path.pathComponents.count-1] {
                 case "FeedProviders":
                     let object = try! decoder.decode(NewsFeedProvider.self, from: json_data)
-                    for feed in object.feeds{
-                        feed.parent_feed = object
-                    }
                     feed_data.append(object)
                 case "Articles":
                     let object = try! decoder.decode(ArticleData.self, from: json_data)

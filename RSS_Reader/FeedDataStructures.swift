@@ -46,6 +46,9 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         token = try container.decode(String.self, forKey: .token)
         icon = try container.decode(AsyncImage.self, forKey: .icon)
         feeds = try container.decode([NewsFeed].self, forKey: .feeds)
+        for feed in feeds{
+            feed.parent_feed = self
+        }
     }
     
     init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
@@ -143,7 +146,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"...
      */
     enum CodingKeys: CodingKey {
-        case id, url, name, show_in_main, use_filters, provider_id, image
+        case id, url, name, show_in_main, use_filters, image
     }
     
     /**
@@ -157,7 +160,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         try container.encode(name, forKey: .name)
         try container.encode(show_in_main, forKey: .show_in_main)
         try container.encode(use_filters, forKey: .use_filters)
-        try container.encode(provider_id, forKey: .provider_id)
         try container.encode(image, forKey: .image)
     }
     
@@ -172,7 +174,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         name = try container.decode(String.self, forKey: .name)
         show_in_main = try container.decode(Bool.self, forKey: .show_in_main)
         use_filters = try container.decode(Bool.self, forKey: .use_filters)
-        provider_id = try container.decode(UUID.self, forKey: .provider_id)
         image = try container.decode(FeedTitleImage?.self, forKey: .image)
         parent_feed = nil
     }
@@ -182,7 +183,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         self.name = name
         self.show_in_main = show_in_main
         self.use_filters = use_filters
-        self.provider_id = parent_feed.id
         self.parent_feed = parent_feed
         self.image = image
         self.id = UUID.init()
@@ -215,9 +215,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      Parent feed of the news feed
      */
     var parent_feed: NewsFeedProvider?
-    
-    /** Unique id to the NewsFeedProvider of a instance of NewsFeed*/
-    let provider_id: UUID
     
     /**
      Optional title image for the feed
