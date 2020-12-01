@@ -84,9 +84,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         }
         self.id = UUID.init()
         self.parent_feeds_ids = []
-        for feed in parent_feeds{
-            parent_feeds_ids.append(feed.id)
-        }
     }
     
     /**Unique id belong to a instance of ArticleData*/
