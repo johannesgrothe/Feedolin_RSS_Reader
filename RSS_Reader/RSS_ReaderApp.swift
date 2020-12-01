@@ -20,6 +20,7 @@ struct RSS_ReaderApp: App {
     init(){
         model.loadData()
         model.refreshFilter()
+        model.isAppAlreadyLaunchedOnce()
     }
     
     var body: some Scene {

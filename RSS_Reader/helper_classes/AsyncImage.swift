@@ -60,7 +60,7 @@ class AsyncImage: ObservableObject, Codable {
                 return stored_img!
             }
             load()
-            return Image(default_img)
+            return Image(systemName: default_img)
         }
         set(newValue) {
             stored_img = newValue

@@ -77,13 +77,7 @@ final class Model: ObservableObject {
         self.feed_data = []
         self.filter_keywords = []
         self.filtered_article_data = []
-        self.collection_data = [
-            Collection(name: "Politik")
-            ,Collection(name: "Wirtschaft")
-            ,Collection(name: "Technik")
-            ,Collection(name: "Gaming")
-            ,Collection(name: "Unterhaltung")
-        ]
+        self.collection_data = []
     }
     
     /**
@@ -138,7 +132,25 @@ final class Model: ObservableObject {
      Use '@ObservedObject var model: Model = .shared' to access model in views.
      */
     static let shared = Model()
-
+    
+    /** A function that checks if the app is launched first time on the ios device. If the app gets deleted and reinstalled this will reset it self*/
+    func isAppAlreadyLaunchedOnce(){
+        let defaults = UserDefaults.standard
+        if let _ = defaults.string(forKey: "isAppAlreadyLaunchedOnce") {
+            print("App already launched")
+        } else {
+            defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+            collection_data.insert(contentsOf: [
+                Collection(name: "Politik")
+                ,Collection(name: "Wirtschaft")
+                ,Collection(name: "Technik")
+                ,Collection(name: "Gaming")
+                ,Collection(name: "Unterhaltung")
+            ], at: 0)
+            print("App launched first time")
+        }
+    }
+    
     /**
      Adds an article to the database after checking if it already exists
      - Parameter article: The article thats supposed to be added
@@ -525,6 +537,7 @@ final class Model: ObservableObject {
         } catch   {
             print("error")
         }
+        print(path.absoluteURL)
         return path
     }
 
