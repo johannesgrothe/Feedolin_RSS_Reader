@@ -21,7 +21,7 @@ struct ArticleListRow: View {
         ZStack {
             // hacky way to hide the navigation link arrow
             NavigationLink(destination: ArticleView(article: article)){
-               EmptyView()
+                EmptyView()
             }
             .opacity(0)
             .buttonStyle(PlainButtonStyle())
@@ -45,51 +45,51 @@ struct ArticleListRow: View {
                                 .lineLimit(2)
                         }
                         Text(article.date_to_string())
-                        .font(.subheadline)
-                        .bold()
-                        .lineLimit(4)
-                        .layoutPriority(1)
-                    // parent_feed indicators to the left than seperator and pubdate to the right
-                    HStack {
-                        Text("\(article.parent_feeds[0].parent_feed.token) - \(article.parent_feeds[0].name)")
-                            .font(.caption2)
-                            .lineLimit(1)
-                        Text("|").font(.caption2)
-                        Text(article.time_ago_date_to_string())
-                            .font(.caption2)
-                            .italic()
-                            .lineLimit(1)
+                            .font(.subheadline)
+                            .bold()
+                            .lineLimit(4)
+                            .layoutPriority(1)
+                        // parent_feed indicators to the left than seperator and pubdate to the right
+                        HStack {
+                            Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
+                                .font(.caption2)
+                                .lineLimit(1)
+                            Text("|").font(.caption2)
+                            Text(article.time_ago_date_to_string())
+                                .font(.caption2)
+                                .italic()
+                                .lineLimit(1)
+                            
+                        }
                         
+                        Text(article.description)
+                            .font(.caption)
+                            .lineLimit(4)
                     }
                     
-                    Text(article.description)
-                        .font(.caption)
-                        .lineLimit(4)
+                    Spacer()
+                    
+                    
+                    article.image?
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
+                    
                 }
-                
-                Spacer()
-                
-                
-                article.image?
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
-                
+                .frame(minHeight: 0, maxHeight: 200)
+                .padding(.all, 10.0)
+                .background(Color(UIColor(named: "ArticleColor")!))
+                .cornerRadius(10)
             }
-            .frame(minHeight: 0, maxHeight: 200)
-            .padding(.all, 10.0)
-            .background(Color(UIColor(named: "ArticleColor")!))
-            .cornerRadius(10)
         }
-        
     }
+}
+
+struct ArticleListRow_Previews: PreviewProvider {
     
-    struct ArticleListRow_Previews: PreviewProvider {
-        
-        @ObservedObject var model: Model = .shared
-        
-        static var previews: some View {
-            ArticleListRow(article: preview_model.stored_article_data[0])
-        }
+    @ObservedObject var model: Model = .shared
+    
+    static var previews: some View {
+        ArticleListRow(article: preview_model.stored_article_data[0])
     }
 }

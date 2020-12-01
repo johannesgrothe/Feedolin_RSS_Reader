@@ -25,7 +25,10 @@ class ArticleData: Identifiable, ObservableObject, Codable {
      */
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+        var stored_parent_ids:[UUID] = []
+        for feed in parent_feeds{
+            stored_parent_ids.append(feed.id)
+        }
         try container.encode(id, forKey: .id)
         try container.encode(article_id, forKey: .article_id)
         try container.encode(title, forKey: .title)
@@ -33,7 +36,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         try container.encode(link, forKey: .link)
         try container.encode(pub_date, forKey: .pub_date)
         try container.encode(author, forKey: .author)
-        try container.encode(parent_feeds_ids, forKey: .parent_feeds_ids)
+        try container.encode(stored_parent_ids, forKey: .parent_feeds_ids)
     }
     
     /**
@@ -51,9 +54,18 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         author = try container.decode(String?.self, forKey: .author)
         parent_feeds_ids = try container.decode([UUID].self, forKey: .parent_feeds_ids)
         parent_feeds = []
+        
+        switch Int.random(in: ClosedRange<Int>(uncheckedBounds: (0,3))) {
+        case 0:
+            self.image = Image("824cf0bb-20a4-4655-a50e-0e6ff7520d0f")
+        case 1:
+            self.image = Image("c9f82579-efeb-4ed5-bf07-e10edafc3a4d")
+        default:
+            self.image = nil
+        }
     }
     
-    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [NewsFeed], parent_feeds_ids:[UUID]) {
+    init(article_id: String, title: String, description: String, link: String, pub_date: Date, author: String?, parent_feeds: [NewsFeed]) {
         self.article_id = article_id
         self.title = title
         self.description = description
@@ -71,7 +83,10 @@ class ArticleData: Identifiable, ObservableObject, Codable {
             self.image = nil
         }
         self.id = UUID.init()
-        self.parent_feeds_ids = parent_feeds_ids
+        self.parent_feeds_ids = []
+        for feed in parent_feeds{
+            parent_feeds_ids.append(feed.id)
+        }
     }
     
     /**Unique id belong to a instance of ArticleData*/
@@ -97,6 +112,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     
     /**List with id's of all the feeds that includes this article*/
     var parent_feeds_ids: [UUID]
+    
     let image: Image?
     
     /**List instance of NewsFeed of all the feeds that includes this article*/

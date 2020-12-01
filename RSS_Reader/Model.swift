@@ -237,7 +237,7 @@ final class Model: ObservableObject {
                 
                 // Create sub-feed if it doesnt altrady exist and add it to parent feed
                 if sub_feed == nil {
-                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, provider_id: parent_feed!.id, parent_feed: parent_feed!, image: nil)
+                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!, image: nil)
                     if !parent_feed!.addFeed(feed: sub_feed!) {
                         // Should NEVER happen
                         print("Something stupid happened while adding '\(lower_url)'")

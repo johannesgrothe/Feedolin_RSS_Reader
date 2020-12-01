@@ -177,12 +177,12 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         parent_feed = nil
     }
     
-    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, provider_id: UUID, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
+    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
         self.url = url
         self.name = name
         self.show_in_main = show_in_main
         self.use_filters = use_filters
-        self.provider_id = provider_id
+        self.provider_id = parent_feed.id
         self.parent_feed = parent_feed
         self.image = image
         self.id = UUID.init()
