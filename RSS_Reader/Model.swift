@@ -429,18 +429,18 @@ final class Model: ObservableObject {
         case .All:
             print("Applying filter 'All'")
             applyFilterAll()
-        case .Collection:
+        case .Collection(let filter_collection):
             print("Applying filter 'Collection'")
-            applyFilterCollection()
-        case .FeedProvider:
+            applyFilterCollection(filter_collection)
+        case .FeedProvider(let filter_feed_provider):
             print("Applying filter 'FeedProvider'")
-            applyFilterFeedProvider()
-        case .Feed:
+            applyFilterFeedProvider(filter_feed_provider)
+        case .Feed(let filter_feed):
             print("Applying filter 'Feed'")
-            applyFilterFeed()
-        case .SearchPhrase:
+            applyFilterFeed(filter_feed)
+        case .SearchPhrase(let filter_search_phrase):
             print("Applying filter 'SearchPhrase'")
-            applyFilterSearchPhrase()
+            applyFilterSearchPhrase(filter_search_phrase)
         case .Bookmarked:
             print("Applying filter 'Bookmarked'")
             applyFilterBookmarked()
@@ -487,28 +487,35 @@ final class Model: ObservableObject {
     /**
      (Re)applies the collection filter
      */
-    private func applyFilterCollection() {
+    private func applyFilterCollection(_ sort_collection: Collection) {
         // TODO: implement
     }
 
     /**
      (Re)applies the feed provider filter
      */
-    private func applyFilterFeedProvider() {
-        // TODO: implement
+    private func applyFilterFeedProvider(_ sort_provider: NewsFeedProvider) {
+        for article in self.stored_article_data {
+            for parent_feed in article.parent_feeds {
+                if parent_feed.parent_feed?.id == sort_provider.id {
+                    self.filtered_article_data.append(article)
+                    break
+                }
+            }
+        }
     }
 
     /**
      (Re)applies the feed filter
      */
-    private func applyFilterFeed() {
+    private func applyFilterFeed(_ sort_feed: NewsFeed) {
         // TODO: implement
     }
 
     /**
      (Re)applies the searchphrase filter
      */
-    private func applyFilterSearchPhrase() {
+    private func applyFilterSearchPhrase(_ sort_searchphrase: String) {
         // TODO: implement
     }
 
