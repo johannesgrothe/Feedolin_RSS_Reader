@@ -42,13 +42,6 @@ class Collection: Identifiable, ObservableObject, Codable{
         feed_id_list = try container.decode([UUID].self, forKey: .feed_id_list)
     }
     
-    init(name: String, feed_list: [NewsFeed], feed_id_list: [UUID]) {
-        self.name = name
-        self.feed_list = feed_list
-        self.id = UUID.init()
-        self.feed_id_list = feed_id_list
-    }
-    
     /**
     Name of the collection
      */
@@ -58,6 +51,14 @@ class Collection: Identifiable, ObservableObject, Codable{
      List of the feeds belong to the collection
      */
     @Published var feed_list: [NewsFeed]
+    
+    /**Unique id belong to the instance of a Collection*/
+    let id: UUID
+    
+    /**
+     List of the feeds ids belong to the collection
+     */
+    var feed_id_list: [UUID]
     
     /**
      Initialized a Collection
@@ -70,23 +71,6 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.feed_id_list = []
     }
     
-    /**Unique id belong to the instance of a Collection*/
-    let id: UUID
-    
-    /**
-    Name of the collection
-     */
-    @Published var name: String
-    
-    /**
-     Adds a feed to the collection if a feed with the same url does not already exist in this collection
-     */
-    @Published var feed_list: [NewsFeed]
-    
-    /**
-     List of the feeds ids belong to the collection
-     */
-    var feed_id_list: [UUID]
     func addFeed(new_feed: NewsFeed) -> Bool {
         
         for feed in feed_list {

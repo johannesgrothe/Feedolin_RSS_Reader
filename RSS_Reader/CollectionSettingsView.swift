@@ -68,7 +68,7 @@ struct CollectionSettingsList: View {
 
 /**
  The detailed view of a specific collection
- Here you see a list of feeds
+ Here you see a list of feeds contained in this collection
  */
 struct CollectionDetailSettingsView: View {
     
@@ -87,15 +87,19 @@ struct CollectionDetailSettingsView: View {
      */
     @State private var show_add_feed_view = false
     
+    
+    //line 92 is part of the workaround for back button bug
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         List {
             ForEach(collection.feed_list) { feed in
                 // a row that contains the name of a feed, his parent token and icon
                 HStack {
-                    feed.parent_feed.icon.img
+                    feed.parent_feed!.icon.img
                         .resizable()
                         .frame(width: 25, height: 25)
-                    Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                    Text("\(feed.parent_feed!.token) - \(feed.name)")//.font(.headline)
                 }
             }
             .listRowBackground(Color.clear)
@@ -130,6 +134,12 @@ struct CollectionDetailSettingsView: View {
         }.sheet(isPresented: self.$show_add_feed_view) {
             AddFeedsToCollectionView(collection: collection)
         }
+        
+        //lines 139-141 are part of the workaround for back button bug
+        Button(action:{ self.presentationMode.wrappedValue.dismiss() }){
+                    Text("Go Back")
+                }
+   
     }
 }
 
@@ -169,10 +179,10 @@ struct AddFeedsToCollectionView: View {
                 }) {
                     // a row that contains the name of a feed, his parent token and icon
                     HStack {
-                        feed.parent_feed.icon.img
+                        feed.parent_feed!.icon.img
                             .resizable()
                             .frame(width: 25, height: 25)
-                        Text("\(feed.parent_feed.token) - \(feed.name)")//.font(.headline)
+                        Text("\(feed.parent_feed!.token) - \(feed.name)")//.font(.headline)
                     }
                 }
             }
