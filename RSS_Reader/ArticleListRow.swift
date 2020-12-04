@@ -40,6 +40,10 @@ struct ArticleListRow: View {
                     }
                     // parent_feed indicators to the left than seperator and pubdate to the right
                     HStack {
+                        if self.bookmarked{
+                            Image(systemName: "bookmark.fill").resizable()
+                                .frame(width:5, height: 7)
+                        }
                         Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
                             .font(.caption2)
                             .lineLimit(1)
@@ -58,19 +62,11 @@ struct ArticleListRow: View {
                 
                 Spacer()
                 
-                VStack(alignment: .trailing){
-                    if self.bookmarked{
-                        Image(systemName: "bookmark.fill")
-                    }
-                    else{
-                        Image(systemName: "bookmark")
-                    }
-                    article.image?
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
-                    
-                }
+                article.image?
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
+                
             }
             .frame(minHeight: 0, maxHeight: 200)
             .padding(.all, 10.0)
@@ -92,12 +88,12 @@ struct ArticleListRow: View {
                     if self.bookmarked{
                         HStack{
                             Text("Unmark")
-                            Image(systemName: "bookmark")
+                            Image(systemName: "bookmark.slash")
                         }
                     }
                     HStack{
                         Text("Bookmark")
-                        Image(systemName: "bookmark.fill")
+                        Image(systemName: "bookmark")
                     }
                 }
             }
@@ -122,8 +118,19 @@ struct ArticleListRow: View {
         }
     }
     
+    /**Toggles the boolean bookmarked of an Instance of Article*/
     private func setBookmarked(article: ArticleData) {
         self.article.bookmarked.toggle()
+    }
+    
+    /**Still to be written*/
+    private func setShare(article: ArticleData){
+        /**Empty*/
+    }
+    
+    /**Still to be written*/
+    private func setMarkAsRead(article: ArticleData){
+        /**Empty*/
     }
     
     struct ArticleListRow_Previews: PreviewProvider {
