@@ -502,6 +502,17 @@ final class Model: ObservableObject {
      */
     private func applyFilterCollection(_ sort_collection: Collection) {
         // TODO: implement
+        var colls_feed_ids = [UUID()]
+        for feed in sort_collection.feed_list {
+            colls_feed_ids.append(feed.id)
+        }
+        
+        filtered_article_data = stored_article_data
+        for _ in self.stored_article_data {
+            filtered_article_data.removeAll {
+                !colls_feed_ids.contains($0.parent_feeds_ids[0])
+            }
+        }
     }
 
     /**
