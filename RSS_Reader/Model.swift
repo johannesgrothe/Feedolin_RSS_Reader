@@ -501,7 +501,6 @@ final class Model: ObservableObject {
      (Re)applies the collection filter
      */
     private func applyFilterCollection(_ sort_collection: Collection) {
-        // TODO: implement
         var colls_feed_ids = [UUID()]
         for feed in sort_collection.feed_list {
             colls_feed_ids.append(feed.id)
