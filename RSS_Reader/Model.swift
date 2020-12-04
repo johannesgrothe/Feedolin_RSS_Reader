@@ -523,7 +523,11 @@ final class Model: ObservableObject {
      (Re)applies the bookmarks filter
      */
     private func applyFilterBookmarked() {
-        // TODO: implement
+        for article in self.stored_article_data{
+            if article.bookmarked{
+                self.filtered_article_data.append(article)
+            }
+        }
     }
 
     ///

@@ -12,8 +12,13 @@ import SwiftUI
  */
 struct ArticleListRow: View {
     
+    /**Model singleton*/
+    @ObservedObject var model: Model = .shared
+    
+    /**article*/
     @ObservedObject var article: ArticleData
     
+    /**State value that changes case if bookmarks value changes*/
     @State private var bookmarked: Bool = false
     
     var body: some View {
@@ -73,11 +78,13 @@ struct ArticleListRow: View {
             .background(Color(UIColor(named: "ArticleColor")!))
             .cornerRadius(10)
         }
+        .transition(.move(edge: .bottom))
         .onAppear(perform: {
             self.bookmarked = article.bookmarked
         })
         .onChange(of: article.bookmarked){value in
             self.bookmarked = value
+            self.model.refreshFilter()
         }
         .contextMenu{
             Button(action: {
