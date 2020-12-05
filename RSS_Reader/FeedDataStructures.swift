@@ -88,6 +88,16 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         for feed in feeds{
             feed.parent_feed = self
         }
+        
+        /**
+         the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
+         This way, the NewsFeedProvider is changing as soon as the image is changing, updating
+         every connected view in the process
+         */
+        icon_loaded_indicator = icon.objectWillChange.sink { _ in
+            print("Triggering: Feed Provider Icon loaded")
+            self.objectWillChange.send()
+        }
     }
     
     init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
@@ -108,6 +118,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
          every connected view in the process
          */
         icon_loaded_indicator = icon.objectWillChange.sink { _ in
+            print("Triggering: Feed Provider Icon loaded")
             self.objectWillChange.send()
         }
     }

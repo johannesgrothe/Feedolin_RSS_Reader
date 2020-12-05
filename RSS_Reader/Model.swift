@@ -84,10 +84,10 @@ final class Model: ObservableObject {
          Links the own objectWillChange-Property to a variable to trigger events when self is changing
          */
         self.own_change = self.objectWillChange.sink { _ in
-            print("Refreshing Articles")
-            for article in self.filtered_article_data {
-                article.objectWillChange.send()
-            }
+//            print("Refreshing Articles")
+//            for article in self.filtered_article_data {
+//                article.objectWillChange.send()
+//            }
         }
     }
     
@@ -106,10 +106,10 @@ final class Model: ObservableObject {
          Links the own objectWillChange-Property to a variable to trigger events when self is changing
          */
         self.own_change = self.objectWillChange.sink { _ in
-            print("Refreshing Articles")
-            for article in self.filtered_article_data {
-                article.objectWillChange.send()
-            }
+//            print("Refreshing Articles")
+//            for article in self.filtered_article_data {
+//                article.objectWillChange.send()
+//            }
         }
     }
     
