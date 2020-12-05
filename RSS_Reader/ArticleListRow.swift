@@ -21,6 +21,9 @@ struct ArticleListRow: View {
     /**State value that changes case if bookmarks value changes*/
     @State private var bookmarked: Bool = false
     
+    /**State value that changes case if read value changes*/
+    @State private var read: Bool = false
+    
     var body: some View {
         // undelaying navigation link and on top the content in HStack
         ZStack {
@@ -77,13 +80,18 @@ struct ArticleListRow: View {
             .padding(.all, 10.0)
             .background(Color(UIColor(named: "ArticleColor")!))
             .cornerRadius(10)
+            .foregroundColor(self.read ? .gray: .black)
         }
-        .transition(.move(edge: .bottom))
         .onAppear(perform: {
             self.bookmarked = article.bookmarked
+            self.read = article.read
         })
         .onChange(of: article.bookmarked){value in
             self.bookmarked = value
+            self.model.refreshFilter()
+        }
+        .onChange(of: article.read){value in
+            self.read = value
             self.model.refreshFilter()
         }
         .contextMenu{
@@ -93,24 +101,25 @@ struct ArticleListRow: View {
             }) {
                 HStack{
                     if self.bookmarked{
-                        HStack{
-                            Text("Unmark")
-                            Image(systemName: "bookmark.slash")
-                        }
+                        Text("Unmark")
+                        Image(systemName: "bookmark.slash")
                     }
-                    HStack{
-                        Text("Bookmark")
-                        Image(systemName: "bookmark")
-                    }
+                    Text("Bookmark")
+                    Image(systemName: "bookmark")
                 }
             }
             
             Button(action:{
+                self.setMarkAsRead(article: article)
                 print("MarkAsRead pressed")
-            }){
+            }) {
                 HStack{
-                    Text("Mark as Read")
-                    Image(systemName: "checkmark.rectangle")
+                    if self.read{
+                        Text("Unread")
+                        Image(systemName: "checkmark.square.fill")
+                    }
+                    Text("Read")
+                    Image(systemName: "checkmark.square")
                 }
             }
             
@@ -137,7 +146,7 @@ struct ArticleListRow: View {
     
     /**Still to be written*/
     private func setMarkAsRead(article: ArticleData){
-        /**Empty*/
+        self.article.read.toggle()
     }
     
     struct ArticleListRow_Previews: PreviewProvider {

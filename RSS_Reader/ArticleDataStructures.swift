@@ -17,7 +17,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
      Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"...
      */
     enum CodingKeys: CodingKey {
-        case id, article_id, title, description, link, pub_date, author, parent_feeds_ids, bookmarked
+        case id, article_id, title, description, link, pub_date, author, parent_feeds_ids, bookmarked, read
     }
     
     /**
@@ -38,6 +38,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         try container.encode(author, forKey: .author)
         try container.encode(stored_parent_ids, forKey: .parent_feeds_ids)
         try container.encode(bookmarked, forKey: .bookmarked)
+        try container.encode(read, forKey: .read)
     }
     
     /**
@@ -56,6 +57,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         parent_feeds_ids = try container.decode([UUID].self, forKey: .parent_feeds_ids)
         parent_feeds = []
         bookmarked = try container.decode(Bool.self, forKey: .bookmarked)
+        read = try container.decode(Bool.self, forKey: .read)
         
         switch Int.random(in: ClosedRange<Int>(uncheckedBounds: (0,3))) {
         case 0:
@@ -76,6 +78,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         self.author = author
         self.parent_feeds = parent_feeds
         self.bookmarked = false
+        self.read = false
         
         switch Int.random(in: ClosedRange<Int>(uncheckedBounds: (0,3))) {
         case 0:
@@ -117,6 +120,9 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     
     /**Boolean that contains case of if the article is bookmarked*/
     @Published var bookmarked: Bool
+    
+    /**Boolean that contains case of if the artice is read*/
+    @Published var read: Bool
     
     /**List instance of NewsFeed of all the feeds that includes this article*/
     @Published var parent_feeds: [NewsFeed]
