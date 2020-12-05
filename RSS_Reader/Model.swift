@@ -79,16 +79,6 @@ final class Model: ObservableObject {
         self.filter_keywords = []
         self.filtered_article_data = []
         self.collection_data = []
-        
-        /**
-         Links the own objectWillChange-Property to a variable to trigger events when self is changing
-         */
-        self.own_change = self.objectWillChange.sink { _ in
-//            print("Refreshing Articles")
-//            for article in self.filtered_article_data {
-//                article.objectWillChange.send()
-//            }
-        }
     }
     
     /**
@@ -101,16 +91,6 @@ final class Model: ObservableObject {
         self.filter_keywords = []
         self.filtered_article_data = []
         self.collection_data = []
-        
-        /**
-         Links the own objectWillChange-Property to a variable to trigger events when self is changing
-         */
-        self.own_change = self.objectWillChange.sink { _ in
-//            print("Refreshing Articles")
-//            for article in self.filtered_article_data {
-//                article.objectWillChange.send()
-//            }
-        }
     }
     
     /**
@@ -132,11 +112,6 @@ final class Model: ObservableObject {
       List storing indicators to update the FeedProvider when any Feed is updated
      */
     @Published private var feed_provider_update_indicators: [AnyCancellable?] = []
-    
-    /**
-     Connects to own objectWillChange.send() to trigger actions
-     */
-    var own_change: AnyCancellable?
     
     /**
      Storage for all of the filter keywords
@@ -264,6 +239,7 @@ final class Model: ObservableObject {
                     
                     /**Link update of the feed to the feed provider*/
                     self.feed_provider_update_indicators.append(parent_feed!.objectWillChange.sink { _ in
+                        print("Triggering: Feed Provider changed")
                         self.objectWillChange.send()
                     })
                     
@@ -662,18 +638,27 @@ final class Model: ObservableObject {
                 case "FeedProviders":
                     let object = try! decoder.decode(NewsFeedProvider.self, from: json_data)
                     feed_data.append(object)
+                    
+                    /**Link update of the feed to the feed provider*/
+                    self.feed_provider_update_indicators.append(object.objectWillChange.sink { _ in
+                        print("Triggering: Feed Provider changed")
+                        self.objectWillChange.send()
+                    })
+                    
                 case "Articles":
                     let object = try! decoder.decode(ArticleData.self, from: json_data)
                     for feed_id in object.parent_feeds_ids{
                         object.parent_feeds.append(getFeedById(feed_id: feed_id)!)
                     }
                     stored_article_data.append(object)
+                    
                 case "Collections":
                     let object = try! decoder.decode(Collection.self, from: json_data)
                     for feed_id in object.feed_id_list{
                         object.feed_list.append(getFeedById(feed_id: feed_id)!)
                     }
                     collection_data.append(object)
+                    
                 default:
                     print("ERROR: Path = \(path.pathComponents[path.pathComponents.count-1]) not supported")
                 }

@@ -22,6 +22,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
     
     /**Unique id belong to a instance of NewsFeedProvider*/
     let id: UUID
+    
     /**
      URL of the feed proider website 'www.nzz.ch'
      # Example
@@ -100,6 +101,9 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         }
     }
     
+    /**
+     Constructor for the feed
+     */
     init(url: String, name: String, token: String, icon_url: String, feeds: [NewsFeed]) {
         self.url = url
         self.name = name
@@ -139,6 +143,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         
         /**Link update of the feed to the feed provider*/
         feed_updated_indicators.append(icon.objectWillChange.sink { _ in
+            print("Triggering: Feed has changed")
             self.objectWillChange.send()
         })
         
