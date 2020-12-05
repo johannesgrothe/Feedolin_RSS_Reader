@@ -509,7 +509,11 @@ final class Model: ObservableObject {
      (Re)applies the feed filter
      */
     private func applyFilterFeed(_ sort_feed: NewsFeed) {
-        // TODO: implement
+        for article in self.stored_article_data {
+            if article.hasParentFeed(sort_feed) {
+                self.filtered_article_data.append(article)
+            }
+        }
     }
 
     /**
