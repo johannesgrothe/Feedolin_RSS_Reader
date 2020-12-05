@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 /**
  Enum containing every filter option selectable
@@ -106,6 +107,11 @@ final class Model: ObservableObject {
      Storage for all of the feeds
      */
     @Published var feed_data: [NewsFeedProvider]
+    
+    /**
+      List storing indicators to update the FeedProvider when any Feed is updated
+     */
+    @Published private var feed_provider_update_indicators: [AnyCancellable?] = []
 
     /**
      Storage for all of the filter keywords
@@ -230,6 +236,12 @@ final class Model: ObservableObject {
                 if parent_feed == nil {
                     parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
                     self.feed_data.append(parent_feed!)
+                    
+                    /**Link update of the feed to the feed provider*/
+                    self.feed_provider_update_indicators.append(parent_feed!.objectWillChange.sink { _ in
+                        self.objectWillChange.send()
+                    })
+                    
                 }
                 
                 // Get possible sub-feed

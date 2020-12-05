@@ -20,6 +20,45 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         case id, url, name, token, icon, feeds
     }
     
+    /**Unique id belong to a instance of NewsFeedProvider*/
+    let id: UUID
+    /**
+     URL of the feed proider website 'www.nzz.ch'
+     # Example
+     'nzz.ch'
+     */
+    let url: String
+    
+    /**
+     Name of the feed provider
+     */
+    @Published var name: String
+    
+    /**
+     Short version (Abkürzung)
+     */
+    @Published var token: String
+    
+    /**
+     Indicator to auto-refresh Views when Icon is changed
+     */
+    @Published private var icon_loaded_indicator: AnyCancellable? = nil
+    
+    /**
+     Icon of the Feed provider
+     */
+    @Published var icon: AsyncImage
+    
+    /**
+     List of all news feeds
+     */
+    @Published var feeds: [NewsFeed]
+    
+    /**
+     List storing indicators to update the FeedProvider when any Feed is updated
+     */
+    @Published private var feed_updated_indicators: [AnyCancellable?] = []
+    
     /**
      Encode function to serialize a instance of NewsFeedProvider to a json string, writes out all the properties attached to their respective key
      */
@@ -87,6 +126,11 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         
         self.feeds.append(feed)
         
+        /**Link update of the feed to the feed provider*/
+        feed_updated_indicators.append(icon.objectWillChange.sink { _ in
+            self.objectWillChange.send()
+        })
+        
         return true
     }
     
@@ -101,40 +145,6 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         }
         return nil
     }
-    
-    /**Unique id belong to a instance of NewsFeedProvider*/
-    let id: UUID
-    /**
-     URL of the feed proider website 'www.nzz.ch'
-     # Example
-     'nzz.ch'
-     */
-    let url: String
-    
-    /**
-     Name of the feed provider
-     */
-    @Published var name: String
-    
-    /**
-     Short version (Abkürzung)
-     */
-    @Published var token: String
-    
-    /**
-     Indicator to auto-refresh Views when Icon is changed
-     */
-    private var icon_loaded_indicator: AnyCancellable? = nil
-    
-    /**
-     Icon of the Feed provider
-     */
-    @Published var icon: AsyncImage
-    
-    /**
-     List of all news feeds
-     */
-    @Published var feeds: [NewsFeed]
 }
 
 /**
@@ -148,6 +158,39 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
     enum CodingKeys: CodingKey {
         case id, url, name, show_in_main, use_filters, image
     }
+    
+    let id: UUID
+    /**
+     URL of the feed
+     # Example
+     'https://www.nzz.ch/feeds/wirtschaft.rss'
+     */
+    let url: String
+    
+    /**
+     Name of the feed
+     */
+    @Published var name: String
+    
+    /**
+     Determines whether the articles fetched from that source should be shown in the main feed
+     */
+    @Published var show_in_main: Bool
+    
+    /**
+     Determines whether any of the selected filters should be applied
+     */
+    @Published var use_filters: Bool
+    
+    /**
+     Parent feed of the news feed
+     */
+    var parent_feed: NewsFeedProvider?
+    
+    /**
+     Optional title image for the feed
+     */
+    let image: FeedTitleImage?
     
     /**
      Encode function to serialize a instance of NewsFeed to a json string, writes out all the properties attached to their respective key
@@ -187,39 +230,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         self.image = image
         self.id = UUID.init()
     }
-    
-    let id: UUID
-    /**
-     URL of the feed
-     # Example
-     'https://www.nzz.ch/feeds/wirtschaft.rss'
-     */
-    let url: String
-    
-    /**
-     Name of the feed
-     */
-    @Published var name: String
-    
-    /**
-     Determines whether the articles fetched from that source should be shown in the main feed
-     */
-    @Published var show_in_main: Bool
-    
-    /**
-     Determines whether any of the selected filters should be applied
-     */
-    @Published var use_filters: Bool
-    
-    /**
-     Parent feed of the news feed
-     */
-    var parent_feed: NewsFeedProvider?
-    
-    /**
-     Optional title image for the feed
-     */
-    let image: FeedTitleImage?
 }
 
 /**
