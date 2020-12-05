@@ -79,6 +79,16 @@ final class Model: ObservableObject {
         self.filter_keywords = []
         self.filtered_article_data = []
         self.collection_data = []
+        
+        /**
+         Links the own objectWillChange-Property to a variable to trigger events when self is changing
+         */
+        self.own_change = self.objectWillChange.sink { _ in
+            print("Refreshing Articles")
+            for article in self.filtered_article_data {
+                article.objectWillChange.send()
+            }
+        }
     }
     
     /**
@@ -91,6 +101,16 @@ final class Model: ObservableObject {
         self.filter_keywords = []
         self.filtered_article_data = []
         self.collection_data = []
+        
+        /**
+         Links the own objectWillChange-Property to a variable to trigger events when self is changing
+         */
+        self.own_change = self.objectWillChange.sink { _ in
+            print("Refreshing Articles")
+            for article in self.filtered_article_data {
+                article.objectWillChange.send()
+            }
+        }
     }
     
     /**
@@ -112,7 +132,12 @@ final class Model: ObservableObject {
       List storing indicators to update the FeedProvider when any Feed is updated
      */
     @Published private var feed_provider_update_indicators: [AnyCancellable?] = []
-
+    
+    /**
+     Connects to own objectWillChange.send() to trigger actions
+     */
+    var own_change: AnyCancellable?
+    
     /**
      Storage for all of the filter keywords
      */
