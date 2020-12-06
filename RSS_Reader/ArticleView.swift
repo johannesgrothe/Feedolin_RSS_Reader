@@ -19,6 +19,10 @@ struct ArticleView: View {
     var body: some View {
         VStack{
             ArticleWebView(url: article.link)
+                .onDisappear {
+                    article.read = true
+                    print("View did disappear")
+                }
         }
         .navigationBarTitle(article.title, displayMode: .inline)
         .background(Color(UIColor(named: "BackgroundColor")!))
@@ -55,7 +59,7 @@ struct ArticleWebView: UIViewRepresentable {
      updates the view, needs to be there
      */
     func updateUIView(_ uiView: WKWebView, context: Context) {
-
+        
     }
     
     
