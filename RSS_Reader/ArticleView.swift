@@ -21,7 +21,6 @@ struct ArticleView: View {
             ArticleWebView(url: article.link)
                 .onDisappear {
                     article.read = true
-                    print("View did disappear")
                 }
         }
         .navigationBarTitle(article.title, displayMode: .inline)
@@ -61,9 +60,7 @@ struct ArticleWebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {
         
     }
-    
-    
-    
+
 }
 
 struct ArticleView_Previews: PreviewProvider {
