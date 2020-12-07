@@ -102,8 +102,16 @@ struct CollectionDetailSettingsView: View {
                     Text("\(feed.parent_feed!.token) - \(feed.name)")//.font(.headline)
                 }
             }
+            .onDelete(perform: delete)
             .listRowBackground(Color.clear)
+            
+            Button(action:{ self.presentationMode.wrappedValue.dismiss() }){
+                                Text("Go Back")
+                            }
         }
+        //
+        .navigationBarItems(trailing: EditButton())
+        //
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
@@ -111,7 +119,9 @@ struct CollectionDetailSettingsView: View {
         .background(Color(UIColor(named: "BackgroundColor")!))
         .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(collection.name)
-        .toolbar {
+        
+        /*
+         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button(action: {
@@ -134,12 +144,17 @@ struct CollectionDetailSettingsView: View {
         }.sheet(isPresented: self.$show_add_feed_view) {
             AddFeedsToCollectionView(collection: collection)
         }
+        */
         
         //lines 139-141 are part of the workaround for back button bug
-        Button(action:{ self.presentationMode.wrappedValue.dismiss() }){
-                    Text("Go Back")
-                }
+//        Button(action:{ self.presentationMode.wrappedValue.dismiss() }){
+//                    Text("Go Back")
+//                }
    
+    }
+    
+    func delete(at offsets: IndexSet) {
+        print("delete feed from coll btn pressed")
     }
 }
 
