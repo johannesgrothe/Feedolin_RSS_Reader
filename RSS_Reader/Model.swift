@@ -501,15 +501,23 @@ final class Model: ObservableObject {
      (Re)applies the collection filter
      */
     private func applyFilterCollection(_ sort_collection: Collection) {
-        var colls_feed_ids = [UUID()]
+        var colls_feed_ids:[UUID] = []
         for feed in sort_collection.feed_list {
             colls_feed_ids.append(feed.id)
         }
         
-        filtered_article_data = stored_article_data
-        for _ in self.stored_article_data {
-            filtered_article_data.removeAll {
-                !colls_feed_ids.contains($0.parent_feeds_ids[0])
+        //empty the array containing all filtered articles
+        filtered_article_data = []
+
+        for article in self.stored_article_data {
+            var article_feeds_ids:[UUID] = []
+            for parent_feed in article.parent_feeds {
+                print(parent_feed.name)
+                article_feeds_ids.append(parent_feed.id)
+            }
+            //subtract one array from the other, to see if there are similary elements
+            if Set(article_feeds_ids).intersection(Set(colls_feed_ids)).count > 0 {
+                filtered_article_data.append(article)
             }
         }
     }
