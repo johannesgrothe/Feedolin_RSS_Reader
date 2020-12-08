@@ -80,7 +80,7 @@ struct ArticleListRow: View {
             .padding(.all, 10.0)
             .background(Color(UIColor(named: "ArticleColor")!))
             .cornerRadius(10)
-            .foregroundColor(self.read ? .gray: .black)
+            .opacity(self.read ? 0.4 : 1)
         }
         .onAppear(perform: {
             self.bookmarked = article.bookmarked
