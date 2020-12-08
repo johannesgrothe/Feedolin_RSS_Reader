@@ -82,6 +82,24 @@ class FeedParser {
         }
     }
     
+    private func getRegexGroup(for pattern: String, in text: String) -> [String] {
+        
+        var out_group: [String] = []
+        
+        let regex = try? NSRegularExpression(
+          pattern: pattern
+        )
+        
+        if let matches = regex?.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count)) {
+            for match in matches {
+                if let url_range = Range(match.range(at: 1), in: text) {
+                    let img_url = String(text[url_range])
+                    out_group.append(img_url)
+                }
+            }
+        }
+        return out_group
+    }
     
     /**
      Parses the data out of an article xml string
@@ -106,6 +124,14 @@ class FeedParser {
         if art_data == nil {
             return nil
         }
+        
+        print("==START==")
+        let image_urls = getRegexGroup(for: "<media:.*?url=\"(.+?)\".*?[/]{0,1}>", in: article_str)
+        print(image_urls)
+        
+        let image_groups = getRegexGroup(for: "<media:.*?height=\"([0-9]+?)?\".*?url=\"(.+?)\".*?[/]{0,1}>", in: article_str)
+        print(image_groups)
+        print("==END==")
         
         var art_pub_date: Date?
         
