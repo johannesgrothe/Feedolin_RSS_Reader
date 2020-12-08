@@ -82,9 +82,9 @@ class FeedParser {
         }
     }
     
-    private func getRegexGroup(for pattern: String, in text: String) -> [String] {
+    private func getRegexGroup(for pattern: String, in text: String) -> [[String]] {
         
-        var out_group: [String] = []
+        var out_group: [[String]] = []
         
         let regex = try? NSRegularExpression(
           pattern: pattern
@@ -92,10 +92,14 @@ class FeedParser {
         
         if let matches = regex?.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count)) {
             for match in matches {
-                if let url_range = Range(match.range(at: 1), in: text) {
-                    let img_url = String(text[url_range])
-                    out_group.append(img_url)
+                var buf_list: [String] = []
+                for i in 1 ... match.numberOfRanges - 1 {
+                    if let buf_range = Range(match.range(at: i), in: text) {
+                        let img_url = String(text[buf_range])
+                        buf_list.append(img_url)
+                    }
                 }
+                out_group.append(buf_list)
             }
         }
         return out_group
