@@ -105,6 +105,36 @@ class FeedParser {
         return out_group
     }
     
+    private func parseThumbnailURL(from text: String) -> String? {
+        
+        let image_groups = getRegexGroup(for: "<media:.*?height=\"([0-9]+?)?\".*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
+        if !image_groups.isEmpty {
+            var biggest_res: Int = -1
+            var out_uri: String = ""
+            for image_tuple in image_groups {
+                let size = Int(image_tuple[0]) ?? 0
+                
+                if size > biggest_res {
+                    biggest_res = size
+                    out_uri = image_tuple[1]
+                }
+            }
+            if biggest_res >= 0 {
+                print("Found biggest image, size:\(biggest_res)")
+                return out_uri
+            }
+            print("Found only faulty resolution info, continuing")
+        }
+        
+        let image_urls = getRegexGroup(for: "<media:.*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
+        if !image_urls.isEmpty {
+            print("Returning first image found")
+            return image_urls[0][0]
+        }
+        
+        return nil
+    }
+    
     /**
      Parses the data out of an article xml string
      # String Structure
@@ -129,13 +159,7 @@ class FeedParser {
             return nil
         }
         
-        print("==START==")
-        let image_urls = getRegexGroup(for: "<media:.*?url=\"(.+?)\".*?[/]{0,1}>", in: article_str)
-        print(image_urls)
-        
-        let image_groups = getRegexGroup(for: "<media:.*?height=\"([0-9]+?)?\".*?url=\"(.+?)\".*?[/]{0,1}>", in: article_str)
-        print(image_groups)
-        print("==END==")
+        let article_thumbnail_url = parseThumbnailURL(from: article_str)
         
         var art_pub_date: Date?
         
@@ -162,7 +186,7 @@ class FeedParser {
             art_pub_date = date!
         }
         
-        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, thumbnail_url: nil, parent_feeds: [])
+        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, thumbnail_url: article_thumbnail_url, parent_feeds: [])
     }
     
     /**
