@@ -132,7 +132,7 @@ class FeedParser {
             art_pub_date = date!
         }
         
-        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, author: nil, parent_feeds: [])
+        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, thumbnail_url: nil, parent_feeds: [])
     }
     
     /**

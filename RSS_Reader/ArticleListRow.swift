@@ -70,7 +70,7 @@ struct ArticleListRow: View {
                 
                 Spacer()
                 
-                article.image?
+                article.image?.img
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 110, maxHeight: 180, alignment: .center)

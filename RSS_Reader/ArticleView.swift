@@ -65,6 +65,6 @@ struct ArticleWebView: UIViewRepresentable {
 
 struct ArticleView_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleView(article: ArticleData(article_id: "001", title: "TestArticle", description: "article for test", link: "https://www.apple.com", pub_date: Date(), author: "Test", parent_feeds: []))
+        ArticleView(article: ArticleData(article_id: "001", title: "TestArticle", description: "article for test", link: "https://www.apple.com", pub_date: Date(), thumbnail_url: nil, parent_feeds: []))
     }
 }
