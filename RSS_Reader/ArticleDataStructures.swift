@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 /**
  Dataset for used by the model to store article information loaded from the database or fetched from the network
@@ -43,6 +44,11 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     
     /**URL to the preview image*/
     let image_url: String?
+    
+    /**
+     Indicator to auto-refresh Views when Icon is changed
+     */
+    @Published private var image_loaded_indicator: AnyCancellable? = nil
     
     /**Actual image to display*/
     let image: AsyncImage?
@@ -96,7 +102,14 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         read = try container.decode(Bool.self, forKey: .read)
         
         if self.image_url != nil {
+            /**Create and assign image*/
             self.image = AsyncImage(self.image_url!, default_image: "photo")
+            
+            /**Chain images objectWillChange to the indicator*/
+            image_loaded_indicator = self.image!.objectWillChange.sink { _ in
+                print("Triggering: Article Image loaded")
+                self.objectWillChange.send()
+            }
         } else {
             self.image = nil
         }
@@ -113,14 +126,21 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         self.bookmarked = false
         self.read = false
         
+        self.id = UUID()
+        self.parent_feeds_ids = []
+        
         if self.image_url != nil {
+            /**Create and assign image*/
             self.image = AsyncImage(self.image_url!, default_image: "photo")
+            
+            /**Chain images objectWillChange to the indicator*/
+            image_loaded_indicator = self.image!.objectWillChange.sink { _ in
+                print("Triggering: Article Image loaded")
+                self.objectWillChange.send()
+            }
         } else {
             self.image = nil
         }
-        
-        self.id = UUID()
-        self.parent_feeds_ids = []
     }
     
     /**get the Article's first Feed*/
