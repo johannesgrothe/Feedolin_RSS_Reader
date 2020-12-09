@@ -39,9 +39,10 @@ class FeedParser {
     }
     
     /**
-     Gets all regex groups from the selected regex and the passed text
+     Gets all regex groups from the selected regex and the passed text.
+     DO NOT USE ANYMORE IT'S SHIT
      */
-    private func getRegexGroups(for regex: String, in text: String) -> [[String]] {
+    private func getRegexGroups_old(for regex: String, in text: String) -> [[String]] {
         do {
             let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
             let matches = regex.matches(in: text,
@@ -61,7 +62,10 @@ class FeedParser {
         }
     }
     
-    private func getRegexGroup(for pattern: String, in text: String) -> [[String]] {
+    /**
+     Gets all regex groups from the selected regex and the passed text.
+     */
+    private func getRegexGroups(for pattern: String, in text: String) -> [[String]] {
         
         var out_group: [[String]] = []
         
@@ -84,9 +88,10 @@ class FeedParser {
         return out_group
     }
     
+    /** Method that parses the thumbnail's url from the whole article (item-tag xml string) */
     private func parseThumbnailURL(from text: String) -> String? {
         
-        let image_groups = getRegexGroup(for: "<media:.*?height=\"([0-9]+?)?\".*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
+        let image_groups = getRegexGroups(for: "<media:.*?height=\"([0-9]+?)?\".*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
         if !image_groups.isEmpty {
             var biggest_res: Int = -1
             var out_uri: String = ""
@@ -105,13 +110,13 @@ class FeedParser {
             print("Found only faulty resolution info, continuing")
         }
         
-        let image_urls = getRegexGroup(for: "<media:.*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
+        let image_urls = getRegexGroups(for: "<media:.*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
         if !image_urls.isEmpty {
             print("Returning first image found")
             return image_urls[0][0]
         }
         
-        let other_image_urls = getRegexGroup(for: "<enclosure.*?type=\"image/jpeg\".*?url=\"(.+?)\".*?>", in: text)
+        let other_image_urls = getRegexGroups(for: "<enclosure.*?type=\"image/jpeg\".*?url=\"(.+?)\".*?>", in: text)
         if !other_image_urls.isEmpty {
             print("Returning first image found")
             return other_image_urls[0][0]
@@ -261,7 +266,7 @@ class FeedParser {
         complete_url = url.lowercased()
         
         // Check URL
-        let result_group = getRegexGroups(for: "(https?://)([a-z0-9]+)\\.([^:^/]*)(:\\d*)?(.*)?", in: complete_url!)
+        let result_group = getRegexGroups_old(for: "(https?://)([a-z0-9]+)\\.([^:^/]*)(:\\d*)?(.*)?", in: complete_url!)
         if !result_group.isEmpty {
             let parsed_url_goup = result_group[0]
             self.main_url = parsed_url_goup[3]
