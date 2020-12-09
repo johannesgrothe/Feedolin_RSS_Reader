@@ -306,8 +306,8 @@ final class Model: ObservableObject {
         // Parser object to get the data
         let parser = FeedParser()
         
-        // Counter for the added feeds
-        var added_feeds = 0
+        // Counter for the added articles
+        var fetched_articles = 0
         
         for feed_provider in feed_data {
             for feed in feed_provider.feeds {
@@ -322,7 +322,7 @@ final class Model: ObservableObject {
                             
                             // Adds the article to the database, moves over the parent feeds if it already exists
                             if addArticle(article) {
-                                added_feeds += 1
+                                fetched_articles += 1
                             } else {
                                 let existing_article = getArticle(article.article_id)
                                 existing_article?.addParentFeed(feed)
@@ -336,11 +336,12 @@ final class Model: ObservableObject {
                 }
             }
         }
-        print("New articles fetched: \(added_feeds)")
+        print("New articles fetched: \(fetched_articles)")
 
         // Refresh viewed articles if any new artices were fetched
-        if added_feeds != 0 {
+        if fetched_articles != 0 {
             refreshFilter()
+            saveData()
         }
     }
 
@@ -607,7 +608,10 @@ final class Model: ObservableObject {
         print("Saving Data")
     }
 
-    /**saves all the Instances of our objects, function knows wich object to save by checking given path*/
+    /**
+     Saves all the Instances of our objects, function knows wich object to save by checking given path
+     - Parameter path: The path of the files that are supposed to be saved. The path also contains the information WHICH files are supposed to be saved.
+     */
     private func save(path: URL){
         
         /** Delete all files that are nor representing any alive object */
