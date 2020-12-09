@@ -131,8 +131,6 @@ final class Model: ObservableObject {
 
     /**Path property to the directory where all the Collection json's are saved*/
     let collections_path = getPathURL(directory_name: "Collections")
-    
-    let blub = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
     /**
      Singleton for the Model.
