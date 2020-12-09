@@ -25,9 +25,20 @@ class Collection: Identifiable, ObservableObject, Codable{
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
+        /** Save attributes */
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode(feed_id_list, forKey: .feed_id_list)
+        
+        /** Create List for UUIDS of the Feeds */
+        var local_feed_id_list: [UUID] = []
+        
+        /** Save UUIDs from all Feeds to list */
+        for feed in self.feed_list {
+            local_feed_id_list.append(feed.id)
+        }
+        
+        /** Save list with UUIDs */
+        try container.encode(local_feed_id_list, forKey: .feed_id_list)
     }
     
     /**
@@ -36,10 +47,26 @@ class Collection: Identifiable, ObservableObject, Codable{
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        id = try container.decode(UUID.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .name)
-        feed_list = []
-        feed_id_list = try container.decode([UUID].self, forKey: .feed_id_list)
+        /** Load all necessary data */
+        self.id = try container.decode(UUID.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.feed_list = []
+        
+        /** Load list of all UUIDS for the feeds */
+        let local_feed_id_list = try container.decode([UUID].self, forKey: .feed_id_list)
+        
+        /** Get model */
+        let model: Model = .shared
+        
+        /** Map loaded UUIDS to Instances of Feed and save them */
+        for id in local_feed_id_list {
+            let buf_feed = model.getFeedById(feed_id: id)
+            if buf_feed != nil {
+                self.feed_list.append(buf_feed!)
+            } else {
+                print("[ERROR] Tried to load unknown feed into collection!")
+            }
+        }
     }
     
     /**
@@ -56,19 +83,13 @@ class Collection: Identifiable, ObservableObject, Codable{
     let id: UUID
     
     /**
-     List of the feeds ids belong to the collection
-     */
-    var feed_id_list: [UUID]
-    
-    /**
      Initialized a Collection
      - Parameter name The name of the collection.
      */
     init(name: String) {
         self.name = name
         self.feed_list = []
-        self.id = UUID.init()
-        self.feed_id_list = []
+        self.id = UUID()
     }
     
     func addFeed(new_feed: NewsFeed) -> Bool {

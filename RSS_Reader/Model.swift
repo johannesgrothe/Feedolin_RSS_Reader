@@ -672,9 +672,7 @@ final class Model: ObservableObject {
                     
                 case "Collections":
                     let object = try! decoder.decode(Collection.self, from: json_data)
-                    for feed_id in object.feed_id_list{
-                        object.feed_list.append(getFeedById(feed_id: feed_id)!)
-                    }
+
                     collection_data.append(object)
                     
                 default:
