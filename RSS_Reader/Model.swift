@@ -659,7 +659,10 @@ final class Model: ObservableObject {
 
                 switch path.pathComponents[path.pathComponents.count-1] {
                 case "FeedProviders":
+                    /** Deserialize FeedProvider*/
                     let object = try! decoder.decode(NewsFeedProvider.self, from: json_data)
+                    
+                    /** Add feed provider to list */
                     feed_data.append(object)
                     
                     /**Link update of the feed to the feed provider*/
@@ -669,15 +672,17 @@ final class Model: ObservableObject {
                     })
                     
                 case "Articles":
+                    /** Deserialize Artivle */
                     let object = try! decoder.decode(ArticleData.self, from: json_data)
-                    for feed_id in object.parent_feeds_ids{
-                        object.parent_feeds.append(getFeedById(feed_id: feed_id)!)
-                    }
+                    
+                    /** Add article to list */
                     stored_article_data.append(object)
                     
                 case "Collections":
+                    /** Deserialize Collection */
                     let object = try! decoder.decode(Collection.self, from: json_data)
 
+                    /** Add collection to list */
                     collection_data.append(object)
                     
                 default:

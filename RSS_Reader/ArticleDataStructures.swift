@@ -35,9 +35,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     /** Published Date of an article */
     let pub_date: Date
     
-    /** List with id's of all the feeds that includes this article */
-    var parent_feeds_ids: [UUID]
-    
     /** URL to the preview image */
     let image_url: String?
     
@@ -87,6 +84,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
+        /** Initialize all attributes */
         id = try container.decode(UUID.self, forKey: .id)
         article_id = try container.decode(String.self, forKey: .article_id)
         title = try container.decode(String.self, forKey: .title)
@@ -94,11 +92,13 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         link = try container.decode(String.self, forKey: .link)
         pub_date = try container.decode(Date.self, forKey: .pub_date)
         image_url = try container.decode(String?.self, forKey: .image_url)
-        parent_feeds_ids = try container.decode([UUID].self, forKey: .parent_feeds_ids)
-        parent_feeds = []
         bookmarked = try container.decode(Bool.self, forKey: .bookmarked)
         read = try container.decode(Bool.self, forKey: .read)
         
+        /** Initialize parent feed list empty*/
+        parent_feeds = []
+        
+        /** Create AsyncImage from image url */
         if self.image_url != nil {
             /**Create and assign image*/
             self.image = AsyncImage(self.image_url!, default_image: "photo")
@@ -111,6 +111,23 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         } else {
             self.image = nil
         }
+        
+        /** Load list of all UUIDS for the feeds */
+        let local_parent_feeds_ids = try container.decode([UUID].self, forKey: .parent_feeds_ids)
+        
+        /** Get model */
+        let model: Model = .shared
+        
+        /** Map loaded UUIDS to Instances of Feed and save them */
+        for id in local_parent_feeds_ids {
+            let buf_feed = model.getFeedById(feed_id: id)
+            if buf_feed != nil {
+                self.parent_feeds.append(buf_feed!)
+            } else {
+                print("[ERROR] Tried to load unknown feed into collection!")
+            }
+        }
+        
     }
     
     init(article_id: String, title: String, description: String, link: String, pub_date: Date, thumbnail_url: String?, parent_feeds: [NewsFeed]) {
@@ -125,7 +142,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         self.read = false
         
         self.id = UUID()
-        self.parent_feeds_ids = []
         
         if self.image_url != nil {
             /**Create and assign image*/
@@ -162,7 +178,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     func addParentFeed(_ feed: NewsFeed) {
         if !hasParentFeed(feed) {
             parent_feeds.append(feed)
-            parent_feeds_ids.append(feed.id)
         }
     }
 
