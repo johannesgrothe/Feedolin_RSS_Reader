@@ -131,6 +131,8 @@ final class Model: ObservableObject {
 
     /**Path property to the directory where all the Collection json's are saved*/
     let collections_path = getPathURL(directory_name: "Collections")
+    
+    let blub = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
     /**
      Singleton for the Model.
@@ -607,6 +609,10 @@ final class Model: ObservableObject {
 
     /**saves all the Instances of our objects, function knows wich object to save by checking given path*/
     private func save(path: URL){
+        
+        /** Delete all files that are nor representing any alive object */
+        cleanupStoredFiles()
+        
         let json_encoder = JSONEncoder()
 
         switch path.pathComponents[path.pathComponents.count-1] {
@@ -640,13 +646,12 @@ final class Model: ObservableObject {
         load(path: articles_path)
         load(path: collections_path)
         print("Loading Data OK")
-        
-//        collection_data.remove(at: 0)
-        
-        cleanupStoredFiles()
     }
 
-    /**loades all the Instances of our objects, function knows wich object to load by checking given path*/
+    /**
+     Loades all the Instances of our objects, function knows wich object to load by checking given path
+     - Parameter path: Path to the folder the files should be loaded from
+     */
     private func load(path: URL){
         let fileManager = FileManager.default
         let decoder = JSONDecoder()
@@ -695,7 +700,11 @@ final class Model: ObservableObject {
         }
     }
 
-    /**Returns a Instance of NewsFeed by the NewsFeed's id*/
+    /**
+     Returns a Instance of NewsFeed by the NewsFeed's id
+     - Parameter feed_id: ID so search for
+     - Returns: The found newsfeed if there is any, nil otherwise
+     */
     func getFeedById(feed_id: UUID) -> NewsFeed?{
         for feed_provider in feed_data{
             for feed in feed_provider.feeds{
@@ -707,7 +716,52 @@ final class Model: ObservableObject {
         return nil
     }
     
+    /**
+     Deletes all files in the list contained in the superfolder.
+     - Parameters:
+     - remove_files: Files to remove
+     - superfolder:  Folder these files are located in
+     - type: commonality of the files (article, collection, ...)
+     */
+    private func removeFiles(files remove_files: [String], superfolder: URL, type: String) {
+        /** Create FileManager instance */
+        let fileManager = FileManager()
+        
+        /** Check if theres anything to remove in the first place */
+        if remove_files.count > 0 {
+            print("Removing \(remove_files.count) orphan \(type) files")
+            
+            /** Iterate over all files to remove */
+            for filename in remove_files {
+                
+                /** Generate full file path */
+                let full_file_path = "\(superfolder.path)/\(filename)"
+                
+                if fileManager.fileExists(atPath: full_file_path) {
+                    do {
+                        /** Delete file */
+                        try fileManager.removeItem(atPath: full_file_path)
+                    }
+                    catch let error as NSError {
+                        print("Cannot delete File: \(error)")
+                    }
+                } else {
+                    print("File does not exist")
+                }
+                
+            }
+        }
+    }
+    
+    /** Cleans up the storage folder by removing all files that are not represented by any alive feedprovider, article or collection object */
     private func cleanupStoredFiles() {
+        
+        /**
+         I KNOW theres a ton of dupliate code, but since theres no 'AnyIdentifialbe' and Article, Collection and FeedProvider have to common superclass, its the only option.
+         
+         If you object, create a ticket and solve it.
+         */
+        
         /** Create FileManager instance */
         let fileManager = FileManager()
 
@@ -741,14 +795,8 @@ final class Model: ObservableObject {
             }
             
             /** Delete orphan files */
-            if remove_files.count > 0 {
-                print("Removing \(remove_files.count) orphan feed provider files")
-                
-                for filename in remove_files {
-                    let full_file_path = "\(feed_providers_path)\(filename)"
-                    try fileManager.removeItem(atPath: full_file_path)
-                }
-            }
+            removeFiles(files: remove_files, superfolder: feed_providers_path, type: "feed provider")
+
         }
         catch let error as NSError {
             print("Ooops! Something went wrong: \(error)")
@@ -785,14 +833,8 @@ final class Model: ObservableObject {
             }
             
             /** Delete orphan files */
-            if remove_files.count > 0 {
-                print("Removing \(remove_files.count) article files")
-                
-                for filename in remove_files {
-                    let full_file_path = "\(articles_path)\(filename)"
-                    try fileManager.removeItem(atPath: full_file_path)
-                }
-            }
+            removeFiles(files: remove_files, superfolder: articles_path, type: "article")
+
         }
         catch let error as NSError {
             print("Ooops! Something went wrong: \(error)")
@@ -829,13 +871,8 @@ final class Model: ObservableObject {
             }
             
             /** Delete orphan files */
-            if remove_files.count > 0 {
-                print("Removing \(remove_files.count) orphan collection files")
-                for filename in remove_files {
-                    let full_file_path = "\(collections_path.path)\(filename)"
-                    try fileManager.removeItem(atPath: full_file_path)
-                }
-            }
+            removeFiles(files: remove_files, superfolder: collections_path, type: "collection")
+
         }
         catch let error as NSError {
             print("Ooops! Something went wrong: \(error)")
