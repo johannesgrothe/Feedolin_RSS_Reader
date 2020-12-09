@@ -114,7 +114,7 @@ class FeedParser {
             for image_tuple in image_groups {
                 let size = Int(image_tuple[0]) ?? 0
                 
-                if size > biggest_res {
+                if size > biggest_res && size < 750 {
                     biggest_res = size
                     out_uri = image_tuple[1]
                 }
@@ -130,6 +130,12 @@ class FeedParser {
         if !image_urls.isEmpty {
             print("Returning first image found")
             return image_urls[0][0]
+        }
+        
+        let other_image_urls = getRegexGroup(for: "<enclosure.*?type=\"image/jpeg\".*?url=\"(.+?)\".*?>", in: text)
+        if !other_image_urls.isEmpty {
+            print("Returning first image found")
+            return other_image_urls[0][0]
         }
         
         return nil
