@@ -39,27 +39,6 @@ class FeedParser {
     }
     
     /**
-     Replaces all matches with the regex in the text with the chosen replacement and returns the new string
-     */
-    private func replaceRegexMatches(for regex: String, in text: String, with replacement: String) -> String? {
-        
-        do {
-            let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
-            
-            let replacedStr = regex.stringByReplacingMatches(in: text,
-                                options: [],
-                                range: NSRange(text.startIndex..., in: text),
-                                withTemplate: replacement)
-            
-            return replacedStr
-            
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
-    /**
      Gets all regex groups from the selected regex and the passed text
      */
     private func getRegexGroups(for regex: String, in text: String) -> [[String]] {
