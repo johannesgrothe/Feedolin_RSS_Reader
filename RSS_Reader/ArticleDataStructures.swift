@@ -59,10 +59,8 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     /** Encode function to serialize a instance of ArticleData to a json string, writes out all the properties attached to their respective key */
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        var stored_parent_ids:[UUID] = []
-        for feed in parent_feeds{
-            stored_parent_ids.append(feed.id)
-        }
+        
+        /** Save all the attributes */
         try container.encode(id, forKey: .id)
         try container.encode(article_id, forKey: .article_id)
         try container.encode(title, forKey: .title)
@@ -70,9 +68,19 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         try container.encode(link, forKey: .link)
         try container.encode(pub_date, forKey: .pub_date)
         try container.encode(image_url, forKey: .image_url)
-        try container.encode(stored_parent_ids, forKey: .parent_feeds_ids)
         try container.encode(bookmarked, forKey: .bookmarked)
         try container.encode(read, forKey: .read)
+        
+        /** Create a list for the parent feeds UUIDs */
+        var stored_parent_ids:[UUID] = []
+        
+        /** Save every parent feeds UUID into the list */
+        for feed in parent_feeds{
+            stored_parent_ids.append(feed.id)
+        }
+        
+        /** Save the parent feeds UUIDs*/
+        try container.encode(stored_parent_ids, forKey: .parent_feeds_ids)
     }
     
     /** Decoding constructor to deserialize the archived json data into a instance of ArticleData */

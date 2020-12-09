@@ -635,10 +635,15 @@ final class Model: ObservableObject {
 
     /** loades all the Instances of our objects in the right order to avoid conflicts */
     func loadData() {
+        print("Loading Data")
         load(path: feed_providers_path)
         load(path: articles_path)
         load(path: collections_path)
-        print("Loading Data")
+        print("Loading Data OK")
+        
+//        collection_data.remove(at: 0)
+        
+        cleanupStoredFiles()
     }
 
     /**loades all the Instances of our objects, function knows wich object to load by checking given path*/
@@ -696,7 +701,143 @@ final class Model: ObservableObject {
         }
         return nil
     }
+    
+    private func cleanupStoredFiles() {
+        /** Create FileManager instance */
+        let fileManager = FileManager()
 
+        /** Cleanup feed providers */
+        do {
+            /** Load all filenames for feed providers */
+            let files = try fileManager.contentsOfDirectory(atPath: feed_providers_path.path)
+            
+            /**
+             Initialize array for all files that should be removed.
+             (cannot remove them while iterating because thats the rules and you would blow shit up)
+             */
+            var remove_files: [String] = []
+            
+            /** Iterate over filenames */
+            for filename in files {
+                var found: Bool = false
+                
+                /** Iterate over feed providers and check if their id fits */
+                for feed_provider in self.feed_data {
+                    if feed_provider.id.uuidString + ".json" == filename {
+                        found = true
+                        break
+                    }
+                }
+                
+                /** If no id fitted, the file should be marked for deleting */
+                if !found {
+                    remove_files.append(filename)
+                }
+            }
+            
+            /** Delete orphan files */
+            if remove_files.count > 0 {
+                print("Removing \(remove_files.count) orphan feed provider files")
+                
+                for filename in remove_files {
+                    let full_file_path = "\(feed_providers_path)\(filename)"
+                    try fileManager.removeItem(atPath: full_file_path)
+                }
+            }
+        }
+        catch let error as NSError {
+            print("Ooops! Something went wrong: \(error)")
+        }
+        
+        
+        /** Cleanup articles */
+        do {
+            /** Load all filenames for feed providers */
+            let files = try fileManager.contentsOfDirectory(atPath: articles_path.path)
+            
+            /**
+             Initialize array for all files that should be removed.
+             (cannot remove them while iterating because thats the rules and you would blow shit up)
+             */
+            var remove_files: [String] = []
+            
+            /** Iterate over filenames */
+            for filename in files {
+                var found: Bool = false
+                
+                /** Iterate over feed providers and check if their id fits */
+                for article in self.stored_article_data {
+                    if article.id.uuidString + ".json" == filename {
+                        found = true
+                        break
+                    }
+                }
+                
+                /** If no id fitted, the file should be marked for deleting */
+                if !found {
+                    remove_files.append(filename)
+                }
+            }
+            
+            /** Delete orphan files */
+            if remove_files.count > 0 {
+                print("Removing \(remove_files.count) article files")
+                
+                for filename in remove_files {
+                    let full_file_path = "\(articles_path)\(filename)"
+                    try fileManager.removeItem(atPath: full_file_path)
+                }
+            }
+        }
+        catch let error as NSError {
+            print("Ooops! Something went wrong: \(error)")
+        }
+        
+        
+        /** Cleanup collections */
+        do {
+            /** Load all filenames for feed providers */
+            let files = try fileManager.contentsOfDirectory(atPath: collections_path.path)
+            
+            /**
+             Initialize array for all files that should be removed.
+             (cannot remove them while iterating because thats the rules and you would blow shit up)
+             */
+            var remove_files: [String] = []
+            
+            /** Iterate over filenames */
+            for filename in files {
+                var found: Bool = false
+                
+                /** Iterate over feed providers and check if their id fits */
+                for collection in self.collection_data {
+                    if collection.id.uuidString + ".json" == filename {
+                        found = true
+                        break
+                    }
+                }
+                
+                /** If no id fitted, the file should be marked for deleting */
+                if !found {
+                    remove_files.append(filename)
+                }
+            }
+            
+            /** Delete orphan files */
+            if remove_files.count > 0 {
+                print("Removing \(remove_files.count) orphan collection files")
+                for filename in remove_files {
+                    let full_file_path = "\(collections_path.path)\(filename)"
+                    try fileManager.removeItem(atPath: full_file_path)
+                }
+            }
+        }
+        catch let error as NSError {
+            print("Ooops! Something went wrong: \(error)")
+        }
+        
+        
+    }
 }
 
 var preview_model = Model(
