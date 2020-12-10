@@ -34,6 +34,7 @@ struct ArticleView: View {
  UPDATE: not used right now, maybe later
  View that loads the url of the article and shows it
  */
+/*
 struct ArticleWebView: UIViewRepresentable {
     
     // String that represents the url of the article, that is shown
@@ -64,6 +65,7 @@ struct ArticleWebView: UIViewRepresentable {
     }
 
 }
+*/
 
 /**
  View that loads the url of the article and shows it in the safari view
