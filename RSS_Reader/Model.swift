@@ -897,6 +897,16 @@ final class Model: ObservableObject {
         
     }
     
+    /**@reset() will set all Data in the model to empty List and after it will call @cleanupStoredFiles() to remove all the serialized json's*/
+    func reset(){
+        self.collection_data = []
+        self.filtered_article_data = []
+        self.stored_article_data = []
+        self.feed_data = []
+        self.filter_keywords = []
+        self.feed_provider_update_indicators = []
+        
+        cleanupStoredFiles()
     /**@saveArticle(_ article: ArticleData) will overwrite the given article*/
     func saveArticle(_ article: ArticleData){
         

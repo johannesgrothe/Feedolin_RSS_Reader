@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
+    /**Model singleton*/
+    @ObservedObject var model: Model = .shared
+    
+    @State private var showingAlert = false
+    
     var body: some View {
         List {
             NavigationLink(destination: FeedSettingsView()) {
@@ -24,6 +29,21 @@ struct SettingsView: View {
                 }
             }
             .listRowBackground(Color.clear)
+            .navigationBarTitle("Settings")
+            Button(action: {
+                self.showingAlert = true
+            }) {
+                HStack{
+                    //For the Reviwer an alternative image could be "trash"
+                    Image(systemName: "doc.badge.gearshape").imageScale(.large)
+                    Text("Factory Reset").font(.headline)
+                }
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Factory Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
+            }
+            .listRowBackground(Color.clear)
+            .navigationBarTitle("Settings")
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
