@@ -9,6 +9,9 @@ import Foundation
 import SwiftUI
 import Combine
 
+/** Get model */
+let model: Model = .shared
+
 /** Dataset for used by the model to store article information loaded from the database or fetched from the network */
 class ArticleData: Identifiable, ObservableObject, Codable {
     
@@ -45,10 +48,18 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     let image: AsyncImage?
     
     /** Boolean that contains case of if the article is bookmarked */
-    @Published var bookmarked: Bool
+    @Published var bookmarked: Bool{
+        didSet{
+            model.saveArticle(self)
+        }
+    }
     
     /** Boolean that contains case of if the artice is read */
-    @Published var read: Bool
+    @Published var read: Bool{
+        didSet{
+            model.saveArticle(self)
+        }
+    }
     
     /** List instance of NewsFeed of all the feeds that includes this article */
     @Published var parent_feeds: [NewsFeed]
@@ -114,10 +125,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         
         /** Load list of all UUIDS for the feeds */
         let local_parent_feeds_ids = try container.decode([UUID].self, forKey: .parent_feeds_ids)
-        
-        /** Get model */
-        let model: Model = .shared
-        
+                
         /** Map loaded UUIDS to Instances of Feed and save them */
         for id in local_parent_feeds_ids {
             let buf_feed = model.getFeedById(feed_id: id)
@@ -155,6 +163,8 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         } else {
             self.image = nil
         }
+        
+        model.saveArticle(self)
     }
     
     /** Get the Article's first Feed */
@@ -172,6 +182,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         for feed in feeds {
             addParentFeed(feed)
         }
+        model.saveArticle(self)
     }
 
     /** Adds feed to parent feed list */
@@ -179,6 +190,7 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         if !hasParentFeed(feed) {
             parent_feeds.append(feed)
         }
+        model.saveArticle(self)
     }
 
     /** Checks whether the passed parent feed is a parent of the article */

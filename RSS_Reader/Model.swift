@@ -622,7 +622,6 @@ final class Model: ObservableObject {
     /** saves all the Instances of our objects in the right order to avoid conflicts */
     func saveData(){
         save(path: feed_providers_path)
-        save(path: articles_path)
         save(path: collections_path)
         print("Saving Data")
     }
@@ -902,6 +901,18 @@ final class Model: ObservableObject {
         }
         
         
+    }
+    
+    /**@saveArticle(_ article: ArticleData) will overwrite the given article*/
+    func saveArticle(_ article: ArticleData){
+        
+        let json_encoder = JSONEncoder()
+        let json_data = try! json_encoder.encode(article)
+        let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+        
+        writeObjectStringToJsonFile(path: self.articles_path, json_string: json_string, file_name: article.id.uuidString)
+        
+        print("Article with the ID:\(article.id) got saved")
     }
 }
 
