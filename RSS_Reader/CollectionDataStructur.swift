@@ -92,6 +92,9 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.id = UUID()
     }
     
+    /**
+     * ToDo: Add comment
+     */
     func addFeed(new_feed: NewsFeed) -> Bool {
         
         for feed in feed_list {
@@ -105,5 +108,15 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.feed_list.append(new_feed)
         
         return true
+    }
+    
+    /**
+     * ToDo: Add co9mment
+     */
+    func removeFeed(feed_to_remove: NewsFeed) -> Bool {
+        
+//        self.feed_list.removeAll(where: { feed_to_remove.id })
+        
+        return 1 == 2^0
     }
 }
