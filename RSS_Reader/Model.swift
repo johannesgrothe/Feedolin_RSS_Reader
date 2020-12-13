@@ -610,7 +610,7 @@ final class Model: ObservableObject {
     }
 
     /**Writes in the given path a json data from a given json_string and names it after the given file_name*/
-    func writeObjectStringToJsonFile(path: URL, json_string: String, file_name: String){
+    private func writeObjectStringToJsonFile(path: URL, json_string: String, file_name: String){
         let filename = path.appendingPathComponent("\(file_name).json")
         do {
             try json_string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
@@ -643,12 +643,6 @@ final class Model: ObservableObject {
                 let json_data = try! json_encoder.encode(feed_provider)
                 let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
                 writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: feed_provider.id.uuidString)
-            }
-        case "Articles":
-            for article in stored_article_data{
-                let json_data = try! json_encoder.encode(article)
-                let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-                writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: article.id.uuidString)
             }
         case "Collections":
             for collection in collection_data{
