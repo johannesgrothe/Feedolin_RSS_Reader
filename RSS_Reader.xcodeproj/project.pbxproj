@@ -25,6 +25,7 @@
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
 		C50DDE5E25652F1D00A2A1DA /* CollectionDataStructur.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */; };
 		C50DDE7725680F7B00A2A1DA /* CollectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */; };
+		C5EE54062586A8EF00174230 /* CollectionDetailsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */; };
 		EB08E11F254D7BAD00006B70 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E11E254D7BAD00006B70 /* ArticleView.swift */; };
 		EB08E124254D7BD200006B70 /* DummyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E123254D7BD200006B70 /* DummyDetailView.swift */; };
 		EB08E129254D7BF000006B70 /* ListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E128254D7BF000006B70 /* ListEntryView.swift */; };
@@ -83,6 +84,7 @@
 		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
 		C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDataStructur.swift; sourceTree = "<group>"; };
 		C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSettingsView.swift; sourceTree = "<group>"; };
+		C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailsSettingsView.swift; sourceTree = "<group>"; };
 		EB08E11E254D7BAD00006B70 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		EB08E123254D7BD200006B70 /* DummyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyDetailView.swift; sourceTree = "<group>"; };
 		EB08E128254D7BF000006B70 /* ListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEntryView.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				EB6702EB254DABE6006BD9C1 /* FilterDataStructures.swift */,
 				1BC46CB325576D0C0029D436 /* RefreshableScrollView.swift */,
 				C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */,
+				C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */,
 				1B3F89F825894AD100B6F9CA /* Errors.swift */,
 			);
 			path = RSS_Reader;
@@ -380,6 +383,7 @@
 				1BC46CA42556CD1A0029D436 /* ArticleList.swift in Sources */,
 				EB08E129254D7BF000006B70 /* ListEntryView.swift in Sources */,
 				C50DDE7725680F7B00A2A1DA /* CollectionSettingsView.swift in Sources */,
+				C5EE54062586A8EF00174230 /* CollectionDetailsSettingsView.swift in Sources */,
 				1BD2A3C7254B036E00FCA510 /* RSS_ReaderApp.swift in Sources */,
 				1B68EA3D255B32BE00504207 /* FeedEditSettingsView.swift in Sources */,
 				1BC46CB425576D0C0029D436 /* RefreshableScrollView.swift in Sources */,
