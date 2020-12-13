@@ -73,12 +73,12 @@ struct CollectionSettingsList: View {
 struct CollectionDetailSettingsView: View {
     
     /**
-     The collection that is displayed in the view
+     * The collection that is displayed in the view
      */
     @ObservedObject var collection: Collection
     
     /**
-    Model Singleton
+     * Model Singleton
      */
     @ObservedObject var model: Model = .shared
     
@@ -86,47 +86,19 @@ struct CollectionDetailSettingsView: View {
      indicates if the add feed view is shown or not
      */
     @State private var show_add_feed_view = false
-    
-    
-    //line 92 is part of the workaround for back button bug
-    @Environment(\.presentationMode) var presentationMode
+
+    /**
+     * ToDo: Add comment
+     */
+    @State private var edit_mode = false
     
     /**
      * ToDo: Add comment
      */
-    @State private var editMode = EditMode.inactive
-
-    
-    @State private var editM = false
-    
     @State private var presented_feed_list: [NewsFeed] = []
     
-    
-    /**
-     * ToDo: Add comments
-     */
-    func fillFeedLis() {
-        print("call fill feed list")
-        if (editM) {
-            self.presented_feed_list = []
-            for feed_prov in model.feed_data {
-                for feed in feed_prov.feeds {
-                    self.presented_feed_list.append(feed)
-                }
-            }
-        } else {
-            self.presented_feed_list = collection.feed_list
-        }
-        
-        
-    }
-    
     var body: some View {
-        
         List {
-            
-            
-            
             ForEach(presented_feed_list) { feed in
                 // a row that contains the name of a feed, his parent token and icon
                 HStack {
@@ -134,15 +106,16 @@ struct CollectionDetailSettingsView: View {
                     feed.parent_feed!.icon.img
                         .resizable()
                         .frame(width: 25, height: 25)
-                    Text("\(feed.parent_feed!.token) - \(feed.name)")//.font(.headline)
+                    Text("\(feed.parent_feed!.token) - \(feed.name)")
                     Spacer()
                     
-                    if (editM) {
+                    if (edit_mode) {
                         
-                        if (checkBla(feed: feed)) {
+                        if (collection.containsFeed(feed)) {
                            
                             Button(action: {
                                 print("Delete Feed from Collection Button clicked.")
+                                let _ = collection.removeFeed(feed)
                             }) {
                                 Image(systemName: "minus.circle.fill")
                                     .foregroundColor(.red)
@@ -150,8 +123,7 @@ struct CollectionDetailSettingsView: View {
                         } else {
                             Button(action: {
                                 print("Add Feed to Collection Button clicked.")
-                                let result = collection.addFeed(new_feed: feed)
-                                print(result)
+                                let _ = collection.addFeed(feed)
                             }) {
                                 Image(systemName: "plus.circle.fill")
                                     .foregroundColor(.green)
@@ -163,40 +135,24 @@ struct CollectionDetailSettingsView: View {
                     
                 }
             }
-            
-//            .onChange(of: editM) { newValue in
-//                fillFeedLis()
-//            }
-
-            
-            
             .listRowBackground(Color.clear)
-            
-            
-        
         }
-        
-            
-        // enable edit
-//        Toggle("Hide", isOn: $editM)
         .navigationBarItems(trailing:
             Button(action: {
-                print("Edit btn clicked")
-                if (editM) {
-                    editM = false
+                print("Edit collection btn clicked")
+                if (edit_mode) {
+                    edit_mode = false
                 } else {
-                    editM = true
+                    edit_mode = true
                 }
                 fillFeedLis()
             }) {
-                if (editM) {
+                if (edit_mode) {
                     Text("Done")
                 } else {
                     Text("Edit")
                 }
             })
-        //
-        
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
@@ -205,137 +161,30 @@ struct CollectionDetailSettingsView: View {
         .background(Color(UIColor(named: "BackgroundColor")!))
         .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(collection.name)
-
-        
-    
     }
     
     /**
-     * ToDo: Add comment
+     * ToDo: Add comments
      */
-    func checkBla(feed: NewsFeed) -> Bool {
-        
-        for coll_feed in collection.feed_list {
-            if (coll_feed.id == feed.id) {
-                return true
+    func fillFeedLis() {
+        print("call fill feed list")
+        if (edit_mode) {
+            self.presented_feed_list = []
+            for feed_prov in model.feed_data {
+                for feed in feed_prov.feeds {
+                    self.presented_feed_list.append(feed)
+                }
             }
+        } else {
+            self.presented_feed_list = collection.feed_list
         }
-        return false
-    }
-    
-    /**
-     * ToDo: Add comment
-     */
-    private func onAdd() {
-            print("add feed to coll btn pressed")
+        
+        self.presented_feed_list.sort {
+            if $0.parent_feed!.token == $1.parent_feed!.token {
+                return $0.name < $1.name
+            }
+            return $0.parent_feed!.token < $1.parent_feed!.token
         }
-    
-    /**
-     * ToDo: Add comment
-     */
-    func delete(at offsets: IndexSet) {
-        print("delete feed from coll btn pressed")
-    }
-}
-
-///**
-// The View that displayes a List of all feeds from the model that are not in the collection yet.
-// _Parameter collection:_ The collection to which one or more feeds should be added
-// */
-//struct AddFeedsToCollectionView: View {
-//
-//    @Environment(\.presentationMode) var presentationMode
-//
-//    /**
-//     Model Singleton
-//     */
-//    @ObservedObject var model: Model = .shared
-//
-//    /**
-//     The collection that is displayed in the view
-//     */
-//    @ObservedObject var collection: Collection
-//
-//    /**
-//     indicates if the view is  loading or not
-//     */
-//    @State private var loading = false
-//
-//    var body: some View {
-//        NavigationView {
-//
-//        List {
-//            ForEach(getFeedsNotInCollection()) { feed in
-//
-//
-//                Button(action: {
-//                    let result = collection.addFeed(new_feed: feed)
-//                    print(result)
-//                }) {
-//                    // a row that contains the name of a feed, his parent token and icon
-//                    HStack {
-//                        feed.parent_feed!.icon.img
-//                            .resizable()
-//                            .frame(width: 25, height: 25)
-//                        Text("\(feed.parent_feed!.token) - \(feed.name)")//.font(.headline)
-//                    }
-//                }
-//            }
-//        .listRowBackground(Color.clear)
-//
-//        }.disabled(self.loading)
-//        .blur(radius: self.loading ? 3 : 0)
-//        .background(Color(UIColor(named: "BackgroundColor")!))
-//        .edgesIgnoringSafeArea(.bottom)
-//
-//
-//
-//        .navigationBarTitle("Add Feeds", displayMode: .inline)
-//        .navigationBarItems(
-//            trailing:
-//                Button(action: {
-//                    print("save_btn pressed")
-//                    self.presentationMode.wrappedValue.dismiss()
-//                }) {
-//                    Text("Save")
-//                }
-//        )}
-//    }
-//
-//    /**
-//     Returns a list of all feeds from the model which are not in this collection yet.
-//     _return:_ List of NewsFeedProvider that are not in this collection
-//     */
-//    func getFeedsNotInCollection() -> [NewsFeed] {
-//
-//        let coll_feed_list = collection.feed_list
-//
-//        var feed_list: [NewsFeed] = []
-//
-//        for feed_provider in model.feed_data {
-//            for feed in feed_provider.feeds {
-//                feed_list.append(feed)
-//            }
-//        }
-//
-//        print( feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) }) )
-//        return feed_list.filter({ item in !coll_feed_list.contains(where: { $0.id == item.id }) })
-//    }
-//
-//}
-
-/**
- Previews
- */
-struct CollectionSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        CollectionSettingsView()
-    }
-}
-
-struct CollectionDetailSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        let collection = Collection(name: "Coll")
-        CollectionDetailSettingsView(collection: collection)
+        
     }
 }

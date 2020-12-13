@@ -95,7 +95,7 @@ class Collection: Identifiable, ObservableObject, Codable{
     /**
      * ToDo: Add comment
      */
-    func addFeed(new_feed: NewsFeed) -> Bool {
+    func addFeed(_ new_feed: NewsFeed) -> Bool {
         
         for feed in feed_list {
             if feed.url == new_feed.url {
@@ -113,10 +113,29 @@ class Collection: Identifiable, ObservableObject, Codable{
     /**
      * ToDo: Add co9mment
      */
-    func removeFeed(feed_to_remove: NewsFeed) -> Bool {
+    func removeFeed(_ feed_to_remove: NewsFeed) -> Bool {
         
-//        self.feed_list.removeAll(where: { feed_to_remove.id })
+        var i = 0
+        for feed in self.feed_list {
+            if feed.id == feed_to_remove.id {
+                self.feed_list.remove(at: i)
+                return true
+            }
+            i += 1
+        }
+        return false
+    }
+    
+    /**
+     * ToDo: Add comment
+     */
+    func containsFeed(_ feed: NewsFeed) -> Bool {
         
-        return 1 == 2^0
+        for coll_feed in feed_list {
+            if (coll_feed.id == feed.id) {
+                return true
+            }
+        }
+        return false
     }
 }
