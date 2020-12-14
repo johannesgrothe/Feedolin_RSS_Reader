@@ -8,41 +8,44 @@
 import SwiftUI
 
 /**
- Groups feeds
+ * Groups feeds
  */
 class Collection: Identifiable, ObservableObject, Codable{
     
     /**
-     Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value", "name":"value"...
+     * Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value", "name":"value"...
      */
     enum CodingKeys: CodingKey {
         case id, name, feed_id_list
     }
     
     /**
-     Encode function to serialize a instance of Collection to a json string, writes out all the properties attached to their respective key
+     * Name of the collection
      */
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        /** Save attributes */
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        
-        /** Create List for UUIDS of the Feeds */
-        var local_feed_id_list: [UUID] = []
-        
-        /** Save UUIDs from all Feeds to list */
-        for feed in self.feed_list {
-            local_feed_id_list.append(feed.id)
-        }
-        
-        /** Save list with UUIDs */
-        try container.encode(local_feed_id_list, forKey: .feed_id_list)
+    @Published var name: String
+    
+    /**
+     * List of the feeds belong to the collection
+     */
+    @Published var feed_list: [NewsFeed]
+    
+    /**
+     * Unique id belong to the instance of a Collection
+     */
+    let id: UUID
+    
+    /**
+     * Initialized a Collection
+     * - Parameter name The name of the collection.
+     */
+    init(name: String) {
+        self.name = name
+        self.feed_list = []
+        self.id = UUID()
     }
     
     /**
-     Decoding constructor to deserialize the archived json data into a instance of Collection
+     * Decoding constructor to deserialize the archived json data into a instance of Collection
      */
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -70,30 +73,29 @@ class Collection: Identifiable, ObservableObject, Codable{
     }
     
     /**
-    Name of the collection
+     * Encode function to serialize a instance of Collection to a json string, writes out all the properties attached to their respective key
      */
-    @Published var name: String
-    
-    /**
-     List of the feeds belong to the collection
-     */
-    @Published var feed_list: [NewsFeed]
-    
-    /**Unique id belong to the instance of a Collection*/
-    let id: UUID
-    
-    /**
-     Initialized a Collection
-     - Parameter name The name of the collection.
-     */
-    init(name: String) {
-        self.name = name
-        self.feed_list = []
-        self.id = UUID()
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        /** Save attributes */
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        
+        /** Create List for UUIDS of the Feeds */
+        var local_feed_id_list: [UUID] = []
+        
+        /** Save UUIDs from all Feeds to list */
+        for feed in self.feed_list {
+            local_feed_id_list.append(feed.id)
+        }
+        
+        /** Save list with UUIDs */
+        try container.encode(local_feed_id_list, forKey: .feed_id_list)
     }
     
     /**
-     * ToDo: Add comment
+     * adds a feed to the collection
      */
     func addFeed(_ new_feed: NewsFeed) -> Bool {
         
@@ -111,7 +113,7 @@ class Collection: Identifiable, ObservableObject, Codable{
     }
     
     /**
-     * ToDo: Add co9mment
+     * removes a feed from the collection
      */
     func removeFeed(_ feed_to_remove: NewsFeed) -> Bool {
         
@@ -127,7 +129,7 @@ class Collection: Identifiable, ObservableObject, Codable{
     }
     
     /**
-     * ToDo: Add comment
+     * checks if a feed is in the feed list of the collection
      */
     func containsFeed(_ feed: NewsFeed) -> Bool {
         

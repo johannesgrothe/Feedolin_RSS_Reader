@@ -8,8 +8,8 @@
 import SwiftUI
 
 /**
- Root View for the Collections settings.
- Here you see a list of all collections.
+ * Root View for the Collections settings.
+ * Here you see a list of all collections.
  */
 struct CollectionSettingsView: View {
     var body: some View {
@@ -39,12 +39,12 @@ struct CollectionSettingsView: View {
 }
 
 /**
- A List of all collections
+ * Displayes the List of all collections
  */
 struct CollectionSettingsList: View {
 
     /**
-     The model
+     * The model
      */
     @ObservedObject var model: Model = .shared
     

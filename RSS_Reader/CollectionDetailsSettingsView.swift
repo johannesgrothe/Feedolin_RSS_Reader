@@ -22,19 +22,14 @@ struct CollectionDetailSettingsView: View {
      * Model Singleton
      */
     @ObservedObject var model: Model = .shared
-    
-    /**
-     indicates if the add feed view is shown or not
-     */
-    @State private var show_add_feed_view = false
 
     /**
-     * ToDo: Add comment
+     * indicates if the user is in edit_mode to add or remove feeds
      */
     @State private var edit_mode = false
     
     /**
-     * ToDo: Add comment
+     * a list contained all the feeds that should be shown depending on the value of edit_mode
      */
     @State private var presented_feed_list: [NewsFeed] = []
     
@@ -105,7 +100,7 @@ struct CollectionDetailSettingsView: View {
     }
     
     /**
-     * ToDo: Add comments
+     * method to refresh the list of feeds, that should be displayed
      */
     func fillFeedLis() {
         print("call fill feed list")
