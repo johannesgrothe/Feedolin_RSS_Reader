@@ -731,170 +731,97 @@ final class Model: ObservableObject {
         }
         return nil
     }
-    
-    /**
-     Deletes all files in the list contained in the superfolder.
+
+        /**
+     Find and deletes all files in the list contained in the superfolder.
      - Parameters:
      - remove_files: Files to remove
      - superfolder:  Folder these files are located in
      - type: commonality of the files (article, collection, ...)
      */
-    private func removeFiles(files remove_files: [String], superfolder: URL, type: String) {
-        /** Create FileManager instance */
-        let fileManager = FileManager()
-        
-        /** Check if theres anything to remove in the first place */
-        if remove_files.count > 0 {
-            print("Removing \(remove_files.count) orphan \(type) files")
-            
-            /** Iterate over all files to remove */
-            for filename in remove_files {
-                
-                /** Generate full file path */
-                let full_file_path = "\(superfolder.path)/\(filename)"
-                
-                if fileManager.fileExists(atPath: full_file_path) {
-                    do {
-                        /** Delete file */
-                        try fileManager.removeItem(atPath: full_file_path)
-                    }
-                    catch let error as NSError {
-                        print("Cannot delete File: \(error)")
-                    }
-                } else {
-                    print("File does not exist")
-                }
-                
-            }
-        }
-    }
-    
-    /** Cleans up the storage folder by removing all files that are not represented by any alive feedprovider, article or collection object */
-    private func cleanupStoredFiles() {
-        
-        /**
-         I KNOW theres a ton of dupliate code, but since theres no 'AnyIdentifialbe' and Article, Collection and FeedProvider have to common superclass, its the only option.
-         
-         If you object, create a ticket and solve it.
-         */
-        
+    private func removeFiles(path: URL, list: [AnyObject]){
         /** Create FileManager instance */
         let fileManager = FileManager()
 
         /** Cleanup feed providers */
         do {
             /** Load all filenames for feed providers */
-            let files = try fileManager.contentsOfDirectory(atPath: feed_providers_path.path)
-            
+            let files = try fileManager.contentsOfDirectory(atPath: path.path)
+
             /**
              Initialize array for all files that should be removed.
              (cannot remove them while iterating because thats the rules and you would blow shit up)
              */
             var remove_files: [String] = []
-            
+
             /** Iterate over filenames */
             for filename in files {
                 var found: Bool = false
-                
+
                 /** Iterate over feed providers and check if their id fits */
-                for feed_provider in self.feed_data {
-                    if feed_provider.id.uuidString + ".json" == filename {
-                        found = true
-                        break
+                for object in list{
+                    if let news_feed_provider = object as? NewsFeedProvider{
+                        if news_feed_provider.id.uuidString + ".json" == filename {
+                            found = true
+                            break
+                        }
+                    } else if let article = object as? ArticleData{
+                        if article.id.uuidString + ".json" == filename {
+                            found = true
+                            break
+                        }
+                    } else if let collection = object as? Collection{
+                        if collection.id.uuidString + ".json" == filename {
+                            found = true
+                            break
+                        }
+                    }
+                    else{
+                        print("[ERROR] Datatype does not conform to protocol")
                     }
                 }
-                
+
                 /** If no id fitted, the file should be marked for deleting */
                 if !found {
                     remove_files.append(filename)
                 }
             }
-            
-            /** Delete orphan files */
-            removeFiles(files: remove_files, superfolder: feed_providers_path, type: "feed provider")
 
-        }
-        catch let error as NSError {
-            print("Ooops! Something went wrong: \(error)")
-        }
-        
-        
-        /** Cleanup articles */
-        do {
-            /** Load all filenames for feed providers */
-            let files = try fileManager.contentsOfDirectory(atPath: articles_path.path)
-            
-            /**
-             Initialize array for all files that should be removed.
-             (cannot remove them while iterating because thats the rules and you would blow shit up)
-             */
-            var remove_files: [String] = []
-            
-            /** Iterate over filenames */
-            for filename in files {
-                var found: Bool = false
-                
-                /** Iterate over feed providers and check if their id fits */
-                for article in self.stored_article_data {
-                    if article.id.uuidString + ".json" == filename {
-                        found = true
-                        break
+            /** Check if theres anything to remove in the first place */
+            if remove_files.count > 0 {
+                print("Removing \(remove_files.count)")
+
+                /** Iterate over all files to remove */
+                for filename in remove_files {
+
+                    /** Generate full file path */
+                    let full_file_path = "\(path.path)/\(filename)"
+
+                    if fileManager.fileExists(atPath: full_file_path) {
+                        do {
+                            /** Delete file */
+                            try fileManager.removeItem(atPath: full_file_path)
+                        }
+                        catch let error as NSError {
+                            print("Cannot delete File: \(error)")
+                        }
+                    } else {
+                        print("File does not exist")
                     }
-                }
-                
-                /** If no id fitted, the file should be marked for deleting */
-                if !found {
-                    remove_files.append(filename)
+
                 }
             }
-            
-            /** Delete orphan files */
-            removeFiles(files: remove_files, superfolder: articles_path, type: "article")
-
         }
         catch let error as NSError {
             print("Ooops! Something went wrong: \(error)")
         }
-        
-        
-        /** Cleanup collections */
-        do {
-            /** Load all filenames for feed providers */
-            let files = try fileManager.contentsOfDirectory(atPath: collections_path.path)
-            
-            /**
-             Initialize array for all files that should be removed.
-             (cannot remove them while iterating because thats the rules and you would blow shit up)
-             */
-            var remove_files: [String] = []
-            
-            /** Iterate over filenames */
-            for filename in files {
-                var found: Bool = false
-                
-                /** Iterate over feed providers and check if their id fits */
-                for collection in self.collection_data {
-                    if collection.id.uuidString + ".json" == filename {
-                        found = true
-                        break
-                    }
-                }
-                
-                /** If no id fitted, the file should be marked for deleting */
-                if !found {
-                    remove_files.append(filename)
-                }
-            }
-            
-            /** Delete orphan files */
-            removeFiles(files: remove_files, superfolder: collections_path, type: "collection")
+    }
 
-        }
-        catch let error as NSError {
-            print("Ooops! Something went wrong: \(error)")
-        }
-        
-        
+    /** Cleans up the storage folder by removing all files that are not represented by any alive feedprovider, article or collection object */
+    private func cleanupStoredFiles() {
+        removeFiles(path: feed_providers_path, list: feed_data)
+        removeFiles(path: articles_path, list: stored_article_data)
+        removeFiles(path: collections_path, list: collection_data)
     }
     
     /**@reset() will set all Data in the model to empty List and after it will call @cleanupStoredFiles() to remove all the serialized json's*/
