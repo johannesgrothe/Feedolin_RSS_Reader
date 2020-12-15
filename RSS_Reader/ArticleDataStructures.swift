@@ -62,7 +62,11 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     }
     
     /** List instance of NewsFeed of all the feeds that includes this article */
-    @Published var parent_feeds: [NewsFeed]
+    @Published var parent_feeds: [NewsFeed]{
+        didSet {
+            model.saveArticle(self)
+        }
+    }
     
     /** Encode function to serialize a instance of ArticleData to a json string, writes out all the properties attached to their respective key */
     func encode(to encoder: Encoder) throws {
@@ -182,7 +186,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         for feed in feeds {
             addParentFeed(feed)
         }
-        model.saveArticle(self)
     }
 
     /** Adds feed to parent feed list */
@@ -190,7 +193,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         if !hasParentFeed(feed) {
             parent_feeds.append(feed)
         }
-        model.saveArticle(self)
     }
 
     /** Checks whether the passed parent feed is a parent of the article */
