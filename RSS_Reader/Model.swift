@@ -735,17 +735,16 @@ final class Model: ObservableObject {
         /**
      Find and deletes all files in the list contained in the superfolder.
      - Parameters:
-     - remove_files: Files to remove
-     - superfolder:  Folder these files are located in
-     - type: commonality of the files (article, collection, ...)
+     - path: Directory these files are located in
+     - list: list with AnyObject's (for example feed_data, stored_data...)
      */
     private func removeFiles(path: URL, list: [AnyObject]){
         /** Create FileManager instance */
         let fileManager = FileManager()
 
-        /** Cleanup feed providers */
+        /** Find files and append list of files to remove */
         do {
-            /** Load all filenames for feed providers */
+            /** Load all filenames at given path */
             let files = try fileManager.contentsOfDirectory(atPath: path.path)
 
             /**
@@ -758,7 +757,7 @@ final class Model: ObservableObject {
             for filename in files {
                 var found: Bool = false
 
-                /** Iterate over feed providers and check if their id fits */
+                /** Iterate over objects and check if their id fits */
                 for object in list{
                     if let news_feed_provider = object as? NewsFeedProvider{
                         if news_feed_provider.id.uuidString + ".json" == filename {
@@ -817,14 +816,14 @@ final class Model: ObservableObject {
         }
     }
 
-    /** Cleans up the storage folder by removing all files that are not represented by any alive feedprovider, article or collection object */
+    /** Cleans up the storage by calling removesFiles with given path and list, removing all files that are not represented by any alive feedprovider, article or collection object */
     private func cleanupStoredFiles() {
         removeFiles(path: feed_providers_path, list: feed_data)
         removeFiles(path: articles_path, list: stored_article_data)
         removeFiles(path: collections_path, list: collection_data)
     }
     
-    /**@reset() will set all Data in the model to empty List and after it will call @cleanupStoredFiles() to remove all the serialized json's*/
+    /** Set all Data in the model to empty List and after it will call @cleanupStoredFiles() to remove all the serialized json's*/
     func reset(){
         self.collection_data = []
         self.filtered_article_data = []
