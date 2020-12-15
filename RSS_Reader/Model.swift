@@ -737,8 +737,12 @@ final class Model: ObservableObject {
      - Parameters:
      - path: Directory these files are located in
      - list: list with AnyObject's (for example feed_data, stored_data...)
+     
+                        !ATTENTION!:
+     This method is Private and should only be called by @cleanupStoredFiles() and list has to be an array of ArticeData, Collection or NewsFeedProvider nothing else. Otherwise this will throw an error
      */
-    private func removeFiles(path: URL, list: [AnyObject]){
+    private func removeFiles(path: URL, list: [AnyObject]) throws {
+        
         /** Create FileManager instance */
         let fileManager = FileManager()
 
@@ -776,7 +780,7 @@ final class Model: ObservableObject {
                         }
                     }
                     else{
-                        print("[ERROR] Datatype does not conform to protocol")
+                        throw ModelErrors.WrongDataType("[ERROR] Datatype: \(type(of: object)) is wrong. Change Datatype to 'NewsFeedProvider', 'ArticleData' or 'Collection'")
                     }
                 }
 
@@ -818,9 +822,14 @@ final class Model: ObservableObject {
 
     /** Cleans up the storage by calling removesFiles with given path and list, removing all files that are not represented by any alive feedprovider, article or collection object */
     private func cleanupStoredFiles() {
-        removeFiles(path: feed_providers_path, list: feed_data)
-        removeFiles(path: articles_path, list: stored_article_data)
-        removeFiles(path: collections_path, list: collection_data)
+        do{
+            try removeFiles(path: feed_providers_path, list: feed_data)
+            try removeFiles(path: articles_path, list: stored_article_data)
+            try removeFiles(path: collections_path, list: collection_data)
+        }
+        catch{
+            print("\(error)")
+        }
     }
     
     /** Set all Data in the model to empty List and after it will call @cleanupStoredFiles() to remove all the serialized json's*/
