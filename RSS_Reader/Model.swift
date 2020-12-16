@@ -600,7 +600,6 @@ final class Model: ObservableObject {
 
     /** saves all the Instances of our objects in the right order to avoid conflicts */
     func saveData(){
-        save(path: feed_providers_path)
         save(path: collections_path)
         print("Saving Data")
     }

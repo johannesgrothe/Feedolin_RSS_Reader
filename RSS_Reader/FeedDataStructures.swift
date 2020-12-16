@@ -35,7 +35,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      */
     @Published var name: String {
         didSet {
-            
+            model.saveFeedProvider(self)
         }
     }
     
@@ -44,7 +44,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      */
     @Published var token: String {
         didSet {
-            
+            model.saveFeedProvider(self)
         }
     }
     
@@ -63,7 +63,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      */
     @Published var feeds: [NewsFeed] {
         didSet {
-            
+            model.saveFeedProvider(self)
         }
     }
     
@@ -200,7 +200,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      */
     @Published var name: String {
         didSet {
-            
+            if parent_feed != nil { model.saveFeedProvider(parent_feed!) }
         }
     }
     
@@ -209,7 +209,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      */
     @Published var show_in_main: Bool {
         didSet {
-            
+            if parent_feed != nil { model.saveFeedProvider(parent_feed!) }
         }
     }
     
@@ -218,20 +218,14 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      */
     @Published var use_filters: Bool {
         didSet {
-            
+            if parent_feed != nil { model.saveFeedProvider(parent_feed!) }
         }
     }
     
     /**
      Parent feed of the news feed
      */
-    var parent_feed: NewsFeedProvider? {
-        didSet {
-            if parent_feed != nil {
-                // TODO
-            }
-        }
-    }
+    var parent_feed: NewsFeedProvider?
     
     /**
      Encode function to serialize a instance of NewsFeed to a json string, writes out all the properties attached to their respective key
@@ -267,6 +261,8 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         self.use_filters = use_filters
         self.parent_feed = parent_feed
         self.id = UUID.init()
+        
+        /** The feed ONLY gets saved when it has propperly set the feed provider, therefore it cannot be saven in the onstructor */
     }
     /**
      @getAmountOfBookmarkedArticles() will return an Integer with the current bookmarked articles of this Feed
