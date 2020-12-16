@@ -14,7 +14,7 @@ import SwiftUI
 struct CollectionSettingsView: View {
     var body: some View {
         CollectionSettingsList()
-            .navigationTitle("Collection Settings")
+            .navigationBarTitle("Collection Settings")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {

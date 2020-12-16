@@ -11,7 +11,8 @@ import Combine
 /**
  Enum containing every filter option selectable
  */
-enum FilterSetting {
+enum FilterSetting : CustomStringConvertible {
+    
     /**
      Shows all Articles that have 'show_in_main' set to true
      */
@@ -61,6 +62,26 @@ enum FilterSetting {
             return true
         default:
             return false
+        }
+    }
+    
+    /**
+    Custom way to set Strings for every enum
+     */
+    var description: String {
+        switch self {
+        case .All:
+            return "All"
+        case .Collection(_):
+            return "Collection"
+        case .FeedProvider(_):
+            return "FeedProvider"
+        case .Feed(_):
+            return "Feed"
+        case .SearchPhrase(_):
+            return "Search"
+        case .Bookmarked:
+            return "Bookmarked"
         }
     }
 }

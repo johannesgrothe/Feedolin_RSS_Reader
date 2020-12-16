@@ -35,7 +35,7 @@ struct ContentView: View {
                 NavigationView {
 
                     RefreshableScrollView(width: geometry.size.width, height: geometry.size.height)
-                        .navigationBarTitle("Feed", displayMode: .inline)
+                        .navigationBarTitle(model.filter_option.description, displayMode: .inline)
                         
                         .navigationBarItems(
                             leading:
@@ -49,7 +49,6 @@ struct ContentView: View {
                                 NavigationLink(destination: SettingsView()) {
                                     Image(systemName: "gear").imageScale(.large)
                                 }
-                                .navigationBarTitle("Feed")
                         )
                         .background(Color(UIColor(named: "BackgroundColor")!))
                         .edgesIgnoringSafeArea(.bottom)
