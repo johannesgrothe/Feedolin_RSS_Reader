@@ -33,12 +33,20 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
     /**
      Name of the feed provider
      */
-    @Published var name: String
+    @Published var name: String {
+        didSet {
+            
+        }
+    }
     
     /**
      Short version (Abkürzung)
      */
-    @Published var token: String
+    @Published var token: String {
+        didSet {
+            
+        }
+    }
     
     /**
      Indicator to auto-refresh Views when Icon is changed
@@ -53,7 +61,11 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
     /**
      List of all news feeds
      */
-    @Published var feeds: [NewsFeed]
+    @Published var feeds: [NewsFeed] {
+        didSet {
+            
+        }
+    }
     
     /**
      List storing indicators to update the FeedProvider when any Feed is updated
@@ -186,22 +198,40 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
     /**
      Name of the feed
      */
-    @Published var name: String
+    @Published var name: String {
+        didSet {
+            
+        }
+    }
     
     /**
      Determines whether the articles fetched from that source should be shown in the main feed
      */
-    @Published var show_in_main: Bool
+    @Published var show_in_main: Bool {
+        didSet {
+            
+        }
+    }
     
     /**
      Determines whether any of the selected filters should be applied
      */
-    @Published var use_filters: Bool
+    @Published var use_filters: Bool {
+        didSet {
+            
+        }
+    }
     
     /**
      Parent feed of the news feed
      */
-    var parent_feed: NewsFeedProvider?
+    var parent_feed: NewsFeedProvider? {
+        didSet {
+            if parent_feed != nil {
+                // TODO
+            }
+        }
+    }
     
     /**
      Optional title image for the feed
@@ -258,12 +288,4 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         }
         return counter
     }
-}
-
-/**
- Title-image for an feed
- */
-struct FeedTitleImage: Codable {
-    let url: String
-    let title: String?
 }
