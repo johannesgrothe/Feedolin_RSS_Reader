@@ -234,11 +234,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
     }
     
     /**
-     Optional title image for the feed
-     */
-    let image: FeedTitleImage?
-    
-    /**
      Encode function to serialize a instance of NewsFeed to a json string, writes out all the properties attached to their respective key
      */
     func encode(to encoder: Encoder) throws {
@@ -249,7 +244,6 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         try container.encode(name, forKey: .name)
         try container.encode(show_in_main, forKey: .show_in_main)
         try container.encode(use_filters, forKey: .use_filters)
-        try container.encode(image, forKey: .image)
     }
     
     /**
@@ -263,17 +257,15 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         name = try container.decode(String.self, forKey: .name)
         show_in_main = try container.decode(Bool.self, forKey: .show_in_main)
         use_filters = try container.decode(Bool.self, forKey: .use_filters)
-        image = try container.decode(FeedTitleImage?.self, forKey: .image)
         parent_feed = nil
     }
     
-    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider, image: FeedTitleImage?) {
+    init(url: String, name: String, show_in_main: Bool, use_filters: Bool, parent_feed: NewsFeedProvider) {
         self.url = url
         self.name = name
         self.show_in_main = show_in_main
         self.use_filters = use_filters
         self.parent_feed = parent_feed
-        self.image = image
         self.id = UUID.init()
     }
     /**

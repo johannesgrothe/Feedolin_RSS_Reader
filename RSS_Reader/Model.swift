@@ -269,7 +269,7 @@ final class Model: ObservableObject {
                 
                 // Create sub-feed if it doesnt altrady exist and add it to parent feed
                 if sub_feed == nil {
-                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!, image: nil)
+                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!)
                     if !parent_feed!.addFeed(feed: sub_feed!) {
                         // Should NEVER happen
                         print("Something stupid happened while adding '\(lower_url)'")
@@ -835,6 +835,22 @@ final class Model: ObservableObject {
         print("Article with the ID:\(article.id) got saved")
     }
     
+    /**
+    Saves the passed feed provider to device storage
+     
+     - Parameter feed_provider: The feed provider to save
+     */
+    func saveFeedProvider(_ feed_provider: NewsFeedProvider){
+        
+        let json_encoder = JSONEncoder()
+        let json_data = try! json_encoder.encode(feed_provider)
+        let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+        
+        writeObjectStringToJsonFile(path: self.feed_providers_path, json_string: json_string, file_name: feed_provider.id.uuidString)
+        
+        print("Feed Provider with the ID:\(feed_provider.id) got saved")
+    }
+
     /**@removeFeed(_ givenFeed: NewsFeed) will remove the feed from his parents list and if the parent list is empty the parent will be removed*/
     func removeFeed(_ given_feed: NewsFeed){
         let parent_feed = given_feed.parent_feed!
@@ -860,9 +876,9 @@ final class Model: ObservableObject {
 
 var preview_model = Model(
     article_data: [
-        ArticleData(article_id: "sdfwer3", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.", link: "www.blub.to", pub_date: Date().addingTimeInterval(-15000), thumbnail_url: nil, parent_feeds: [NewsFeed(url: "https://www.nzz.ch/wirtschaft.rss", name: "Wirtschaft News and more", show_in_main: true, use_filters: false, parent_feed: NewsFeedProvider(url: "https://www.nzz.ch", name: "nzz.ch", token: "nzz.ch", icon_url: "", feeds: []), image: FeedTitleImage(url: "", title: ""))]),
+        ArticleData(article_id: "sdfwer3", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.", link: "www.blub.to", pub_date: Date().addingTimeInterval(-15000), thumbnail_url: nil, parent_feeds: [NewsFeed(url: "https://www.nzz.ch/wirtschaft.rss", name: "Wirtschaft News and more", show_in_main: true, use_filters: false, parent_feed: NewsFeedProvider(url: "https://www.nzz.ch", name: "nzz.ch", token: "nzz.ch", icon_url: "", feeds: []))]),
 
-        ArticleData(article_id: "sdfwer4", title: "Lorem ipsum dolor sit amet, consectetur adipisici elit,", description: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", link: "www.blub.to", pub_date: Date().addingTimeInterval(-450000), thumbnail_url: nil, parent_feeds: [NewsFeed(url: "https://www.nzz.ch/wirtschaft.rss", name: "Wirtschaft News and more", show_in_main: true, use_filters: false, parent_feed: NewsFeedProvider(url: "https://www.nzz.ch", name: "nzz.ch", token: "nzz.ch", icon_url: "", feeds: []), image: FeedTitleImage(url: "", title: ""))]),
+        ArticleData(article_id: "sdfwer4", title: "Lorem ipsum dolor sit amet, consectetur adipisici elit,", description: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", link: "www.blub.to", pub_date: Date().addingTimeInterval(-450000), thumbnail_url: nil, parent_feeds: [NewsFeed(url: "https://www.nzz.ch/wirtschaft.rss", name: "Wirtschaft News and more", show_in_main: true, use_filters: false, parent_feed: NewsFeedProvider(url: "https://www.nzz.ch", name: "nzz.ch", token: "nzz.ch", icon_url: "", feeds: []))]),
 
-        ArticleData(article_id: "sdfwer5", title: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.", description: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.", link: "www.blub.to", pub_date: Date().addingTimeInterval(-1500), thumbnail_url: nil, parent_feeds: [NewsFeed(url: "https://www.nzz.ch/wirtschaft.rss", name: "Wirtschaft News and more", show_in_main: true, use_filters: false, parent_feed: NewsFeedProvider(url: "https://www.nzz.ch", name: "nzz.ch", token: "nzz.ch", icon_url: "", feeds: []), image: FeedTitleImage(url: "", title: ""))]),
+        ArticleData(article_id: "sdfwer5", title: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.", description: "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.", link: "www.blub.to", pub_date: Date().addingTimeInterval(-1500), thumbnail_url: nil, parent_feeds: [NewsFeed(url: "https://www.nzz.ch/wirtschaft.rss", name: "Wirtschaft News and more", show_in_main: true, use_filters: false, parent_feed: NewsFeedProvider(url: "https://www.nzz.ch", name: "nzz.ch", token: "nzz.ch", icon_url: "", feeds: []))]),
     ])
