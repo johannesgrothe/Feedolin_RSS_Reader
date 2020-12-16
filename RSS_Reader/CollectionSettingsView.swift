@@ -51,7 +51,9 @@ struct CollectionSettingsView: View {
                 .listRowBackground(Color.clear)
             }
             
-            ForEach(model.collection_data) { collection in
+            let sorted_collection_data = model.collection_data.sorted(by: { return $0.name < $1.name })
+            
+            ForEach(sorted_collection_data) { collection in
                 
                 if (edit_mode) {
                 
@@ -117,7 +119,7 @@ struct CollectionSettingsView: View {
 //     * The model
 //     */
 //    @ObservedObject var model: Model = .shared
-//    
+//
 //    var body: some View {
 //        List {
 //            ForEach(model.collection_data) { collection in
