@@ -577,7 +577,8 @@ final class Model: ObservableObject {
 
         let search_word = SearchPhrase(pattern: sort_searchphrase,
                                        is_regex: false,
-                                       search_description: true)
+                                       search_description: true,
+                                       ignore_casing: true)
 
         /** Save article list pre-filtered by last filter option */
         let buf_sort_list = filtered_article_data
