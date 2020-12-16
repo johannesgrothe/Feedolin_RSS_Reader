@@ -574,7 +574,23 @@ final class Model: ObservableObject {
      */
     private func applyFilterSearchPhrase(_ sort_searchphrase: String) {
         applyFilter(last_filter_option)
+
+        let search_word = SearchPhrase(pattern: sort_searchphrase,
+                                       is_regex: false,
+                                       search_description: true)
+
+        /** Save article list pre-filtered by last filter option */
+        let buf_sort_list = filtered_article_data
         
+        /**Empty filtered article list */
+        filtered_article_data = []
+        
+        /** Fill up the filtered article list with articles fitting the last filter option AND matching the search phrase */
+        for article in buf_sort_list {
+            if search_word.matchesArticle(article) {
+                filtered_article_data.append(article)
+            }
+        }
     }
 
     /**
