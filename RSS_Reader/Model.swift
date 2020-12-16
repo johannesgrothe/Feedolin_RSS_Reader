@@ -34,30 +34,23 @@ enum FilterSetting : CustomStringConvertible {
     case Feed(NewsFeed)
 
     /**
-     Only shows articles compliant to the previous filter setting and containing the search phrase in title or description
-     */
-    case SearchPhrase(String)
-
-    /**
      Only shows bookamred articles
      */
     case Bookmarked
 
     /**
-     Custom comparator function. Ignores the arguments while comparing.
+     Custom comparator function.
      */
     static func ==(lhs: FilterSetting, rhs: FilterSetting) -> Bool {
         switch (lhs, rhs) {
         case (.All, .All):
             return true
-        case (.Collection(_), .Collection(_)):
-            return true
-        case (.Feed(_), .Feed(_)):
-            return true
-        case (.FeedProvider(_), .FeedProvider(_)):
-            return true
-        case (.SearchPhrase(_), .SearchPhrase(_)):
-            return true
+        case (.Collection(let col1), .Collection(let col2)):
+            return col1.id == col2.id
+        case (.Feed(let feed1), .Feed(let feed2)):
+            return feed1.id == feed2.id
+        case (.FeedProvider(let feedprovider1), .FeedProvider(let feedprovider2)):
+            return feedprovider1.id == feedprovider2.id
         case (.Bookmarked, .Bookmarked):
             return true
         default:
@@ -66,6 +59,12 @@ enum FilterSetting : CustomStringConvertible {
     }
     
     /**
+     Custom comparator function.
+     */
+    static func !=(lhs: FilterSetting, rhs: FilterSetting) -> Bool {
+        return !(lhs == rhs)
+    }
+    
     Custom way to set Strings for every enum
      */
     var description: String {
@@ -393,7 +392,7 @@ final class Model: ObservableObject {
      */
     private func setFilter(_ filter_option: FilterSetting) {
         // Do not save as 'new filter option' when its just another search phrase
-        if !(filter_option == .SearchPhrase("") && last_filter_option == .SearchPhrase("")) {
+        if filter_option != last_filter_option {
 
             // Save present filter option as 'last'
             last_filter_option = stored_filter_option
@@ -434,15 +433,6 @@ final class Model: ObservableObject {
     }
 
     /**
-     Sets the filter to 'SearchPhrase'. All artices will be shown if title or description contain the filter phrase.
-     This method differs from the other filters in that it is applied ON TOP of the current filter.
-     - Parameter search_phrase: The phrase that shouldn be searched for
-     */
-    func setFilterSearchPhrase(_ search_phrase: String) {
-        setFilter(.SearchPhrase(search_phrase))
-    }
-
-    /**
      Sets the filter to 'Boommarked'. Only articles bookmarked will be shown.
      */
     func setFilterBookmarked() {
@@ -473,9 +463,6 @@ final class Model: ObservableObject {
         case .Feed(let filter_feed):
             print("Applying filter 'Feed'")
             applyFilterFeed(filter_feed)
-        case .SearchPhrase(let filter_search_phrase):
-            print("Applying filter 'SearchPhrase'")
-            applyFilterSearchPhrase(filter_search_phrase)
         case .Bookmarked:
             print("Applying filter 'Bookmarked'")
             applyFilterBookmarked()
@@ -565,31 +552,6 @@ final class Model: ObservableObject {
         for article in self.stored_article_data {
             if article.hasParentFeed(sort_feed) {
                 self.filtered_article_data.append(article)
-            }
-        }
-    }
-
-    /**
-     (Re)applies the searchphrase filter
-     */
-    private func applyFilterSearchPhrase(_ sort_searchphrase: String) {
-        applyFilter(last_filter_option)
-
-        let search_word = SearchPhrase(pattern: sort_searchphrase,
-                                       is_regex: false,
-                                       search_description: true,
-                                       ignore_casing: true)
-
-        /** Save article list pre-filtered by last filter option */
-        let buf_sort_list = filtered_article_data
-        
-        /**Empty filtered article list */
-        filtered_article_data = []
-        
-        /** Fill up the filtered article list with articles fitting the last filter option AND matching the search phrase */
-        for article in buf_sort_list {
-            if search_word.matchesArticle(article) {
-                filtered_article_data.append(article)
             }
         }
     }
