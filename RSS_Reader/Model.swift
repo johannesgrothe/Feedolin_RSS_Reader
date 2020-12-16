@@ -72,14 +72,14 @@ enum FilterSetting : CustomStringConvertible {
         switch self {
         case .All:
             return "All"
-        case .Collection(_):
-            return "Collection"
-        case .FeedProvider(_):
-            return "FeedProvider"
-        case .Feed(_):
-            return "Feed"
-        case .SearchPhrase(_):
-            return "Search"
+        case .Collection(let collection):
+            return collection.name
+        case .FeedProvider(let feed_provider):
+            return feed_provider.name
+        case .Feed(let feed):
+            return feed.parent_feed!.token.description + " - " + feed.name
+        case .SearchPhrase(let phrase):
+            return phrase
         case .Bookmarked:
             return "Bookmarked"
         }
