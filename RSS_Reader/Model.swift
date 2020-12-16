@@ -573,7 +573,8 @@ final class Model: ObservableObject {
      (Re)applies the searchphrase filter
      */
     private func applyFilterSearchPhrase(_ sort_searchphrase: String) {
-        // TODO: implement
+        applyFilter(last_filter_option)
+        
     }
 
     /**

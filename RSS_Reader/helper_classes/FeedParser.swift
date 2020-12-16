@@ -9,6 +9,52 @@ import Foundation
 import XMLCoder
 
 /**
+ Finds all matches for the regex in the passed text and returns them as a list of strings
+ */
+func getRegexMatches(for regex: String, in text: String) -> [String] {
+    do {
+        let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
+        let results = regex.matches(in: text,
+                                    range: NSRange(text.startIndex..., in: text))
+        
+        let buf_res = results.map {
+            String(text[Range($0.range, in: text)!])
+        }
+        return buf_res
+        
+    } catch let error {
+        print("invalid regex: \(error.localizedDescription)")
+        return []
+    }
+}
+
+/**
+ Gets all regex groups from the selected regex and the passed text.
+ */
+func getRegexGroups(for pattern: String, in text: String) -> [[String]] {
+    
+    var out_group: [[String]] = []
+    
+    let regex = try? NSRegularExpression(
+      pattern: pattern
+    )
+    
+    if let matches = regex?.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count)) {
+        for match in matches {
+            var buf_list: [String] = []
+            for i in 1 ... match.numberOfRanges - 1 {
+                if let buf_range = Range(match.range(at: i), in: text) {
+                    let img_url = String(text[buf_range])
+                    buf_list.append(img_url)
+                }
+            }
+            out_group.append(buf_list)
+        }
+    }
+    return out_group
+}
+
+/**
  Class to parse a rss webfeed
  */
 class FeedParser {
@@ -17,26 +63,6 @@ class FeedParser {
     
     private var main_url: String?
     private var complete_url: String?
-    
-    /**
-     Finds all matches for the regex in the passed text and returns them as a list of strings
-     */
-    private func getRegexMatches(for regex: String, in text: String) -> [String] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
-            let results = regex.matches(in: text,
-                                        range: NSRange(text.startIndex..., in: text))
-            
-            let buf_res = results.map {
-                String(text[Range($0.range, in: text)!])
-            }
-            return buf_res
-            
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    }
     
     /**
      Gets all regex groups from the selected regex and the passed text.
@@ -60,32 +86,6 @@ class FeedParser {
             print("invalid regex: \(error.localizedDescription)")
             return []
         }
-    }
-    
-    /**
-     Gets all regex groups from the selected regex and the passed text.
-     */
-    private func getRegexGroups(for pattern: String, in text: String) -> [[String]] {
-        
-        var out_group: [[String]] = []
-        
-        let regex = try? NSRegularExpression(
-          pattern: pattern
-        )
-        
-        if let matches = regex?.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count)) {
-            for match in matches {
-                var buf_list: [String] = []
-                for i in 1 ... match.numberOfRanges - 1 {
-                    if let buf_range = Range(match.range(at: i), in: text) {
-                        let img_url = String(text[buf_range])
-                        buf_list.append(img_url)
-                    }
-                }
-                out_group.append(buf_list)
-            }
-        }
-        return out_group
     }
     
     /** Method that parses the thumbnail's url from the whole article (item-tag xml string) */
