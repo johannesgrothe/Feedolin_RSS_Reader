@@ -1,0 +1,37 @@
+{
+  "images" : [
+    {
+      "filename" : "TopbarImageDark.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "TopbarImageLight.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "TopbarImageDark-1.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "auto-scaling" : "auto",
+    "localizable" : true,
+    "preserves-vector-representation" : true
+  }
+}

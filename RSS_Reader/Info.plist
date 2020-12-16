@@ -30,7 +30,15 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UINavigationBar</key>
+		<dict>
+			<key>UIImageName</key>
+			<string>TopbarImage</string>
+		</dict>
+		<key>UIColorName</key>
+		<string>BackGroundColor</string>
+	</dict>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
