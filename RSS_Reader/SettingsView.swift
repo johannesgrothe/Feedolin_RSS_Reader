@@ -36,7 +36,7 @@ struct SettingsView: View {
                 HStack{
                     //For the Reviwer an alternative image could be "trash"
                     Image(systemName: "doc.badge.gearshape").imageScale(.large)
-                    Text("Factory Reset").font(.headline)
+                    Text("Reset App").font(.headline)
                 }
             }
             .alert(isPresented: $showingAlert) {

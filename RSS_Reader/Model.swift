@@ -744,12 +744,12 @@ final class Model: ObservableObject {
     private func removeFiles(path: URL, list: [AnyObject]) throws {
         
         /** Create FileManager instance */
-        let fileManager = FileManager()
+        let file_manager = FileManager()
 
         /** Find files and append list of files to remove */
         do {
             /** Load all filenames at given path */
-            let files = try fileManager.contentsOfDirectory(atPath: path.path)
+            let files = try file_manager.contentsOfDirectory(atPath: path.path)
 
             /**
              Initialize array for all files that should be removed.
@@ -800,10 +800,10 @@ final class Model: ObservableObject {
                     /** Generate full file path */
                     let full_file_path = "\(path.path)/\(filename)"
 
-                    if fileManager.fileExists(atPath: full_file_path) {
+                    if file_manager.fileExists(atPath: full_file_path) {
                         do {
                             /** Delete file */
-                            try fileManager.removeItem(atPath: full_file_path)
+                            try file_manager.removeItem(atPath: full_file_path)
                         }
                         catch let error as NSError {
                             print("Cannot delete File: \(error)")
