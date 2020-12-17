@@ -39,7 +39,7 @@ struct SettingsView: View {
                 }
             }
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Factory Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
+                Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
             }
             .listRowBackground(Color.clear)
         }
