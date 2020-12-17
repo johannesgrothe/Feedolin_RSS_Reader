@@ -29,7 +29,6 @@ struct SettingsView: View {
                 }
             }
             .listRowBackground(Color.clear)
-            .navigationBarTitle("Settings")
             Button(action: {
                 self.showingAlert = true
             }) {
@@ -43,7 +42,6 @@ struct SettingsView: View {
                 Alert(title: Text("Factory Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
             }
             .listRowBackground(Color.clear)
-            .navigationBarTitle("Settings")
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
