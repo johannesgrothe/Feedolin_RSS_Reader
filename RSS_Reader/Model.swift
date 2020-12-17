@@ -65,6 +65,7 @@ enum FilterSetting : CustomStringConvertible {
         return !(lhs == rhs)
     }
     
+    /**
     Custom way to set Strings for every enum
      */
     var description: String {
@@ -77,8 +78,6 @@ enum FilterSetting : CustomStringConvertible {
             return feed_provider.name
         case .Feed(let feed):
             return feed.parent_feed!.token.description + " - " + feed.name
-        case .SearchPhrase(let phrase):
-            return phrase
         case .Bookmarked:
             return "Bookmarked"
         }
