@@ -842,6 +842,8 @@ final class Model: ObservableObject {
         self.feed_provider_update_indicators = []
         
         cleanupStoredFiles()
+    }
+    
     /**@saveArticle(_ article: ArticleData) will overwrite the given article*/
     func saveArticle(_ article: ArticleData){
         
