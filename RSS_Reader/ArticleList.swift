@@ -20,47 +20,43 @@ struct ArticleList: View {
     var body: some View {
         List {
             
-            // Search view
+            // Search bar
             HStack {
-                HStack {
-                    //search bar magnifying glass image
-                    Image(systemName: "magnifyingglass").foregroundColor(.secondary)
-                                
-                    //search bar text field
-                    TextField("search", text: $search_phrase)
-                       
-                    // x Button
-                    Button(action: {
-                        search_phrase = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.secondary)
-                            .opacity(search_phrase == "" ? 0 : 1)
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    
-                    // Casing selector
-                    Button(action: {
-                        search_ignore_casing = !search_ignore_casing
-                        print("Ignore Casing set to \(search_ignore_casing)")
-                    }) {
-                        if search_ignore_casing {
-                            Image(systemName: "textformat.size.larger")
-                                 .foregroundColor(.secondary)
-                        } else {
-                            Image(systemName: "textformat")
-                                 .foregroundColor(.secondary)
-                        }
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    
+                //search bar magnifying glass image
+                Image(systemName: "magnifyingglass").foregroundColor(.secondary)
+                            
+                //search bar text field
+                TextField("search", text: $search_phrase)
+                   
+                // x Button
+                Button(action: {
+                    search_phrase = ""
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.secondary)
+                        .opacity(search_phrase == "" ? 0 : 1)
                 }
-                .padding(8)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(8)
-                .listRowBackground(Color.clear)
-            
+                .buttonStyle(BorderlessButtonStyle())
+                
+                // Casing selector
+                Button(action: {
+                    search_ignore_casing = !search_ignore_casing
+                    print("Ignore Casing set to \(search_ignore_casing)")
+                }) {
+                    if search_ignore_casing {
+                        Image(systemName: "textformat.size.larger")
+                             .foregroundColor(.secondary)
+                    } else {
+                        Image(systemName: "textformat")
+                             .foregroundColor(.secondary)
+                    }
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                
             }
+            .padding(8)
+            .background(Color(.secondarySystemBackground))
+            .cornerRadius(8)
             .listRowBackground(Color.clear)
             
             /** Create search object */
