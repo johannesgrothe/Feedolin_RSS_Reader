@@ -26,7 +26,7 @@ struct CollectionSettingsView: View {
     /**
      * name of a new collection the user wants to add
      */
-    @State var new_coll_name: String = ""
+    @State private var new_coll_name: String = ""
     
     var body: some View {
         
