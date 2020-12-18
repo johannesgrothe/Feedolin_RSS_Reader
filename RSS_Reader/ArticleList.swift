@@ -14,7 +14,10 @@ struct ArticleList: View {
     
     @ObservedObject var model: Model = .shared
     
+    /** The search phrase entered in the search bar */
     @State private var search_phrase = ""
+    
+    /** The representation of the 'ignore casing while searching'-selectors */
     @State private var search_ignore_casing = true
     
     var body: some View {
