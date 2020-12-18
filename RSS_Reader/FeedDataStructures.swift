@@ -123,10 +123,12 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         self.feeds = feeds
         self.id = UUID.init()
         
+        // a.square.fill
+        let default_icon: String = token.lowercased().prefix(1) + ".square.fill"
         /**
          Google-API for getting an icon for the url
          */
-        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: "newspaper")
+        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: default_icon)
         
         /**
          the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
