@@ -37,22 +37,22 @@ struct ArticleList: View {
                             .foregroundColor(.secondary)
                             .opacity(search_phrase == "" ? 0 : 1)
                     }
+                    .buttonStyle(BorderlessButtonStyle())
                     
-                    // Does toggle kinda randomly
-                    
-//                    // Casing selector
-//                    Button(action: {
-//                        search_ignore_casing = !search_ignore_casing
-//                        print("Ignore Casing set to \(search_ignore_casing)")
-//                    }) {
-//                        if search_ignore_casing {
-//                            Image(systemName: "textformat.size.larger")
-//                                 .foregroundColor(.secondary)
-//                        } else {
-//                            Image(systemName: "textformat")
-//                                 .foregroundColor(.secondary)
-//                        }
-//                    }
+                    // Casing selector
+                    Button(action: {
+                        search_ignore_casing = !search_ignore_casing
+                        print("Ignore Casing set to \(search_ignore_casing)")
+                    }) {
+                        if search_ignore_casing {
+                            Image(systemName: "textformat.size.larger")
+                                 .foregroundColor(.secondary)
+                        } else {
+                            Image(systemName: "textformat")
+                                 .foregroundColor(.secondary)
+                        }
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
                     
                 }
                 .padding(8)
