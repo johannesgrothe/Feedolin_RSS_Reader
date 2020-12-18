@@ -24,30 +24,60 @@ struct CollectionSettingsView: View {
     @State private var edit_mode = false
     
     /**
-     * ToDo: Add comment
+     * name of a new collection the user wants to add
      */
-    @State var new_coll_name: String = "NewCollection"
+    @State var new_coll_name: String = ""
     
     var body: some View {
-
-//    CollectionSettingsList()
-        List {
         
+        //    CollectionSettingsList()
+        List {
+            
             if (edit_mode) {
+                
+                /**
+                 * Container for new collection input
+                 */
                 HStack {
-                    TextField("Add a new collection name...", text: $new_coll_name)
+                    /**
+                     * Container for Textfield and clear-btn
+                     */
+                    HStack {
+                        
+                        // collection name text field
+                        TextField("Add a new collection name...", text: self.$new_coll_name, onEditingChanged: { isEditing in
+                        })
+                        
+                        // x Button
+                        Button(action: {
+                            print("Clear coll name TextField btn clicked.")
+                            new_coll_name = ""
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
+                                .opacity(new_coll_name == "" ? 0 : 1)
+                        }
+                    }
+                    .padding(8)
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(8)
                     
-                    Spacer()
+                    // Send Button for new collection
                     Button(action: {
                         print("Add Collection Button clicked.")
-                        model.collection_data.append(Collection(name: new_coll_name))
+                        if self.new_coll_name != "" {
+                            print(self.new_coll_name)
+                            model.collection_data.append(Collection(name: self.new_coll_name))
+                            self.new_coll_name = ""
+                        } else {
+                            print("Collection name is empty")
+                        }
                     }) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.green)
                     }
-                    
+                    .buttonStyle(BorderlessButtonStyle())
                 }
-                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .listRowBackground(Color.clear)
             }
             
@@ -56,9 +86,9 @@ struct CollectionSettingsView: View {
             ForEach(sorted_collection_data) { collection in
                 
                 if (edit_mode) {
-                
+                    
                     /**
-                     * ToDo: Add comment
+                     * Container for list row in edit mode
                      */
                     HStack {
                         Text(collection.name).font(.headline)
@@ -67,7 +97,6 @@ struct CollectionSettingsView: View {
                         
                         Button(action: {
                             print("Delete Collection Button clicked.")
-                            // ToDo: call delete coll methode
                             model.collection_data.removeAll( where: { $0.id == collection.id })
                         }) {
                             Image(systemName: "minus.circle.fill")
@@ -80,9 +109,9 @@ struct CollectionSettingsView: View {
                         Text(collection.name).font(.headline)
                     }
                 }
-                    
+                
             }
-        .listRowBackground(Color.clear)
+            .listRowBackground(Color.clear)
         }
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
@@ -92,48 +121,19 @@ struct CollectionSettingsView: View {
         .edgesIgnoringSafeArea(.bottom)
         .navigationTitle("Collection Settings")
         .navigationBarItems(trailing:
-            Button(action: {
-                print("Edit collection btn clicked")
-                if (edit_mode) {
-                    edit_mode = false
-                } else {
-                    edit_mode = true
-                }
-            }) {
-                if (edit_mode) {
-                    Text("Done")
-                } else {
-                    Text("Edit")
-                }
-            })
+                                Button(action: {
+                                    print("Edit collection btn clicked")
+                                    if (edit_mode) {
+                                        edit_mode = false
+                                    } else {
+                                        edit_mode = true
+                                    }
+                                }) {
+                                    if (edit_mode) {
+                                        Text("Done")
+                                    } else {
+                                        Text("Edit")
+                                    }
+                                })
     }
 }
-
-
-///**
-// * Displayes the List of all collections
-// */
-//struct CollectionSettingsList: View {
-//
-//    /**
-//     * The model
-//     */
-//    @ObservedObject var model: Model = .shared
-//
-//    var body: some View {
-//        List {
-//            ForEach(model.collection_data) { collection in
-//                NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
-//                    Text(collection.name).font(.headline)
-//                }
-//            }
-//        .listRowBackground(Color.clear)
-//        }
-//        .onAppear(perform: {
-//            UITableView.appearance().backgroundColor = .clear
-//            UITableViewCell.appearance().backgroundColor = .clear
-//        })
-//        .background(Color(UIColor(named: "BackgroundColor")!))
-//        .edgesIgnoringSafeArea(.bottom)
-//    }
-//}
