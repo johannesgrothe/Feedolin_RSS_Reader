@@ -128,8 +128,8 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         /**
          Google-API for getting an icon for the url
          */
-        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: default_icon)
-        
+//        self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: default_icon)
+        self.icon = AsyncImage("https:/=\(url)", default_image: default_icon)
         /**
          the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
          This way, the NewsFeedProvider is changing as soon as the image is changing, updating
