@@ -23,6 +23,8 @@
 		1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */; };
 		1BD2A3DE254B036F00FCA510 /* RSS_ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3DD254B036F00FCA510 /* RSS_ReaderTests.swift */; };
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
+		7C9C4A8325924AB20025BBBC /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = EB3F6ABA2554046F003FA72F /* XMLCoder */; };
+		7C9C4A88259269100025BBBC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9C4A87259269100025BBBC /* MainView.swift */; };
 		C50DDE5E25652F1D00A2A1DA /* CollectionDataStructur.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */; };
 		C50DDE7725680F7B00A2A1DA /* CollectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */; };
 		C5EE54062586A8EF00174230 /* CollectionDetailsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */; };
@@ -82,6 +84,7 @@
 		1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_ReaderUITests.swift; sourceTree = "<group>"; };
 		1BD2A3EA254B036F00FCA510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
+		7C9C4A87259269100025BBBC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDataStructur.swift; sourceTree = "<group>"; };
 		C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSettingsView.swift; sourceTree = "<group>"; };
 		C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailsSettingsView.swift; sourceTree = "<group>"; };
@@ -105,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C9C4A8325924AB20025BBBC /* XMLCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +170,7 @@
 				1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */,
 				1BD2A3C6254B036E00FCA510 /* RSS_ReaderApp.swift */,
 				1BD2A3CF254B036F00FCA510 /* Persistence.swift */,
+				7C9C4A87259269100025BBBC /* MainView.swift */,
 				EB08E123254D7BD200006B70 /* DummyDetailView.swift */,
 				1BD2A3C8254B036E00FCA510 /* ContentView.swift */,
 				EB08E11E254D7BAD00006B70 /* ArticleView.swift */,
@@ -243,7 +248,7 @@
 			);
 			name = RSS_Reader;
 			packageProductDependencies = (
-				EB3F6ABA2554046F003FA72F,
+				EB3F6ABA2554046F003FA72F /* XMLCoder */,
 			);
 			productName = RSS_Reader;
 			productReference = 1BD2A3C3254B036E00FCA510 /* RSS_Reader.app */;
@@ -319,7 +324,7 @@
 			);
 			mainGroup = 1BD2A3BA254B036E00FCA510;
 			packageReferences = (
-				EB3F6AB92554046E003FA72F,
+				EB3F6AB92554046E003FA72F /* XCRemoteSwiftPackageReference "XMLCoder" */,
 			);
 			productRefGroup = 1BD2A3C4254B036E00FCA510 /* Products */;
 			projectDirPath = "";
@@ -384,6 +389,7 @@
 				EB08E11F254D7BAD00006B70 /* ArticleView.swift in Sources */,
 				EB08E139254D7EBD00006B70 /* Model.swift in Sources */,
 				1BC46CA42556CD1A0029D436 /* ArticleList.swift in Sources */,
+				7C9C4A88259269100025BBBC /* MainView.swift in Sources */,
 				EB08E129254D7BF000006B70 /* ListEntryView.swift in Sources */,
 				C50DDE7725680F7B00A2A1DA /* CollectionSettingsView.swift in Sources */,
 				C5EE54062586A8EF00174230 /* CollectionDetailsSettingsView.swift in Sources */,
@@ -718,7 +724,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EB3F6AB92554046E003FA72F = {
+		EB3F6AB92554046E003FA72F /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder.git";
 			requirement = {
@@ -729,9 +735,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EB3F6ABA2554046F003FA72F = {
+		EB3F6ABA2554046F003FA72F /* XMLCoder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EB3F6AB92554046E003FA72F;
+			package = EB3F6AB92554046E003FA72F /* XCRemoteSwiftPackageReference "XMLCoder" */;
 			productName = XMLCoder;
 		};
 /* End XCSwiftPackageProductDependency section */

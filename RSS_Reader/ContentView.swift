@@ -9,73 +9,59 @@ import SwiftUI
 import CoreData
 
 /**
- Launchscreen of the app
+ First Screen of the App
  */
 struct ContentView: View {
-    @State var menuOpen: Bool = false
+    // boolean if side menu is shown
+    @State var show_menu: Bool = false
     
     // Model Singleton
     @ObservedObject var model: Model = .shared
     
     var body: some View {
-        
         // Drag gesture to open the side menu by swiping
-        let drag = DragGesture().onEnded {
-                        if $0.translation.width > -100 {
-                            withAnimation {
-                                self.menuOpen = true
-                            }
-                        }
-                    }
-        //  underlaying NavigationView and overlaying SideMenu
-        ZStack {
-
-            GeometryReader{
-                geometry in
-                NavigationView {
-
-                    RefreshableScrollView(width: geometry.size.width, height: geometry.size.height)
-                        .navigationBarTitle(model.filter_option.description, displayMode: .inline)
-                        
-                        .navigationBarItems(
-                            leading:
-                                Button(action: {
-                                    print("MenuButton pressed")
-                                    self.menuOpen.toggle()
-                                }) {
-                                    Image(systemName: "calendar.circle").imageScale(.large)
-                                },
-                            trailing:
-                                NavigationLink(destination: SettingsView()) {
-                                    Image(systemName: "gear").imageScale(.large)
-                                }
-                        )
-                        .background(Color(UIColor(named: "BackgroundColor")!))
-                        .edgesIgnoringSafeArea(.bottom)
-                        .gesture(drag)
-                        
-                }
-                .accentColor(Color(UIColor(named: "ButtonColor")!))
-                
-                SideMenuView(width: 270,
-                             isOpen: self.menuOpen,
-                             menuClose: self.openMenu)
+        let drag_right = DragGesture().onEnded {
+            if $0.translation.width > -100 {
+                slideAnimation()
             }
+        }
+        // Drag gesture to close the side menu by swiping
+        let drag_left = DragGesture().onEnded {
+            if $0.translation.width < -100 {
+                slideAnimation()
+            }
+        }
+        let width_sidemenu: CGFloat = 270
+        //
+        ZStack {
+            SideMenuView(show_menu: self.$show_menu, menu_close: self.slideAnimation)
+                .offset(x: self.show_menu ? 0 : -width_sidemenu)
+                .opacity(self.show_menu ? 1 : 0.1)
+                .disabled(self.show_menu ? false : true)
+                .gesture(drag_left)
+//                .onTapGesture {
+//                    slideAnimation()
+//                }
+            MainView(show_menu: self.$show_menu)
+                .offset(x: self.show_menu ? width_sidemenu : 0)
+                .disabled(self.show_menu ? true : false)
+                .gesture(drag_right)
             
         }
-        
         .edgesIgnoringSafeArea(.bottom)
     }
-
-    func openMenu() {
-        self.menuOpen.toggle()
+    
+    func slideAnimation() {
+        return withAnimation(.linear) {
+            self.show_menu.toggle()
+        }
     }
 }
 
 /**
  UINavigationController for the overall UINavigationBarAppearance
  */
-extension UINavigationController{
+extension UINavigationController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         
@@ -86,8 +72,9 @@ extension UINavigationController{
     }
 }
 
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(menuOpen: false, model: preview_model)
+        ContentView(show_menu: false, model: preview_model)
     }
 }
