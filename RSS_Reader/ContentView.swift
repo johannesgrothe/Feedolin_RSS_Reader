@@ -18,35 +18,20 @@ struct ContentView: View {
     // Model Singleton
     @ObservedObject var model: Model = .shared
     
+    // thw width of the side menu
+    let width_sidemenu: CGFloat = 270
+    
     var body: some View {
-        // Drag gesture to open the side menu by swiping
-        let drag_right = DragGesture().onEnded {
-            if $0.translation.width > -100 {
-                slideAnimation()
-            }
-        }
-        // Drag gesture to close the side menu by swiping
-        let drag_left = DragGesture().onEnded {
-            if $0.translation.width < -100 {
-                slideAnimation()
-            }
-        }
-        let width_sidemenu: CGFloat = 270
-        //
+        // underlaying MainView and on top the SideMenuView
         ZStack {
-            SideMenuView(show_menu: self.$show_menu, menu_close: self.slideAnimation)
-                .offset(x: self.show_menu ? 0 : -width_sidemenu)
-                .opacity(self.show_menu ? 1 : 0.1)
-                .disabled(self.show_menu ? false : true)
-                .gesture(drag_left)
-//                .onTapGesture {
-//                    slideAnimation()
-//                }
-            MainView(show_menu: self.$show_menu)
+            MainView(show_menu: self.$show_menu, menu_open: self.slideAnimation)
                 .offset(x: self.show_menu ? width_sidemenu : 0)
                 .disabled(self.show_menu ? true : false)
-                .gesture(drag_right)
-            
+                
+            SideMenuView(width: self.width_sidemenu, show_menu: self.$show_menu, menu_close: self.slideAnimation)
+                .offset(x: self.show_menu ? 0 : -width_sidemenu)
+                .disabled(self.show_menu ? false : true)
+                
         }
         .edgesIgnoringSafeArea(.bottom)
     }

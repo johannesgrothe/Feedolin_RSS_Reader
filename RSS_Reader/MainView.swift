@@ -17,7 +17,17 @@ struct MainView: View {
     // Model Singleton
     @ObservedObject var model: Model = .shared
     
+    //open the sidemenu with animation
+    let menu_open: () -> Void
+    
     var body: some View {
+        // Drag gesture to open the side menu by swiping
+        let drag_right = DragGesture().onEnded {
+            if $0.translation.width > -100 {
+                menu_open()
+            }
+        }
+        
         GeometryReader{
             geometry in
             NavigationView {
@@ -28,10 +38,9 @@ struct MainView: View {
                     .navigationBarItems(
                         leading:
                             Button(action: {
-                                print("MenuButton pressed")
-                                self.show_menu.toggle()
+                                self.menu_open()
                             }) {
-                                Image(systemName: "calendar.circle").imageScale(.large)
+                                Image(systemName: "sidebar.left").imageScale(.large)
                             },
                         trailing:
                             NavigationLink(destination: SettingsView()) {
@@ -40,7 +49,7 @@ struct MainView: View {
                     )
                     .background(Color(UIColor(named: "BackgroundColor")!))
                     .edgesIgnoringSafeArea(.bottom)
-                
+                    .gesture(drag_right)
                 
             }
             .accentColor(Color(UIColor(named: "ButtonColor")!))
