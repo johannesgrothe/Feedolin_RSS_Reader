@@ -22,12 +22,20 @@ class Collection: Identifiable, ObservableObject, Codable{
     /**
      * Name of the collection
      */
-    @Published var name: String
+    @Published var name: String {
+        didSet {
+            model.saveCollection(self)
+        }
+    }
     
     /**
      * List of the feeds belong to the collection
      */
-    @Published var feed_list: [NewsFeed]
+    @Published var feed_list: [NewsFeed] {
+        didSet {
+            model.saveCollection(self)
+        }
+    }
     
     /**
      * Unique id belong to the instance of a Collection
@@ -42,6 +50,7 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.name = name
         self.feed_list = []
         self.id = UUID()
+        model.saveCollection(self)
     }
     
     /**
@@ -108,7 +117,7 @@ class Collection: Identifiable, ObservableObject, Codable{
         print("Adding feed '\(new_feed.url)' to collection '\(self.name)'")
         
         self.feed_list.append(new_feed)
-        
+        model.saveCollection(self)
         return true
     }
     
@@ -121,6 +130,7 @@ class Collection: Identifiable, ObservableObject, Codable{
         for feed in self.feed_list {
             if feed.id == feed_to_remove.id {
                 self.feed_list.remove(at: i)
+                model.saveCollection(self)
                 return true
             }
             i += 1

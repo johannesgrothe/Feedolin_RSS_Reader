@@ -376,7 +376,6 @@ final class Model: ObservableObject {
         // Refresh viewed articles if any new artices were fetched
         if fetched_articles != 0 {
             refreshFilter()
-            saveData()
         }
     }
 
@@ -636,35 +635,6 @@ final class Model: ObservableObject {
         }
     }
 
-    /** saves all the Instances of our objects in the right order to avoid conflicts */
-    func saveData(){
-        save(path: collections_path)
-        print("Saving Data")
-    }
-
-    /**
-     Saves all the Instances of our objects, function knows wich object to save by checking given path
-     - Parameter path: The path of the files that are supposed to be saved. The path also contains the information WHICH files are supposed to be saved.
-     */
-    private func save(path: URL){
-        
-        /** Delete all files that are nor representing any alive object */
-        cleanupStoredFiles()
-        
-        let json_encoder = JSONEncoder()
-
-        switch path.pathComponents[path.pathComponents.count-1] {
-        case "Collections":
-            for collection in collection_data{
-                let json_data = try! json_encoder.encode(collection)
-                let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-                writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: collection.id.uuidString)
-            }
-        default:
-            print("ERROR: Path = \(path.pathComponents[path.pathComponents.count-1]) not supported")
-        }
-    }
-
     /** loades all the Instances of our objects in the right order to avoid conflicts */
     func loadData() {
         print("Loading Data")
@@ -903,6 +873,17 @@ final class Model: ObservableObject {
         self.cleanupStoredFiles()
     }
     
+    
+    /**@saveCollection(_ collection: Collection) will overwrite the given article*/
+    func saveCollection(_ collection: Collection){
+        
+        let json_encoder = JSONEncoder()
+        let json_data = try! json_encoder.encode(collection)
+        let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
+        
+        writeObjectStringToJsonFile(path: self.collections_path, json_string: json_string, file_name: collection.id.uuidString)
+        
+        print("Collection with the ID:\(collection.id) got saved")
     /** @autoRefrehs() will fetch the feeds and refresh all Filter*/
     @objc private func autoRefresh(){
             self.fetchFeeds()

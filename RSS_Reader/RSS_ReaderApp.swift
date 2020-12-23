@@ -29,12 +29,5 @@ struct RSS_ReaderApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
-        .onChange(of: scene_phase) { current_scene_phase in
-            switch current_scene_phase {
-            case .background, .inactive:
-                model.saveData()
-            default: break
-            }
-        }
     }
 }
