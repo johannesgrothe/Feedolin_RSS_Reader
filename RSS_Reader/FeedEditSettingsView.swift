@@ -97,7 +97,7 @@ struct FeedEditSettingsView: View {
                 }
             }
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles. If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
+                Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles(Bookmarked Articles: \(feed.getAmountOfBookmarkedArticles())). If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
                         model.removeFeed(feed)
                         self.presentationMode.wrappedValue.dismiss()
                 }),secondaryButton: .cancel())

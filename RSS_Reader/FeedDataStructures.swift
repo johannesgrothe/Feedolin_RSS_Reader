@@ -246,6 +246,18 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         self.image = image
         self.id = UUID.init()
     }
+    /**
+     @getAmountOfBookmarkedArticles() will return an Integer with the current bookmarked articles of this Feed
+     */
+    func getAmountOfBookmarkedArticles() -> Int{
+        var counter = 0
+        for article in model.stored_article_data{
+            if article.hasParentFeed(self) && article.bookmarked {
+                counter += 1
+            }
+        }
+        return counter
+    }
 }
 
 /**
