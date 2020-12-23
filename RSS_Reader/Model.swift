@@ -834,6 +834,28 @@ final class Model: ObservableObject {
         
         print("Article with the ID:\(article.id) got saved")
     }
+    
+    /**@removeFeed(_ givenFeed: NewsFeed) will remove the feed from his parents list and if the parent list is empty the parent will be removed*/
+    func removeFeed(_ givenFeed: NewsFeed){
+        let parent_feed = givenFeed.parent_feed!
+        
+        stored_article_data.removeAll{
+            $0.hasParentFeed(givenFeed)
+        }
+        
+        parent_feed.feeds.removeAll{
+            $0.id == givenFeed.id
+        }
+        
+        if parent_feed.feeds.isEmpty{
+            feed_data.removeAll{
+                $0.id == parent_feed.id
+            }
+        }
+        
+        self.cleanupStoredFiles()
+    }
+    
 }
 
 var preview_model = Model(

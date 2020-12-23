@@ -15,17 +15,21 @@ struct FeedEditSettingsView: View {
     let feed: NewsFeed
     
     /**
-    @show_in_main is a boolean that shows if a feed is visible in the FeedList or not
+     @show_in_main is a boolean that shows if a feed is visible in the FeedList or not
      */
     @State private var show_in_main: Bool = true
     /**
-    @use_filters is a boolean that shows if a feed is using filters or not
+     @use_filters is a boolean that shows if a feed is using filters or not
      */
     @State private var use_filters: Bool = false
     /**
-    @name is a string that holds the input of the user
+     @name is a string that holds the input of the user
      */
     @State private var name = ""
+    
+    /**
+     @showingAlert shows if alert is true*/
+    @State private var showingAlert = false
     
     /**
      @presentationMode make the View dismiss itself
@@ -33,7 +37,7 @@ struct FeedEditSettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var model: Model = .shared
-
+    
     var body: some View {
         VStack {
             
@@ -75,13 +79,31 @@ struct FeedEditSettingsView: View {
                     .padding(.horizontal,20.0)
                 
             }
+            
             List{
                 NavigationLink(destination: DummyDetailView()){
                     Text("Filters Selected")
                 }
             }
-            Spacer()
             
+            Button(action: {
+                withAnimation {
+                    self.showingAlert = true
+                }
+            }) {
+                HStack{
+                    Image(systemName: "trash").imageScale(.large)
+                    Text("Remove Feed").font(.headline)
+                }
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles. If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
+                        model.removeFeed(feed)
+                        self.presentationMode.wrappedValue.dismiss()
+                }),secondaryButton: .cancel())
+            }
+            
+            Spacer()
         }
         .navigationBarTitle(feed.name, displayMode: .inline)
         .navigationBarItems(

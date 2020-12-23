@@ -172,12 +172,12 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     }
     
     /** Get the Article's first Feed */
-    func getRootParentFeedID() -> NewsFeed{
+    func getRootParentFeed() -> NewsFeed{
         return self.parent_feeds[0]
     }
     
     /** Get a List of feeds of all the feed's of the Article */
-    func getParentFeedsID() -> [NewsFeed]{
+    func getParentFeeds() -> [NewsFeed]{
         return self.parent_feeds
     }
     
