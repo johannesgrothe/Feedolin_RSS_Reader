@@ -123,8 +123,15 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         self.feeds = feeds
         self.id = UUID.init()
         
-        // a.square.fill
-        let default_icon: String = token.lowercased().prefix(1) + ".square.fill"
+        var default_icon: String = ""
+        let prefix = String(token.lowercased().prefix(1))
+        
+        if prefix.isAlphanumeric {
+            default_icon = token.lowercased().prefix(1) + ".square.fill"
+        } else {
+            default_icon = "questionmark.square.fill"
+        }
+        
         /**
          Google-API for getting an icon for the url
          */
