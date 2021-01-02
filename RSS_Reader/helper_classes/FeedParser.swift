@@ -8,6 +8,26 @@
 import Foundation
 import XMLCoder
 
+func fetchHTTPData(_ url: String) -> String? {
+    
+    print("Fetching HTTP Data from '\(url)'")
+        
+    if let buf_url = URL(string: url) {
+        do {
+            let result = try String(contentsOf: buf_url)
+            return result
+        } catch {
+            // contents could not be loaded
+            print("Loading data not successful")
+            return nil
+        }
+    } else {
+        // the URL was bad!
+        print("The URL somehow was still broken after checking")
+        return nil
+    }
+}
+
 /**
  Finds all matches for the regex in the passed text and returns them as a list of strings
  */
@@ -63,30 +83,6 @@ class FeedParser {
     
     private var main_url: String?
     private var complete_url: String?
-    
-    /**
-     Gets all regex groups from the selected regex and the passed text.
-     DO NOT USE ANYMORE IT'S SHIT
-     */
-    private func getRegexGroupsOldDontUse(for regex: String, in text: String) -> [[String]] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
-            let matches = regex.matches(in: text,
-                                        range: NSRange(text.startIndex..., in: text))
-            return matches.map { match in
-                return (0..<match.numberOfRanges).map {
-                    let rangeBounds = match.range(at: $0)
-                    guard let range = Range(rangeBounds, in: text) else {
-                        return ""
-                    }
-                    return String(text[range])
-                }
-            }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    }
     
     /** Method that parses the thumbnail's url from the whole article (item-tag xml string) */
     private func parseThumbnailURL(from text: String) -> String? {
@@ -265,36 +261,31 @@ class FeedParser {
         
         complete_url = url.lowercased()
         
-        // Check URL
-        let result_group = getRegexGroupsOldDontUse(for: "(https?://)([a-z0-9]+)\\.([^:^/]*)(:\\d*)?(.*)?", in: complete_url!)
-        if !result_group.isEmpty {
-            let parsed_url_goup = result_group[0]
-            self.main_url = parsed_url_goup[3]
-            
-            if main_url == "" {
-                print("Parts of the URL are missing")
-                return false
-            }
-        } else {
-            print("Couldn't split URL propperly")
+        // TEST REMOVE
+        // TODO
+        
+//        _ = detect_feeds(complete_url!)
+        
+        // TEST END
+        
+        let buf_main_url = get_main_url(complete_url!)
+        
+        print("Main-URL = \(buf_main_url ?? "nil")")
+        
+        if buf_main_url == nil {
+            return false
+        }
+        main_url = buf_main_url
+        
+        let buf_data = fetchHTTPData(complete_url!)
+        
+        if buf_data == nil {
             return false
         }
         
-        if let buf_url = URL(string: complete_url!) {
-            do {
-                let result = try String(contentsOf: buf_url)
-                self.data = result
-                return true
-            } catch {
-                // contents could not be loaded
-                print("Loading data not successful")
-                return false
-            }
-        } else {
-            // the URL was bad!
-            print("The URL somehow was still broken after checking")
-            return false
-        }
+        self.data = buf_data
+        
+        return true
     }
 }
 
@@ -307,7 +298,7 @@ struct FetchedFeedInfo {
 }
 
 /**
- Raw meta information for an article
+ Raw meta information for an feed
  */
 struct NewsFeedMeta {
     let title: String
