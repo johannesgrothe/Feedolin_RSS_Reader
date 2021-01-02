@@ -268,9 +268,7 @@ class FeedParser {
         
         // TEST END
         
-        let buf_main_url = get_main_url(complete_url!)
-        
-        print("Main-URL = \(buf_main_url ?? "nil")")
+        let buf_main_url = getMainURL(complete_url!)
         
         if buf_main_url == nil {
             return false

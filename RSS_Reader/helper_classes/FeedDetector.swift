@@ -9,26 +9,43 @@ import Foundation
 
 private func detect_feed_helper(_ url: String) -> [String] {
     
+    let main_url = getMainURL(url)
+    if main_url == nil {
+        print("illegal main url in helper")
+        return []
+    }
+    
     let source_code = fetchHTTPData(url.lowercased())
     if source_code == nil {
+        print("no data loaded")
         return []
     }
     
     let found_urls = getRegexMatches(for: "\"http[s]?://.+?\"", in: source_code!)
-    print(found_urls)
-    return found_urls
+    var valid_urls: [String] = []
+    
+    for found_url in found_urls {
+        let s_url_main = getMainURL(found_url)
+        if s_url_main != nil && s_url_main == main_url {
+            if !(found_url.hasSuffix(".jpeg") || found_url.hasSuffix(".jpg") || found_url.hasSuffix(".png")) {
+                valid_urls.append(found_url)
+            }
+        }
+    }
+    
+    return valid_urls
 }
 
 func detect_feeds(_ url: String) -> [NewsFeedMeta] {
     
-    var main_url = get_main_url(url)
-    if main_url == nil {
+    let short_main_url = getMainURL(url)
+    if short_main_url == nil {
         return []
     }
     
-    main_url = "https://www." + main_url!
+    let full_main_url = "https://www." + short_main_url!
     
-    print("Detecting feeds from '\(main_url!)'")
+    print("Detecting feeds from '\(full_main_url)'")
     
     /** List with urls to scan */
     var search_urls = detect_feed_helper(url)
@@ -46,8 +63,8 @@ func detect_feeds(_ url: String) -> [NewsFeedMeta] {
                 if !search_urls.contains(s_url) && !old_search_urls.contains(s_url) && !new_search_urls.contains(s_url) {
                     new_search_urls.append(s_url)
                 }
+                old_search_urls.append(search_url)
             }
-            old_search_urls.append(search_url)
         }
         
         search_urls = new_search_urls
@@ -82,7 +99,7 @@ private func getRegexGroupsOldDontUse(for regex: String, in text: String) -> [[S
     }
 }
 
-func get_main_url(_ url: String) -> String? {
+func getMainURL(_ url: String) -> String? {
     let complete_url = url.lowercased()
     
     // Check URL
