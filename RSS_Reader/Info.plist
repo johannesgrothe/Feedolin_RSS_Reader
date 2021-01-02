@@ -37,7 +37,7 @@
 			<string>TopbarImage</string>
 		</dict>
 		<key>UIColorName</key>
-		<string>BackGroundColor</string>
+		<string>BackgroundColor</string>
 	</dict>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
