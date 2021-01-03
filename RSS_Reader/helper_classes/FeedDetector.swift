@@ -35,6 +35,13 @@ private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
     
     var found_urls: [String] = []
     
+    /** Search for .rss namings in text */
+    let found_mentions_rss = getRegexGroups(for: "(http[s]?)://(.+?)\\.rss", in: source_code)
+    
+    for found_rss_group in found_mentions_rss {
+        found_urls.append("\(found_rss_group[0])://\(found_rss_group[1]).rss")
+    }
+    
     /** Search for .rss links */
     let found_urls_rss = getRegexGroups(for: "href=\"(.+?)\\.rss\"", in: source_code)
     
@@ -71,14 +78,6 @@ private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
                 add_url = url_start + add_url
             }
             valid_urls.append(add_url)
-//            if found_url.hasPrefix(url_start) {
-//                valid_urls.append(found_url)
-//            } else {
-//                let local_main_url = getMainURL(found_url)
-//                if local_main_url == nil {
-//                    valid_urls.append("\(url_start)/\(found_url)")
-//                }
-//            }
         }
     }
     return valid_urls
@@ -135,7 +134,7 @@ func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = f
     var prioritized_urls: [String] = []
     
     for i_url in search_urls {
-        if i_url.contains("feed") || i_url.contains("rss") {
+        if (i_url.contains("feed") && !i_url.contains("feedback")) || i_url.contains("rss") {
             prioritized_urls.append(i_url)
         }
     }
