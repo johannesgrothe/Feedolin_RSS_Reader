@@ -8,9 +8,20 @@
 import Foundation
 
 extension String {
-    func containsRegex(_ pattern: String) -> Bool {
-        let result = getRegexMatches(for: pattern, in: self)
-        return result != []
+    
+    
+    /// Removes a certain amount of characters from the beginning of the string
+    /// - Parameter count: amount of characters that should be removed
+    /// - Returns: The modified string
+    func chopPrefix(_ count: UInt = 1) -> String {
+        return substring(from: self.index(startIndex, offsetBy: Int(count)))
+    }
+
+    /// Removes a certain amount of characters from the end of the string
+    /// - Parameter count: amount of characters that should be removed
+    /// - Returns: The modified string
+    func chopSuffix(_ count: UInt = 1) -> String {
+        return substring(to: self.index(endIndex, offsetBy: -Int(count)))
     }
 }
 
@@ -22,23 +33,52 @@ extension String {
 /// - Returns: A list of links to the detected feeds
 private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
     
-    let found_urls = getRegexMatches(for: "\"[/]?[a-zA-Z0-9]+?\\.rss\"", in: source_code)
+    var found_urls: [String] = []
+    
+    /** Search for .rss links */
+    let found_urls_rss = getRegexGroups(for: "href=\"(.+?)\\.rss\"", in: source_code)
+    
+    for found_rss_group in found_urls_rss {
+        found_urls.append(found_rss_group[0]+".rss")
+    }
+    
+    /** Search for .xml feeds */
+    let found_urls_xml = getRegexGroups(for: "href=\"(.+?)\\.xml\"", in: source_code)
+    
+    for found_xml_group in found_urls_xml {
+        found_urls.append(found_xml_group[0]+".xml")
+    }
+    
+    let main_url_has_slash = url_start.hasSuffix("/")
+    
     var valid_urls: [String] = []
     
     print("found \(found_urls.count) feeds")
+    print(found_urls)
     
     for raw_found_url in found_urls {
-        let found_url = raw_found_url.trimmingCharacters(in: ["\""])
+        var found_url = raw_found_url
         
-        if found_url.hasSuffix(".rss") && !(found_url.contains(".jpeg") || found_url.contains(".jpg") || found_url.contains(".png")) {
-            if found_url.hasPrefix(url_start) {
-                valid_urls.append(found_url)
-            } else {
-                let local_main_url = getMainURL(found_url)
-                if local_main_url == nil {
-                    valid_urls.append("\(url_start)/\(found_url)")
-                }
+        if main_url_has_slash {
+            found_url = found_url.trimmingCharacters(in: ["/"])
+        }
+        
+        
+        if (found_url.hasSuffix(".rss") || found_url.hasSuffix(".xml")) && !found_url.contains("manifest") {
+            var add_url = found_url
+            let local_main_url = getMainURL(found_url)
+            if local_main_url == nil {
+                add_url = url_start + add_url
             }
+            valid_urls.append(add_url)
+//            if found_url.hasPrefix(url_start) {
+//                valid_urls.append(found_url)
+//            } else {
+//                let local_main_url = getMainURL(found_url)
+//                if local_main_url == nil {
+//                    valid_urls.append("\(url_start)/\(found_url)")
+//                }
+//            }
         }
     }
     return valid_urls
@@ -61,7 +101,7 @@ private func detectLinks(_ url_start: String, source_code: String) -> [String] {
     return valid_urls
 }
 
-func detect_feeds(_ url: String) -> [NewsFeedMeta] {
+func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = false) -> [NewsFeedMeta] {
     
     let short_main_url = getMainURL(url)
     if short_main_url == nil {
@@ -89,26 +129,46 @@ func detect_feeds(_ url: String) -> [NewsFeedMeta] {
     /** List with URLs already searched */
     var old_search_urls: [String] = []
     
-    /** List with newly found URLs to search */
-//    var new_search_urls: [String] = []
-    
     /** List of all detected feeds */
     var found_feed_list: [String] = []
-
-//    feed_list = detectFeeds(full_main_url, source_code: index_src_code!)
     
-    /** Go through every URL in the found-list and scan it */
-    for search_url in search_urls {
+    var prioritized_urls: [String] = []
+    
+    for i_url in search_urls {
+        if i_url.contains("feed") || i_url.contains("rss") {
+            prioritized_urls.append(i_url)
+        }
+    }
+    
+    /** Go through prioritized URLs in the found-list and scan it */
+    for search_url in prioritized_urls {
         old_search_urls.append(search_url)
 
         let src_code = fetchHTTPData(search_url.lowercased())
         if src_code != nil {
-//            let local_links = detectLinks(full_main_url, source_code: src_code!)
             let local_feeds: [String] = detectFeeds(full_main_url, source_code: src_code!)
             
             for feed_url in local_feeds {
                 if !found_feed_list.contains(feed_url) {
                     found_feed_list.append(feed_url)
+                }
+            }
+        }
+    }
+    
+    if !shallow_scan && (deep_scan || prioritized_urls.isEmpty) {
+        /** Go through every URL in the found-list and scan it */
+        for search_url in search_urls {
+            old_search_urls.append(search_url)
+
+            let src_code = fetchHTTPData(search_url.lowercased())
+            if src_code != nil {
+                let local_feeds: [String] = detectFeeds(full_main_url, source_code: src_code!)
+                
+                for feed_url in local_feeds {
+                    if !found_feed_list.contains(feed_url) {
+                        found_feed_list.append(feed_url)
+                    }
                 }
             }
         }
