@@ -264,7 +264,7 @@ class FeedParser {
         // TEST REMOVE
         // TODO
         
-//        _ = detect_feeds(complete_url!)
+        _ = detect_feeds(complete_url!)
         
         // TEST END
         

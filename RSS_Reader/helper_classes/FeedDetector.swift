@@ -7,27 +7,52 @@
 
 import Foundation
 
-private func detect_feed_helper(_ url: String) -> [String] {
-    
-    let main_url = getMainURL(url)
-    if main_url == nil {
-        print("illegal main url in helper")
-        return []
+extension String {
+    func containsRegex(_ pattern: String) -> Bool {
+        let result = getRegexMatches(for: pattern, in: self)
+        return result != []
     }
+}
+
+
+/// Function that receives an URL start (like 'https://www.nzz.ch/') and a html source code and scans it for links to rss feeds. The URL is used to add it if the found links are relative links.
+/// - Parameters:
+///   - url_start: Main url of the site that is searched (like 'https://www.nzz.ch/')
+///   - source_code: source code of any sub.site of the passed url
+/// - Returns: A list of links to the detected feeds
+private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
     
-    let source_code = fetchHTTPData(url.lowercased())
-    if source_code == nil {
-        print("no data loaded")
-        return []
-    }
-    
-    let found_urls = getRegexMatches(for: "\"http[s]?://.+?\"", in: source_code!)
+    let found_urls = getRegexMatches(for: "\"[/]?[a-zA-Z0-9]+?\\.rss\"", in: source_code)
     var valid_urls: [String] = []
     
-    for found_url in found_urls {
-        let s_url_main = getMainURL(found_url)
-        if s_url_main != nil && s_url_main == main_url {
-            if !(found_url.hasSuffix(".jpeg") || found_url.hasSuffix(".jpg") || found_url.hasSuffix(".png")) {
+    print("found \(found_urls.count) feeds")
+    
+    for raw_found_url in found_urls {
+        let found_url = raw_found_url.trimmingCharacters(in: ["\""])
+        
+        if found_url.hasSuffix(".rss") && !(found_url.contains(".jpeg") || found_url.contains(".jpg") || found_url.contains(".png")) {
+            if found_url.hasPrefix(url_start) {
+                valid_urls.append(found_url)
+            } else {
+                let local_main_url = getMainURL(found_url)
+                if local_main_url == nil {
+                    valid_urls.append("\(url_start)/\(found_url)")
+                }
+            }
+        }
+    }
+    return valid_urls
+}
+
+private func detectLinks(_ url_start: String, source_code: String) -> [String] {
+    
+    let found_urls = getRegexMatches(for: "\"http[s]?://.+?\"", in: source_code)
+    var valid_urls: [String] = []
+    
+    for raw_found_url in found_urls {
+        let found_url = raw_found_url.trimmingCharacters(in: ["\""])
+        if found_url.hasPrefix(url_start) {
+            if !(found_url.contains(".jpeg") || found_url.contains(".jpg") || found_url.contains(".png") || found_url.contains(".rss")) {
                 valid_urls.append(found_url)
             }
         }
@@ -43,35 +68,61 @@ func detect_feeds(_ url: String) -> [NewsFeedMeta] {
         return []
     }
     
-    let full_main_url = "https://www." + short_main_url!
+    var full_main_url = "http://www." + short_main_url!
+    if url.starts(with: "https://") {
+        full_main_url = "https://www." + short_main_url!
+    }
     
     print("Detecting feeds from '\(full_main_url)'")
     
-    /** List with urls to scan */
-    var search_urls = detect_feed_helper(url)
     
+    let index_src_code = fetchHTTPData(full_main_url.lowercased())
+    if index_src_code == nil {
+        print("Could not load index data")
+        return []
+    }
+    
+    /** List with urls to scan, filled with every fitting url found on the main page */
+    var search_urls: [String] = []
+    search_urls = detectLinks(full_main_url, source_code: index_src_code!)
+
     /** List with URLs already searched */
     var old_search_urls: [String] = []
     
     /** List with newly found URLs to search */
-    var new_search_urls: [String] = []
+//    var new_search_urls: [String] = []
     
-    for _ in 0...3 {
-        for search_url in search_urls {
-            let buf_search_urls = detect_feed_helper(search_url)
-            for s_url in buf_search_urls {
-                if !search_urls.contains(s_url) && !old_search_urls.contains(s_url) && !new_search_urls.contains(s_url) {
-                    new_search_urls.append(s_url)
+    /** List of all detected feeds */
+    var found_feed_list: [String] = []
+
+//    feed_list = detectFeeds(full_main_url, source_code: index_src_code!)
+    
+    /** Go through every URL in the found-list and scan it */
+    for search_url in search_urls {
+        old_search_urls.append(search_url)
+
+        let src_code = fetchHTTPData(search_url.lowercased())
+        if src_code != nil {
+//            let local_links = detectLinks(full_main_url, source_code: src_code!)
+            let local_feeds: [String] = detectFeeds(full_main_url, source_code: src_code!)
+            
+            for feed_url in local_feeds {
+                if !found_feed_list.contains(feed_url) {
+                    found_feed_list.append(feed_url)
                 }
-                old_search_urls.append(search_url)
             }
         }
-        
-        search_urls = new_search_urls
-        new_search_urls = []
     }
     
-    print("Searched: \(old_search_urls)")
+    print(found_feed_list.count)
+    print("Searched:")
+    for link in old_search_urls {
+        print("- \(link)")
+    }
+    print("Feeds Found:")
+    for feed in found_feed_list {
+        print("- \(feed)")
+    }
     return []
 }
 
