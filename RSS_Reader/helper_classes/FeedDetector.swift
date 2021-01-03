@@ -31,7 +31,7 @@ extension String {
 ///   - url_start: Main url of the site that is searched (like 'https://www.nzz.ch/')
 ///   - source_code: source code of any sub.site of the passed url
 /// - Returns: A list of links to the detected feeds
-private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
+private func detectFeedsInSourcecode(_ url_start: String, source_code: String) -> [String] {
     
     var found_urls: [String] = []
     
@@ -60,8 +60,8 @@ private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
     
     var valid_urls: [String] = []
     
-    print("found \(found_urls.count) feeds")
-    print(found_urls)
+//    print("found \(found_urls.count) feeds")
+//    print(found_urls)
     
     for raw_found_url in found_urls {
         var found_url = raw_found_url
@@ -83,7 +83,7 @@ private func detectFeeds(_ url_start: String, source_code: String) -> [String] {
     return valid_urls
 }
 
-private func detectLinks(_ url_start: String, source_code: String) -> [String] {
+private func detectLinksInSourcecode(_ url_start: String, source_code: String) -> [String] {
     
     let found_urls = getRegexMatches(for: "\"http[s]?://.+?\"", in: source_code)
     var valid_urls: [String] = []
@@ -100,7 +100,7 @@ private func detectLinks(_ url_start: String, source_code: String) -> [String] {
     return valid_urls
 }
 
-func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = false) -> [NewsFeedMeta] {
+func detectFeeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = false) -> [NewsFeedMeta] {
     
     let short_main_url = getMainURL(url)
     if short_main_url == nil {
@@ -123,7 +123,7 @@ func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = f
     
     /** List with urls to scan, filled with every fitting url found on the main page */
     var search_urls: [String] = []
-    search_urls = detectLinks(full_main_url, source_code: index_src_code!)
+    search_urls = detectLinksInSourcecode(full_main_url, source_code: index_src_code!)
 
     /** List with URLs already searched */
     var old_search_urls: [String] = []
@@ -145,7 +145,7 @@ func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = f
 
         let src_code = fetchHTTPData(search_url.lowercased())
         if src_code != nil {
-            let local_feeds: [String] = detectFeeds(full_main_url, source_code: src_code!)
+            let local_feeds: [String] = detectFeedsInSourcecode(full_main_url, source_code: src_code!)
             
             for feed_url in local_feeds {
                 if !found_feed_list.contains(feed_url) {
@@ -162,7 +162,7 @@ func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = f
 
             let src_code = fetchHTTPData(search_url.lowercased())
             if src_code != nil {
-                let local_feeds: [String] = detectFeeds(full_main_url, source_code: src_code!)
+                let local_feeds: [String] = detectFeedsInSourcecode(full_main_url, source_code: src_code!)
                 
                 for feed_url in local_feeds {
                     if !found_feed_list.contains(feed_url) {
@@ -173,14 +173,20 @@ func detect_feeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = f
         }
     }
     
-    print(found_feed_list.count)
+    // Print searched urls
     print("Searched:")
     for link in old_search_urls {
         print("- \(link)")
     }
-    print("Feeds Found:")
-    for feed in found_feed_list {
-        print("- \(feed)")
+    
+    // Print found feeds
+    print("Feeds Found (\(found_feed_list.count)):")
+    if found_feed_list.count > 0 {
+        for feed in found_feed_list {
+            print("- \(feed)")
+        }
+    } else {
+        print("None")
     }
     return []
 }
@@ -219,13 +225,13 @@ func getMainURL(_ url: String) -> String? {
         let main_url = parsed_url_goup[3]
         
         if main_url == "" {
-            print("Parts of the URL are missing")
+//            print("Parts of the URL are missing")
             return nil
         }
         
         return main_url
     } else {
-        print("Couldn't split URL propperly")
+//        print("Couldn't split URL propperly")
         return nil
     }
 }
