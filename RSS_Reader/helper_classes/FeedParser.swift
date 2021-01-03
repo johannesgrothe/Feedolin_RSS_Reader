@@ -261,13 +261,6 @@ class FeedParser {
         
         complete_url = url.lowercased()
         
-        // TEST REMOVE
-        // TODO
-        
-        _ = detectFeeds(complete_url!)
-        
-        // TEST END
-        
         let buf_main_url = getMainURL(complete_url!)
         
         if buf_main_url == nil {

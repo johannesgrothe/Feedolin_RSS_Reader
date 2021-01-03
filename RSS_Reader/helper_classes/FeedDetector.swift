@@ -188,7 +188,20 @@ func detectFeeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = fa
     } else {
         print("None")
     }
-    return []
+    
+    var out_feed_data: [NewsFeedMeta] = []
+    
+    for feed_url in found_feed_list {
+        let helper_parser = FeedParser()
+        if helper_parser.fetchData(url: feed_url) {
+            let data = helper_parser.parseData()
+            if data != nil {
+                out_feed_data.append(data!.feed_info)
+            }
+        }
+    }
+
+    return out_feed_data
 }
 
 /**

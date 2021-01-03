@@ -258,6 +258,10 @@ final class Model: ObservableObject {
         let parser = FeedParser()
         let lower_url = url.lowercased()
         
+        // TODO: test, remove
+        let found_feed_data = detectFeeds(lower_url)
+        print(found_feed_data)
+        
         // Chechs the URL, fetches data and returns if operation was successfull
         if parser.fetchData(url: lower_url) {
             let parsed_feed_info = parser.parseData()
