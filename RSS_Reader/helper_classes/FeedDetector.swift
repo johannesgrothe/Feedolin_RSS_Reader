@@ -238,13 +238,20 @@ func getMainURL(_ url: String) -> String? {
         let main_url = parsed_url_goup[3]
         
         if main_url == "" {
-//            print("Parts of the URL are missing")
             return nil
         }
         
         return main_url
     } else {
-//        print("Couldn't split URL propperly")
         return nil
     }
+}
+
+func detectURL(_ url: String) -> String? {
+    let result_group = getRegexGroups(for: "(https?)://([a-z0-9]+\\.)([a-z0-9]+).([a-z]+)", in: url.lowercased())
+    if result_group.isEmpty {
+        return nil
+    }
+    let wanted_result = result_group[0]
+    return wanted_result[0] + "://" + wanted_result[1] + wanted_result[2] + "." + wanted_result[3]
 }

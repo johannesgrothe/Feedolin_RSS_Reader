@@ -291,7 +291,8 @@ struct FetchedFeedInfo {
 /**
  Raw meta information for an feed
  */
-struct NewsFeedMeta {
+struct NewsFeedMeta: Identifiable {
+    let id = UUID()
     let title: String
     let description: String
     let language: String
