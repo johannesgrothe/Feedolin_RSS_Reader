@@ -29,5 +29,11 @@ struct RSS_ReaderApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
+        
+        #if os(macOS)
+        Settings{
+            SettingsView()
+        }
+        #endif
     }
 }

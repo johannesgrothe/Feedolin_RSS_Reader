@@ -16,6 +16,16 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1BD2A3E3254B036F00FCA510"
+               BuildableName = "RSS_ReaderUITests.xctest"
+               BlueprintName = "RSS_ReaderUITests"
+               ReferencedContainer = "container:RSS_Reader.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "1BD2A3D8254B036F00FCA510"
                BuildableName = "RSS_ReaderTests.xctest"
                BlueprintName = "RSS_ReaderTests"

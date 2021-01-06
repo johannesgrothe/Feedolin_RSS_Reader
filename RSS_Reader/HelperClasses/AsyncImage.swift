@@ -93,11 +93,20 @@ class AsyncImage: ObservableObject, Codable {
                 return
             }
             DispatchQueue.main.async() {
+                #if os(macOS)
+                let buf_img = NSImage(data: data)
+                if buf_img != nil {
+                    print("Loding image successfull.")
+                    self.img = Image(nsImage: buf_img!)
+                }
+                #else
                 let buf_img = UIImage(data: data)
                 if buf_img != nil {
                     print("Loding image successfull.")
                     self.img = Image(uiImage: buf_img!)
                 }
+                #endif
+
             }
         }
     }
