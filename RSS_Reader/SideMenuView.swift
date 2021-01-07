@@ -117,7 +117,7 @@ struct SideMenuView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 22, height: 22)
-                                            .cornerRadius(50)
+                                            .cornerRadius(100)
                                         Text(feed_provider.name)
                                             .font(.headline)
                                             .frame(maxWidth: .infinity, alignment: .leading)

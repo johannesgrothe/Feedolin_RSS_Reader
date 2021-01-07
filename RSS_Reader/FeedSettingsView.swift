@@ -127,6 +127,7 @@ struct FeedProviderSettingListEntry: View {
             HStack {
                 (feed_provider.icon.img)
                     .resizable()
+                    .cornerRadius(100)
                     .frame(width: 25, height: 25)
                 Text(feed_provider.name).font(.headline)
             }
