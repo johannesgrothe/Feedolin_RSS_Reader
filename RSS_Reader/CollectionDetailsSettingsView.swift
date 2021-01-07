@@ -14,22 +14,19 @@ import SwiftUI
 struct CollectionDetailSettingsView: View {
     
     /**
-     * The collection that is displayed in the view
+     @collection is the collection that is displayed in the view
      */
     @ObservedObject var collection: Collection
-    
     /**
-     * Model Singleton
+     @model is the shared model singelton
      */
     @ObservedObject var model: Model = .shared
-
     /**
-     * indicates if the user is in edit_mode to add or remove feeds
+     @edit_mode is the indicator of the edit mode to  add or remove feeds
      */
     @State private var edit_mode = false
-    
     /**
-     * a list contained all the feeds that should be shown depending on the value of edit_mode
+     @presented_feed_list is a list that contained all the feeds that should be shown depending on the value of edit_mode
      */
     @State private var presented_feed_list: [NewsFeed] = []
     
