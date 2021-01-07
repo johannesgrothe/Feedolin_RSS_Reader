@@ -12,12 +12,17 @@ import SwiftUI
  */
 struct ArticleList: View {
     
+    /**
+     @model is the shared model singelton
+     */
     @ObservedObject var model: Model = .shared
-    
-    /** The search phrase entered in the search bar */
+    /**
+     @search_phrase is the search phrase entered in the search bar
+     */
     @State private var search_phrase = ""
-    
-    /** The representation of the 'ignore casing while searching'-selectors */
+    /**
+     @search_ignore_casing is the representation of the 'ignore casing while searching'-selectors
+     */
     @State private var search_ignore_casing = true
     
     var body: some View {
@@ -26,17 +31,16 @@ struct ArticleList: View {
             // Search bar
             HStack {
                 //search bar magnifying glass image
-                Image(systemName: "magnifyingglass").foregroundColor(.secondary)
+                Image(systemName: "magnifyingglass")
                             
                 //search bar text field
-                TextField("search", text: $search_phrase)
+                TextField("Search", text: $search_phrase)
                    
                 // x Button
                 Button(action: {
                     search_phrase = ""
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.secondary)
                         .opacity(search_phrase == "" ? 0 : 1)
                 }
                 .buttonStyle(BorderlessButtonStyle())
@@ -48,19 +52,19 @@ struct ArticleList: View {
                 }) {
                     if search_ignore_casing {
                         Image(systemName: "textformat.size.larger")
-                             .foregroundColor(.secondary)
                     } else {
                         Image(systemName: "textformat")
-                             .foregroundColor(.secondary)
                     }
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 
             }
-            .padding(8)
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(8)
             .listRowBackground(Color.clear)
+            .padding(10)
+            .foregroundColor(.secondary)
+            .background(Color(.secondarySystemBackground))
+            .cornerRadius(10)
+            
             
             /** Create search object */
             let search_obj = SearchPhrase(pattern: search_phrase,
