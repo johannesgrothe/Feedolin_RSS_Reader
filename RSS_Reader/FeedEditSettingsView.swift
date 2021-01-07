@@ -47,20 +47,20 @@ struct FeedEditSettingsView: View {
     @ObservedObject var model: Model = .shared
     
     var body: some View {
-        // hole Content
+        // hole content
         VStack(alignment: .leading, spacing: 20) {
-            // Row with Name and Textfield
+            // row with name and textfield
             HStack {
                 Text("Name")
                     .padding(.trailing)
-                // Input Textfield
+                // input textfield
                 HStack {
                     TextField(feed.name, text: $name) { isEditing in
                         self.isEditing = isEditing
                         } onCommit: {
                             feed.name = name
                         }
-                    // x Button
+                    // x-button
                     Button(action: {
                         name = ""
                     }) {
@@ -76,6 +76,7 @@ struct FeedEditSettingsView: View {
             }
             .padding(.horizontal)
             
+            // show in main feed toggle
             HStack{
                 Toggle("Show in Main Feed", isOn: $show_in_main)
                     .onAppear(){
@@ -91,6 +92,7 @@ struct FeedEditSettingsView: View {
             }
             .padding(.horizontal)
             
+            // use filters toggle
             HStack{
                 Toggle("Use Filters",isOn: $use_filters)
                     .onAppear(){
@@ -133,6 +135,8 @@ struct FeedEditSettingsView: View {
             Spacer()
         }
         .padding(10)
+        .background(Color("BackgroundColor"))
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(feed.name, displayMode: .inline)
         .onDisappear(perform: {
             if name != "" {
