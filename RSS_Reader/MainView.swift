@@ -11,13 +11,17 @@ import SwiftUI
  View that contains the hole
  */
 struct MainView: View {
-    // boolean if side menu is shown
+    /**
+     @show_menu is  boolean if side menu is shown
+     */
     @Binding var show_menu : Bool
-    
-    // Model Singleton
+    /**
+     @model is the shared model singelton
+     */
     @ObservedObject var model: Model = .shared
-    
-    //open the sidemenu with animation
+    /**
+     @menu_open is a function to open the sidemenu with animation
+     */
     let menu_open: () -> Void
     
     var body: some View {
