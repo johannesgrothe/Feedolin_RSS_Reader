@@ -12,7 +12,6 @@ import SwiftUI
 struct SideMenuView: View {
     // Model Singleton
     @ObservedObject var model: Model = .shared
-    @Environment(\.presentationMode) var presentationMode
     @State private var show_add_feed_view = false
     
     var body: some View {
@@ -33,18 +32,21 @@ struct SideMenuView: View {
                         model.refreshFilter()
                     }) {
                         HStack {
-                            Image(systemName: "folder.circle.fill")
+                            Image(systemName: "folder")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 22, height: 22)
+                                .frame(width: 18, height: 18)
                             
                             Text(item.name)
                                 .font(.headline)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
+            .font(.headline)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .listRowBackground(Color.clear)
             /**
              Show the feed providers
@@ -59,13 +61,14 @@ struct SideMenuView: View {
                             feed_provider.icon.img
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 22, height: 22)
+                                .frame(width: 18, height: 18)
                                 .cornerRadius(50)
                             Text(feed_provider.name)
                                 .font(.headline)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
+                    .buttonStyle(PlainButtonStyle())
                     
                     /**
                      Show the feeds connected to the feed provider
@@ -84,58 +87,63 @@ struct SideMenuView: View {
                             }
                         }
                         .padding(.leading)
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
-            }
+            }                                .font(.headline)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .listRowBackground(Color.clear)
         }
-        .frame(minWidth: 200)
+        .frame(minWidth: 250)
         .listStyle(SidebarListStyle())
-        .toolbar(){
-            /**
-             displayes all-button
-             */
-            Button(action: {
-                model.setFilterAll()
-                model.refreshFilter()
-            }) {
-                Label("All", systemImage: "infinity.circle.fill")
-                    .frame(width: 22, height: 22, alignment: .leading)
-                    .scaledToFit()
-                    .font(.headline)
-            }
-            /**
-             displayes booksmark-button
-             */
-            Button(action: {
-                model.setFilterBookmarked()
-                model.refreshFilter()
-            }) {
-                Label("Bookmarked",systemImage:"bookmark.circle.fill")
-                    .frame(width: 22, height: 22, alignment: .leading)
-                    .scaledToFit()
-                    .font(.headline)
-            }
+        .toolbar {
+            Button(action: toggleSidebar, label: {
+                Image(systemName: "sidebar.left")
+            })
+            
             Menu {
+                /**
+                 displayes all-button
+                 */
                 Button(action: {
-                    print("Add feed button clicked")
-                    self.show_add_feed_view.toggle()
+                    model.setFilterAll()
+                    model.refreshFilter()
                 }) {
-                    Label("Add Feed", systemImage: "plus")
+                    Label("All", systemImage: "infinity.circle.fill")
+                        .frame(width: 22   , height: 22, alignment: .leading)
+                        .scaledToFit()
+                        .font(.headline)
+                }
+                /**
+                 displayes booksmark-button
+                 */
+                Button(action: {
+                    model.setFilterBookmarked()
+                    model.refreshFilter()
+                }) {
+                    Label("Bookmarked",systemImage:"bookmark.circle.fill")
+                        .frame(width: 22, height: 22, alignment: .leading)
+                        .scaledToFit()
+                        .font(.headline)
                 }
                 
-                Button(action: {
-                    print("Remove feed button clicked")
-                }) {
-                    Label("Remove feed", systemImage: "trash")
-                }
             }
             label: {
-                Label("Edit", systemImage: "square.and.pencil").imageScale(.large)
+                Label("Filter", systemImage: "line.horizontal.3.decrease.circle").imageScale(.large)
+            }
+            Button(action: {
+                print("Add feed button clicked")
+                self.show_add_feed_view.toggle()
+            }) {
+                Label("Add Feed", systemImage: "plus")
             }
         }
         .sheet(isPresented: self.$show_add_feed_view) {
             AddFeedView()
         }
+    }
+    
+    private func toggleSidebar() {
+        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 }
