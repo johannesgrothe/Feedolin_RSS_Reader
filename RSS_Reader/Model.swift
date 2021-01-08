@@ -836,15 +836,15 @@ final class Model: ObservableObject {
     }
     
     /**@removeFeed(_ givenFeed: NewsFeed) will remove the feed from his parents list and if the parent list is empty the parent will be removed*/
-    func removeFeed(_ givenFeed: NewsFeed){
-        let parent_feed = givenFeed.parent_feed!
+    func removeFeed(_ given_feed: NewsFeed){
+        let parent_feed = given_feed.parent_feed!
         
         stored_article_data.removeAll{
-            $0.hasParentFeed(givenFeed)
+            $0.hasParentFeed(given_feed)
         }
         
         parent_feed.feeds.removeAll{
-            $0.id == givenFeed.id
+            $0.id == given_feed.id
         }
         
         if parent_feed.feeds.isEmpty{

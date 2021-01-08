@@ -29,7 +29,7 @@ struct FeedEditSettingsView: View {
     
     /**
      @showingAlert shows if alert is true*/
-    @State private var showingAlert = false
+    @State private var showing_alert = false
     
     /**
      @presentationMode make the View dismiss itself
@@ -40,7 +40,7 @@ struct FeedEditSettingsView: View {
     
     var body: some View {
         VStack {
-            
+            /** TextField where the users gives a new name for the feed*/
             HStack {
                 Text("Name")
                     .padding(20.0)
@@ -50,7 +50,7 @@ struct FeedEditSettingsView: View {
                 ).textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal, 20.0)
             }
-            
+            /**Toggle Button where user can set if the current feed will be shown on mainview*/
             HStack{
                 Toggle("Show in Main Feed", isOn: $show_in_main)
                     .onAppear(){
@@ -65,7 +65,8 @@ struct FeedEditSettingsView: View {
                     }
                     .padding(.horizontal,20.0)
             }
-            
+            /**Toggle Button where user can set if the current feed will be use filters*/
+
             HStack{
                 Toggle("Use Filters",isOn: $use_filters)
                     .onAppear(){
@@ -88,15 +89,16 @@ struct FeedEditSettingsView: View {
             
             Button(action: {
                 withAnimation {
-                    self.showingAlert = true
+                    self.showing_alert = true
                 }
             }) {
+                /** Alert Button that will call a Alert if users wants to remove the feed*/
                 HStack{
                     Image(systemName: "trash").imageScale(.large)
                     Text("Remove Feed").font(.headline)
                 }
             }
-            .alert(isPresented: $showingAlert) {
+            .alert(isPresented: $showing_alert) {
                 Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles(Bookmarked Articles: \(feed.getAmountOfBookmarkedArticles())). If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
                         model.removeFeed(feed)
                         self.presentationMode.wrappedValue.dismiss()
