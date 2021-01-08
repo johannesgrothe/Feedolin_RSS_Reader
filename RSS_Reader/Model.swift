@@ -616,12 +616,6 @@ final class Model: ObservableObject {
         let json_encoder = JSONEncoder()
 
         switch path.pathComponents[path.pathComponents.count-1] {
-        case "FeedProviders":
-            for feed_provider in feed_data{
-                let json_data = try! json_encoder.encode(feed_provider)
-                let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-                writeObjectStringToJsonFile(path: path, json_string: json_string, file_name: feed_provider.id.uuidString)
-            }
         case "Collections":
             for collection in collection_data{
                 let json_data = try! json_encoder.encode(collection)
