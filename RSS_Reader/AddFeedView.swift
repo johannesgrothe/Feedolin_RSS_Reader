@@ -11,19 +11,29 @@ import SwiftUI
  The view that lets you type in an url and add it to the feeds
  */
 struct AddFeedView: View {
+    
+    /** Buffer for the textfield */
     @State private var text = ""
-    @State private var loading = false
     
+    /** Buffer for any detected main url */
     @State private var entered_main_url = ""
-    @State private var detected_feeds: [NewsFeedMeta] = []
-    @State private var is_scanning: Bool = false
-    private var detection_thread: DispatchWorkItem? = nil
     
+    /** Buffer for any detected feeds */
+    @State private var detected_feeds: [NewsFeedMeta] = []
+    
+    /** turns the loading indicator on and off */
+    @State private var is_scanning: Bool = false
+    
+    /** Little hack to refresh the view: set it to !refresh_view to trigger refresh */
     @State private var refresh_view: Bool = false
     
     @Environment(\.presentationMode) var presentationMode
     
+    /** Model of the app */
     @ObservedObject var model: Model = .shared
+    
+    /** Buffer for the feed that should be removed: Alert does not capture the correct feed, so it needs to be stored somewhere */
+    @State var remove_feed: NewsFeed? = nil
     
     /**
      @showingAlert shows if alert is true*/
@@ -57,9 +67,7 @@ struct AddFeedView: View {
                 }
             }
             Button("Add Feed") {
-                loading = true
                 let _ = model.addFeed(url: text)
-                loading = false
                 self.presentationMode.wrappedValue.dismiss()
             }
             .padding()
@@ -77,15 +85,15 @@ struct AddFeedView: View {
                             Button(action: {
                                 print("Remove Detected Feed Button clicked.")
                                 self.showing_alert = true
-//                                model.removeFeed(feed_in_model!)
+                                remove_feed = feed_in_model
                                 refresh_view = !refresh_view
                             }) {
                                 Image(systemName: "minus.circle.fill")
                                     .foregroundColor(.red)
                             }
                             .alert(isPresented: $showing_alert) {
-                                Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(feed_in_model!)), primaryButton: .default(Text("Okay"), action: {
-                                        model.removeFeed(feed_in_model!)
+                                Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(remove_feed!)), primaryButton: .default(Text("Okay"), action: {
+                                        model.removeFeed(remove_feed!)
                                 }),secondaryButton: .cancel())
                             }
                             
