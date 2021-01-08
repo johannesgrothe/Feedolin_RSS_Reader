@@ -19,6 +19,8 @@ struct AddFeedView: View {
     @State private var is_scanning: Bool = false
     private var detection_thread: DispatchWorkItem? = nil
     
+    @State private var refresh_view: Bool = false
+    
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var model: Model = .shared
@@ -65,9 +67,37 @@ struct AddFeedView: View {
             /** All of the detected feeds */
             List {
                 ForEach(detected_feeds) { feed_data in
-                    DetectedFeedEntry(data: feed_data)
+                    HStack {
+                        let feed_in_model = model.getFeedByURL(feed_data.complete_url)
+                        if feed_in_model != nil {
+                            Text(feed_in_model!.name)
+                            Spacer()
+                            Button(action: {
+                                print("Remove Detected Feed Button clicked.")
+                                // TODO: Remove Feed
+                                refresh_view = !refresh_view
+                            }) {
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                        } else {
+                            Text(feed_data.title)
+                            Spacer()
+                            Button(action: {
+                                print("Add Detected Feed Button clicked.")
+                                _ = model.addFeed(feed_meta: feed_data)
+                                refresh_view = !refresh_view
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                        }
+                    }
                 }
             }
+            .listRowBackground(Color.clear)
             
             Spacer()
         }
@@ -81,6 +111,14 @@ private struct DetectedFeedEntry: View {
     var body: some View {
         HStack {
             Text(data.title)
+            // Send Button for new collection
+            Button(action: {
+                print("Add Detected Feed Button clicked.")
+            }) {
+                Image(systemName: "plus.circle.fill")
+                    .foregroundColor(.green)
+            }
+            .buttonStyle(BorderlessButtonStyle())
         }
     }
 }

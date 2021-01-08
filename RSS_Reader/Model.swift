@@ -246,13 +246,60 @@ final class Model: ObservableObject {
         }
         return nil
     }
+    
+    private func addFeedfromData() {
+        
+    }
+    
+    func addFeed(feed_meta: NewsFeedMeta) -> Bool {
+        let lower_url = feed_meta.complete_url.lowercased()
+        
+        // Get possible parent feed
+        var parent_feed = self.getFeedProviderForURL(feed_meta.main_url)
+        
+        // Create parent feed if it doesnt already exist and add it to model
+        if parent_feed == nil {
+            parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
+            self.feed_data.append(parent_feed!)
+            
+            /**Link update of the feed to the feed provider*/
+            self.feed_provider_update_indicators.append(parent_feed!.objectWillChange.sink { _ in
+                print("Triggering: Feed Provider changed")
+                self.objectWillChange.send()
+            })
+            
+        }
+        
+        // Get possible sub-feed
+        var sub_feed = parent_feed!.getFeed(url: lower_url)
+        
+        // Create sub-feed if it doesnt altrady exist and add it to parent feed
+        if sub_feed == nil {
+            sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!)
+            if !parent_feed!.addFeed(feed: sub_feed!) {
+                // Should NEVER happen
+                print("Something stupid happened while adding '\(lower_url)'")
+                return false
+            }
+        } else {
+            print("Feed with url '\(lower_url)' altready exists")
+            return false
+        }
+        
+        // Fetch new articles from this and every other feed
+        fetchFeeds()
 
+        return true
+    }
+    
     /**
      Adds new feed to the model
      - Parameter url: The URL of the feed thats supposed to be added
      - Returns: Whether adding the feed was successful
      */
     func addFeed(url: String) -> Bool {
+        
+        print("Adding Feed with URL '\(url)'")
         
         // Parser to fetch data from the selected url
         let parser = FeedParser()
@@ -342,45 +389,48 @@ final class Model: ObservableObject {
     func fetchFeeds() {
         print("Fetching new articles...")
         
-        // Parser object to get the data
-        let parser = FeedParser()
-        
-        // Counter for the added articles
-        var fetched_articles = 0
-        
-        for feed_provider in feed_data {
-            for feed in feed_provider.feeds {
-                if parser.fetchData(url: feed.url) {
-                    let feed_data = parser.parseData()
-                    if feed_data != nil {
-                        let feed_articles = feed_data!.articles
-                        for article in feed_articles {
-                            
-                            // Add the parent feed to the article
-                            article.addParentFeed(feed)
-                            
-                            // Adds the article to the database, moves over the parent feeds if it already exists
-                            if addArticle(article) {
-                                fetched_articles += 1
-                            } else {
-                                let existing_article = getArticle(article.article_id)
-                                existing_article?.addParentFeed(feed)
+        DispatchQueue.global().async {
+
+            // Parser object to get the data
+            let parser = FeedParser()
+            
+            // Counter for the added articles
+            var fetched_articles = 0
+            
+            for feed_provider in self.feed_data {
+                for feed in feed_provider.feeds {
+                    if parser.fetchData(url: feed.url) {
+                        let feed_data = parser.parseData()
+                        if feed_data != nil {
+                            let feed_articles = feed_data!.articles
+                            for article in feed_articles {
+                                
+                                // Add the parent feed to the article
+                                article.addParentFeed(feed)
+                                
+                                // Adds the article to the database, moves over the parent feeds if it already exists
+                                if self.addArticle(article) {
+                                    fetched_articles += 1
+                                } else {
+                                    let existing_article = self.getArticle(article.article_id)
+                                    existing_article?.addParentFeed(feed)
+                                }
                             }
+                        } else {
+                            print("Parsing '\(feed.url)' failed")
                         }
                     } else {
-                        print("Parsing '\(feed.url)' failed")
+                        print("Fetching '\(feed.url)' failed")
                     }
-                } else {
-                    print("Fetching '\(feed.url)' failed")
                 }
             }
-        }
-        print("New articles fetched: \(fetched_articles)")
+            print("New articles fetched: \(fetched_articles)")
 
-        // Refresh viewed articles if any new artices were fetched
-        if fetched_articles != 0 {
-            refreshFilter()
-            cleanupStoredFiles()
+            // Refresh viewed articles if any new artices were fetched
+            if fetched_articles != 0 {
+                self.refreshFilter()
+                self.cleanupStoredFiles()
+            }
         }
     }
 
@@ -706,10 +756,23 @@ final class Model: ObservableObject {
      - Parameter feed_id: ID so search for
      - Returns: The found newsfeed if there is any, nil otherwise
      */
-    func getFeedById(feed_id: UUID) -> NewsFeed?{
+    func getFeedById(feed_id: UUID) -> NewsFeed? {
         for feed_provider in feed_data{
             for feed in feed_provider.feeds{
                 if feed_id == feed.id{
+                    return feed
+                }
+            }
+        }
+        return nil
+    }
+    
+    func getFeedByURL(_ url: String) -> NewsFeed? {
+        print("Searching for feed with url '\(url)'")
+        for feed_provider in feed_data{
+            for feed in feed_provider.feeds{
+                if url == feed.url {
+                    print("FOUND")
                     return feed
                 }
             }

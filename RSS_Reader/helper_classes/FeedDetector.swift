@@ -194,9 +194,19 @@ func detectFeeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = fa
     for feed_url in found_feed_list {
         let helper_parser = FeedParser()
         if helper_parser.fetchData(url: feed_url) {
-            let data = helper_parser.parseData()
+            let data = helper_parser.parseData(feeds_only: true)
+            let local_feed_data = data!.feed_info
             if data != nil {
-                out_feed_data.append(data!.feed_info)
+                var add = true
+                for stored_feed_data in out_feed_data {
+                    if stored_feed_data.complete_url == local_feed_data.complete_url {
+                        add = false
+                        break
+                    }
+                }
+                if add {
+                    out_feed_data.append(local_feed_data)
+                }
             }
         }
     }

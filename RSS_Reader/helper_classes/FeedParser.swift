@@ -180,7 +180,7 @@ class FeedParser {
      # String Structure
      "<channel> ... </channel>"
      */
-    private func parseChannel(_ channel_str: String) -> FetchedFeedInfo? {
+    private func parseChannel(_ channel_str: String, channel_only: Bool = false) -> FetchedFeedInfo? {
         
         struct RSSChannelMeta: Codable {
             let title: String
@@ -205,18 +205,20 @@ class FeedParser {
         
         var article_data: [ArticleData] = []
         
-        // Load Feeds
-        let article_data_list = getRegexMatches(for: "<item(.+?)</item>", in: data!)
-        if !article_data_list.isEmpty {
-            for article_str in article_data_list {
-                
-                let buf_art = parseArticle(article_str)
-                if buf_art != nil {
-                    article_data.append(buf_art!)
+        if !channel_only {
+            // Load Feeds
+            let article_data_list = getRegexMatches(for: "<item(.+?)</item>", in: data!)
+            if !article_data_list.isEmpty {
+                for article_str in article_data_list {
+                    
+                    let buf_art = parseArticle(article_str)
+                    if buf_art != nil {
+                        article_data.append(buf_art!)
+                    }
                 }
+            } else {
+                print("No article data fetched")
             }
-        } else {
-            print("No article data fetched")
         }
         
         let news_feed = NewsFeedMeta(title: channel_data!.title, description: channel_data!.description, language: channel_data!.language, main_url: main_url!, complete_url: complete_url!)
@@ -227,7 +229,7 @@ class FeedParser {
     /**
      Parses previously fetched data as an rss feed
      */
-    func parseData() -> FetchedFeedInfo? {
+    func parseData(feeds_only: Bool = false) -> FetchedFeedInfo? {
         if data == nil {
             print("Cannot parse: no data fetched")
             return nil
@@ -241,7 +243,7 @@ class FeedParser {
         let channel_str_list = getRegexMatches(for: "<channel(.+?)</channel>", in: data!)
         if !channel_str_list.isEmpty {
             if channel_str_list.endIndex == 1 {
-                let channel_data = parseChannel(channel_str_list[0])
+                let channel_data = parseChannel(channel_str_list[0], channel_only: feeds_only)
                 return channel_data
             } else {
                 // TODO: handle
