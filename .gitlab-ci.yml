@@ -1,0 +1,8 @@
+stages:
+  - build
+
+build_project:
+  stage: build
+  script:
+    - xcodebuild clean -project RSS_Reader.xcodeproj -scheme RSS_Reader | xcpretty
+    - xcodebuild test -project RSS_Reader.xcodeproj -scheme RSS_Reader -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.3' | xcpretty -s
