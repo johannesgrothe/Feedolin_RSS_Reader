@@ -17,6 +17,21 @@ struct SettingsView: View {
     /**Boolean that show if aurto_refresh is on and saves at coredata*/
     @AppStorage("auto_refresh") private var auto_refresh: Bool = true
     
+    /**
+     * ToDo: add comment
+     */
+//    @State var dark_mode_enabled: Bool = true
+    
+    /**
+     * ToDo: add comment
+     */
+    @State var current_color_scheme: ColorScheme? = nil
+    
+    /**
+     * ToDo add comment
+     */
+    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Bool = true
+    
     var body: some View {
         List {
             /** Calling FeedSettingsView()*/
@@ -50,6 +65,20 @@ struct SettingsView: View {
             .listRowBackground(Color.clear)
             
             /**Button to reset the App to default*/
+            //---vvv
+            
+            Toggle(isOn: $dark_mode_enabled) {
+                Image(systemName: "paintpalette").imageScale(.large)
+                Text("Enable Dark Mode").font(.headline)
+                
+            }
+            .preferredColorScheme(dark_mode_enabled ? .dark : .light)
+
+            
+
+            
+            
+            //---^^^
             Button(action: {
                 self.showing_alert = true
             }) {
