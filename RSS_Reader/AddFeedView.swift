@@ -25,7 +25,9 @@ struct AddFeedView: View {
     
     @ObservedObject var model: Model = .shared
     
-    var threading_queue = DispatchQueue(label: "rss_scan_queue", qos: .utility)
+    /**
+     @showingAlert shows if alert is true*/
+    @State private var showing_alert = false
     
     var body: some View {
         VStack {
@@ -74,12 +76,19 @@ struct AddFeedView: View {
                             Spacer()
                             Button(action: {
                                 print("Remove Detected Feed Button clicked.")
-                                // TODO: Remove Feed
+                                self.showing_alert = true
+//                                model.removeFeed(feed_in_model!)
                                 refresh_view = !refresh_view
                             }) {
                                 Image(systemName: "minus.circle.fill")
                                     .foregroundColor(.red)
                             }
+                            .alert(isPresented: $showing_alert) {
+                                Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(feed_in_model!)), primaryButton: .default(Text("Okay"), action: {
+                                        model.removeFeed(feed_in_model!)
+                                }),secondaryButton: .cancel())
+                            }
+                            
                             .buttonStyle(BorderlessButtonStyle())
                         } else {
                             Text(feed_data.title)
