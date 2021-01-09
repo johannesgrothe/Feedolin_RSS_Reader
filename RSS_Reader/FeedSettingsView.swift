@@ -98,18 +98,22 @@ struct FeedSettingsList: View {
     var body: some View {
         List {
             ForEach(model.feed_data) { feed_provider in
-                FeedProviderSettingListEntry(feed_provider: feed_provider)
-                ForEach(feed_provider.feeds) { feed in
-                    FeedSettingsListEntry(feed_article: feed)
+                Section(header: Text(feed_provider.name)) {
+                    FeedProviderSettingListEntry(feed_provider: feed_provider)
+                    ForEach(feed_provider.feeds) { feed in
+                        FeedSettingsListEntry(feed_article: feed)
+                    }
                 }
             }
             .listRowBackground(Color.clear)
         }
+        .padding(.top)
+        .listStyle(SidebarListStyle())
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
         })
-        .background(Color(UIColor(named: "BackgroundColor")!))
+        .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
     }
 }
@@ -127,8 +131,13 @@ struct FeedProviderSettingListEntry: View {
             HStack {
                 (feed_provider.icon.img)
                     .resizable()
-                    .cornerRadius(100)
                     .frame(width: 25, height: 25)
+                    .cornerRadius(100)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 100)
+                            .stroke(Color("ButtonColor"), lineWidth: 1)
+                            .foregroundColor(.clear)
+                    )
                 Text(feed_provider.name).font(.headline)
             }
         }
@@ -145,7 +154,8 @@ struct FeedSettingsListEntry: View {
     var body: some View {
         NavigationLink(destination: FeedEditSettingsView(feed:feed_article)) {
             HStack {
-                Image(systemName: "smiley").imageScale(.large)
+                Image(systemName: "circlebadge").imageScale(.small)
+                    .padding(5)
                 Text(feed_article.name)
             }
         }
