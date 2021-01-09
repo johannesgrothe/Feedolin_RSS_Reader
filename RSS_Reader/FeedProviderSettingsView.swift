@@ -41,7 +41,7 @@ struct FeedProviderSettingsView: View {
                 // image of provider
                 feed_provider.icon.img
                     .resizable()
-                    .frame(width: 140, height: 140)
+                    .frame(width: 100, height: 100)
                     .cornerRadius(100)
                     .overlay(
                         RoundedRectangle(cornerRadius: 100)
@@ -52,7 +52,7 @@ struct FeedProviderSettingsView: View {
                 Circle()
                     .frame(width: 39, height: 39)
                     .foregroundColor(Color("BackgroundColor"))
-                    .offset(x: 50, y: 50)
+                    .offset(x: 40, y: 40)
                 
                 // change image button
                 Button(action: {
@@ -64,10 +64,10 @@ struct FeedProviderSettingsView: View {
                         
                 }
                 .foregroundColor(Color("ButtonColor"))
-                .offset(x: 50, y: 50)
+                .offset(x: 40, y: 40)
                 
             }
-            .frame(width: 140, height: 140, alignment: .leading)
+            .frame(width: 140, height: 140, alignment: .center)
             .padding(.horizontal)
             
             // row with name and textfield
