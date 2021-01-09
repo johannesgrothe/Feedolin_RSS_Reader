@@ -43,9 +43,27 @@ struct MainView: View {
                                 Image(systemName: "sidebar.left").imageScale(.large)
                             },
                         trailing:
-                            NavigationLink(destination: SettingsView()) {
-                                Image(systemName: "gear").imageScale(.large)
+                            
+                            // container for right navigation items
+                            HStack {
+                                Button(action: {
+                                    model.hide_read_articles = !model.hide_read_articles
+                                    model.refreshFilter()
+                                }) {
+                                    if model.hide_read_articles {
+                                        Image(systemName: "eye").imageScale(.large)
+                                    } else {
+                                        Image(systemName: "eye.slash").imageScale(.large)
+                                    }
+                                    
+                                }
+                                
+                                NavigationLink(destination: SettingsView()) {
+                                    Image(systemName: "gear").imageScale(.large)
+                                }
                             }
+                        
+                        
                     )
                     .background(Color(UIColor(named: "BackgroundColor")!))
                     .edgesIgnoringSafeArea(.bottom)

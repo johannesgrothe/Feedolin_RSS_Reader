@@ -152,11 +152,16 @@ final class Model: ObservableObject {
     let collections_path = getPathURL(directory_name: "Collections")
 
     /**
-     Singleton for the Model.
-
-     Use '@ObservedObject var model: Model = .shared' to access model in views.
+     * Singleton for the Model.
+     * Use '@ObservedObject var model: Model = .shared' to access model in views.
      */
     static let shared = Model()
+    
+    /**
+     * indicates if readed articles are shown or hidden in the main view
+     */
+    var hide_read_articles = false
+    
     
     /** A function that checks if the app is launched first time on the ios device. If the app gets deleted and reinstalled this will reset it self*/
     func isAppAlreadyLaunchedOnce(){
@@ -478,9 +483,29 @@ final class Model: ObservableObject {
         // Reapply filter
         applyFilter(stored_filter_option)
 
+        // Removes read articles
+        if hide_read_articles {
+            removeReadArticles()
+        }
+        
         // Sort all the filtered articles by date
         sortArticlesByDate()
     }
+    
+    /**
+     * remove read articles from @filtered_article_data
+     */
+    private func removeReadArticles() {
+        let buf_array = filtered_article_data
+        filtered_article_data = []
+        
+        for article in buf_array {
+            if !article.read {
+                self.filtered_article_data.append(article)
+            }
+        }
+    }
+
 
     /**
      Sorts  the @filtered_article_data list by date
