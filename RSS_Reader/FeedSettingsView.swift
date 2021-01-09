@@ -134,7 +134,7 @@ struct FeedProviderSettingListEntry: View {
                     .cornerRadius(100)
                     .overlay(
                         RoundedRectangle(cornerRadius: 100)
-                            .stroke(Color("ButtonColor"), lineWidth: 1)
+                            .stroke(Color("ButtonColor"), lineWidth: 1.5)
                             .foregroundColor(.clear)
                     )
                 Text(feed_provider.name).font(.headline)

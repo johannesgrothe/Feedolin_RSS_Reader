@@ -45,14 +45,14 @@ struct FeedProviderSettingsView: View {
                     .cornerRadius(100)
                     .overlay(
                         RoundedRectangle(cornerRadius: 100)
-                            .stroke(Color("ButtonColor"), lineWidth: 4)
+                            .stroke(Color("ButtonColor"), lineWidth: 3.5)
                             .foregroundColor(.clear)
                     )
                 // background of change image button
                 Circle()
-                    .frame(width: 39, height: 39)
+                    .frame(width: 34, height: 34)
                     .foregroundColor(Color("BackgroundColor"))
-                    .offset(x: 40, y: 40)
+                    .offset(x: 35, y: 35)
                 
                 // change image button
                 Button(action: {
@@ -60,11 +60,11 @@ struct FeedProviderSettingsView: View {
                 }) {
                     Image(systemName: "pencil.circle")
                         .resizable()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 35, height: 35)
                         
                 }
                 .foregroundColor(Color("ButtonColor"))
-                .offset(x: 40, y: 40)
+                .offset(x: 35, y: 35)
                 
             }
             .frame(width: 100, height: 100, alignment: .center)
