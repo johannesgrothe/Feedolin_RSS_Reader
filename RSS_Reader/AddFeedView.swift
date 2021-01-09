@@ -53,7 +53,7 @@ struct AddFeedView: View {
                     if buf_main_url != nil && buf_main_url != entered_main_url {
                         print("New URL detected: \(buf_main_url!)")
                         
-                        DispatchQueue.global().async {
+                        DispatchQueue.main.async {
                             is_scanning = true
                             detected_feeds = detectFeeds(buf_main_url!, shallow_scan: true)
                             is_scanning = false

@@ -258,10 +258,67 @@ func getMainURL(_ url: String) -> String? {
 }
 
 func detectURL(_ url: String) -> String? {
-    let result_group = getRegexGroups(for: "(https?)://([a-z0-9]+\\.)([a-z0-9]+).([a-z]+)", in: url.lowercased())
+    let result_group = getRegexGroups(for: "(https?)://([a-z0-9]+\\.)([a-z0-9]+).([a-z]{2,})", in: url.lowercased())
     if result_group.isEmpty {
         return nil
     }
     let wanted_result = result_group[0]
     return wanted_result[0] + "://" + wanted_result[1] + wanted_result[2] + "." + wanted_result[3]
+}
+
+func analyzeURL(_ url: String) -> (String, String, String, String, String)? {
+    let small_url_pattern = "([a-z0-9]+).([a-z]{2,})/"
+    let small_url_pattern_co = "([a-z0-9]+).(co.[a-z]{2,3})/"
+    let co_pattern = "(co.[a-z]{2,3})"
+    let protocol_pattern = "^([a-z0-9]+?)://.+?"
+    
+    var test_url = url.lowercased().trimmingCharacters(in: [" "])
+
+    print("Scanning '\(test_url)'")
+    
+    if test_url.contains(" ") {
+        return nil
+    }
+    
+    let protocol_result = getRegexGroups(for: protocol_pattern, in: test_url)
+    var url_prot = ""
+    if !protocol_result.isEmpty {
+        url_prot = protocol_result[0][0]
+    }
+
+    if !test_url.contains("/") {
+        test_url = test_url + "/"
+    }
+    
+    if !test_url.contains("//") {
+        test_url = "//" + test_url
+    }
+    
+    var local_small_pattern = small_url_pattern
+    if !getRegexGroups(for: co_pattern, in: test_url).isEmpty {
+        local_small_pattern = small_url_pattern_co
+    }
+    
+    let small_result = getRegexGroups(for: local_small_pattern, in: test_url)
+    if small_result.isEmpty {
+        return nil
+    }
+    let main_url = small_result[0][0]
+    let url_ending = small_result[0][1]
+    
+    let sub_pattern = "//([a-z0-9\\.]+?)\\.\(main_url)"
+    let sub_result = getRegexGroups(for: sub_pattern, in: test_url)
+    var sub_url = ""
+    if !sub_result.isEmpty {
+        sub_url = sub_result[0][0]
+    }
+    
+    var url_path = ""
+    let path_pattern = "\(url_ending)/(.*)"
+    let path_result = getRegexGroups(for: path_pattern, in: test_url)
+    if !path_result.isEmpty {
+        url_path = path_result[0][0]
+    }
+    
+    return (url_prot, sub_url, main_url, url_ending, url_path)
 }

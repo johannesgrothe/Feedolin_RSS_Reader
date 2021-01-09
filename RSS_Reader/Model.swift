@@ -389,7 +389,7 @@ final class Model: ObservableObject {
     func fetchFeeds() {
         print("Fetching new articles...")
         
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
 
             // Parser object to get the data
             let parser = FeedParser()
