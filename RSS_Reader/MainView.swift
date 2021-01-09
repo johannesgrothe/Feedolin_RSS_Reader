@@ -19,9 +19,15 @@ struct MainView: View {
      @model is the shared model singelton
      */
     @ObservedObject var model: Model = .shared
+
     /**
-     @menu_open is a function to open the sidemenu with animation
+     * Indicates if the dark mode is enabled (by the user)
      */
+    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Bool = true
+
+    /**
+         @menu_open is a function to open the sidemenu with animation
+         */
     let menu_open: () -> Void
     
     var body: some View {
@@ -76,6 +82,7 @@ struct MainView: View {
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(Color(UIColor(named: "ButtonColor")!))
+            .preferredColorScheme(dark_mode_enabled ? .dark : .light)
         }
     }
 }

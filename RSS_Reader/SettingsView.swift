@@ -67,6 +67,8 @@ struct SettingsView: View {
             /**Button to reset the App to default*/
             //---vvv
             
+            
+            
             Toggle(isOn: $dark_mode_enabled) {
                 Image(systemName: "paintpalette").imageScale(.large)
                 Text("Enable Dark Mode").font(.headline)
