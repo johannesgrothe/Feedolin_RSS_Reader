@@ -12,7 +12,6 @@ import SwiftUI
 struct SideMenuView: View {
     // Model Singleton
     @ObservedObject var model: Model = .shared
-    @State private var show_add_feed_view = false
     
     var body: some View {
         
@@ -35,7 +34,8 @@ struct SideMenuView: View {
                             Image(systemName: "folder")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 18, height: 18)
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.red)
                             
                             Text(item.name)
                                 .font(.headline)
@@ -94,56 +94,7 @@ struct SideMenuView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .listRowBackground(Color.clear)
         }
-        .frame(minWidth: 250)
+        .frame(minWidth: 100, idealWidth: 200)
         .listStyle(SidebarListStyle())
-        .toolbar {
-            Button(action: toggleSidebar, label: {
-                Image(systemName: "sidebar.left")
-            })
-            
-            Menu {
-                /**
-                 displayes all-button
-                 */
-                Button(action: {
-                    model.setFilterAll()
-                    model.refreshFilter()
-                }) {
-                    Label("All", systemImage: "infinity.circle.fill")
-                        .frame(width: 22   , height: 22, alignment: .leading)
-                        .scaledToFit()
-                        .font(.headline)
-                }
-                /**
-                 displayes booksmark-button
-                 */
-                Button(action: {
-                    model.setFilterBookmarked()
-                    model.refreshFilter()
-                }) {
-                    Label("Bookmarked",systemImage:"bookmark.circle.fill")
-                        .frame(width: 22, height: 22, alignment: .leading)
-                        .scaledToFit()
-                        .font(.headline)
-                }
-                
-            }
-            label: {
-                Label("Filter", systemImage: "line.horizontal.3.decrease.circle").imageScale(.large)
-            }
-            Button(action: {
-                print("Add feed button clicked")
-                self.show_add_feed_view.toggle()
-            }) {
-                Label("Add Feed", systemImage: "plus")
-            }
-        }
-        .sheet(isPresented: self.$show_add_feed_view) {
-            AddFeedView()
-        }
-    }
-    
-    private func toggleSidebar() {
-        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 }

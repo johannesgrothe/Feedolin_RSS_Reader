@@ -18,69 +18,60 @@ struct ArticleView: View {
     let article: ArticleData
     
     var body: some View {
-        VStack{
-            ArticleWebView(url: article.link)
-        }
-        .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
+        ArticleWebView(url: URL(string: article.link)!)
+            .frame(minWidth: 750)
     }
 }
 
-/**
- View that loads the url of the article and shows it
- */
 struct ArticleWebView: NSViewRepresentable {
     
-    typealias NSViewType = WKWebView
-    
-    // String that represents the url of the article, that is shown
-    let url: String
-    
+    public typealias NSViewType = WKWebView
+
     private let web_view: WKWebView = WKWebView()
     
-    /**
-     creates the view and returns it
-     */
-    func makeNSView(context: NSViewRepresentableContext<ArticleWebView>) -> WKWebView {
+    let url: URL?
+
+    public func load(url: URL) {
+        web_view.load(URLRequest(url: url))
+    }
+
+    public func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+    
+    public func makeNSView(context: NSViewRepresentableContext<ArticleWebView>) -> WKWebView {
+
         web_view.navigationDelegate = context.coordinator
-        web_view.uiDelegate = context.coordinator as? WKUIDelegate
-        web_view.load(URLRequest(url: URL(string: url)!))
+        web_view.uiDelegate = context.coordinator
+        web_view.load(URLRequest(url: url!))
         return web_view
     }
-    
-    public func makeCoordinator() -> Coordinator {
-        return Coordinator(URL(string: url)!)
+
+    public func updateNSView(_ nsView: WKWebView, context: NSViewRepresentableContext<ArticleWebView>) {
+
     }
-    
-    class Coordinator: NSObject, WKNavigationDelegate {
-        private var url: URL
-        
-        init(_ url: URL) {
-            self.url = url
-        }
-        
-        public func webView(_: WKWebView, didFail: WKNavigation!, withError: Error) { }
-        
-        public func webView(_: WKWebView, didFailProvisionalNavigation: WKNavigation!, withError: Error) { }
-        
-        public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) { }
-        
-        public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-            decisionHandler(.allow)
-        }
-        
-    }
-    
-    /**
-     updates the view, needs to be there
-     */
-    func updateNSView(_ uiView: WKWebView, context: Context) {
-        
-    }
-    
-    
-    
 }
+
+class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
+
+    var parent: ArticleWebView
+
+    init(parent: ArticleWebView) {
+        self.parent = parent
+    }
+
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+
+    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
+    }
+}
+
 
 struct ArticleView_Previews: PreviewProvider {
     static var previews: some View {

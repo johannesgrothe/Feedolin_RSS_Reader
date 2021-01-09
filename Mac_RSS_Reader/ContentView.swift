@@ -19,8 +19,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             SideMenuView()
-            MainView()
+            ArticleList()
         }
+        .navigationTitle("")
+        .frame(minWidth: 1000, minHeight: 700)
     }
 }
 
