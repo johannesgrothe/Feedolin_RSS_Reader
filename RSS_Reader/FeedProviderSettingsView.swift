@@ -15,7 +15,7 @@ struct FeedProviderSettingsView: View {
     /**
      @feed_provider is the NewsFeedProvider to be editing
      */
-    let feed_provider: NewsFeedProvider
+    @ObservedObject var feed_provider: NewsFeedProvider
     /**
      @name is a string that holds the input of the user
      */
@@ -88,14 +88,15 @@ struct FeedProviderSettingsView: View {
                     TextField(feed_provider.name, text: $name) { isEditing in
                         self.isEditing = isEditing
                         } onCommit: {
-                            feed_provider.name = name
+                            feed_provider.name = self.name
+                            self.name = ""
                         }
                     // x-button
                     Button(action: {
-                        name = ""
+                        self.name = ""
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .opacity(name == "" ? 0 : 1)
+                            .opacity(self.name == "" ? 0 : 1)
                     }
                     .buttonStyle(BorderlessButtonStyle())
                 }
@@ -115,14 +116,15 @@ struct FeedProviderSettingsView: View {
                     TextField(feed_provider.token, text: $abbreviation) { isEditing in
                         self.isEditing = isEditing
                         } onCommit: {
-                            feed_provider.token = abbreviation
+                            feed_provider.token = self.abbreviation
+                            self.abbreviation = ""
                         }
                     // x-button
                     Button(action: {
-                        abbreviation = ""
+                        self.abbreviation = ""
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .opacity(abbreviation == "" ? 0 : 1)
+                            .opacity(self.abbreviation == "" ? 0 : 1)
                     }
                     .buttonStyle(BorderlessButtonStyle())
                 }
@@ -140,11 +142,11 @@ struct FeedProviderSettingsView: View {
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(feed_provider.name, displayMode: .inline)
         .onDisappear(perform: {
-            if name != "" {
-                feed_provider.name = name
+            if self.name != "" {
+                feed_provider.name = self.name
             }
-            if abbreviation != "" {
-                feed_provider.token = abbreviation
+            if self.abbreviation != "" {
+                feed_provider.token = self.abbreviation
             }
         })
     }

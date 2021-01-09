@@ -15,7 +15,7 @@ struct FeedEditSettingsView: View {
     /**
      @feed is the NewsFeed to be editing
      */
-    let feed: NewsFeed
+    @ObservedObject var feed: NewsFeed
     /**
      @show_in_main is a boolean that shows if a feed is visible in the FeedList or not
      */
@@ -68,6 +68,7 @@ struct FeedEditSettingsView: View {
                         self.isEditing = isEditing
                         } onCommit: {
                             feed.name = self.name
+                            self.name = ""
                         }
                     // x-button
                     Button(action: {
