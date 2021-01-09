@@ -47,8 +47,9 @@ struct SettingsView: View {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
         })
-        .navigationBarTitle("Settings")
-        .background(Color(UIColor(named: "BackgroundColor")!))
+        .listStyle(PlainListStyle())
+        .navigationBarTitle("Settings", displayMode: .inline)
+        .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
         
     }
