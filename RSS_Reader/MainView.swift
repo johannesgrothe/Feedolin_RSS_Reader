@@ -51,9 +51,9 @@ struct MainView: View {
                                     model.refreshFilter()
                                 }) {
                                     if model.hide_read_articles {
-                                        Image(systemName: "eye").imageScale(.large)
-                                    } else {
                                         Image(systemName: "eye.slash").imageScale(.large)
+                                    } else {
+                                        Image(systemName: "eye").imageScale(.large)
                                     }
                                     
                                 }
