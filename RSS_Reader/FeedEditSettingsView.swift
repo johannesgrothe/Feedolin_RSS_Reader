@@ -55,7 +55,6 @@ struct FeedEditSettingsView: View {
                 Spacer()
                 Text(feed.getShortURL())
                     .font(.subheadline)
-                
             }
             .padding(.horizontal)
             
@@ -68,14 +67,14 @@ struct FeedEditSettingsView: View {
                     TextField(feed.name, text: $name) { isEditing in
                         self.isEditing = isEditing
                         } onCommit: {
-                            feed.name = name
+                            feed.name = self.name
                         }
                     // x-button
                     Button(action: {
-                        name = ""
+                        self.name = ""
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .opacity(name == "" ? 0 : 1)
+                            .opacity(self.name == "" ? 0 : 1)
                     }
                     .buttonStyle(BorderlessButtonStyle())
                 }
@@ -123,17 +122,18 @@ struct FeedEditSettingsView: View {
             .padding(.horizontal)
             
             Spacer()
-            
+        }
+        .navigationBarTitle(feed.name, displayMode: .inline)
+        .navigationBarItems(trailing:
+            /**
+            Alert Button that will call a Alert if users wants to remove the feed
+            */
             Button(action: {
                 withAnimation {
                     self.showing_alert = true
                 }
             }) {
-                /** Alert Button that will call a Alert if users wants to remove the feed*/
-                HStack{
-                    Image(systemName: "trash").imageScale(.large)
-                    Text("Remove Feed").font(.headline)
-                }
+                Image(systemName: "trash").imageScale(.large)
             }
             .alert(isPresented: $showing_alert) {
                 Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles(Bookmarked Articles: \(feed.getAmountOfBookmarkedArticles())). If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
@@ -141,13 +141,10 @@ struct FeedEditSettingsView: View {
                         self.presentationMode.wrappedValue.dismiss()
                 }),secondaryButton: .cancel())
             }
-            
-            Spacer()
-        }
+        )
         .padding(.top)
         .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle(feed.name, displayMode: .inline)
         .onDisappear(perform: {
             if name != "" {
                 feed.name = name
