@@ -48,7 +48,17 @@ struct FeedEditSettingsView: View {
     
     var body: some View {
         // hole content
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(spacing: 30) {
+            // row with original url
+            HStack{
+                Text("URL")
+                Spacer()
+                Text(feed.getShortURL())
+                    .font(.subheadline)
+                
+            }
+            .padding(.horizontal)
+            
             // row with name and textfield
             HStack {
                 Text("Name")
@@ -134,7 +144,7 @@ struct FeedEditSettingsView: View {
             
             Spacer()
         }
-        .padding(10)
+        .padding(.top)
         .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(feed.name, displayMode: .inline)

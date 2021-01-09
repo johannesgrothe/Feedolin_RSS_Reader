@@ -35,7 +35,7 @@ struct FeedProviderSettingsView: View {
     
     var body: some View {
         // hole content
-        VStack(spacing: 20)  {
+        VStack(spacing: 30)  {
             // image and change-button
             ZStack{
                 // image of provider
@@ -67,7 +67,16 @@ struct FeedProviderSettingsView: View {
                 .offset(x: 40, y: 40)
                 
             }
-            .frame(width: 140, height: 140, alignment: .center)
+            .frame(width: 100, height: 100, alignment: .center)
+            .padding(.horizontal)
+            
+            // row with original url
+            HStack{
+                Text("URL")
+                Spacer()
+                Text(feed_provider.url)
+                    .font(.subheadline)
+            }
             .padding(.horizontal)
             
             // row with name and textfield
@@ -126,10 +135,10 @@ struct FeedProviderSettingsView: View {
             
             Spacer()
         }
-        .padding(10)
+        .padding(.top)
         .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle(feed_provider.url, displayMode: .inline)
+        .navigationBarTitle(feed_provider.name, displayMode: .inline)
         .onDisappear(perform: {
             if name != "" {
                 feed_provider.name = name

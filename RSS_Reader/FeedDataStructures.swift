@@ -276,4 +276,26 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
         }
         return counter
     }
+    /**
+     Returns a shorthanded Version of the Feedurl
+     */
+    func getShortURL() -> String {
+        var short_url = url
+        // Strings that should remove if present
+        let to_delete_array = ["https://", "http://", "www.", "rss."]
+        for str in to_delete_array {
+            if short_url.hasPrefix(str) {
+                short_url.removeFirst(str.count)
+            }
+        }
+        return short_url
+    }
+}
+
+/**
+ Title-image for an feed
+ */
+struct FeedTitleImage: Codable {
+    let url: String
+    let title: String?
 }

@@ -107,7 +107,6 @@ struct FeedSettingsList: View {
             }
             .listRowBackground(Color.clear)
         }
-        .padding(.top)
         .listStyle(SidebarListStyle())
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
