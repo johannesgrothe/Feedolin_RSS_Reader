@@ -305,10 +305,6 @@ final class Model: ObservableObject {
         let parser = FeedParser()
         let lower_url = url.lowercased()
         
-        // TODO: test, remove
-        let found_feed_data = detectFeeds(lower_url)
-        print(found_feed_data)
-        
         // Chechs the URL, fetches data and returns if operation was successfull
         if parser.fetchData(url: lower_url) {
             let parsed_feed_info = parser.parseData()
@@ -317,42 +313,7 @@ final class Model: ObservableObject {
             if parsed_feed_info != nil {
                 let feed_meta = parsed_feed_info!.feed_info
                 
-                // Get possible parent feed
-                var parent_feed = self.getFeedProviderForURL(feed_meta.main_url)
-                
-                // Create parent feed if it doesnt already exist and add it to model
-                if parent_feed == nil {
-                    parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
-                    self.feed_data.append(parent_feed!)
-                    
-                    /**Link update of the feed to the feed provider*/
-                    self.feed_provider_update_indicators.append(parent_feed!.objectWillChange.sink { _ in
-                        print("Triggering: Feed Provider changed")
-                        self.objectWillChange.send()
-                    })
-                    
-                }
-                
-                // Get possible sub-feed
-                var sub_feed = parent_feed!.getFeed(url: lower_url)
-                
-                // Create sub-feed if it doesnt altrady exist and add it to parent feed
-                if sub_feed == nil {
-                    sub_feed = NewsFeed(url: lower_url, name: feed_meta.title, show_in_main: true, use_filters: false, parent_feed: parent_feed!)
-                    if !parent_feed!.addFeed(feed: sub_feed!) {
-                        // Should NEVER happen
-                        print("Something stupid happened while adding '\(lower_url)'")
-                        return false
-                    }
-                } else {
-                    print("Feed with url '\(lower_url)' altready exists")
-                    return false
-                }
-                
-                // Fetch new articles from this and every other feed
-                fetchFeeds()
-
-                return true
+                return addFeed(feed_meta: feed_meta)
                 
             } else {
                 print("Parsing Feed failed")

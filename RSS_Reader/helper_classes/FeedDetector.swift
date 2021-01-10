@@ -36,6 +36,8 @@ class FeedDetector: ObservableObject {
     
     private var pendingUpdateProcess: DispatchWorkItem?
     
+    private var pendicUpdateSpecificProcess: DispatchWorkItem?
+    
     var url: SplittedURLParts? {
         get {
             return current_url_private
@@ -63,6 +65,37 @@ class FeedDetector: ObservableObject {
             return
         }
         
+        // Cancel update if its still active
+        if pendicUpdateSpecificProcess != nil {
+            print("Canceling pending update process")
+            pendicUpdateSpecificProcess!.cancel()
+        }
+        
+        pendicUpdateSpecificProcess = DispatchWorkItem {
+            // Buffer for found feed
+            var found_local_feed: NewsFeedMeta? = nil
+            
+            // Load feed
+            let helper_parser = FeedParser()
+            if helper_parser.fetchData(url: url) {
+                let data = helper_parser.parseData(feeds_only: true)
+                if data != nil {
+                    found_local_feed = data!.feed_info
+                }
+            }
+            
+            // Save found feed
+            DispatchQueue.main.async {
+                self.specific_feed = found_local_feed
+            }
+            
+            // Reset own thread
+            self.pendicUpdateSpecificProcess = nil
+        }
+        
+        DispatchQueue.global(qos: .utility).async(execute: pendicUpdateSpecificProcess!)
+        
+
         let detected_url = analyzeURL(url)
         
         if detected_url != nil && detected_url != current_url_private {
@@ -90,17 +123,6 @@ class FeedDetector: ObservableObject {
             }
             
             DispatchQueue.global(qos: .utility).async(execute: pendingUpdateProcess!)
-        }
-    }
-    
-    func updateSpecificFeed(_ url: String) {
-        let helper_parser = FeedParser()
-        if helper_parser.fetchData(url: url) {
-            let data = helper_parser.parseData(feeds_only: true)
-            if data != nil {
-                let local_feed_data = data!.feed_info
-                specific_feed = local_feed_data
-            }
         }
     }
     
@@ -392,27 +414,25 @@ class FeedDetector: ObservableObject {
 
         return out_feed_data
     }
+}
 
-    func getMainURL(_ url: String) -> String? {
-        let complete_url = url.lowercased()
+func getMainURL(_ url: String) -> String? {
+    let complete_url = url.lowercased()
+    
+    // Check URL
+    let result_group = getRegexGroupsOldDontUse(for: "(https?://)([a-z0-9]+)\\.([^:^/]*)(:\\d*)?(.*)?", in: complete_url)
+    if !result_group.isEmpty {
+        let parsed_url_goup = result_group[0]
+        let main_url = parsed_url_goup[3]
         
-        // Check URL
-        let result_group = getRegexGroupsOldDontUse(for: "(https?://)([a-z0-9]+)\\.([^:^/]*)(:\\d*)?(.*)?", in: complete_url)
-        if !result_group.isEmpty {
-            let parsed_url_goup = result_group[0]
-            let main_url = parsed_url_goup[3]
-            
-            if main_url == "" {
-                return nil
-            }
-            
-            return main_url
-        } else {
+        if main_url == "" {
             return nil
         }
+        
+        return main_url
+    } else {
+        return nil
     }
-    
-    
 }
 
 /**

@@ -34,71 +34,50 @@ struct AddFeedView: View {
     
     var body: some View {
         VStack {
-            Text("Add Feed").padding(.top, 10)
-            HStack {
-                TextField(
-                    "Enter URL",
-                    text: $text
-                )
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal, 25.0)
-                .onChange(of: text) { newValue in
-                    detector.detect(text)
+            VStack {
+                HStack {
+                    Button("Close") { self.presentationMode.wrappedValue.dismiss() }
+                        .padding(.horizontal, 20)
+                    Spacer()
+                    Text("Add Feeds")
+                    Spacer()
+                    Button("Scan") { self.presentationMode.wrappedValue.dismiss() }
+                        .padding(.horizontal, 20)
                 }
-                if detector.is_scanning {
-                    ProgressView()
-                    .padding(.trailing, 25.0)
+                HStack {
+                    TextField(
+                        "Enter URL",
+                        text: $text
+                    )
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal, 25.0)
+                    .onChange(of: text) { newValue in
+                        detector.detect(text)
+                    }
+                    if detector.is_scanning {
+                        ProgressView()
+                        .padding(.trailing, 25.0)
+                    }
                 }
-            }
-            Button("Add Feed") {
-                let _ = model.addFeed(url: text)
-                self.presentationMode.wrappedValue.dismiss()
             }
             .padding()
-            .cornerRadius(8)
-            .accentColor(Color(UIColor(named: "ButtonColor")!))
+            .background(Color(UIColor(named: "TopbarColor")!))
             
             /** All of the detected feeds */
             List {
                 if (detector.specific_feed != nil) {
-                    
+                    Section(header: Text("Feed found in link:")) {
+                        DetectedFeedEntry(feed_data: detector.specific_feed!)
+                    }
+                    .background(Color.clear)
                 }
-                ForEach(detector.detected_feeds) { feed_data in
-                    HStack {
-                        let feed_in_model = model.getFeedByURL(feed_data.complete_url)
-                        if feed_in_model != nil {
-                            Text(feed_in_model!.name)
-                            Spacer()
-                            Button(action: {
-                                print("Remove Detected Feed Button clicked.")
-                                self.showing_alert = true
-                                remove_feed = feed_in_model
-                                refresh_view = !refresh_view
-                            }) {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
-                            }
-                            .alert(isPresented: $showing_alert) {
-                                Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(remove_feed!)), primaryButton: .default(Text("Okay"), action: {
-                                        model.removeFeed(remove_feed!)
-                                }),secondaryButton: .cancel())
-                            }
-                            
-                            .buttonStyle(BorderlessButtonStyle())
-                        } else {
-                            Text(feed_data.title)
-                            Spacer()
-                            Button(action: {
-                                print("Add Detected Feed Button clicked.")
-                                _ = model.addFeed(feed_meta: feed_data)
-                                refresh_view = !refresh_view
-                            }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.green)
-                            }
-                            .buttonStyle(BorderlessButtonStyle())
+                if !detector.detected_feeds.isEmpty {
+                    Section(header: Text("Feed found in website:")) {
+                        ForEach(detector.detected_feeds) { feed_data in
+                            DetectedFeedEntry(feed_data: feed_data)
                         }
                     }
+                    .background(Color.clear)
                 }
             }
             .listRowBackground(Color.clear)
@@ -110,10 +89,43 @@ struct AddFeedView: View {
 
 struct DetectedFeedEntry: View {
     let feed_data: NewsFeedMeta
-    let existing_feed: NewsFeed?
+    @State var remove_feed: NewsFeed?
+    @State var showing_alert: Bool = false
     
     var body: some View {
-        
+        HStack {
+            let feed_in_model = model.getFeedByURL(feed_data.complete_url)
+            if feed_in_model != nil {
+                Text(feed_in_model!.name)
+                Spacer()
+                Button(action: {
+                    print("Remove Detected Feed Button clicked.")
+                    self.showing_alert = true
+                    remove_feed = feed_in_model
+                }) {
+                    Image(systemName: "minus.circle.fill")
+                        .foregroundColor(.red)
+                }
+                .alert(isPresented: $showing_alert) {
+                    Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(remove_feed!)), primaryButton: .default(Text("Okay"), action: {
+                            model.removeFeed(remove_feed!)
+                    }),secondaryButton: .cancel())
+                }
+                
+                .buttonStyle(BorderlessButtonStyle())
+            } else {
+                Text(feed_data.title)
+                Spacer()
+                Button(action: {
+                    print("Add Detected Feed Button clicked.")
+                    _ = model.addFeed(feed_meta: feed_data)
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .foregroundColor(.green)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+            }
+        }
     }
 }
 
