@@ -20,6 +20,7 @@ struct ArticleView: View {
     var body: some View {
         ArticleWebView(url: URL(string: article.link)!)
             .frame(minWidth: 750)
+            .navigationTitle(article.title)
     }
 }
 

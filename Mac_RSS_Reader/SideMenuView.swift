@@ -20,6 +20,44 @@ struct SideMenuView: View {
          */
         List {
             /**
+             displayes all-button
+             */
+            Button(action: {
+                model.setFilterAll()
+                model.refreshFilter()
+            }) {
+                HStack {
+                    Image(systemName: "infinity.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                        .foregroundColor(Color.red)
+                    Text("All")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .buttonStyle(BorderlessButtonStyle())
+            /**
+             displayes booksmark-button
+             */
+            Button(action: {
+                model.setFilterBookmarked()
+                model.refreshFilter()
+            }) {
+                HStack {
+                    Image(systemName: "bookmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                        .foregroundColor(Color.red)
+                    Text("Bookmarked")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .buttonStyle(BorderlessButtonStyle())
+            /**
              displayes the collections
              */
             Section(header: Text("Collections (\(model.collection_data.endIndex))")) {

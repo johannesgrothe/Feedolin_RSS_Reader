@@ -13,7 +13,6 @@ import SwiftUI
 struct ArticleList: View {
     
     @ObservedObject var model: Model = .shared
-    @State private var show_add_feed_view = false
     
     /** The search phrase entered in the search bar */
     @State private var search_phrase = ""
@@ -48,93 +47,49 @@ struct ArticleList: View {
             .edgesIgnoringSafeArea(.bottom)
             .listStyle(PlainListStyle())
         }
+        .frame(idealWidth:min_width)
+        .padding(8)
+        .cornerRadius(8)
+        .listRowBackground(Color.clear)
         .toolbar{
-            ToolbarItem(placement: ToolbarItemPlacement.navigation){
-                // Search bar
-                HStack {
-                    //search bar magnifying glass image
-                    Image(systemName: "magnifyingglass").foregroundColor(.secondary)
-                    
-                    //search bar text field
-                    TextField("search", text: $search_phrase)
-                    
-                    // x Button
-                    Button(action: {
-                        search_phrase = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.secondary)
-                            .opacity(search_phrase == "" ? 0 : 1)
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    
-                    // Casing selector
-                    Button(action: {
-                        search_ignore_casing = !search_ignore_casing
-                        print("Ignore Casing set to \(search_ignore_casing)")
-                    }) {
-                        if search_ignore_casing {
-                            Image(systemName: "textformat.size.larger")
-                                .foregroundColor(.secondary)
-                        } else {
-                            Image(systemName: "textformat")
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    
-                }
-                .frame(idealWidth:min_width)
-                .padding(8)
-                .cornerRadius(8)
-                .listRowBackground(Color.clear)
-            }
-            ToolbarItem(placement: ToolbarItemPlacement.navigation) {
-                Menu {
-                    /**
-                     displayes all-button
-                     */
-                    Button(action: {
-                        model.setFilterAll()
-                        model.refreshFilter()
-                    }) {
-                        Label("All", systemImage: "infinity.circle.fill")
-                            .frame(width: 22   , height: 22, alignment: .leading)
-                            .scaledToFit()
-                            .font(.headline)
-                    }
-                    /**
-                     displayes booksmark-button
-                     */
-                    Button(action: {
-                        model.setFilterBookmarked()
-                        model.refreshFilter()
-                    }) {
-                        Label("Bookmarked",systemImage:"bookmark.circle.fill")
-                            .frame(width: 22, height: 22, alignment: .leading)
-                            .scaledToFit()
-                            .font(.headline)
-                    }
-                    
-                }
-                label: {
-                    Label("Filter", systemImage: "line.horizontal.3.decrease.circle").imageScale(.large)
-                }
-            }
-            ToolbarItem(placement: ToolbarItemPlacement.navigation){
+            // Search bar
+            HStack {
+                //search bar magnifying glass image
+                Image(systemName: "magnifyingglass").foregroundColor(.secondary)
+                
+                //search bar text field
+                TextField("search", text: $search_phrase)
+                
+                // x Button
                 Button(action: {
-                    print("Add feed button clicked")
-                    self.show_add_feed_view.toggle()
+                    search_phrase = ""
                 }) {
-                    Label("Add Feed", systemImage: "plus")
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.secondary)
+                        .opacity(search_phrase == "" ? 0 : 1)
                 }
+                .buttonStyle(BorderlessButtonStyle())
+                
+                // Casing selector
+                Button(action: {
+                    search_ignore_casing = !search_ignore_casing
+                    print("Ignore Casing set to \(search_ignore_casing)")
+                }) {
+                    if search_ignore_casing {
+                        Image(systemName: "textformat.size.larger")
+                            .foregroundColor(.secondary)
+                    } else {
+                        Image(systemName: "textformat")
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .buttonStyle(BorderlessButtonStyle())
             }
-        }
-        .sheet(isPresented: self.$show_add_feed_view) {
-            AddFeedView()
+            .frame(width: min_width)
         }
     }
 }
+
 
 struct ArticleList_Previews: PreviewProvider {
     static var previews: some View {

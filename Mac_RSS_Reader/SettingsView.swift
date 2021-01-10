@@ -13,42 +13,56 @@ struct SettingsView: View {
     
     @State private var showingAlert = false
     
+    private enum Tabs: Hashable {
+        case feed_provider, collection, general
+    }
+    
     var body: some View {
+        
+        TabView {
+            GeneralSettingsView()
+                .tabItem{
+                    Label("General Settings", systemImage: "gear")
+                }
+                .tag(Tabs.general)
+            
+            FeedProviderListView()
+                .tabItem {
+                    Label("Feed Settings", systemImage: "newspaper")
+                }
+                .tag(Tabs.feed_provider)
+                
+            
+            CollectionSettingsView()
+                .tabItem{
+                    Label("Collection Settings", systemImage: "folder.badge.gear")
+                }
+                .tag(Tabs.collection)
+        }
+    }
+}
 
-        Form {
-            NavigationLink(destination: FeedSettingsView()) {
-                HStack {
-                    Image(systemName: "newspaper").imageScale(.large)
-                    Text("Feed Settings").font(.headline)
-                }
-            }
-            .listRowBackground(Color.clear)
-            NavigationLink(destination: CollectionSettingsView()) {
-                HStack {
-                    Image(systemName: "folder").imageScale(.large)
-                    Text("Collection Settings").font(.headline)
-                }
-            }
-            .listRowBackground(Color.clear)
+struct GeneralSettingsView: View{
+    
+    @State private var showingAlert = false
+    
+    var body: some View{
+        List{
             Button(action: {
                 self.showingAlert = true
             }) {
                 HStack{
                     //For the Reviwer an alternative image could be "trash"
                     Image(systemName: "doc.badge.gearshape").imageScale(.large)
+                        .foregroundColor(Color.red)
                     Text("Reset App").font(.headline)
+                        .foregroundColor(Color.red)
                 }
             }
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
             }
-            .listRowBackground(Color.clear)
         }
-        .frame(width: 300)
-        .navigationTitle("Settings")
-        .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
-        
     }
 }
 
