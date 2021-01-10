@@ -15,15 +15,6 @@ struct AddFeedView: View {
     /** Buffer for the textfield */
     @State private var text = ""
     
-    /** Buffer for any detected main url */
-    @State private var entered_main_url = ""
-    
-    /** Buffer for any detected feeds */
-    @State private var detected_feeds: [NewsFeedMeta] = []
-    
-    /** turns the loading indicator on and off */
-    @State private var is_scanning: Bool = false
-    
     /** Little hack to refresh the view: set it to !refresh_view to trigger refresh */
     @State private var refresh_view: Bool = false
     
@@ -31,6 +22,8 @@ struct AddFeedView: View {
     
     /** Model of the app */
     @ObservedObject var model: Model = .shared
+    
+    @ObservedObject var detector = FeedDetector()
     
     /** Buffer for the feed that should be removed: Alert does not capture the correct feed, so it needs to be stored somewhere */
     @State var remove_feed: NewsFeed? = nil
@@ -46,22 +39,13 @@ struct AddFeedView: View {
                 TextField(
                     "Enter URL",
                     text: $text
-                ).textFieldStyle(RoundedBorderTextFieldStyle())
+                )
+                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal, 25.0)
                 .onChange(of: text) { newValue in
-                    let buf_main_url = detectURL(text)
-                    if buf_main_url != nil && buf_main_url != entered_main_url {
-                        print("New URL detected: \(buf_main_url!)")
-                        
-                        DispatchQueue.main.async {
-                            is_scanning = true
-                            detected_feeds = detectFeeds(buf_main_url!, shallow_scan: true)
-                            is_scanning = false
-                        }
-                        print("Searching finished")
-                    }
+                    detector.detect(text)
                 }
-                if is_scanning {
+                if detector.is_scanning {
                     ProgressView()
                     .padding(.trailing, 25.0)
                 }
@@ -76,7 +60,10 @@ struct AddFeedView: View {
             
             /** All of the detected feeds */
             List {
-                ForEach(detected_feeds) { feed_data in
+                if (detector.specific_feed != nil) {
+                    
+                }
+                ForEach(detector.detected_feeds) { feed_data in
                     HStack {
                         let feed_in_model = model.getFeedByURL(feed_data.complete_url)
                         if feed_in_model != nil {
@@ -121,22 +108,12 @@ struct AddFeedView: View {
     }
 }
 
-private struct DetectedFeedEntry: View {
-    
-    let data: NewsFeedMeta
+struct DetectedFeedEntry: View {
+    let feed_data: NewsFeedMeta
+    let existing_feed: NewsFeed?
     
     var body: some View {
-        HStack {
-            Text(data.title)
-            // Send Button for new collection
-            Button(action: {
-                print("Add Detected Feed Button clicked.")
-            }) {
-                Image(systemName: "plus.circle.fill")
-                    .foregroundColor(.green)
-            }
-            .buttonStyle(BorderlessButtonStyle())
-        }
+        
     }
 }
 
