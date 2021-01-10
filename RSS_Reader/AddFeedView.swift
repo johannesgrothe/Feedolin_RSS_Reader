@@ -47,15 +47,28 @@ struct AddFeedView: View {
                     .padding(.horizontal, 20)
                 }
                 HStack {
-                    TextField(
-                        "Enter URL",
-                        text: $text
-                    )
+                    HStack {
+                        TextField(
+                            "Enter URL",
+                            text: $text
+                        )
+                        
+                        // x Button
+                        Button(action: {
+                            print("Clear search bar button clicked.")
+                            text = ""
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
+                                .opacity(text == "" ? 0 : 1)
+                        }
+                    }
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal, 25.0)
                     .onChange(of: text) { newValue in
                         detector.detect(text)
                     }
+                    
                     if detector.is_scanning {
                         ProgressView()
                         .padding(.trailing, 25.0)
