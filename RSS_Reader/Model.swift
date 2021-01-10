@@ -350,7 +350,7 @@ final class Model: ObservableObject {
     func fetchFeeds() {
         print("Fetching new articles...")
         
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
 
             // Parser object to get the data
             let parser = FeedParser()
@@ -366,16 +366,19 @@ final class Model: ObservableObject {
                             let feed_articles = feed_data!.articles
                             for article in feed_articles {
                                 
-                                // Add the parent feed to the article
-                                article.addParentFeed(feed)
-                                
-                                // Adds the article to the database, moves over the parent feeds if it already exists
-                                if self.addArticle(article) {
-                                    fetched_articles += 1
-                                } else {
-                                    let existing_article = self.getArticle(article.article_id)
-                                    existing_article?.addParentFeed(feed)
+                                // Execute code in the main Queue
+                                DispatchQueue.main.sync {
+                                    // Add the parent feed to the article
+                                    article.addParentFeed(feed)
+                                    // Adds the article to the database, moves over the parent feeds if it already exists
+                                    if self.addArticle(article) {
+                                        fetched_articles += 1
+                                    } else {
+                                        let existing_article = self.getArticle(article.article_id)
+                                        existing_article?.addParentFeed(feed)
+                                    }
                                 }
+                                
                             }
                         } else {
                             print("Parsing '\(feed.url)' failed")
@@ -389,8 +392,11 @@ final class Model: ObservableObject {
 
             // Refresh viewed articles if any new artices were fetched
             if fetched_articles != 0 {
-                self.refreshFilter()
-                self.cleanupStoredFiles()
+                // Execute code in the main Queue
+                DispatchQueue.main.sync {
+                    self.refreshFilter()
+                    self.cleanupStoredFiles()
+                }
             }
         }
     }

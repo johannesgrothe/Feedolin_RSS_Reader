@@ -88,32 +88,41 @@ struct AddFeedView: View {
 }
 
 struct DetectedFeedEntry: View {
+    /** feed data to display */
     let feed_data: NewsFeedMeta
-    @State var remove_feed: NewsFeed?
+    
+    /** Feed detected in the model */
+    @State var detected_feed: NewsFeed?
+    
+    /** Variable to show the 'remove feed'-alert */
     @State var showing_alert: Bool = false
+    
+    /** Model of the app */
+    @ObservedObject var model: Model = .shared
     
     var body: some View {
         HStack {
             let feed_in_model = model.getFeedByURL(feed_data.complete_url)
             if feed_in_model != nil {
+                /** Code to display when feed is already found in model */
                 Text(feed_in_model!.name)
                 Spacer()
                 Button(action: {
                     print("Remove Detected Feed Button clicked.")
                     self.showing_alert = true
-                    remove_feed = feed_in_model
+                    detected_feed = feed_in_model
                 }) {
                     Image(systemName: "minus.circle.fill")
                         .foregroundColor(.red)
                 }
                 .alert(isPresented: $showing_alert) {
-                    Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(remove_feed!)), primaryButton: .default(Text("Okay"), action: {
-                            model.removeFeed(remove_feed!)
+                    Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(detected_feed!)), primaryButton: .default(Text("Okay"), action: {
+                            model.removeFeed(detected_feed!)
                     }),secondaryButton: .cancel())
                 }
-                
                 .buttonStyle(BorderlessButtonStyle())
             } else {
+                /** Code to display if no feed was found in model */
                 Text(feed_data.title)
                 Spacer()
                 Button(action: {
