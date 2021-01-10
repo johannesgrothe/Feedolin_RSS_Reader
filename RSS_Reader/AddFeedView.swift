@@ -41,8 +41,10 @@ struct AddFeedView: View {
                     Spacer()
                     Text("Add Feeds")
                     Spacer()
-                    Button("Scan") { self.presentationMode.wrappedValue.dismiss() }
-                        .padding(.horizontal, 20)
+                    Button("Scan") {
+                        detector.detect(text, deep_scan: true)
+                    }
+                    .padding(.horizontal, 20)
                 }
                 HStack {
                     TextField(

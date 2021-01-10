@@ -51,7 +51,7 @@ class FeedDetector: ObservableObject {
         specific_feed = nil
     }
     
-    func detect(_ url: String) {
+    func detect(_ url: String, deep_scan: Bool = false) {
         
         if url == "" {
             // Cancel update if its still active
@@ -98,7 +98,7 @@ class FeedDetector: ObservableObject {
 
         let detected_url = analyzeURL(url)
         
-        if detected_url != nil && detected_url != current_url_private {
+        if detected_url != nil && (detected_url != current_url_private || deep_scan) {
             current_url_private = detected_url
             print("New URL detected: \(current_url_private!.full_url)")
             
@@ -113,7 +113,12 @@ class FeedDetector: ObservableObject {
                 DispatchQueue.main.sync {
                     self.is_scanning = true
                 }
-                let buf_detected_feeds = self.detectFeeds(self.current_url_private!.full_url, shallow_scan: true)
+                var buf_detected_feeds: [NewsFeedMeta] = []
+                if !deep_scan {
+                    buf_detected_feeds = self.detectFeeds(self.current_url_private!.full_url, shallow_scan: true)
+                } else {
+                    buf_detected_feeds = self.detectFeeds(self.current_url_private!.full_url, deep_scan: true)
+                }
                 DispatchQueue.main.sync {
                     self.is_scanning = false
                     self.detected_feeds = buf_detected_feeds
@@ -220,12 +225,6 @@ class FeedDetector: ObservableObject {
         return nil
     }
     
-    
-    func loadFeeds(_ url_data: SplittedURLParts) -> [NewsFeedMeta] {
-        
-        return []
-    }
-    
     /// Function that receives an URL start (like 'https://www.nzz.ch/') and a html source code and scans it for links to rss feeds. The URL is used to add it if the found links are relative links.
     /// - Parameters:
     ///   - url_start: Main url of the site that is searched (like 'https://www.nzz.ch/')
@@ -259,9 +258,6 @@ class FeedDetector: ObservableObject {
         let main_url_has_slash = url_start.hasSuffix("/")
         
         var valid_urls: [String] = []
-        
-    //    print("found \(found_urls.count) feeds")
-    //    print(found_urls)
         
         for raw_found_url in found_urls {
             var found_url = raw_found_url
@@ -337,6 +333,7 @@ class FeedDetector: ObservableObject {
         for i_url in search_urls {
             if (i_url.contains("feed") && !i_url.contains("feedback")) || i_url.contains("rss") {
                 prioritized_urls.append(i_url)
+                found_feed_list.append(i_url)
             }
         }
         
