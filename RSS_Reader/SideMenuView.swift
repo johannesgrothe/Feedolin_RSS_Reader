@@ -162,6 +162,7 @@ struct SideMenuView: View {
                 
                 .edgesIgnoringSafeArea(.bottom)
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .frame(width: self.width)
             
             Spacer()

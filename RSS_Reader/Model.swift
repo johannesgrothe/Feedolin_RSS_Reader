@@ -162,6 +162,11 @@ final class Model: ObservableObject {
      */
     var hide_read_articles = false
     
+    /**Property of Optional type Timer will call periodicaly autoRefrehs(), when runAutoRefresh() gets called
+                                        WARNING:
+        This property is only for the function autoRefresh() and should not be used somewhere else. Dont touch it please.
+     */
+    private var timer: Timer?
     
     /** A function that checks if the app is launched first time on the ios device. If the app gets deleted and reinstalled this will reset it self*/
     func isAppAlreadyLaunchedOnce(){
@@ -890,6 +895,30 @@ final class Model: ObservableObject {
         self.cleanupStoredFiles()
     }
     
+    /** @autoRefrehs() will fetch the feeds and refresh all Filter*/
+    @objc private func autoRefresh(){
+            self.fetchFeeds()
+            self.refreshFilter()
+            print("Model.autoRefresh() called. App did update")
+    }
+    
+    /**If the @AppStore"auto_refresh" property is true, calling runAutoRefresh will declare the private optional property @timer and will call periodacally run autoRefresh(), if false property @timer will be invalidated and set to nil.
+                                WARNING:
+     If you call this function more than once while the property "auto_refresh" is set to true, the iPhone will explode, if "auto_refresh"  is false your safe. Just dont touch it please
+     */
+    func runAutoRefresh(){
+        if UserDefaults.standard.bool(forKey: "auto_refresh"){
+            self.timer = Timer.scheduledTimer(timeInterval: 300, target: self, selector: #selector(autoRefresh), userInfo: nil, repeats: true)
+            print("Model.runAutoRefresh() called. App will update automaticly")
+        }
+        else{
+            if self.timer != nil {
+                self.timer!.invalidate()
+                self.timer = nil
+            }
+            print("Model.runAutoRefresh() called. App will not update automaticly anymore")
+        }
+    }
 }
 
 var preview_model = Model(

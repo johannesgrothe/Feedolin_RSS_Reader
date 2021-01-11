@@ -11,10 +11,15 @@ struct SettingsView: View {
     /**Model singleton*/
     @ObservedObject var model: Model = .shared
     
+    /**Boolean that shows an alert if true*/
     @State private var showingAlert = false
+    
+    /**Boolean that show if aurto_refresh is on and saves at coredata*/
+    @AppStorage("auto_refresh") private var auto_refresh: Bool = true
     
     var body: some View {
         List {
+            /** Calling FeedSettingsView()*/
             NavigationLink(destination: FeedSettingsView()) {
                 HStack {
                     Image(systemName: "newspaper").imageScale(.large)
@@ -22,6 +27,8 @@ struct SettingsView: View {
                 }
             }
             .listRowBackground(Color.clear)
+            
+            /**Calling CollectionSettingsView()*/
             NavigationLink(destination: CollectionSettingsView()) {
                 HStack {
                     Image(systemName: "folder").imageScale(.large)
@@ -29,6 +36,8 @@ struct SettingsView: View {
                 }
             }
             .listRowBackground(Color.clear)
+            
+            /**Button to reset the App to default*/
             Button(action: {
                 self.showingAlert = true
             }) {
@@ -40,6 +49,18 @@ struct SettingsView: View {
             }
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
+            }
+            .listRowBackground(Color.clear)
+            
+            /**ToggleButton that toogles the value of @auto_refresh*/
+            HStack{
+                Toggle(isOn: $auto_refresh){
+                    Image(systemName: "arrow.clockwise").imageScale(.large)
+                    Text("Auto Refresh").font(.headline)
+                }
+                .onChange(of: auto_refresh){ _ in
+                    model.runAutoRefresh()
+                }
             }
             .listRowBackground(Color.clear)
         }

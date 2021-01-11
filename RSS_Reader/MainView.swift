@@ -74,6 +74,7 @@ struct MainView: View {
                     .gesture(drag_right)
                 
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(Color(UIColor(named: "ButtonColor")!))
         }
     }

@@ -16,11 +16,12 @@ struct RSS_ReaderApp: App {
     
     /**Model Singleton*/
     @ObservedObject var model: Model = .shared
-    
+
     init(){
         model.loadData()
         model.refreshFilter()
         model.isAppAlreadyLaunchedOnce()
+        model.runAutoRefresh()
     }
     
     var body: some Scene {
