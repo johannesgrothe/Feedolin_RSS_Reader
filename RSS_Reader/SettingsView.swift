@@ -18,16 +18,6 @@ struct SettingsView: View {
     @AppStorage("auto_refresh") private var auto_refresh: Bool = true
     
     /**
-     * ToDo: add comment
-     */
-//    @State var dark_mode_enabled: Bool = true
-    
-    /**
-     * ToDo: add comment
-     */
-    @State var current_color_scheme: ColorScheme? = nil
-    
-    /**
      * ToDo add comment
      */
     @AppStorage("dark_mode_enabled") var dark_mode_enabled: Bool = true
@@ -74,6 +64,7 @@ struct SettingsView: View {
                 Text("Enable Dark Mode").font(.headline)
                 
             }
+            .listRowBackground(Color.clear)
             .preferredColorScheme(dark_mode_enabled ? .dark : .light)
 
             

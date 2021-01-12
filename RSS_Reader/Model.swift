@@ -175,7 +175,7 @@ final class Model: ObservableObject {
             }
         }
     }
-    
+
     /** A function that checks if the app is launched first time on the ios device. If the app gets deleted and reinstalled this will reset it self*/
     func isAppAlreadyLaunchedOnce(){
         let defaults = UserDefaults.standard
@@ -908,26 +908,26 @@ final class Model: ObservableObject {
         self.cleanupStoredFiles()
     }
     
-    
+
     /**@saveCollection(_ collection: Collection) will overwrite the given article*/
     func saveCollection(_ collection: Collection){
-        
+
         let json_encoder = JSONEncoder()
         let json_data = try! json_encoder.encode(collection)
         let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-        
+
         writeObjectStringToJsonFile(path: self.collections_path, json_string: json_string, file_name: collection.id.uuidString)
-        
+
         print("Collection with the ID:\(collection.id) got saved")
     }
-    
+
     /** @autoRefrehs() will fetch the feeds and refresh all Filter*/
     @objc private func autoRefresh(){
             self.fetchFeeds()
             self.refreshFilter()
             print("Model.autoRefresh() called. App did update")
     }
-    
+
     /**If the @AppStore"auto_refresh" property is true, calling runAutoRefresh will declare the private optional property @timer and will call periodacally run autoRefresh(), if false property @timer will be invalidated and set to nil.
      */
     func runAutoRefresh(){
