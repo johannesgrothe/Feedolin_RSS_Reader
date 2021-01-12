@@ -376,6 +376,7 @@ final class Model: ObservableObject {
         // Refresh viewed articles if any new artices were fetched
         if fetched_articles != 0 {
             refreshFilter()
+            cleanupStoredFiles()
         }
     }
 
