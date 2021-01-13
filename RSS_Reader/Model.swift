@@ -885,6 +885,8 @@ final class Model: ObservableObject {
         writeObjectStringToJsonFile(path: self.collections_path, json_string: json_string, file_name: collection.id.uuidString)
         
         print("Collection with the ID:\(collection.id) got saved")
+    }
+    
     /** @autoRefrehs() will fetch the feeds and refresh all Filter*/
     @objc private func autoRefresh(){
             self.fetchFeeds()
