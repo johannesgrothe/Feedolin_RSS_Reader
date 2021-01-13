@@ -117,7 +117,6 @@ class Collection: Identifiable, ObservableObject, Codable{
         print("Adding feed '\(new_feed.url)' to collection '\(self.name)'")
         
         self.feed_list.append(new_feed)
-        model.saveCollection(self)
         return true
     }
     
@@ -130,7 +129,6 @@ class Collection: Identifiable, ObservableObject, Codable{
         for feed in self.feed_list {
             if feed.id == feed_to_remove.id {
                 self.feed_list.remove(at: i)
-                model.saveCollection(self)
                 return true
             }
             i += 1
