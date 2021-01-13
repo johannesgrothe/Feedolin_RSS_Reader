@@ -12,7 +12,7 @@ struct SettingsView: View {
     @ObservedObject var model: Model = .shared
     
     /**Boolean that shows an alert if true*/
-    @State private var showingAlert = false
+    @State private var showing_alert = false
     
     /**Boolean that show if aurto_refresh is on and saves at coredata*/
     @AppStorage("auto_refresh") private var auto_refresh: Bool = true
@@ -37,21 +37,6 @@ struct SettingsView: View {
             }
             .listRowBackground(Color.clear)
             
-            /**Button to reset the App to default*/
-            Button(action: {
-                self.showingAlert = true
-            }) {
-                HStack{
-                    //For the Reviwer an alternative image could be "trash"
-                    Image(systemName: "doc.badge.gearshape").imageScale(.large)
-                    Text("Reset App").font(.headline)
-                }
-            }
-            .alert(isPresented: $showingAlert) {
-                Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
-            }
-            .listRowBackground(Color.clear)
-            
             /**ToggleButton that toogles the value of @auto_refresh*/
             HStack{
                 Toggle(isOn: $auto_refresh){
@@ -61,6 +46,21 @@ struct SettingsView: View {
                 .onChange(of: auto_refresh){ _ in
                     model.runAutoRefresh()
                 }
+            }
+            .listRowBackground(Color.clear)
+            
+            /**Button to reset the App to default*/
+            Button(action: {
+                self.showing_alert = true
+            }) {
+                HStack{
+                    //For the Reviwer an alternative image could be "trash"
+                    Image(systemName: "doc.badge.gearshape").imageScale(.large)
+                    Text("Reset App").font(.headline)
+                }
+            }
+            .alert(isPresented: $showing_alert) {
+                Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
             }
             .listRowBackground(Color.clear)
         }
