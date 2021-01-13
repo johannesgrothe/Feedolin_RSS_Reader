@@ -124,6 +124,7 @@ struct ArticleListRow: View {
             }
             
             Button(action:{
+                self.setShare(article: article)
                 print("Share pressed")
             }){
                 HStack{
@@ -141,7 +142,9 @@ struct ArticleListRow: View {
     
     /**Still to be written*/
     private func setShare(article: ArticleData){
-        /**Empty*/
+        let link = URL(string: article.link)
+        let action_sheet = UIActivityViewController(activityItems:[link!], applicationActivities: nil)
+        UIApplication.shared.windows.first?.rootViewController?.present(action_sheet, animated: true, completion: nil)
     }
     
     /**Still to be written*/
