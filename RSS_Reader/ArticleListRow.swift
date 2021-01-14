@@ -97,7 +97,6 @@ struct ArticleListRow: View {
         .contextMenu{
             Button(action: {
                 self.setBookmarked(article: article)
-                print("Button Bookmark/Unmark pressed")
             }) {
                 HStack{
                     if self.bookmarked{
@@ -111,7 +110,6 @@ struct ArticleListRow: View {
             
             Button(action:{
                 self.setMarkAsRead(article: article)
-                print("MarkAsRead pressed")
             }) {
                 HStack{
                     if self.read{
@@ -125,7 +123,6 @@ struct ArticleListRow: View {
             
             Button(action:{
                 self.setShare(article: article)
-                print("Share pressed")
             }){
                 HStack{
                     Text("Share")
@@ -140,14 +137,26 @@ struct ArticleListRow: View {
         self.article.bookmarked.toggle()
     }
     
-    /**Still to be written*/
+    /**Opens the Activity View to share a article link*/
     private func setShare(article: ArticleData){
+        // URL instance to the article link
         let link = URL(string: article.link)
+        // action_sheet with the link as activity item
         let action_sheet = UIActivityViewController(activityItems:[link!], applicationActivities: nil)
+        // presenting the action_sheet
         UIApplication.shared.windows.first?.rootViewController?.present(action_sheet, animated: true, completion: nil)
+        // support ipad sheet
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            action_sheet.popoverPresentationController?.sourceView = UIApplication.shared.windows.first
+            action_sheet.popoverPresentationController?.sourceRect = CGRect(
+                x: UIScreen.main.bounds.width / 2.1,
+                y: UIScreen.main.bounds.height / 2.3,
+                width: 200,
+                height: 200)
+        }
     }
     
-    /**Still to be written*/
+    /**Toggles the boolean read of an Instance of Article*/
     private func setMarkAsRead(article: ArticleData){
         self.article.read.toggle()
     }
