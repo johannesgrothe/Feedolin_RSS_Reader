@@ -71,7 +71,7 @@ enum FilterSetting : CustomStringConvertible {
     var description: String {
         switch self {
         case .All:
-            return "All"
+            return "all_filter".localized
         case .Collection(let collection):
             return collection.name
         case .FeedProvider(let feed_provider):
@@ -79,7 +79,7 @@ enum FilterSetting : CustomStringConvertible {
         case .Feed(let feed):
             return feed.parent_feed!.token.description + " - " + feed.name
         case .Bookmarked:
-            return "Bookmarked"
+            return "bookmarked_filter".localized
         }
     }
 }
@@ -183,13 +183,6 @@ final class Model: ObservableObject {
             print("App already launched")
         } else {
             defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
-            collection_data.insert(contentsOf: [
-                Collection(name: "Politik")
-                ,Collection(name: "Wirtschaft")
-                ,Collection(name: "Technik")
-                ,Collection(name: "Gaming")
-                ,Collection(name: "Unterhaltung")
-            ], at: 0)
             print("App launched first time")
         }
     }
