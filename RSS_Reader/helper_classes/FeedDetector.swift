@@ -35,8 +35,10 @@ class FeedDetector: ObservableObject {
     private var current_url_private: SplittedURLParts?
     
     private var pendingUpdateProcess: DispatchWorkItem?
+    private var pendingUpdateID = UUID()
     
     private var pendicUpdateSpecificProcess: DispatchWorkItem?
+    private var pendingUpdateSpecificID = UUID()
     
     var url: SplittedURLParts? {
         get {
@@ -59,6 +61,9 @@ class FeedDetector: ObservableObject {
                 print("Canceling pending update process")
                 pendingUpdateProcess!.cancel()
             }
+            self.pendingUpdateID = UUID()
+            self.pendingUpdateSpecificID = UUID()
+            
             self.current_url_private = nil
             self.is_scanning = false
             self.detected_feeds = []
@@ -72,6 +77,10 @@ class FeedDetector: ObservableObject {
         }
         
         pendicUpdateSpecificProcess = DispatchWorkItem {
+            
+            let local_specific_id = UUID()
+            self.pendingUpdateSpecificID = local_specific_id
+            
             // Buffer for found feed
             var found_local_feed: NewsFeedMeta? = nil
             
@@ -84,9 +93,13 @@ class FeedDetector: ObservableObject {
                 }
             }
             
-            // Save found feed
-            DispatchQueue.main.async {
-                self.specific_feed = found_local_feed
+            if local_specific_id == self.pendingUpdateSpecificID {
+                // Save found feed
+                DispatchQueue.main.async {
+                    self.specific_feed = found_local_feed
+                }
+            } else {
+                print("ID is no longer valid, skipping update")
             }
             
             // Reset own thread
@@ -108,7 +121,12 @@ class FeedDetector: ObservableObject {
                 pendingUpdateProcess!.cancel()
             }
             
+            // Create "thread"
             pendingUpdateProcess = DispatchWorkItem {
+                
+                let local_update_id = UUID()
+                self.pendingUpdateID = local_update_id
+                
                 print("Starting scan for feeds...")
                 DispatchQueue.main.sync {
                     self.is_scanning = true
@@ -119,14 +137,21 @@ class FeedDetector: ObservableObject {
                 } else {
                     buf_detected_feeds = self.detectFeeds(self.current_url_private!.full_url, deep_scan: true)
                 }
-                DispatchQueue.main.sync {
-                    self.is_scanning = false
-                    self.detected_feeds = buf_detected_feeds
+                
+                if local_update_id == self.pendingUpdateID {
+                    DispatchQueue.main.sync {
+                        print("Searching finished")
+                        self.is_scanning = false
+                        self.detected_feeds = buf_detected_feeds
+                        self.pendingUpdateProcess = nil
+                    }
+                } else {
+                    print("ID is no longer valid, skipping update")
                 }
-                print("Searching finished")
-                self.pendingUpdateProcess = nil
+
             }
             
+            // Start "thread"
             DispatchQueue.global(qos: .utility).async(execute: pendingUpdateProcess!)
         }
     }

@@ -37,14 +37,10 @@ struct AddFeedView: View {
             VStack {
                 HStack {
                     Button("Close") { self.presentationMode.wrappedValue.dismiss() }
-                        .padding(.horizontal, 20)
                     Spacer()
                     Text("Add Feeds")
                     Spacer()
-                    Button("Scan") {
-                        detector.detect(text, deep_scan: true)
-                    }
-                    .padding(.horizontal, 20)
+                    Button("Scan") { detector.detect(text, deep_scan: true) }
                 }
                 HStack {
                     HStack {

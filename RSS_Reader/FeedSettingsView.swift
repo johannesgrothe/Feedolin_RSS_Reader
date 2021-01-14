@@ -19,23 +19,14 @@ struct FeedSettingsView: View {
             .navigationTitle("Feed Settings")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Button(action: {
-                            print("Add feed button clicked")
-                            self.show_add_feed_view.toggle()
-                        }) {
-                            Label("Add Feed", systemImage: "plus")
-                        }
-                        
-                        Button(action: {
-                            print("Remove feed button clicked")
-                        }) {
-                            Label("Remove feed", systemImage: "trash")
-                        }
+
+                    Button(action: {
+                        print("Add feed button clicked")
+                        self.show_add_feed_view.toggle()
+                    }) {
+                        Label("Add Feed", systemImage: "plus")
                     }
-                    label: {
-                        Label("Edit", systemImage: "square.and.pencil").imageScale(.large)
-                    }
+
                 }
             }.sheet(isPresented: self.$show_add_feed_view) {
                 AddFeedView()
