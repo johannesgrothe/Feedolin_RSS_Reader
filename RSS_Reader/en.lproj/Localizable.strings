@@ -43,3 +43,4 @@
 
 // Textfield Defaults
 "add_collection_textfield" = "Add a new collection name...";
+"search_bar_textfield" = "Search...";

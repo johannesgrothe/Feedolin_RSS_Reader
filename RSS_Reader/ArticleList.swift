@@ -34,7 +34,7 @@ struct ArticleList: View {
                 Image(systemName: "magnifyingglass")
                             
                 //search bar text field
-                TextField("Search", text: $search_phrase)
+                TextField("search_bar_textfield".localized, text: $search_phrase)
                    
                 // x Button
                 Button(action: {

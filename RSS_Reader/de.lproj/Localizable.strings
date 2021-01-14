@@ -43,3 +43,4 @@
 
 // Textfield Defaults
 "add_collection_textfield" = "Name der neuen Sammlung...";
+"search_bar_textfield" = "Suchen...";
