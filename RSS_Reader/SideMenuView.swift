@@ -47,7 +47,7 @@ struct SideMenuView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 22, height: 22)
-                            Text("All")
+                            Text("all_filter".localized)
                                 .font(.headline)
                             Spacer()
                         }
@@ -66,7 +66,7 @@ struct SideMenuView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 22, height: 22)
-                            Text("Bookmarked")
+                            Text("bookmarked_filter".localized)
                                 .font(.headline)
                             Spacer()
                         }
@@ -79,7 +79,7 @@ struct SideMenuView: View {
                         /**
                          displayes the collections
                          */
-                        Section(header: Text("Collections (\(model.collection_data.endIndex))")) {
+                        Section(header: Text("\("collection_comp".localized) (\(model.collection_data.endIndex))")) {
                             
                             ForEach(model.collection_data) { item in
                                 
@@ -105,7 +105,7 @@ struct SideMenuView: View {
                         /**
                          Show the feed providers
                          */
-                        Section(header: Text("Newspaper")) {
+                        Section(header: Text("feed_comp".localized)) {
                             ForEach(model.feed_data) { feed_provider in
                                 Button(action: {
                                     menu_close()
@@ -155,7 +155,7 @@ struct SideMenuView: View {
                     })
                     
                 }
-                .navigationBarTitle("Filter",displayMode: .inline)
+                .navigationBarTitle("filter_comp".localized, displayMode: .inline)
                 
                 .background(Color(UIColor(named: "BackgroundColor")!))
                 .accentColor(Color(UIColor(named: "ButtonColor")!))
