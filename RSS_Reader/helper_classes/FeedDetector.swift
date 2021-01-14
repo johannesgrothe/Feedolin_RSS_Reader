@@ -7,24 +7,6 @@
 
 import Foundation
 
-extension String {
-    
-    
-    /// Removes a certain amount of characters from the beginning of the string
-    /// - Parameter count: amount of characters that should be removed
-    /// - Returns: The modified string
-    func chopPrefix(_ count: UInt = 1) -> String {
-        return substring(from: self.index(startIndex, offsetBy: Int(count)))
-    }
-
-    /// Removes a certain amount of characters from the end of the string
-    /// - Parameter count: amount of characters that should be removed
-    /// - Returns: The modified string
-    func chopSuffix(_ count: UInt = 1) -> String {
-        return substring(to: self.index(endIndex, offsetBy: -Int(count)))
-    }
-}
-
 class FeedDetector: ObservableObject {
     @Published var detected_feeds: [NewsFeedMeta]
     
