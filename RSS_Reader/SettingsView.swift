@@ -28,7 +28,7 @@ struct SettingsView: View {
             NavigationLink(destination: FeedSettingsView()) {
                 HStack {
                     Image(systemName: "newspaper").imageScale(.large)
-                    Text("Feed Settings").font(.headline)
+                    Text("feed_settings_title".localized).font(.headline)
                 }
             }
             .listRowBackground(Color.clear)
@@ -37,7 +37,7 @@ struct SettingsView: View {
             NavigationLink(destination: CollectionSettingsView()) {
                 HStack {
                     Image(systemName: "folder").imageScale(.large)
-                    Text("Collection Settings").font(.headline)
+                    Text("coll_settings_title".localized).font(.headline)
                 }
             }
             .listRowBackground(Color.clear)
@@ -46,7 +46,7 @@ struct SettingsView: View {
             HStack{
                 Toggle(isOn: $auto_refresh){
                     Image(systemName: "arrow.clockwise").imageScale(.large)
-                    Text("Auto Refresh").font(.headline)
+                    Text("auto_refresh_option".localized).font(.headline)
                 }
                 .onChange(of: auto_refresh){ _ in
                     model.runAutoRefresh()
@@ -78,11 +78,11 @@ struct SettingsView: View {
                 HStack{
                     //For the Reviwer an alternative image could be "trash"
                     Image(systemName: "doc.badge.gearshape").imageScale(.large)
-                    Text("Reset App").font(.headline)
+                    Text("reset_app_option").font(.headline)
                 }
             }
             .alert(isPresented: $showing_alert) {
-                Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
+                Alert(title: Text("App Reset"), message: Text(genAppResetWarning()), primaryButton: .default(Text("ok_btn_title".localized), action: {model.reset()}),secondaryButton: .cancel())
             }
             .listRowBackground(Color.clear)
         }

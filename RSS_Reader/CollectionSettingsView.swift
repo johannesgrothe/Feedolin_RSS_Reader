@@ -45,7 +45,7 @@ struct CollectionSettingsView: View {
                     HStack {
                         
                         // collection name text field
-                        TextField("Add a new collection name...", text: self.$new_coll_name, onEditingChanged: { isEditing in
+                        TextField("add_collection_textfield".localized, text: self.$new_coll_name, onEditingChanged: { isEditing in
                         })
                         
                         // x Button
@@ -119,7 +119,7 @@ struct CollectionSettingsView: View {
         })
         .background(Color(UIColor(named: "BackgroundColor")!))
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("Collection Settings")
+        .navigationTitle("coll_settings_title".localized)
         .navigationBarItems(trailing:
                                 Button(action: {
                                     print("Edit collection btn clicked")
@@ -130,9 +130,9 @@ struct CollectionSettingsView: View {
                                     }
                                 }) {
                                     if (edit_mode) {
-                                        Text("Done")
+                                        Text("done_btn_title".localized)
                                     } else {
-                                        Text("Edit")
+                                        Text("edit_btn_title".localized)
                                     }
                                 })
     }

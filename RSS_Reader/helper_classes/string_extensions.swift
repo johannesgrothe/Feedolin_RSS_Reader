@@ -12,3 +12,7 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
 }
+
+func genAppResetWarning() -> String {
+    return "app_reset_alert_text".localized
+}

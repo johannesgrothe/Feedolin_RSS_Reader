@@ -16,7 +16,7 @@ struct FeedSettingsView: View {
     
     var body: some View {
         FeedSettingsList()
-            .navigationTitle("Feed Settings")
+            .navigationTitle("feed_settings_title".localized)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
 

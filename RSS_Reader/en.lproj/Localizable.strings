@@ -6,31 +6,38 @@
 */
 
 // Components
-"collection_comp" = "Collections"
-"feed_comp" = "Feeds"
-"filter_comp" = "Filters"
+"collection_comp" = "Collections";
+"feed_comp" = "Feeds";
+"filter_comp" = "Filters";
 
 // Title
 "settings_title" = "Settings";
 "feed_settings_title" = "Feed Settings";
 "coll_settings_title" = "Collection Settings";
-"add_feed_title" = "Add Feeds"
+"add_feed_title" = "Add Feeds";
 
 // Feed Settings Labels
-"feed_name_lbl" = "Name"
-"feed_abbreviation_lbl" = "Abbreviation"
-"show_in_main_lbl" = "Show in Main Feed"
-"use_filters_lbl" = "Use Filters"
-"filters_selected_lbl" = "Filters Selected"
+"feed_name_lbl" = "Name";
+"feed_abbreviation_lbl" = "Abbreviation";
+"show_in_main_lbl" = "Show in Main Feed";
+"use_filters_lbl" = "Use Filters";
+"filters_selected_lbl" = "Filters Selected";
 
 // Options
 "auto_refresh_option" = "Auto Refresh";
 "reset_app_option" = "Reset App";
 
 // Buttons
-"edit_btn_title" = "Edit"
-"done_btn_title" = "Done"
+"edit_btn_title" = "Edit";
+"done_btn_title" = "Done";
+"ok_btn_title" = "Okay";
 
 // Filter Options
-"all_filter" = "All"
-"bookmarked_filter" = "Bookmarked"
+"all_filter" = "All";
+"bookmarked_filter" = "Bookmarked";
+
+// Alerts
+"app_reset_alert_text" = "WARNING: This action will irreversible delete all Data!";
+
+// Textfield Defaults
+"add_collection_textfield" = "Add a new collection name...";
