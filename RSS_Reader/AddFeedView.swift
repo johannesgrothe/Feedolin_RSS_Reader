@@ -116,7 +116,11 @@ struct DetectedFeedEntry: View {
             let feed_in_model = model.getFeedByURL(feed_data.complete_url)
             if feed_in_model != nil {
                 /** Code to display when feed is already found in model */
-                Text(feed_in_model!.name)
+                VStack(alignment: .leading) {
+                    Text(feed_data.complete_url)
+                        .font(.system(size: 10))
+                    Text(feed_in_model!.name)
+                }
                 Spacer()
                 Button(action: {
                     print("Remove Detected Feed Button clicked.")
@@ -134,7 +138,11 @@ struct DetectedFeedEntry: View {
                 .buttonStyle(BorderlessButtonStyle())
             } else {
                 /** Code to display if no feed was found in model */
-                Text(feed_data.title)
+                VStack(alignment: .leading) {
+                    Text(feed_data.complete_url)
+                        .font(.system(size: 10))
+                    Text(feed_data.title)
+                }
                 Spacer()
                 Button(action: {
                     print("Add Detected Feed Button clicked.")
