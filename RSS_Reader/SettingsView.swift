@@ -92,7 +92,7 @@ struct SettingsView: View {
             overrideColorScheme(theme_index: dark_mode_enabled)
         })
         .listStyle(PlainListStyle())
-        .navigationBarTitle("Settings", displayMode: .inline)
+        .navigationBarTitle("settings_title".localized, displayMode: .inline)
         .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
         

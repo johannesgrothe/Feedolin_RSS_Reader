@@ -1,0 +1,36 @@
+/*
+  Localization.strings
+  RSS_Reader
+
+  Created by Johannes Grothe on 14.01.21.
+*/
+
+// Components
+"collection_comp" = "Collections"
+"feed_comp" = "Feeds"
+"filter_comp" = "Filters"
+
+// Title
+"settings_title" = "Settings";
+"feed_settings_title" = "Feed Settings";
+"coll_settings_title" = "Collection Settings";
+"add_feed_title" = "Add Feeds"
+
+// Feed Settings Labels
+"feed_name_lbl" = "Name"
+"feed_abbreviation_lbl" = "Abbreviation"
+"show_in_main_lbl" = "Show in Main Feed"
+"use_filters_lbl" = "Use Filters"
+"filters_selected_lbl" = "Filters Selected"
+
+// Options
+"auto_refresh_option" = "Auto Refresh";
+"reset_app_option" = "Reset App";
+
+// Buttons
+"edit_btn_title" = "Edit"
+"done_btn_title" = "Done"
+
+// Filter Options
+"all_filter" = "All"
+"bookmarked_filter" = "Bookmarked"
