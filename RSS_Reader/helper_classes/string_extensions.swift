@@ -8,5 +8,5 @@
 import Foundation
 
 func genAppResetWarning() -> String {
-    return "app_reset_alert_text".localized
+    return "\("general_warning_phrase".localized): \("app_reset_alert_text".localized)"
 }

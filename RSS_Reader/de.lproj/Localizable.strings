@@ -5,4 +5,41 @@
   Created by Johannes Grothe on 14.01.21.
 */
 
-"settings_view_title" = "Einstellungen";
+// Components
+"collection_comp" = "Sammlungen";
+"feed_comp" = "Feeds";
+"filter_comp" = "Filter";
+
+// Title
+"settings_title" = "Einstellungen";
+"feed_settings_title" = "Feed-Einstellungen";
+"coll_settings_title" = "Sammlungs-Einstellungen";
+"add_feed_title" = "Feeds hinzufügen";
+
+// Feed Settings Labels
+"feed_name_lbl" = "Name";
+"feed_abbreviation_lbl" = "Kürzel";
+"show_in_main_lbl" = "Artikel im Main-Feed anzeigen";
+"use_filters_lbl" = "Aktiviere Filter";
+"filters_selected_lbl" = "Ausgewähle Filter";
+
+// Options
+"auto_refresh_option" = "Hintergrundaktualisierungen";
+"reset_app_option" = "App zurücksetzen";
+
+// Buttons
+"edit_btn_title" = "Ändern";
+"done_btn_title" = "Fertig";
+"ok_btn_title" = "OK";
+
+// Filter Options
+"all_filter" = "Alle";
+"bookmarked_filter" = "Gespeichert";
+
+// Alerts
+"general_warning_phrase" = "ACHTUNG";
+"app_reset_alert_title" = "Daten zurücksetzen";
+"app_reset_alert_text" = "Diese Aktion setzt alle Daten der App zurück!";
+
+// Textfield Defaults
+"add_collection_textfield" = "Name der neuen Sammlung...";

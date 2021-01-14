@@ -82,7 +82,9 @@ struct SettingsView: View {
                 }
             }
             .alert(isPresented: $showing_alert) {
-                Alert(title: Text("App Reset"), message: Text(genAppResetWarning()), primaryButton: .default(Text("ok_btn_title".localized), action: {model.reset()}),secondaryButton: .cancel())
+                Alert(title: Text("app_reset_alert_title".localized),
+                      message: Text(genAppResetWarning()),
+                      primaryButton: .default(Text("ok_btn_title".localized),action: {model.reset()}),secondaryButton: .cancel())
             }
             .listRowBackground(Color.clear)
         }

@@ -37,7 +37,9 @@
 "bookmarked_filter" = "Bookmarked";
 
 // Alerts
-"app_reset_alert_text" = "WARNING: This action will irreversible delete all Data!";
+"general_warning_phrase" = "WARNING";
+"app_reset_alert_title" = "Reset Data";
+"app_reset_alert_text" = "This action will irreversible delete all Data!";
 
 // Textfield Defaults
 "add_collection_textfield" = "Add a new collection name...";
