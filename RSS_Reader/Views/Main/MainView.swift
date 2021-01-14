@@ -60,5 +60,10 @@ struct MainView: View {
             .gesture(drag_right)
         }
         .autoNavigationViewStyle()
+        // All onReceive-Blocks
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            print("App is moving to the Background")
+            scheduleAppRefresh()
+        }
     }
 }
