@@ -98,6 +98,7 @@ struct AddFeedView: View {
     }
 }
 
+/// A View to display a feed in the list above
 struct DetectedFeedEntry: View {
     /** feed data to display */
     let feed_data: NewsFeedMeta

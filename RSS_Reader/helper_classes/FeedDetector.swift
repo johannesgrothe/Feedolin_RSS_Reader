@@ -7,27 +7,39 @@
 
 import Foundation
 
+/// Class to detect feeds on websites
 class FeedDetector: ObservableObject {
+    
+    /// Feeds detected on the current website
     @Published var detected_feeds: [NewsFeedMeta]
     
+    /// Feed detectend behind the last searched link
     @Published var specific_feed: NewsFeedMeta?
     
+    /// Whether scanning is currently active
     @Published var is_scanning: Bool
     
+    /// Storage for the current detected main url (like 'nzz.ch')
     private var current_url_private: SplittedURLParts?
     
+    /// Process to scan the whole website for content
     private var pendingUpdateProcess: DispatchWorkItem?
+    /// ID of the current update
     private var pendingUpdateID = UUID()
     
+    /// Process to scan the current URL for content
     private var pendicUpdateSpecificProcess: DispatchWorkItem?
+    /// ID of the current update
     private var pendingUpdateSpecificID = UUID()
     
+    /// The current detected main URL
     var url: SplittedURLParts? {
         get {
             return current_url_private
         }
     }
     
+    /// Constructor
     init() {
         detected_feeds = []
         current_url_private = nil
@@ -35,6 +47,11 @@ class FeedDetector: ObservableObject {
         specific_feed = nil
     }
     
+    
+    /// Detects Feeds in the passed url.
+    /// - Parameters:
+    ///   - url: URL to scan for feeds
+    ///   - deep_scan: Whether every Link should be followed or only intelligently selected ones
     func detect(_ url: String, deep_scan: Bool = false) {
         
         if url == "" {
@@ -58,6 +75,7 @@ class FeedDetector: ObservableObject {
             pendicUpdateSpecificProcess!.cancel()
         }
         
+        // Create Thread for complete url scan
         pendicUpdateSpecificProcess = DispatchWorkItem {
             
             let local_specific_id = UUID()
@@ -88,6 +106,7 @@ class FeedDetector: ObservableObject {
             self.pendicUpdateSpecificProcess = nil
         }
         
+        // Start url scanning
         DispatchQueue.global(qos: .utility).async(execute: pendicUpdateSpecificProcess!)
         
 
@@ -103,7 +122,7 @@ class FeedDetector: ObservableObject {
                 pendingUpdateProcess!.cancel()
             }
             
-            // Create "thread"
+            // Create Thread for searching the whole website
             pendingUpdateProcess = DispatchWorkItem {
                 
                 let local_update_id = UUID()
@@ -133,7 +152,7 @@ class FeedDetector: ObservableObject {
 
             }
             
-            // Start "thread"
+            // Start the searching thread
             DispatchQueue.global(qos: .utility).async(execute: pendingUpdateProcess!)
         }
     }
@@ -285,7 +304,12 @@ class FeedDetector: ObservableObject {
         }
         return valid_urls
     }
-
+    
+    /// Detects Links in the passed sourcecode
+    /// - Parameters:
+    ///   - url_start: URL the searched website starts with
+    ///   - source_code: The source code of the website
+    /// - Returns: A list of links detected in the source code
     private func detectLinksInSourcecode(_ url_start: String, source_code: String) -> [String] {
         
         let found_urls = getRegexMatches(for: "\"http[s]?://.+?\"", in: source_code)
@@ -302,7 +326,13 @@ class FeedDetector: ObservableObject {
         
         return valid_urls
     }
-
+    
+    /// Detects feeds in the website behind the passed url
+    /// - Parameters:
+    ///   - url: The URL to scan
+    ///   - deep_scan: Whether all links should be followed or only intelligent selected ones
+    ///   - shallow_scan: Whether only a very limited seletion of links should be scanned at all, even if nothing is found
+    /// - Returns: A list of metadata from the feeds detected behind the URL
     func detectFeeds(_ url: String, deep_scan: Bool = false, shallow_scan: Bool = false) -> [NewsFeedMeta] {
         
         let short_main_url = getMainURL(url)
@@ -420,6 +450,9 @@ class FeedDetector: ObservableObject {
     }
 }
 
+/// Gets the main URL from a passed complete url
+/// - Parameter url: The URL that the main url should be extracted from
+/// - Returns: The main URL (if found)
 func getMainURL(_ url: String) -> String? {
     let complete_url = url.lowercased()
     

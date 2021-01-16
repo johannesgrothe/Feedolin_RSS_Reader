@@ -8,6 +8,9 @@
 import Foundation
 import XMLCoder
 
+/// Fetches HTTP data from the passed URL
+/// - Parameter url: The URL to fetch
+/// - Returns: The source code received from the request
 func fetchHTTPData(_ url: String) -> String? {
     
     print("Fetching HTTP Data from '\(url)'")
@@ -28,9 +31,11 @@ func fetchHTTPData(_ url: String) -> String? {
     }
 }
 
-/**
- Finds all matches for the regex in the passed text and returns them as a list of strings
- */
+/// Finds all matches for the regex in the passed text and returns them as a list of strings
+/// - Parameters:
+///   - regex: The regex patter to search with
+///   - text: The text to search in
+/// - Returns: The maches as string list
 func getRegexMatches(for regex: String, in text: String) -> [String] {
     do {
         let regex = try NSRegularExpression(pattern: regex, options: .dotMatchesLineSeparators)
@@ -48,9 +53,11 @@ func getRegexMatches(for regex: String, in text: String) -> [String] {
     }
 }
 
-/**
- Gets all regex groups from the selected regex and the passed text.
- */
+/// Gets all regex groups from the selected regex and the passed text.
+/// - Parameters:
+///   - regex: The regex patter to search with
+///   - text: The text to search in
+/// - Returns: The groups found
 func getRegexGroups(for pattern: String, in text: String) -> [[String]] {
     
     var out_group: [[String]] = []
@@ -79,12 +86,18 @@ func getRegexGroups(for pattern: String, in text: String) -> [[String]] {
  */
 class FeedParser {
 
+    /// The data loaded from the passed URL
     private var data: String?
     
+    /// The detected main URL
     private var main_url: String?
+    
+    /// The detected complete URL
     private var complete_url: String?
     
-    /** Method that parses the thumbnail's url from the whole article (item-tag xml string) */
+    /// Method that parses the thumbnail's url from the whole article (item-tag xml string)
+    /// - Parameter text: Text including HTML tags
+    /// - Returns: the clean URL
     private func parseThumbnailURL(from text: String) -> String? {
         
         let image_groups = getRegexGroups(for: "<media:.*?height=\"([0-9]+?)?\".*?url=\"(.+?)\".*?[/]{0,1}>", in: text)
@@ -150,15 +163,15 @@ class FeedParser {
         var art_pub_date: Date?
         
         // Create date from ISO8601 string
-        let isoDateFormatter = ISO8601DateFormatter()
-        var date = isoDateFormatter.date(from: art_data!.pubDate)
+        let iso_data_formatter = ISO8601DateFormatter()
+        var date = iso_data_formatter.date(from: art_data!.pubDate)
         if date == nil {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss +zzzz"
-            date = dateFormatter.date(from: art_data!.pubDate)
+            let date_formatter = DateFormatter()
+            date_formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss +zzzz"
+            date = date_formatter.date(from: art_data!.pubDate)
             if date == nil {
-                dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
-                date = dateFormatter.date(from: art_data!.pubDate)
+                date_formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
+                date = date_formatter.date(from: art_data!.pubDate)
                 if date == nil {
                     print("Error parsing date: '\(art_data!.pubDate)'")
                     art_pub_date = Date()
