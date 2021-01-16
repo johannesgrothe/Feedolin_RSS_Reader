@@ -22,6 +22,10 @@ class RSS_ReaderTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    func testStringExtensions() {
+        XCTAssertTrue("test yolokopter".chopPrefix(5) == "yolokopter")
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

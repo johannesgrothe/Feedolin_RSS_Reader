@@ -21,14 +21,8 @@ extension String {
     /// - Parameter count: amount of characters that should be removed
     /// - Returns: The modified string
     func chopPrefix(_ count: UInt = 1) -> String {
-        return substring(from: self.index(startIndex, offsetBy: Int(count)))
-    }
-
-    /// Removes a certain amount of characters from the end of the string
-    /// - Parameter count: amount of characters that should be removed
-    /// - Returns: The modified string
-    func chopSuffix(_ count: UInt = 1) -> String {
-        return substring(to: self.index(endIndex, offsetBy: -Int(count)))
+        let start_bound = String.Index(utf16Offset: Int(count), in: self)
+        let final_str = String(self[start_bound..<self.endIndex])
+        return final_str
     }
 }
-
