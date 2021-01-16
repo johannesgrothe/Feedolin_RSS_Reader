@@ -22,6 +22,8 @@ struct SettingsView: View {
      */
     @AppStorage("dark_mode_enabled") var dark_mode_enabled: Bool = true
     
+    @State private var selectorIndex = 0
+    
     var body: some View {
         List {
             /** Calling FeedSettingsView()*/
@@ -56,6 +58,15 @@ struct SettingsView: View {
             
             /**Button to reset the App to default*/
             //---vvv
+            
+            Picker("Theme", selection: $selectorIndex) {
+                Text("Auto").tag(0)
+                Text("Light").tag(1)
+                Text("Dark").tag(2)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            
             
             
             
