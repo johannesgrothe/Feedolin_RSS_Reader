@@ -7,14 +7,14 @@ stages:
 cleanup_project:
   stage: clean
   script:
-    - xcodebuild clean -project RSS_Reader.xcodeproj -scheme RSS_Reader
+    - xcodebuild clean -project RSS_Reader.xcodeproj -scheme RSS_Reader | xcpretty
 
 build_project:
   stage: build
   script:
-    - xcodebuild -project RSS_Reader.xcodeproj -scheme RSS_Reader -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.3'
+    - xcodebuild -project RSS_Reader.xcodeproj -scheme RSS_Reader -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.3' | xcpretty
 
 test_project:
   stage: test
   script:
-    - xcodebuild -project RSS_Reader.xcodeproj -scheme Tests -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.3' test
+    - xcodebuild -project RSS_Reader.xcodeproj -scheme Tests -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.3' test | xcpretty
