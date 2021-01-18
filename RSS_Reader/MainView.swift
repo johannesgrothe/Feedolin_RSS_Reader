@@ -23,7 +23,7 @@ struct MainView: View {
     /**
      * Indicates if the dark mode is enabled (by the user)
      */
-    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Bool = true
+    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 1
 
     /**
          @menu_open is a function to open the sidemenu with animation
@@ -37,6 +37,8 @@ struct MainView: View {
                 menu_open()
             }
         }
+        
+        let settings_view : SettingsView = SettingsView()
         
         GeometryReader{
             geometry in
@@ -82,7 +84,7 @@ struct MainView: View {
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(Color(UIColor(named: "ButtonColor")!))
-            .preferredColorScheme(dark_mode_enabled ? .dark : .light)
+            .onAppear(perform: settings_view.overrideDisplayMode)
         }
     }
 }

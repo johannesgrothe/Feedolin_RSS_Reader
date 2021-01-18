@@ -20,9 +20,9 @@ struct SettingsView: View {
     /**
      * ToDo add comment
      */
-    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Bool = true
+    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 1
     
-    @State private var selectorIndex = 0
+    @State private var selectorIndex = 1
     
     var body: some View {
         List {
@@ -58,28 +58,30 @@ struct SettingsView: View {
             
             /**Button to reset the App to default*/
             //---vvv
-            
-            Picker("Theme", selection: $selectorIndex) {
-                Text("Auto").tag(0)
-                Text("Light").tag(1)
-                Text("Dark").tag(2)
-            }
-            .pickerStyle(SegmentedPickerStyle())
+           
             
             
-            
-            
-            
-            Toggle(isOn: $dark_mode_enabled) {
-                Image(systemName: "paintpalette").imageScale(.large)
-                Text("Enable Dark Mode").font(.headline)
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: "paintpalette").imageScale(.large)
+                    Text("Enable Dark Mode").font(.headline)
+                }
                 
+                Picker("Theme", selection: $dark_mode_enabled) {
+                    Text("System").tag(0)
+                    Text("Light").tag(1)
+                    Text("Dark").tag(2)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
+                                overrideDisplayMode()
+                            }
             }
             .listRowBackground(Color.clear)
-            .preferredColorScheme(dark_mode_enabled ? .dark : .light)
+            .onAppear(perform: overrideDisplayMode)
 
             
-
+            
             
             
             //---^^^
@@ -107,6 +109,19 @@ struct SettingsView: View {
         .edgesIgnoringSafeArea(.bottom)
         
     }
+    
+    func overrideDisplayMode() {
+        var userInterfaceStyle: UIUserInterfaceStyle
+
+        switch dark_mode_enabled {
+        case 1: userInterfaceStyle = .light
+        case 2: userInterfaceStyle = .dark
+        default : userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
+        }
+
+        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
+    }
+    
 }
 
 struct SettingsView_Previews: PreviewProvider {
