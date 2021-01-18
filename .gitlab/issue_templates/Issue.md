@@ -17,7 +17,8 @@ Custom:
 
 Defaults:
 - [ ] Naming Convention for Classes, Functions and Variables are met
-- [ ] Comments are sufficient
+- [ ] Comments are sufficient, including complete documentation for functions
+- [ ] Every string displayed in the UI is localized for every language
 - [ ] Tests for every new non-view class are created and used in testing
 
 # Effort:
