@@ -31,6 +31,8 @@
 "edit_btn_title" = "Ändern";
 "done_btn_title" = "Fertig";
 "ok_btn_title" = "OK";
+"close_btn_title" = "Schließen";
+"scan_btn_title" = "Suchen";
 
 // Filter Options
 "all_filter" = "Alle";
@@ -38,9 +40,16 @@
 
 // Alerts
 "general_warning_phrase" = "ACHTUNG";
+
 "app_reset_alert_title" = "Daten zurücksetzen";
 "app_reset_alert_text" = "Diese Aktion setzt alle Daten der App zurück!";
+
+"feed_delete_alert_title" = "Feed löschen";
+"feed_delete_general_text" = "Diese Aktion wird das ausgewählte Feed und all seine Artikel unwiederruflich löschen.";
+"feed_delete_bookmarked_part_1" = "Du hast";
+"feed_delete_bookmarked_part_2" = "Artikel dieses Feeds gesichert. Auch diese werden gelöscht.";
 
 // Textfield Defaults
 "add_collection_textfield" = "Name der neuen Sammlung...";
 "search_bar_textfield" = "Suchen...";
+"url_textfield" = "URL eingeben...";

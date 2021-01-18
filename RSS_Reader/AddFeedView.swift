@@ -36,16 +36,16 @@ struct AddFeedView: View {
         VStack {
             VStack {
                 HStack {
-                    Button("Close") { self.presentationMode.wrappedValue.dismiss() }
+                    Button("close_btn_title".localized) { self.presentationMode.wrappedValue.dismiss() }
                     Spacer()
-                    Text("Add Feeds")
+                    Text("add_feed_title".localized)
                     Spacer()
-                    Button("Scan") { detector.detect(text, deep_scan: true) }
+                    Button("scan_btn_title".localized) { detector.detect(text, deep_scan: true) }
                 }
                 HStack {
                     HStack {
                         TextField(
-                            "Enter URL",
+                            "url_textfield".localized,
                             text: $text
                         )
                         
@@ -132,7 +132,7 @@ struct DetectedFeedEntry: View {
                         .foregroundColor(.red)
                 }
                 .alert(isPresented: $showing_alert) {
-                    Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(detected_feed!)), primaryButton: .default(Text("Okay"), action: {
+                    Alert(title: Text("feed_delete_alert_title".localized), message: Text(getWaringTextForFeedRemoval(detected_feed!)), primaryButton: .default(Text("ok_btn_title".localized), action: {
                             model.removeFeed(detected_feed!)
                     }),secondaryButton: .cancel())
                 }

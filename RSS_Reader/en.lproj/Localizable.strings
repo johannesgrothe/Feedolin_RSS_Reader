@@ -31,6 +31,8 @@
 "edit_btn_title" = "Edit";
 "done_btn_title" = "Done";
 "ok_btn_title" = "Okay";
+"close_btn_title" = "Close";
+"scan_btn_title" = "Scan";
 
 // Filter Options
 "all_filter" = "All";
@@ -38,9 +40,16 @@
 
 // Alerts
 "general_warning_phrase" = "WARNING";
+
 "app_reset_alert_title" = "Reset Data";
 "app_reset_alert_text" = "This action will irreversible delete all Data!";
+
+"feed_delete_alert_title" = "Delete Feed";
+"feed_delete_general_text" = "This action will irreversible delete the feed and all of its articles.";
+"feed_delete_bookmarked_part_1" = "You have";
+"feed_delete_bookmarked_part_2" = "bookmarked articles in this feed.";
 
 // Textfield Defaults
 "add_collection_textfield" = "Add a new collection name...";
 "search_bar_textfield" = "Search...";
+"url_textfield" = "Enter URL...";

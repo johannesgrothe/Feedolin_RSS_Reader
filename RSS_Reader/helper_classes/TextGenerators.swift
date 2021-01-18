@@ -12,9 +12,9 @@ import Foundation
 /// - Returns: The alert text
 func getWaringTextForFeedRemoval(_ feed: NewsFeed) -> String {
     let bookmarked_articles = feed.getAmountOfBookmarkedArticles()
-    var out_text = "WARNING: This action will irreversible delete the feed and all of its articles."
+    var out_text = "\("general_warning_phrase".localized): \("feed_delete_general_text".localized)"
     if bookmarked_articles != 0 {
-        out_text += "\n\nYou have \(bookmarked_articles) bookmarked articles in this feed."
+        out_text += "\n\n\("feed_delete_bookmarked_part_1".localized) \(bookmarked_articles) \("feed_delete_bookmarked_part_2".localized)"
     }
     return out_text
 }
