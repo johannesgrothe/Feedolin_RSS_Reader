@@ -18,11 +18,9 @@ struct SettingsView: View {
     @AppStorage("auto_refresh") private var auto_refresh: Bool = true
     
     /**
-     * ToDo add comment
+     * Indicates which color scheme is selected by the user
      */
     @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 1
-    
-    @State private var selectorIndex = 1
     
     var body: some View {
         List {
@@ -56,12 +54,9 @@ struct SettingsView: View {
             }
             .listRowBackground(Color.clear)
             
-            /**Button to reset the App to default*/
-            //---vvv
-           
-            
-            
+            // Picker to select if the App apears in light/ dark mode or system behaviour
             VStack(alignment: .leading) {
+                // Title of the Picker
                 HStack {
                     Image(systemName: "paintpalette").imageScale(.large)
                     Text("Enable Dark Mode").font(.headline)
@@ -74,17 +69,11 @@ struct SettingsView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
-                                overrideDisplayMode()
+                                overrideColorScheme()
                             }
             }
             .listRowBackground(Color.clear)
-            .onAppear(perform: overrideDisplayMode)
 
-            
-            
-            
-            
-            //---^^^
             Button(action: {
                 self.showing_alert = true
             }) {
@@ -102,6 +91,7 @@ struct SettingsView: View {
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
+            self.overrideColorScheme()
         })
         .listStyle(PlainListStyle())
         .navigationBarTitle("Settings", displayMode: .inline)
@@ -110,7 +100,10 @@ struct SettingsView: View {
         
     }
     
-    func overrideDisplayMode() {
+    /**
+     * Sets the color scheme of the app to light/ dark mode or system preferences
+     */
+    func overrideColorScheme() {
         var userInterfaceStyle: UIUserInterfaceStyle
 
         switch dark_mode_enabled {

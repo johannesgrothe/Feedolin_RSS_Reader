@@ -21,13 +21,13 @@ struct MainView: View {
     @ObservedObject var model: Model = .shared
 
     /**
-     * Indicates if the dark mode is enabled (by the user)
+     * Indicates which color scheme is selected by the user
      */
     @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 1
 
     /**
-         @menu_open is a function to open the sidemenu with animation
-         */
+     @menu_open is a function to open the sidemenu with animation
+     */
     let menu_open: () -> Void
     
     var body: some View {
@@ -38,6 +38,7 @@ struct MainView: View {
             }
         }
         
+        // instance of the SettingView to call their function
         let settings_view : SettingsView = SettingsView()
         
         GeometryReader{
@@ -84,7 +85,7 @@ struct MainView: View {
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(Color(UIColor(named: "ButtonColor")!))
-            .onAppear(perform: settings_view.overrideDisplayMode)
+            .onAppear(perform: settings_view.overrideColorScheme)
         }
     }
 }
