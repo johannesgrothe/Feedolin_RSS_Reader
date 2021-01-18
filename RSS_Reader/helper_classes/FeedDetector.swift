@@ -23,14 +23,14 @@ class FeedDetector: ObservableObject {
     private var current_url_private: SplittedURLParts?
     
     /// Process to scan the whole website for content
-    private var pendingUpdateProcess: DispatchWorkItem?
+    private var pending_update_process: DispatchWorkItem?
     /// ID of the current update
-    private var pendingUpdateID = UUID()
+    private var pending_update_id = UUID()
     
     /// Process to scan the current URL for content
-    private var pendicUpdateSpecificProcess: DispatchWorkItem?
+    private var pendic_update_specific_process: DispatchWorkItem?
     /// ID of the current update
-    private var pendingUpdateSpecificID = UUID()
+    private var pending_update_specific_id = UUID()
     
     /// The current detected main URL
     var url: SplittedURLParts? {
@@ -56,12 +56,12 @@ class FeedDetector: ObservableObject {
         
         if url == "" {
             // Cancel update if its still active
-            if pendingUpdateProcess != nil {
+            if pending_update_process != nil {
                 print("Canceling pending update process")
-                pendingUpdateProcess!.cancel()
+                pending_update_process!.cancel()
             }
-            self.pendingUpdateID = UUID()
-            self.pendingUpdateSpecificID = UUID()
+            self.pending_update_id = UUID()
+            self.pending_update_specific_id = UUID()
             
             self.current_url_private = nil
             self.is_scanning = false
@@ -70,16 +70,16 @@ class FeedDetector: ObservableObject {
         }
         
         // Cancel update if its still active
-        if pendicUpdateSpecificProcess != nil {
+        if pendic_update_specific_process != nil {
             print("Canceling pending update process")
-            pendicUpdateSpecificProcess!.cancel()
+            pendic_update_specific_process!.cancel()
         }
         
         // Create Thread for complete url scan
-        pendicUpdateSpecificProcess = DispatchWorkItem {
+        pendic_update_specific_process = DispatchWorkItem {
             
             let local_specific_id = UUID()
-            self.pendingUpdateSpecificID = local_specific_id
+            self.pending_update_specific_id = local_specific_id
             
             // Buffer for found feed
             var found_local_feed: NewsFeedMeta? = nil
@@ -93,7 +93,7 @@ class FeedDetector: ObservableObject {
                 }
             }
             
-            if local_specific_id == self.pendingUpdateSpecificID {
+            if local_specific_id == self.pending_update_specific_id {
                 // Save found feed
                 DispatchQueue.main.async {
                     self.specific_feed = found_local_feed
@@ -103,11 +103,11 @@ class FeedDetector: ObservableObject {
             }
             
             // Reset own thread
-            self.pendicUpdateSpecificProcess = nil
+            self.pendic_update_specific_process = nil
         }
         
         // Start url scanning
-        DispatchQueue.global(qos: .utility).async(execute: pendicUpdateSpecificProcess!)
+        DispatchQueue.global(qos: .utility).async(execute: pendic_update_specific_process!)
         
 
         let detected_url = analyzeURL(url)
@@ -117,16 +117,16 @@ class FeedDetector: ObservableObject {
             print("New URL detected: \(current_url_private!.full_url)")
             
             // Cancel update if its still active
-            if pendingUpdateProcess != nil {
+            if pending_update_process != nil {
                 print("Canceling pending update process")
-                pendingUpdateProcess!.cancel()
+                pending_update_process!.cancel()
             }
             
             // Create Thread for searching the whole website
-            pendingUpdateProcess = DispatchWorkItem {
+            pending_update_process = DispatchWorkItem {
                 
                 let local_update_id = UUID()
-                self.pendingUpdateID = local_update_id
+                self.pending_update_id = local_update_id
                 
                 print("Starting scan for feeds...")
                 DispatchQueue.main.sync {
@@ -139,12 +139,12 @@ class FeedDetector: ObservableObject {
                     buf_detected_feeds = self.detectFeeds(self.current_url_private!.full_url, deep_scan: true)
                 }
                 
-                if local_update_id == self.pendingUpdateID {
+                if local_update_id == self.pending_update_id {
                     DispatchQueue.main.sync {
                         print("Searching finished")
                         self.is_scanning = false
                         self.detected_feeds = buf_detected_feeds
-                        self.pendingUpdateProcess = nil
+                        self.pending_update_process = nil
                     }
                 } else {
                     print("ID is no longer valid, skipping update")
@@ -153,7 +153,7 @@ class FeedDetector: ObservableObject {
             }
             
             // Start the searching thread
-            DispatchQueue.global(qos: .utility).async(execute: pendingUpdateProcess!)
+            DispatchQueue.global(qos: .utility).async(execute: pending_update_process!)
         }
     }
     
