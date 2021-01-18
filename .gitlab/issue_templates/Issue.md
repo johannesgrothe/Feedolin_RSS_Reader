@@ -8,6 +8,7 @@ Custom:
 Defaults:
 - [ ] Report Changes in UML
 - [ ] Report Changes in Wireframes
+- [ ] Write Tests for every new non-view class
 
 # Acceptance criteria
 
@@ -17,6 +18,7 @@ Custom:
 Defaults:
 - [ ] Naming Convention for Classes, Functions and Variables are met
 - [ ] Comments are sufficient
+- [ ] Tests for every new non-view class are created and used in testing
 
 # Effort:
 ?
