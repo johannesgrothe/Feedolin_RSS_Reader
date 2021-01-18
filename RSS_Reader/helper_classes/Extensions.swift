@@ -20,6 +20,7 @@ extension String {
     /// Uses the string as key and returns the localized version of it
     var localized: String {
         return NSLocalizedString(self, comment: "")
+    }
 
     /// Removes a certain amount of characters from the beginning of the string
     /// - Parameter count: amount of characters that should be removed

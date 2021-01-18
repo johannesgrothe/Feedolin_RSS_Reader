@@ -18,3 +18,9 @@ func getWaringTextForFeedRemoval(_ feed: NewsFeed) -> String {
     }
     return out_text
 }
+
+/// Generates the description for the "Reset App"-Alert
+/// - Returns: the alert text
+func genAppResetWarning() -> String {
+    return "\("general_warning_phrase".localized): \("app_reset_alert_text".localized)"
+}

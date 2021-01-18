@@ -46,7 +46,6 @@
 		EBAB4B9D25680F9F00ABF623 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */; };
 		EBADDEC2255743A3008AD1C5 /* FeedProviderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */; };
 		EBFD7B7425B0E7D5003A726E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBFD7B7625B0E7D5003A726E /* Localizable.strings */; };
-		EBFD7B7F25B0E8BC003A726E /* string_extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B7E25B0E8BC003A726E /* string_extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +112,6 @@
 		EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedProviderSettingsView.swift; sourceTree = "<group>"; };
 		EBFD7B7525B0E7D5003A726E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EBFD7B7A25B0E815003A726E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EBFD7B7E25B0E8BC003A726E /* string_extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = string_extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,7 +243,6 @@
 				C5813EC725A096290009F7F0 /* Extensions.swift */,
 				EB40034F259E12CD00FA87DB /* FeedDetector.swift */,
 				EBA0931A25A911A500F070BC /* TextGenerators.swift */,
-				EBFD7B7E25B0E8BC003A726E /* string_extensions.swift */,
 			);
 			path = helper_classes;
 			sourceTree = "<group>";
@@ -407,7 +404,6 @@
 				EB400350259E12CD00FA87DB /* FeedDetector.swift in Sources */,
 				EBADDEC2255743A3008AD1C5 /* FeedProviderSettingsView.swift in Sources */,
 				EB6702EC254DABE6006BD9C1 /* FilterDataStructures.swift in Sources */,
-				EBFD7B7F25B0E8BC003A726E /* string_extensions.swift in Sources */,
 				C50DDE5E25652F1D00A2A1DA /* CollectionDataStructur.swift in Sources */,
 				1B55A96D257134CE001485DD /* FeedParser.swift in Sources */,
 				EB6702DF254D983A006BD9C1 /* ArticleDataStructures.swift in Sources */,
