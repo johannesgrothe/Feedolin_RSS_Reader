@@ -13,6 +13,11 @@ struct SideMenuView: View {
     // Model Singleton
     @ObservedObject var model: Model = .shared
     
+    /**
+     * indicates if the user is in edit_mode to add or remove collections
+     */
+    @State private var edit_mode = false
+    
     var body: some View {
         
         /**
@@ -112,20 +117,7 @@ struct SideMenuView: View {
                      Show the feeds connected to the feed provider
                      */
                     ForEach(feed_provider.feeds) { feed in
-                        
-                        Button(action: {
-                            model.setFilterFeed(feed)
-                            model.refreshFilter()
-                        }) {
-                            HStack {
-                                Spacer()
-                                Text(feed.name)
-                                    .font(.subheadline)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        }
-                        .padding(.leading)
-                        .buttonStyle(PlainButtonStyle())
+                        FeedButton(edit_mode: $edit_mode, feed: feed)
                     }
                 }
             }                                .font(.headline)
@@ -134,5 +126,67 @@ struct SideMenuView: View {
         }
         .frame(minWidth: 100, idealWidth: 200)
         .listStyle(SidebarListStyle())
+        .toolbar{
+            Spacer()
+            VStack{
+                Button(action: {
+                    print("Add feed button clicked")
+                    self.edit_mode.toggle()
+                }) {
+                    if edit_mode{
+                        Text("Done")
+                    }
+                    else{
+                        Text("Edit")
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct FeedButton: View {
+    
+    /**
+     @showingAlert shows if alert is true*/
+    @State private var showing_alert = false
+    @Binding var edit_mode: Bool
+    @ObservedObject var feed: NewsFeed
+    
+    var body: some View {
+        HStack{
+            Button(action: {
+                model.setFilterFeed(feed)
+                model.refreshFilter()
+            }) {
+                HStack {
+                    Spacer()
+                    Text(feed.name)
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .padding(.leading)
+            .buttonStyle(PlainButtonStyle())
+            
+            if edit_mode{
+                Button(action:{
+                    withAnimation {
+                        self.showing_alert.toggle()
+                    }
+                }){
+                    Image(systemName: "minus.circle.fill")
+                        .foregroundColor(.red)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .alert(isPresented: $showing_alert) {
+                    Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles(Bookmarked Articles: \(feed.getAmountOfBookmarkedArticles())). If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
+                        model.removeFeed(feed)
+                        model.refreshFilter()
+                    }),secondaryButton: .cancel())
+                }
+            }
+            Spacer()
+        }
     }
 }

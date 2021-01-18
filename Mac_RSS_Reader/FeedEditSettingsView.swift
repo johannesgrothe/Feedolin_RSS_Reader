@@ -29,10 +29,7 @@ struct FeedEditSettingsView: View {
      @isEditing is the indicator if the user is editing the textfield
      */
     @State private var isEditing: Bool = false
-    
-    /**
-     @showingAlert shows if alert is true*/
-    @State private var showing_alert = false
+
     
     /**
      @presentationMode make the View dismiss itself
@@ -45,7 +42,7 @@ struct FeedEditSettingsView: View {
     
     var body: some View {
         // hole content
-        VStack(spacing: 30) {
+        Form {
             // row with original url
             HStack{
                 Text("URL")
@@ -64,7 +61,9 @@ struct FeedEditSettingsView: View {
                     TextField(feed.name, text: $name) { isEditing in
                         self.isEditing = isEditing
                         } onCommit: {
-                            feed.name = self.name
+                            if self.name != ""{
+                                feed.name = self.name
+                            }
                             self.name = ""
                         }
                     .frame(width:200)
@@ -114,37 +113,9 @@ struct FeedEditSettingsView: View {
             }
             .padding(.horizontal)
 
-            HStack{
-                Button(action: {
-                    withAnimation {
-                        self.showing_alert = true
-                    }
-                }) {
-                    /** Alert Button that will call a Alert if users wants to remove the feed*/
-                    HStack{
-                        Image(systemName: "trash").imageScale(.large)
-                            .foregroundColor(Color.red)
-                        Text("Remove Feed").font(.headline)
-                            .foregroundColor(Color.red)
-                    }
-                }
-                .padding(.horizontal)
-                .alert(isPresented: $showing_alert) {
-                    Alert(title: Text("Removing Feed"), message: Text("WARNING: This action will irreversible delete the subscribed Feed and all of his Articles(Bookmarked Articles: \(feed.getAmountOfBookmarkedArticles())). If this is the last Feed, the Feed Provider will be deleted, too."), primaryButton: .default(Text("Okay"), action: {
-                        model.removeFeed(feed)
-                    }),secondaryButton: .cancel())
-                }
-                Spacer()
-            }
             Spacer()
         }
-        .navigationTitle(feed.name)
         .padding(.top)
         .edgesIgnoringSafeArea(.bottom)
-        .onDisappear(perform: {
-            if name != "" {
-                feed.name = name
-            }
-        })
     }
 }
