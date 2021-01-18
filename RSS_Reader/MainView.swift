@@ -23,7 +23,7 @@ struct MainView: View {
     /**
      * Indicates which color scheme is selected by the user
      */
-    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 1
+    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 0
 
     /**
      @menu_open is a function to open the sidemenu with animation
