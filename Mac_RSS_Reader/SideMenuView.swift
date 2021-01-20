@@ -66,26 +66,8 @@ struct SideMenuView: View {
              displayes the collections
              */
             Section(header: Text("Collections (\(model.collection_data.endIndex))")) {
-                
                 ForEach(model.collection_data) { item in
-                    
-                    Button(action: {
-                        model.setFilterCollection(item)
-                        model.refreshFilter()
-                    }) {
-                        HStack {
-                            Image(systemName: "folder")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 16, height: 16)
-                                .foregroundColor(.red)
-                            
-                            Text(item.name)
-                                .font(.headline)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
+                    CollectionButtonView(edit_mode: $edit_mode, collection: item)
                 }
             }
             .font(.headline)
@@ -117,7 +99,7 @@ struct SideMenuView: View {
                      Show the feeds connected to the feed provider
                      */
                     ForEach(feed_provider.feeds) { feed in
-                        FeedButton(edit_mode: $edit_mode, feed: feed)
+                        FeedButtonView(edit_mode: $edit_mode, feed: feed)
                     }
                 }
             }                                .font(.headline)
@@ -145,7 +127,55 @@ struct SideMenuView: View {
     }
 }
 
-struct FeedButton: View {
+struct CollectionButtonView: View {
+    @State private var showing_alert = false
+    @Binding var edit_mode: Bool
+    @ObservedObject var collection: Collection
+    
+    var body: some View {
+        HStack {
+            Button(action: {
+                model.setFilterCollection(collection)
+                model.refreshFilter()
+            }) {
+                HStack {
+                    Image(systemName: "folder")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(.red)
+                    
+                    Text(collection.name)
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            .padding(.leading)
+            
+            if edit_mode{
+                Button(action:{
+                    withAnimation {
+                        self.showing_alert.toggle()
+                    }
+                }){
+                    Image(systemName: "minus.circle.fill")
+                        .foregroundColor(.red)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .alert(isPresented: $showing_alert) {
+                    Alert(title: Text("Removing Collection"), message: Text("WARNING: This action will irreversible delete the Collection: \(collection.name)"), primaryButton: .default(Text("Okay"), action: {
+                        model.removeCollection(collection)
+                        model.refreshFilter()
+                    }),secondaryButton: .cancel())
+                }
+            }
+            Spacer()
+        }
+    }
+}
+
+struct FeedButtonView: View {
     
     /**
      @showingAlert shows if alert is true*/

@@ -34,18 +34,9 @@ struct CollectionSettingsView: View {
         NavigationView{
             VStack{
                 List {
-                    let sorted_collection_data = model.collection_data.sorted(by: { return $0.name < $1.name })
-                    ForEach(sorted_collection_data) { collection in
-                        
-                        /**
-                         * Container for list row in edit mode
-                         */
-                        HStack {
-                            NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
-                                Text(collection.name).font(.headline)
-                            }
-                            RemoveCollectionView(collection: collection)
-                            Spacer()
+                    ForEach(model.collection_data.sorted(by: { return $0.name < $1.name })) { collection in
+                        NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
+                            Text(collection.name).font(.headline)
                         }
                     }
                 }
@@ -65,40 +56,6 @@ struct CollectionSettingsView: View {
                 .sheet(isPresented: self.$show_add_collection_view) {
                     AddCollectionView()
                 }
-                
-            }
-        }
-    }
-}
-
-struct RemoveCollectionView: View{
-    
-    @Environment(\.presentationMode) var presentationMode
-    
-    /**
-     @showingAlert shows if alert is true*/
-    @State private var showing_alert = false
-    @ObservedObject var collection: Collection
-    
-    var body: some View{
-        HStack{
-            Button(action: {
-                withAnimation{
-                    self.showing_alert = true
-                }
-            }) {
-                HStack{
-                    Image(systemName: "minus.circle").imageScale(.small)
-                        .foregroundColor(Color.red)
-                }
-            }
-            .buttonStyle(BorderlessButtonStyle())
-            .alert(isPresented: $showing_alert){
-                Alert(title: Text("Removing Collection"), message: Text("WARNING: This action will irreversible delete the Collection:  \(collection.name)"), primaryButton: .default(Text("Okay"), action: {
-                    model.collection_data.removeAll(where:{ $0.id == collection.id })
-                    self.showing_alert = false
-                    self.presentationMode.wrappedValue.dismiss()
-                }),secondaryButton: .cancel())
             }
         }
     }

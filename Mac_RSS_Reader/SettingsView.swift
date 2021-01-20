@@ -32,7 +32,6 @@ struct SettingsView: View {
                 }
                 .tag(Tabs.feed_provider)
                 
-            
             CollectionSettingsView()
                 .tabItem{
                     Label("Collection Settings", systemImage: "folder.badge.gear")

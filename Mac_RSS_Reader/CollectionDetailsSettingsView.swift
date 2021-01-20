@@ -29,7 +29,7 @@ struct CollectionDetailSettingsView: View {
     @State private var presented_feed_list: [NewsFeed] = []
     
     var body: some View {
-        VStack{
+        Form{
             List {
                 ForEach(presented_feed_list) { feed in
                     // a row that contains the name of a feed, his parent token and icon

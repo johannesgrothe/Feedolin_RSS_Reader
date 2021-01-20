@@ -58,7 +58,7 @@ struct ArticleList: View {
                 Image(systemName: "magnifyingglass").foregroundColor(.secondary)
                 
                 //search bar text field
-                TextField("search", text: $search_phrase)
+                TextField("", text: $search_phrase)
                 
                 // x Button
                 Button(action: {
