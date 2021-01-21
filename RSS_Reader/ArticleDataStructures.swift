@@ -13,7 +13,7 @@ import Combine
 let model: Model = .shared
 
 /** Dataset for used by the model to store article information loaded from the database or fetched from the network */
-class ArticleData: Identifiable, ObservableObject, Codable {
+class ArticleData: Identifiable, ObservableObject, Codable, Savable {
     
     /** Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"... */
     enum CodingKeys: CodingKey {
@@ -50,21 +50,21 @@ class ArticleData: Identifiable, ObservableObject, Codable {
     /** Boolean that contains case of if the article is bookmarked */
     @Published var bookmarked: Bool{
         didSet{
-            model.saveArticle(self)
+            self.save()
         }
     }
     
     /** Boolean that contains case of if the artice is read */
     @Published var read: Bool{
         didSet{
-            model.saveArticle(self)
+            self.save()
         }
     }
     
     /** List instance of NewsFeed of all the feeds that includes this article */
     @Published var parent_feeds: [NewsFeed]{
         didSet {
-            model.saveArticle(self)
+            self.save()
         }
     }
     
@@ -167,8 +167,6 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         } else {
             self.image = nil
         }
-        
-        model.saveArticle(self)
     }
     
     /** Get the Article's first Feed */
@@ -212,11 +210,27 @@ class ArticleData: Identifiable, ObservableObject, Codable {
         return date_formatter.string(from: pub_date)
     }
     
-    /** Function that returns the timeAgoDate frim Date() as a String */
+    /// Function that returns the timeAgoDate frim Date() as a String
     func time_ago_date_to_string() -> String {
         
         let date_formatter = RelativeDateTimeFormatter()
         date_formatter.unitsStyle = .short
         return date_formatter.localizedString(for: pub_date, relativeTo: Date())
     }
+    
+    /// Whether the Article is saved and kept after restarting or not
+    private var is_permanent: Bool
+    
+    /// Aktivates persistence to save Article as soon as it gets changed
+    func make_persistent() {
+        is_permanent = true
+    }
+    
+    /// Saves the Article to make it permanent
+    func save() {
+        if is_permanent {
+            model.saveArticle(self)
+        }
+    }
+    
 }
