@@ -110,6 +110,7 @@
 		EBA0931A25A911A500F070BC /* TextGenerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextGenerators.swift; sourceTree = "<group>"; };
 		EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedProviderSettingsView.swift; sourceTree = "<group>"; };
+		EBEFF56425B9C3ED00B734A0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EBFD7B7525B0E7D5003A726E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EBFD7B7A25B0E815003A726E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -338,6 +339,7 @@
 				en,
 				Base,
 				de,
+				tr,
 			);
 			mainGroup = 1BD2A3BA254B036E00FCA510;
 			packageReferences = (
@@ -459,6 +461,7 @@
 			children = (
 				EBFD7B7525B0E7D5003A726E /* en */,
 				EBFD7B7A25B0E815003A726E /* de */,
+				EBEFF56425B9C3ED00B734A0 /* tr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
