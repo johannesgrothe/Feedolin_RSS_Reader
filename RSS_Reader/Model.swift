@@ -205,6 +205,7 @@ final class Model: ObservableObject {
             }
         }
         stored_article_data.append(article)
+        article.make_persistent()
         return true
     }
     

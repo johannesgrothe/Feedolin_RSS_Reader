@@ -109,6 +109,7 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
         image_url = try container.decode(String?.self, forKey: .image_url)
         bookmarked = try container.decode(Bool.self, forKey: .bookmarked)
         read = try container.decode(Bool.self, forKey: .read)
+        is_permanent = true
         
         /** Initialize parent feed list empty*/
         parent_feeds = []
@@ -152,6 +153,7 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
         self.parent_feeds = parent_feeds
         self.bookmarked = false
         self.read = false
+        self.is_permanent = false
         
         self.id = UUID()
         
@@ -223,7 +225,10 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
     
     /// Aktivates persistence to save Article as soon as it gets changed
     func make_persistent() {
-        is_permanent = true
+        if is_permanent != true {
+            is_permanent = true
+            self.save()
+        }
     }
     
     /// Saves the Article to make it permanent
