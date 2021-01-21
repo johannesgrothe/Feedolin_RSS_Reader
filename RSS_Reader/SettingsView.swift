@@ -56,10 +56,13 @@ struct SettingsView: View {
             
             // Picker to select if the App apears in light/ dark mode or system behaviour
             VStack(alignment: .leading) {
-                // Title of the Picker
+                
+                //#### 1. version
+                
+                // Picker Title
                 HStack {
                     Image(systemName: "paintpalette").imageScale(.large)
-                    Text("Enable Dark Mode").font(.headline)
+                    Text("Theme").font(.headline)
                 }
                 
                 Picker("Theme", selection: $dark_mode_enabled) {
@@ -69,11 +72,31 @@ struct SettingsView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
-                                overrideColorScheme()
+                    overrideColorScheme(theme_index: dark_mode_enabled)
                             }
+                
+                //#### 2. version
+                
+                HStack {
+                    Image(systemName: "paintpalette").imageScale(.large)
+                
+                    Picker("Theme", selection: $dark_mode_enabled) {
+                        Text("System").tag(0)
+                        Text("Light").tag(1)
+                        Text("Dark").tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
+                        overrideColorScheme(theme_index: dark_mode_enabled)
+                                }
+                }
+                
+                //end
             }
             .listRowBackground(Color.clear)
 
+            //Picker mit icon links daneben und andere variante mit theme
+            
             Button(action: {
                 self.showing_alert = true
             }) {
@@ -91,7 +114,7 @@ struct SettingsView: View {
         .onAppear(perform: {
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
-            self.overrideColorScheme()
+            overrideColorScheme(theme_index: dark_mode_enabled)
         })
         .listStyle(PlainListStyle())
         .navigationBarTitle("Settings", displayMode: .inline)
@@ -103,18 +126,31 @@ struct SettingsView: View {
     /**
      * Sets the color scheme of the app to light/ dark mode or system preferences
      */
-    func overrideColorScheme() {
-        var userInterfaceStyle: UIUserInterfaceStyle
-
-        switch dark_mode_enabled {
-        case 1: userInterfaceStyle = .light
-        case 2: userInterfaceStyle = .dark
-        default : userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
-        }
-
-        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
-    }
+//    func overrideColorScheme() {
+//        var userInterfaceStyle: UIUserInterfaceStyle
+//
+//        switch dark_mode_enabled {
+//        case 1: userInterfaceStyle = .light
+//        case 2: userInterfaceStyle = .dark
+//        default : userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
+//        }
+//
+//        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
+//    }
     
+}
+
+// dark_mode_enabled as para
+func overrideColorScheme(theme_index: Int) {
+    var userInterfaceStyle: UIUserInterfaceStyle
+
+    switch theme_index {
+    case 1: userInterfaceStyle = .light
+    case 2: userInterfaceStyle = .dark
+    default : userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
+    }
+
+    UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
 }
 
 struct SettingsView_Previews: PreviewProvider {
