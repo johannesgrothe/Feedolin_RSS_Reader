@@ -44,9 +44,9 @@ struct SideMenuView: View {
                         menu_close()
                         model.setFilterAll()
                         model.refreshFilter()
-                    }) {
+                    }, label: {
                         DefaultListEntryView(image_name: "infinity.circle", image_scale: image_scale, text: "All", font: .headline)
-                    }
+                    })
                     .listRowBackground(Color.clear)
                     /**
                      displayes booksmark-button
@@ -55,9 +55,9 @@ struct SideMenuView: View {
                         menu_close()
                         model.setFilterBookmarked()
                         model.refreshFilter()
-                    }) {
+                    }, label: {
                         DefaultListEntryView(image_name: "bookmark.circle", image_scale: image_scale, text: "Bookmarked", font: .headline)
-                    }
+                    })
                     .listRowBackground(Color.clear)
                     /**
                      displayes the collections
@@ -69,12 +69,13 @@ struct SideMenuView: View {
                                 menu_close()
                                 model.setFilterCollection(collection)
                                 model.refreshFilter()
-                            }) {
+                            }, label: {
                                 DefaultListEntryView(image_name: "folder.circle", image_scale: image_scale, text: collection.name, font: .headline)
-                            }
+                            })
                         }
+                        .listRowBackground(Color.clear)
                     }
-                    .listRowBackground(Color.clear)
+                    
                     /**
                      displayes the feed providers
                      */
@@ -84,9 +85,9 @@ struct SideMenuView: View {
                                 menu_close()
                                 model.setFilterFeedProvider(feed_provider)
                                 model.refreshFilter()
-                            }) {
+                            }, label: {
                                 DefaultListEntryView(image: feed_provider.icon.img, image_corner_radius: 100, image_scale: image_scale, text: feed_provider.name, font: .headline)
-                            }
+                            })
                             /**
                              displayes the feeds connected to the feed provider
                              */
@@ -95,32 +96,29 @@ struct SideMenuView: View {
                                     menu_close()
                                     model.setFilterFeed(feed)
                                     model.refreshFilter()
-                                }) {
+                                }, label: {
                                     DefaultListEntryView(image_name: "circlebadge", image_scale: image_scale*0.33, image_padding: image_scale*0.33, text: feed.name, font: .subheadline)
-                                }
+                                })
                             }
                         }
-                        
                     }
                     .listRowBackground(Color.clear)
                 }
                 .listStyle(SidebarListStyle())
+                .navigationBarTitle("Filter",displayMode: .inline)
+                
                 .onAppear(perform: {
                     UITableView.appearance().backgroundColor = .clear
                     UITableViewCell.appearance().backgroundColor = .clear
                     UITableView.appearance().showsVerticalScrollIndicator = false
                 })
-                .navigationBarTitle("Filter",displayMode: .inline)
                 
-                .background(Color(UIColor(named: "BackgroundColor")!))
-                .accentColor(Color(UIColor(named: "ButtonColor")!))
-                
+                .background(Color("BackgroundColor"))
+                .accentColor(Color("ButtonColor"))
                 .edgesIgnoringSafeArea(.bottom)
             }
             .autoNavigationViewStyle()
             .frame(width: self.width)
-            
-            
             
             Spacer()
             

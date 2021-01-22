@@ -57,12 +57,12 @@ struct FeedProviderSettingsView: View {
                 // change image button
                 Button(action: {
                     print("change image pressed")
-                }) {
+                }, label: {
                     Image(systemName: "pencil.circle")
                         .resizable()
                         .frame(width: 35, height: 35)
                         
-                }
+                })
                 .foregroundColor(Color("ButtonColor"))
                 .offset(x: 35, y: 35)
                 
@@ -94,10 +94,10 @@ struct FeedProviderSettingsView: View {
                     // x-button
                     Button(action: {
                         self.name = ""
-                    }) {
+                    }, label: {
                         Image(systemName: "xmark.circle.fill")
                             .opacity(self.name == "" ? 0 : 1)
-                    }
+                    })
                     .buttonStyle(BorderlessButtonStyle())
                 }
                 .padding(10)
@@ -122,10 +122,10 @@ struct FeedProviderSettingsView: View {
                     // x-button
                     Button(action: {
                         self.abbreviation = ""
-                    }) {
+                    }, label: {
                         Image(systemName: "xmark.circle.fill")
                             .opacity(self.abbreviation == "" ? 0 : 1)
-                    }
+                    })
                     .buttonStyle(BorderlessButtonStyle())
                 }
                 .padding(10)

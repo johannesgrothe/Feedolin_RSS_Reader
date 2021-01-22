@@ -49,9 +49,9 @@ struct MainView: View {
                         leading:
                             Button(action: {
                                 self.menu_open()
-                            }) {
+                            }, label: {
                                 Image(systemName: "line.horizontal.3.circle").imageScale(.large)
-                            },
+                            }),
                         trailing:
                             
                             // container for right navigation items

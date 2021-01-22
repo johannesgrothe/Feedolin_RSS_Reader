@@ -36,11 +36,20 @@ struct AddFeedView: View {
         VStack {
             VStack {
                 HStack {
-                    Button("close_btn_title".localized) { self.presentationMode.wrappedValue.dismiss() }
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "xmark.circle").imageScale(.large)
+                    })
                     Spacer()
-                    Text("add_feed_title".localized)
+                    Text("Add Feeds")
+                        .font(.headline)
                     Spacer()
-                    Button("scan_btn_title".localized) { detector.detect(text, deep_scan: true) }
+                    Button(action: {
+                        detector.detect(text, deep_scan: true)
+                    },label: {
+                        Image(systemName: "magnifyingglass.circle").imageScale(.large)
+                    })
                 }
                 HStack {
                     HStack {
@@ -51,13 +60,12 @@ struct AddFeedView: View {
                         
                         // x Button
                         Button(action: {
-                            print("Clear search bar button clicked.")
                             text = ""
-                        }) {
+                        }, label: {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.secondary)
                                 .opacity(text == "" ? 0 : 1)
-                        }
+                        })
                     }
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal, 25.0)
@@ -80,21 +88,25 @@ struct AddFeedView: View {
                     Section(header: Text("Feed found in link:")) {
                         DetectedFeedEntry(feed_data: detector.specific_feed!)
                     }
-                    .background(Color.clear)
+                    .listRowBackground(Color.clear)
                 }
+                
                 if !detector.detected_feeds.isEmpty {
                     Section(header: Text("Feed found in website:")) {
                         ForEach(detector.detected_feeds) { feed_data in
                             DetectedFeedEntry(feed_data: feed_data)
                         }
                     }
-                    .background(Color.clear)
+                    .listRowBackground(Color.clear)
                 }
             }
-            .listRowBackground(Color.clear)
+            .listStyle(PlainListStyle())
             
             Spacer()
         }
+        .background(Color("BackgroundColor"))
+        .accentColor(Color("ButtonColor"))
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

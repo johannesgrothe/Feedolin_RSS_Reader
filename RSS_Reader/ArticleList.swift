@@ -84,14 +84,10 @@ struct ArticleList: View {
                 ArticleListRow(article: article)
             }
             .listRowBackground(Color.clear)
-
+            Spacer()
         }
         .edgesIgnoringSafeArea(.bottom)
         .listStyle(PlainListStyle())
-        .onAppear(perform: {
-            UITableView.appearance().backgroundColor = .clear
-            UITableViewCell.appearance().backgroundColor = .clear
-        })
     }
 }
 

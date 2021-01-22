@@ -48,23 +48,26 @@ struct CollectionDetailSettingsView: View {
                            
                             Button(action: {
                                 let _ = collection.removeFeed(feed)
-                            }) {
+                            }, label: {
                                 Image(systemName: "minus.circle.fill")
                                     .foregroundColor(.red)
-                            }
+                            })
+                            .buttonStyle(BorderlessButtonStyle())
                         } else {
                             Button(action: {
                                 let _ = collection.addFeed(feed)
-                            }) {
+                            }, label: {
                                 Image(systemName: "plus.circle.fill")
                                     .foregroundColor(.green)
-                            }
+                            })
+                            .buttonStyle(BorderlessButtonStyle())
                         }
                     }
                 }
             }
             .listRowBackground(Color.clear)
         }
+        .listStyle(PlainListStyle())
         .navigationBarItems(trailing:
             Button(action: {
                 if (edit_mode) {
@@ -81,8 +84,6 @@ struct CollectionDetailSettingsView: View {
                 }
             })
         .onAppear(perform: {
-            UITableView.appearance().backgroundColor = .clear
-            UITableViewCell.appearance().backgroundColor = .clear
             fillFeedLis()
         })
         .background(Color(UIColor(named: "BackgroundColor")!))

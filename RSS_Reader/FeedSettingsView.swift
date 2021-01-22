@@ -13,31 +13,6 @@ import SwiftUI
 struct FeedSettingsView: View {
     /// boolean that indicates if sdd feed view is shown or not
     @State private var show_add_feed_view = false
-    
-    var body: some View {
-        FeedSettingsList()
-            .navigationBarTitle("Feed Settings")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-
-                    Button(action: {
-                        print("Add feed button clicked")
-                        self.show_add_feed_view.toggle()
-                    }) {
-                        Label("Add Feed", systemImage: "plus.circle")
-                    }
-
-                }
-            }.sheet(isPresented: self.$show_add_feed_view) {
-                AddFeedView()
-            }
-    }
-}
-
-/**
- View that presents all of the feeds and feed providers
- */
-struct FeedSettingsList: View {
     /// Model Singleton
     @ObservedObject var model: Model = .shared
     /// scale of all icons
@@ -60,12 +35,19 @@ struct FeedSettingsList: View {
             .listRowBackground(Color.clear)
         }
         .listStyle(SidebarListStyle())
-        .onAppear(perform: {
-            UITableView.appearance().backgroundColor = .clear
-            UITableViewCell.appearance().backgroundColor = .clear
-        })
         .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
+        .navigationBarTitle("Feed Settings")
+        .navigationBarItems(trailing:
+                                Button(action: {
+                                    self.show_add_feed_view.toggle()
+                                }, label: {
+                                    Image(systemName: "plus.circle").imageScale(.large)
+                                })
+        )
+        .sheet(isPresented: self.$show_add_feed_view) {
+            AddFeedView()
+        }
     }
 }
 

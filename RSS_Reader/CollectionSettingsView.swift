@@ -54,11 +54,12 @@ struct CollectionSettingsView: View {
                         // x Button
                         Button(action: {
                             new_coll_name = ""
-                        }) {
+                        }, label: {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.secondary)
                                 .opacity(new_coll_name == "" ? 0 : 1)
-                        }
+                        })
+                        .buttonStyle(BorderlessButtonStyle())
                     }
                     .padding(8)
                     .background(Color(.secondarySystemBackground))
@@ -74,10 +75,10 @@ struct CollectionSettingsView: View {
                         } else {
                             print("Collection name is empty")
                         }
-                    }) {
+                    }, label: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.green)
-                    }
+                    })
                     .buttonStyle(BorderlessButtonStyle())
                 }
                 .listRowBackground(Color.clear)
@@ -99,10 +100,11 @@ struct CollectionSettingsView: View {
                         
                         Button(action: {
                             model.collection_data.removeAll( where: { $0.id == collection.id })
-                        }) {
+                        }, label: {
                             Image(systemName: "minus.circle.fill")
                                 .foregroundColor(.red)
-                        }
+                        })
+                        .buttonStyle(BorderlessButtonStyle())
                     }
                     
                 } else {
@@ -114,11 +116,8 @@ struct CollectionSettingsView: View {
             }
             .listRowBackground(Color.clear)
         }
-        .onAppear(perform: {
-            UITableView.appearance().backgroundColor = .clear
-            UITableViewCell.appearance().backgroundColor = .clear
-        })
-        .background(Color(UIColor(named: "BackgroundColor")!))
+        .listStyle(PlainListStyle())
+        .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle("Collection Settings")
         .navigationBarItems(trailing:
