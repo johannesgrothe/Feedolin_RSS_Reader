@@ -21,6 +21,8 @@ struct SideMenuView: View {
     //closed the sidemenu with animation
     let menu_close: () -> Void
     
+    var imageScale: CGFloat = 26
+    
     var body: some View {
         // Drag gesture to close the side menu by swiping
         let drag_left = DragGesture().onEnded {
@@ -31,9 +33,12 @@ struct SideMenuView: View {
         /**
          displayes the content of the sidemenu
          */
-        HStack{
+        let stack = HStack{
             NavigationView {
-                VStack{
+                /**
+                 displayes the hole sidemenu
+                 */
+                List {
                     /**
                      displayes all-button
                      */
@@ -42,17 +47,9 @@ struct SideMenuView: View {
                         model.setFilterAll()
                         model.refreshFilter()
                     }) {
-                        HStack {
-                            Image(systemName: "infinity.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 22, height: 22)
-                            Text("all_filter".localized)
-                                .font(.headline)
-                            Spacer()
-                        }
-                        .padding([.vertical, .leading])
+                        DefaultListEntryView(imageName: "infinity.circle", imageScale: imageScale, text: "All", font: .headline)
                     }
+                    .listRowBackground(Color.clear)
                     /**
                      displayes booksmark-button
                      */
@@ -61,109 +58,71 @@ struct SideMenuView: View {
                         model.setFilterBookmarked()
                         model.refreshFilter()
                     }) {
-                        HStack {
-                            Image(systemName: "bookmark.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 22, height: 22)
-                            Text("bookmarked_filter".localized)
-                                .font(.headline)
-                            Spacer()
-                        }
-                        .padding([.leading, .vertical])
+                        DefaultListEntryView(imageName: "bookmark.circle", imageScale: imageScale, text: "Bookmarked", font: .headline)
                     }
+                    .listRowBackground(Color.clear)
                     /**
-                     displayes the collections and the feedproviders with their feeds
+                     displayes the collections
                      */
-                    List {
-                        /**
-                         displayes the collections
-                         */
-                        Section(header: Text("\("collection_comp".localized) (\(model.collection_data.endIndex))")) {
-                            
-                            ForEach(model.collection_data) { item in
-                                
-                                Button(action: {
-                                    menu_close()
-                                    model.setFilterCollection(item)
-                                    model.refreshFilter()
-                                }) {
-                                    HStack {
-                                        Image(systemName: "folder.circle.fill")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 22, height: 22)
-                                        
-                                        Text(item.name)
-                                            .font(.headline)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                }
+                    Section(header: Text("Collections (\(model.collection_data.endIndex))")) {
+                        
+                        ForEach(model.collection_data) { collection in
+                            Button(action: {
+                                menu_close()
+                                model.setFilterCollection(collection)
+                                model.refreshFilter()
+                            }) {
+                                DefaultListEntryView(imageName: "folder.circle", imageScale: imageScale, text: collection.name, font: .headline)
                             }
                         }
-                        .listRowBackground(Color.clear)
-                        /**
-                         Show the feed providers
-                         */
-                        Section(header: Text("feed_comp".localized)) {
-                            ForEach(model.feed_data) { feed_provider in
-                                Button(action: {
-                                    menu_close()
-                                    model.setFilterFeedProvider(feed_provider)
-                                    model.refreshFilter()
-                                }) {
-                                    HStack {
-                                        feed_provider.icon.img
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 22, height: 22)
-                                            .cornerRadius(100)
-                                        Text(feed_provider.name)
-                                            .font(.headline)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                }
-                                
-                                /**
-                                 Show the feeds connected to the feed provider
-                                 */
-                                ForEach(feed_provider.feeds) { feed in
-                                    
-                                    Button(action: {
-                                        menu_close()
-                                        model.setFilterFeed(feed)
-                                        model.refreshFilter()
-                                    }) {
-                                        HStack {
-                                            Spacer()
-                                            Text(feed.name)
-                                                .font(.subheadline)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                        }
-                                    }
-                                    .padding(.leading)
-                                }
-                            }
-                        }
-                        .listRowBackground(Color.clear)
                     }
-                    .listStyle(SidebarListStyle())
-                    .onAppear(perform: {
-                        UITableView.appearance().backgroundColor = .clear
-                        UITableViewCell.appearance().backgroundColor = .clear
-                        UITableView.appearance().showsVerticalScrollIndicator = false
-                    })
-                    
+                    .listRowBackground(Color.clear)
+                    /**
+                     displayes the feed providers
+                     */
+                    ForEach(model.feed_data) { feed_provider in
+                        Section(header: Text(feed_provider.name)){
+                            Button(action: {
+                                menu_close()
+                                model.setFilterFeedProvider(feed_provider)
+                                model.refreshFilter()
+                            }) {
+                                DefaultListEntryView(image: feed_provider.icon.img, imageCornerRadius: 100, imageScale: imageScale, text: feed_provider.name, font: .headline)
+                            }
+                            /**
+                             displayes the feeds connected to the feed provider
+                             */
+                            ForEach(feed_provider.feeds) { feed in
+                                Button(action: {
+                                    menu_close()
+                                    model.setFilterFeed(feed)
+                                    model.refreshFilter()
+                                }) {
+                                    DefaultListEntryView(imageName: "circlebadge", imageScale: imageScale/2, imagePadding: imageScale/4.7, text: feed.name, font: .subheadline)
+                                }
+                            }
+                        }
+                        
+                    }
+                    .listRowBackground(Color.clear)
                 }
-                .navigationBarTitle("filter_comp".localized, displayMode: .inline)
+                .listStyle(SidebarListStyle())
+                .onAppear(perform: {
+                    UITableView.appearance().backgroundColor = .clear
+                    UITableViewCell.appearance().backgroundColor = .clear
+                    UITableView.appearance().showsVerticalScrollIndicator = false
+                })
+                .navigationBarTitle("Filter",displayMode: .inline)
                 
                 .background(Color(UIColor(named: "BackgroundColor")!))
                 .accentColor(Color(UIColor(named: "ButtonColor")!))
                 
                 .edgesIgnoringSafeArea(.bottom)
             }
-            .navigationViewStyle(StackNavigationViewStyle())
+            .autoNavigationViewStyle()
             .frame(width: self.width)
+            
+            
             
             Spacer()
             
@@ -175,8 +134,10 @@ struct SideMenuView: View {
                 .onTapGesture {
                     self.menu_close()
                 }
-                
+            
         }
         .gesture(drag_left)
+        
+        return stack
     }
 }

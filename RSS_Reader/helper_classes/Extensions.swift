@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 /**
  * extends the String class to check, if the string contains only numbers or letters (a-z, 0-9)
  */
@@ -29,5 +29,14 @@ extension String {
         let start_bound = String.Index(utf16Offset: Int(count), in: self)
         let final_str = String(self[start_bound..<self.endIndex])
         return final_str
+    }
+}
+/// extends NavigationView
+extension NavigationView {
+    
+    /// defines the NavigationViewStyle with that modifier
+    /// - Returns: changed NavigationView
+    func autoNavigationViewStyle() -> some View {
+        self.modifier(NavigationViewStyleModifier())
     }
 }

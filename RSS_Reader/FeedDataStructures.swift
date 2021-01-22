@@ -133,9 +133,9 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
         let prefix = String(token.lowercased().prefix(1))
         
         if prefix.isAlphanumeric {
-            default_icon = token.lowercased().prefix(1) + ".square.fill"
+            default_icon = token.lowercased().prefix(1) + ".circle"
         } else {
-            default_icon = "questionmark.square.fill"
+            default_icon = "questionmark.circle"
         }
         
         /**

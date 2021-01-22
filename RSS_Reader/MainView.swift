@@ -80,7 +80,7 @@ struct MainView: View {
                     .gesture(drag_right)
                 
             }
-            .navigationViewStyle(StackNavigationViewStyle())
+            .autoNavigationViewStyle()
             .accentColor(Color(UIColor(named: "ButtonColor")!))
             .onAppear(perform: { overrideColorScheme(theme_index: dark_mode_enabled) } )
         }

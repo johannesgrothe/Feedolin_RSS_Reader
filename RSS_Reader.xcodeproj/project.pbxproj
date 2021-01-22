@@ -23,6 +23,8 @@
 		1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */; };
 		1BD2A3DE254B036F00FCA510 /* RSS_ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3DD254B036F00FCA510 /* RSS_ReaderTests.swift */; };
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
+		7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */; };
+		7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */; };
 		7C9C4A8325924AB20025BBBC /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = EB3F6ABA2554046F003FA72F /* XMLCoder */; };
 		7C9C4A88259269100025BBBC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9C4A87259269100025BBBC /* MainView.swift */; };
 		C50DDE5E25652F1D00A2A1DA /* CollectionDataStructur.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */; };
@@ -90,6 +92,8 @@
 		1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_ReaderUITests.swift; sourceTree = "<group>"; };
 		1BD2A3EA254B036F00FCA510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
+		7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListEntryView.swift; sourceTree = "<group>"; };
+		7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleModifier.swift; sourceTree = "<group>"; };
 		7C9C4A87259269100025BBBC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDataStructur.swift; sourceTree = "<group>"; };
 		C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSettingsView.swift; sourceTree = "<group>"; };
@@ -207,6 +211,8 @@
 				C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */,
 				1B3F89F825894AD100B6F9CA /* Errors.swift */,
 				EB40038125A333FA00FA87DB /* AddFeedView.swift */,
+				7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */,
+				7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */,
 			);
 			path = RSS_Reader;
 			sourceTree = "<group>";
@@ -398,6 +404,7 @@
 				C5813EC825A096290009F7F0 /* Extensions.swift in Sources */,
 				EB6702E7254DA694006BD9C1 /* FeedDataStructures.swift in Sources */,
 				EBA0931B25A911A500F070BC /* TextGenerators.swift in Sources */,
+				7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */,
 				EB08E12E254D7C1200006B70 /* SideMenuView.swift in Sources */,
 				EB40038225A333FA00FA87DB /* AddFeedView.swift in Sources */,
 				EB08E124254D7BD200006B70 /* DummyDetailView.swift in Sources */,
@@ -422,6 +429,7 @@
 				C50DDE7725680F7B00A2A1DA /* CollectionSettingsView.swift in Sources */,
 				C5EE54062586A8EF00174230 /* CollectionDetailsSettingsView.swift in Sources */,
 				1BD2A3C7254B036E00FCA510 /* RSS_ReaderApp.swift in Sources */,
+				7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */,
 				1B68EA3D255B32BE00504207 /* FeedEditSettingsView.swift in Sources */,
 				EB7383AA258A70AC0025864B /* SearchPhrase.swift in Sources */,
 				1BC46CB425576D0C0029D436 /* RefreshableScrollView.swift in Sources */,
