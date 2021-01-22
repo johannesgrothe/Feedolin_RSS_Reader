@@ -11,12 +11,12 @@ import SwiftUI
  The View containing the navigation settings
  */
 struct FeedSettingsView: View {
-    
+    /// boolean that indicates if sdd feed view is shown or not
     @State private var show_add_feed_view = false
     
     var body: some View {
         FeedSettingsList()
-            .navigationTitle("feed_settings_title".localized)
+            .navigationBarTitle("Feed Settings")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
 
@@ -24,7 +24,7 @@ struct FeedSettingsView: View {
                         print("Add feed button clicked")
                         self.show_add_feed_view.toggle()
                     }) {
-                        Label("Add Feed", systemImage: "plus")
+                        Label("Add Feed", systemImage: "plus.circle")
                     }
 
                 }
@@ -38,16 +38,22 @@ struct FeedSettingsView: View {
  View that presents all of the feeds and feed providers
  */
 struct FeedSettingsList: View {
-    
+    /// Model Singleton
     @ObservedObject var model: Model = .shared
+    /// scale of all icons
+    let image_scale: CGFloat = 35
     
     var body: some View {
         List {
             ForEach(model.feed_data) { feed_provider in
                 Section(header: Text(feed_provider.name)) {
-                    FeedProviderSettingListEntry(feed_provider: feed_provider)
+                    NavigationLink(destination: FeedProviderSettingsView(feed_provider: feed_provider)) {
+                        DefaultListEntryView(image: feed_provider.icon.img, image_corner_radius: 100, image_scale: image_scale, text: feed_provider.name, font: .headline)
+                    }
                     ForEach(feed_provider.feeds) { feed in
-                        FeedSettingsListEntry(feed_article: feed)
+                        NavigationLink(destination: FeedEditSettingsView(feed:feed)) {
+                            DefaultListEntryView(image_name: "circlebadge", image_scale: image_scale*0.33, image_padding: image_scale*0.33, text: feed.name, font: .subheadline)
+                        }
                     }
                 }
             }
@@ -60,50 +66,6 @@ struct FeedSettingsList: View {
         })
         .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
-    }
-}
-
-/**
- View that presents a feed provider list entry for the settings menu
- */
-struct FeedProviderSettingListEntry: View {
-    
-    // Needs to be observed object to be propperly refreshed once changed
-    @ObservedObject var feed_provider: NewsFeedProvider
-    
-    var body: some View {
-        NavigationLink(destination: FeedProviderSettingsView(feed_provider: feed_provider)) {
-            HStack {
-                (feed_provider.icon.img)
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .cornerRadius(100)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 100)
-                            .stroke(Color("ButtonColor"), lineWidth: 1.5)
-                            .foregroundColor(.clear)
-                    )
-                Text(feed_provider.name).font(.headline)
-            }
-        }
-    }
-}
-
-/**
- View that presents a feed list entry for the settings menu
- */
-struct FeedSettingsListEntry: View {
-    
-    @ObservedObject var feed_article: NewsFeed
-    
-    var body: some View {
-        NavigationLink(destination: FeedEditSettingsView(feed:feed_article)) {
-            HStack {
-                Image(systemName: "circlebadge").imageScale(.small)
-                    .padding(5)
-                Text(feed_article.name)
-            }
-        }
     }
 }
 

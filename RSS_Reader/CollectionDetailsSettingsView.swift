@@ -30,16 +30,16 @@ struct CollectionDetailSettingsView: View {
      */
     @State private var presented_feed_list: [NewsFeed] = []
     
+    /// scale of all icons
+    let image_scale: CGFloat = 28
+    
     var body: some View {
         List {
             ForEach(presented_feed_list) { feed in
                 // a row that contains the name of a feed, his parent token and icon
                 HStack {
+                    DefaultListEntryView(image: feed.parent_feed!.icon.img, image_corner_radius: 100, image_scale: image_scale, text: "\(feed.parent_feed!.token) - \(feed.name)", font: .headline)
                     
-                    feed.parent_feed!.icon.img
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                    Text("\(feed.parent_feed!.token) - \(feed.name)")
                     Spacer()
                     
                     if (edit_mode) {
@@ -47,7 +47,6 @@ struct CollectionDetailSettingsView: View {
                         if (collection.containsFeed(feed)) {
                            
                             Button(action: {
-                                print("Delete Feed from Collection Button clicked.")
                                 let _ = collection.removeFeed(feed)
                             }) {
                                 Image(systemName: "minus.circle.fill")
@@ -55,24 +54,19 @@ struct CollectionDetailSettingsView: View {
                             }
                         } else {
                             Button(action: {
-                                print("Add Feed to Collection Button clicked.")
                                 let _ = collection.addFeed(feed)
                             }) {
                                 Image(systemName: "plus.circle.fill")
                                     .foregroundColor(.green)
                             }
                         }
-                            
-                            
                     }
-                    
                 }
             }
             .listRowBackground(Color.clear)
         }
         .navigationBarItems(trailing:
             Button(action: {
-                print("Edit collection btn clicked")
                 if (edit_mode) {
                     edit_mode = false
                 } else {
@@ -81,9 +75,9 @@ struct CollectionDetailSettingsView: View {
                 fillFeedLis()
             }) {
                 if (edit_mode) {
-                    Text("Done")
+                    Image(systemName: "checkmark.circle").imageScale(.large)
                 } else {
-                    Text("Edit")
+                    Image(systemName: "pencil.circle").imageScale(.large)
                 }
             })
         .onAppear(perform: {
@@ -100,7 +94,6 @@ struct CollectionDetailSettingsView: View {
      * method to refresh the list of feeds, that should be displayed
      */
     func fillFeedLis() {
-        print("call fill feed list")
         if (edit_mode) {
             self.presented_feed_list = []
             for feed_prov in model.feed_data {

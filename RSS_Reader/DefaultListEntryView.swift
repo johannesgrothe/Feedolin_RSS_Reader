@@ -6,23 +6,21 @@
 //
 import SwiftUI
 
-/**
- View that presents a default list entry
- */
+/// View that presents a default list entry
 struct DefaultListEntryView: View {
-    // exact image
+    /// exact image
     var image: Image?
-    // image_corner_radius
+    /// image_corner_radius
     var image_corner_radius: CGFloat = 0
-    // image_name of image
+    /// image_name of image
     var image_name: String = "chevron.right.circle"
-    // image width and height
+    /// image width and height
     var image_scale: CGFloat
-    // padding around image
+    /// padding around image
     var image_padding: CGFloat = 0
-    // text
+    /// text
     var text: String
-    // font of text
+    /// font of text
     var font: Font
     
     var body: some View {

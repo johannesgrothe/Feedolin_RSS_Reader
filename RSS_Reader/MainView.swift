@@ -50,7 +50,7 @@ struct MainView: View {
                             Button(action: {
                                 self.menu_open()
                             }) {
-                                Image(systemName: "sidebar.left").imageScale(.large)
+                                Image(systemName: "line.horizontal.3.circle").imageScale(.large)
                             },
                         trailing:
                             
@@ -61,15 +61,15 @@ struct MainView: View {
                                     model.refreshFilter()
                                 }) {
                                     if model.hide_read_articles {
-                                        Image(systemName: "eye.slash").imageScale(.large)
+                                        Image(systemName: "eye.circle.fill").imageScale(.large)
                                     } else {
-                                        Image(systemName: "eye").imageScale(.large)
+                                        Image(systemName: "eye.circle").imageScale(.large)
                                     }
                                     
                                 }
                                 
                                 NavigationLink(destination: SettingsView()) {
-                                    Image(systemName: "gear").imageScale(.large)
+                                    Image(systemName: "gearshape").imageScale(.large)
                                 }
                             }
                         

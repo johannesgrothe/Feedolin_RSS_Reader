@@ -28,6 +28,9 @@ struct CollectionSettingsView: View {
      */
     @State private var new_coll_name: String = ""
     
+    /// scale of all icons
+    let image_scale: CGFloat = 28
+    
     var body: some View {
         
         //    CollectionSettingsList()
@@ -50,7 +53,6 @@ struct CollectionSettingsView: View {
                         
                         // x Button
                         Button(action: {
-                            print("Clear coll name TextField btn clicked.")
                             new_coll_name = ""
                         }) {
                             Image(systemName: "xmark.circle.fill")
@@ -64,7 +66,6 @@ struct CollectionSettingsView: View {
                     
                     // Send Button for new collection
                     Button(action: {
-                        print("Add Collection Button clicked.")
                         if self.new_coll_name != "" {
                             print(self.new_coll_name)
                             let new_collection = Collection(name: self.new_coll_name)
@@ -92,12 +93,11 @@ struct CollectionSettingsView: View {
                      * Container for list row in edit mode
                      */
                     HStack {
-                        Text(collection.name).font(.headline)
+                        DefaultListEntryView(image_name: "folder.circle", image_scale: image_scale, text: collection.name, font: .headline)
                         
                         Spacer()
                         
                         Button(action: {
-                            print("Delete Collection Button clicked.")
                             model.collection_data.removeAll( where: { $0.id == collection.id })
                         }) {
                             Image(systemName: "minus.circle.fill")
@@ -107,7 +107,7 @@ struct CollectionSettingsView: View {
                     
                 } else {
                     NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
-                        Text(collection.name).font(.headline)
+                        DefaultListEntryView(image_name: "folder.circle", image_scale: image_scale, text: collection.name, font: .headline)
                     }
                 }
                 
@@ -120,10 +120,9 @@ struct CollectionSettingsView: View {
         })
         .background(Color(UIColor(named: "BackgroundColor")!))
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("coll_settings_title".localized)
+        .navigationBarTitle("Collection Settings")
         .navigationBarItems(trailing:
                                 Button(action: {
-                                    print("Edit collection btn clicked")
                                     if (edit_mode) {
                                         edit_mode = false
                                     } else {
@@ -131,9 +130,9 @@ struct CollectionSettingsView: View {
                                     }
                                 }) {
                                     if (edit_mode) {
-                                        Text("done_btn_title".localized)
+                                        Image(systemName: "checkmark.circle").imageScale(.large)
                                     } else {
-                                        Text("edit_btn_title".localized)
+                                        Image(systemName: "pencil.circle").imageScale(.large)
                                     }
                                 })
     }

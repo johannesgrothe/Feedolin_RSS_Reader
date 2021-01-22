@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SettingsView: View {
-    /**Model singleton*/
+    /// Model singleton
     @ObservedObject var model: Model = .shared
-    
-    /**Boolean that shows an alert if true*/
+    /// Boolean that shows an alert if true
     @State private var showing_alert = false
-    
-    /**Boolean that show if aurto_refresh is on and saves at coredata*/
+    /// Boolean that show if aurto_refresh is on and saves at coredata
     @AppStorage("auto_refresh") private var auto_refresh: Bool = true
+    /// scale of all icons
+    let image_scale: CGFloat = 28
     
     /**
      * Indicates which color scheme is selected by the user
@@ -26,27 +26,20 @@ struct SettingsView: View {
         List {
             /** Calling FeedSettingsView()*/
             NavigationLink(destination: FeedSettingsView()) {
-                HStack {
-                    Image(systemName: "newspaper").imageScale(.large)
-                    Text("feed_settings_title".localized).font(.headline)
-                }
+                DefaultListEntryView(image_name: "wave.3.right.circle", image_scale: image_scale, text: "Feed Settings", font: .headline)
             }
             .listRowBackground(Color.clear)
             
             /**Calling CollectionSettingsView()*/
             NavigationLink(destination: CollectionSettingsView()) {
-                HStack {
-                    Image(systemName: "folder").imageScale(.large)
-                    Text("coll_settings_title".localized).font(.headline)
-                }
+                DefaultListEntryView(image_name: "rectangle.fill.on.rectangle.fill.circle", image_scale: image_scale, text: "Collection Settings", font: .headline)
             }
             .listRowBackground(Color.clear)
             
             /**ToggleButton that toogles the value of @auto_refresh*/
             HStack{
                 Toggle(isOn: $auto_refresh){
-                    Image(systemName: "arrow.clockwise").imageScale(.large)
-                    Text("auto_refresh_option".localized).font(.headline)
+                    DefaultListEntryView(image_name: "arrow.clockwise.circle", image_scale: image_scale, text: "Auto Refresh", font: .headline)
                 }
                 .onChange(of: auto_refresh){ _ in
                     model.runAutoRefresh()
@@ -75,11 +68,7 @@ struct SettingsView: View {
             Button(action: {
                 self.showing_alert = true
             }) {
-                HStack{
-                    //For the Reviwer an alternative image could be "trash"
-                    Image(systemName: "doc.badge.gearshape").imageScale(.large)
-                    Text("reset_app_option").font(.headline)
-                }
+                DefaultListEntryView(image_name: "trash.circle", image_scale: image_scale, text: "Reset App", font: .headline)
             }
             .alert(isPresented: $showing_alert) {
                 Alert(title: Text("app_reset_alert_title".localized),
