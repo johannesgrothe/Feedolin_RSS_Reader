@@ -12,14 +12,14 @@ import SwiftUI
 struct DefaultListEntryView: View {
     // exact image
     var image: Image?
-    // imageCornerRadius
-    var imageCornerRadius: CGFloat = 0
-    // systemName of image
-    var imageName: String = "chevron.right.circle"
+    // image_corner_radius
+    var image_corner_radius: CGFloat = 0
+    // image_name of image
+    var image_name: String = "chevron.right.circle"
     // image width and height
-    var imageScale: CGFloat
+    var image_scale: CGFloat
     // padding around image
-    var imagePadding: CGFloat = 0
+    var image_padding: CGFloat = 0
     // text
     var text: String
     // font of text
@@ -31,22 +31,22 @@ struct DefaultListEntryView: View {
                 image!
                     .resizable()
                     .scaledToFit()
-                    .frame(width: imageScale, height: imageScale)
-                    .padding(imagePadding)
-                    .cornerRadius(imageCornerRadius)
+                    .frame(width: image_scale, height: image_scale)
+                    .padding(image_padding)
+                    .cornerRadius(image_corner_radius)
                     .overlay(
-                        RoundedRectangle(cornerRadius: imageCornerRadius)
-                            .stroke(Color("ButtonColor"), lineWidth: imageScale*0.08)
+                        RoundedRectangle(cornerRadius: image_corner_radius)
+                            .stroke(Color("ButtonColor"), lineWidth: image_scale*0.08)
                             .foregroundColor(.clear)
-                            .frame(width: imageScale*0.92, height: imageScale*0.92)
+                            .frame(width: image_scale*0.92, height: image_scale*0.92)
                     )
             } else {
-                Image(systemName: imageName)
+                Image(systemName: image_name)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: imageScale, height: imageScale)
-                    .padding(imagePadding)
-                    .cornerRadius(imageCornerRadius)
+                    .frame(width: image_scale, height: image_scale)
+                    .padding(image_padding)
+                    .cornerRadius(image_corner_radius)
                     .foregroundColor(Color("ButtonColor"))
             }
             

@@ -47,7 +47,7 @@ struct SideMenuView: View {
                         model.setFilterAll()
                         model.refreshFilter()
                     }) {
-                        DefaultListEntryView(imageName: "infinity.circle", imageScale: imageScale, text: "All", font: .headline)
+                        DefaultListEntryView(image_name: "infinity.circle", image_scale: imageScale, text: "All", font: .headline)
                     }
                     .listRowBackground(Color.clear)
                     /**
@@ -58,7 +58,7 @@ struct SideMenuView: View {
                         model.setFilterBookmarked()
                         model.refreshFilter()
                     }) {
-                        DefaultListEntryView(imageName: "bookmark.circle", imageScale: imageScale, text: "Bookmarked", font: .headline)
+                        DefaultListEntryView(image_name: "bookmark.circle", image_scale: imageScale, text: "Bookmarked", font: .headline)
                     }
                     .listRowBackground(Color.clear)
                     /**
@@ -72,7 +72,7 @@ struct SideMenuView: View {
                                 model.setFilterCollection(collection)
                                 model.refreshFilter()
                             }) {
-                                DefaultListEntryView(imageName: "folder.circle", imageScale: imageScale, text: collection.name, font: .headline)
+                                DefaultListEntryView(image_name: "folder.circle", image_scale: imageScale, text: collection.name, font: .headline)
                             }
                         }
                     }
@@ -87,7 +87,7 @@ struct SideMenuView: View {
                                 model.setFilterFeedProvider(feed_provider)
                                 model.refreshFilter()
                             }) {
-                                DefaultListEntryView(image: feed_provider.icon.img, imageCornerRadius: 100, imageScale: imageScale, text: feed_provider.name, font: .headline)
+                                DefaultListEntryView(image: feed_provider.icon.img, image_corner_radius: 100, image_scale: imageScale, text: feed_provider.name, font: .headline)
                             }
                             /**
                              displayes the feeds connected to the feed provider
@@ -98,7 +98,7 @@ struct SideMenuView: View {
                                     model.setFilterFeed(feed)
                                     model.refreshFilter()
                                 }) {
-                                    DefaultListEntryView(imageName: "circlebadge", imageScale: imageScale/2, imagePadding: imageScale/4.7, text: feed.name, font: .subheadline)
+                                    DefaultListEntryView(image_name: "circlebadge", image_scale: imageScale/2, image_padding: imageScale/4.7, text: feed.name, font: .subheadline)
                                 }
                             }
                         }
