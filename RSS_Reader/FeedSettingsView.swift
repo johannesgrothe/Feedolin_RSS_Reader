@@ -35,9 +35,8 @@ struct FeedSettingsView: View {
             .listRowBackground(Color.clear)
         }
         .listStyle(SidebarListStyle())
-        .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle("Feed Settings")
+        .defaultScreenLayout()
+        .navigationBarTitle("Feed Settings", displayMode: .inline)
         .navigationBarItems(trailing:
                                 Button(action: {
                                     self.show_add_feed_view.toggle()
@@ -52,7 +51,6 @@ struct FeedSettingsView: View {
 }
 
 struct FeedSettingsView_Previews: PreviewProvider {
-    
     static var previews: some View {
         FeedSettingsView()
     }

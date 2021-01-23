@@ -43,8 +43,8 @@ struct MainView: View {
             NavigationView {
                 
                 RefreshableScrollView(width: geometry.size.width, height: geometry.size.height)
+                    .defaultScreenLayout()
                     .navigationBarTitle(model.filter_option.description, displayMode: .inline)
-                    
                     .navigationBarItems(
                         leading:
                             Button(action: {
@@ -72,17 +72,11 @@ struct MainView: View {
                                     Image(systemName: "gearshape").imageScale(.large)
                                 }
                             }
-                        
-                        
                     )
-                    .background(Color(UIColor(named: "BackgroundColor")!))
-                    .edgesIgnoringSafeArea(.bottom)
                     .gesture(drag_right)
                 
             }
             .autoNavigationViewStyle()
-            .accentColor(Color(UIColor(named: "ButtonColor")!))
-            .onAppear(perform: { overrideColorScheme(theme_index: dark_mode_enabled) } )
         }
     }
 }

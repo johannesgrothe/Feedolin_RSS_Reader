@@ -97,38 +97,29 @@ struct ArticleListRow: View {
         .contextMenu{
             Button(action: {
                 self.setBookmarked(article: article)
-            }) {
-                HStack{
-                    if self.bookmarked{
-                        Text("Unmark")
-                        Image(systemName: "bookmark.slash")
-                    }
-                    Text("Bookmark")
-                    Image(systemName: "bookmark")
+            }, label: {
+                if self.bookmarked {
+                    Label("Unmark", systemImage: "bookmark.slash")
+                } else {
+                    Label("Bookmark", systemImage: "bookmark")
                 }
-            }
+            })
             
             Button(action:{
                 self.setMarkAsRead(article: article)
-            }) {
-                HStack{
-                    if self.read{
-                        Text("Unread")
-                        Image(systemName: "checkmark.square.fill")
-                    }
-                    Text("Read")
-                    Image(systemName: "checkmark.square")
+            }, label: {
+                if self.read {
+                    Label("Unread", systemImage: "checkmark.square.fill")
+                } else {
+                    Label("Read", systemImage: "checkmark.square")
                 }
-            }
+            })
             
             Button(action:{
                 self.setShare(article: article)
-            }){
-                HStack{
-                    Text("Share")
-                    Image(systemName: "square.and.arrow.up")
-                }
-            }
+            }, label: {
+                Label("Share", systemImage: "square.and.arrow.up")
+            })
         }
     }
     

@@ -68,6 +68,8 @@ struct CollectionDetailSettingsView: View {
             .listRowBackground(Color.clear)
         }
         .listStyle(PlainListStyle())
+        .defaultScreenLayout()
+        .navigationBarTitle(collection.name, displayMode: .inline)
         .navigationBarItems(trailing:
             Button(action: {
                 if (edit_mode) {
@@ -76,19 +78,17 @@ struct CollectionDetailSettingsView: View {
                     edit_mode = true
                 }
                 fillFeedLis()
-            }) {
+            }, label: {
                 if (edit_mode) {
                     Image(systemName: "checkmark.circle").imageScale(.large)
                 } else {
                     Image(systemName: "pencil.circle").imageScale(.large)
                 }
             })
+        )
         .onAppear(perform: {
             fillFeedLis()
         })
-        .background(Color(UIColor(named: "BackgroundColor")!))
-        .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle(collection.name)
     }
     
     /**

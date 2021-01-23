@@ -40,3 +40,27 @@ extension NavigationView {
         self.modifier(NavigationViewStyleModifier())
     }
 }
+
+/// extends View
+extension View {
+    
+    /// defines the default ScreenLayout
+    /// - Returns: the changed
+    func defaultScreenLayout() -> some View {
+        self.modifier(DefaultScreenLayoutModifier())
+    }
+}
+
+
+/// UINavigationController for the overall UINavigationBarAppearance
+extension UINavigationController {
+    /// Add the TobarColor tto all Navigationbars
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "TopbarColor")!
+        navigationBar.standardAppearance = appearance
+    }
+}

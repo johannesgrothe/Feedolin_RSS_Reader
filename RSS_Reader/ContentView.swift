@@ -33,7 +33,11 @@ struct ContentView: View {
                 .disabled(self.show_menu ? false : true)
                 
         }
-        .edgesIgnoringSafeArea(.bottom)
+        .onAppear(perform: {
+            UITableView.appearance().backgroundColor = .clear
+            UITableViewCell.appearance().backgroundColor = .clear
+            UITableView.appearance().showsVerticalScrollIndicator = false
+        })
     }
     
     func slideAnimation() {
@@ -42,21 +46,6 @@ struct ContentView: View {
         }
     }
 }
-
-/**
- UINavigationController for the overall UINavigationBarAppearance
- */
-extension UINavigationController {
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(named: "TopbarColor")!
-        navigationBar.standardAppearance = appearance
-    }
-}
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

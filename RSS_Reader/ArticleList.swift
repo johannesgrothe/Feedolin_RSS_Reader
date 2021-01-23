@@ -39,23 +39,23 @@ struct ArticleList: View {
                 // x Button
                 Button(action: {
                     search_phrase = ""
-                }) {
+                }, label: {
                     Image(systemName: "xmark.circle.fill")
                         .opacity(search_phrase == "" ? 0 : 1)
-                }
+                })
                 .buttonStyle(BorderlessButtonStyle())
                 
                 // Casing selector
                 Button(action: {
                     search_ignore_casing = !search_ignore_casing
                     print("Ignore Casing set to \(search_ignore_casing)")
-                }) {
+                }, label: {
                     if search_ignore_casing {
                         Image(systemName: "textformat.size.larger")
                     } else {
                         Image(systemName: "textformat")
                     }
-                }
+                })
                 .buttonStyle(BorderlessButtonStyle())
                 
             }
@@ -85,8 +85,8 @@ struct ArticleList: View {
             }
             .listRowBackground(Color.clear)
             Spacer()
+                .listRowBackground(Color.clear)
         }
-        .edgesIgnoringSafeArea(.bottom)
         .listStyle(PlainListStyle())
     }
 }

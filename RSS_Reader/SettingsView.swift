@@ -77,16 +77,10 @@ struct SettingsView: View {
             }
             .listRowBackground(Color.clear)
         }
-        .onAppear(perform: {
-            UITableView.appearance().backgroundColor = .clear
-            UITableViewCell.appearance().backgroundColor = .clear
-            overrideColorScheme(theme_index: dark_mode_enabled)
-        })
         .listStyle(PlainListStyle())
         .navigationBarTitle("settings_title".localized, displayMode: .inline)
         .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
-        
+        .defaultScreenLayout()
     }
 }
 

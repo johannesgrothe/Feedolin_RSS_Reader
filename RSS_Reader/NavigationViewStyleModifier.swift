@@ -4,8 +4,8 @@
 //
 //  Created by Kenanja Nuding on 1/22/21.
 //
-import SwiftUI
 
+import SwiftUI
 
 /// modifier that returns diffrent navigationViewStyle based on device
 struct NavigationViewStyleModifier: ViewModifier {
@@ -13,9 +13,11 @@ struct NavigationViewStyleModifier: ViewModifier {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return AnyView(content
                 .navigationViewStyle(StackNavigationViewStyle()))
+                .accentColor(Color("ButtonColor"))
         } else {
             return AnyView(content
                 .navigationViewStyle(DefaultNavigationViewStyle()))
+                .accentColor(Color("ButtonColor"))
         }
     }
 }

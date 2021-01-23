@@ -89,7 +89,6 @@ struct CollectionSettingsView: View {
             ForEach(sorted_collection_data) { collection in
                 
                 if (edit_mode) {
-                    
                     /**
                      * Container for list row in edit mode
                      */
@@ -117,9 +116,8 @@ struct CollectionSettingsView: View {
             .listRowBackground(Color.clear)
         }
         .listStyle(PlainListStyle())
-        .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle("Collection Settings")
+        .defaultScreenLayout()
+        .navigationBarTitle("Collection Settings", displayMode: .inline)
         .navigationBarItems(trailing:
                                 Button(action: {
                                     if (edit_mode) {
@@ -127,12 +125,13 @@ struct CollectionSettingsView: View {
                                     } else {
                                         edit_mode = true
                                     }
-                                }) {
+                                }, label: {
                                     if (edit_mode) {
                                         Image(systemName: "checkmark.circle").imageScale(.large)
                                     } else {
                                         Image(systemName: "pencil.circle").imageScale(.large)
                                     }
                                 })
+        )
     }
 }

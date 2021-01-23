@@ -138,8 +138,7 @@ struct FeedProviderSettingsView: View {
             Spacer()
         }
         .padding(.top)
-        .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
+        .defaultScreenLayout()
         .navigationBarTitle(feed_provider.name, displayMode: .inline)
         .onDisappear(perform: {
             if self.name != "" {

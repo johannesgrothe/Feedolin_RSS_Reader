@@ -124,6 +124,8 @@ struct FeedEditSettingsView: View {
             
             Spacer()
         }
+        .padding(.top)
+        .defaultScreenLayout()
         .navigationBarTitle(feed.name, displayMode: .inline)
         .navigationBarItems(trailing:
             /**
@@ -143,9 +145,6 @@ struct FeedEditSettingsView: View {
                 }),secondaryButton: .cancel())
             }
         )
-        .padding(.top)
-        .background(Color("BackgroundColor"))
-        .edgesIgnoringSafeArea(.bottom)
         .onDisappear(perform: {
             if name != "" {
                 feed.name = name

@@ -105,22 +105,13 @@ struct SideMenuView: View {
                     .listRowBackground(Color.clear)
                 }
                 .listStyle(SidebarListStyle())
+                .defaultScreenLayout()
                 .navigationBarTitle("Filter",displayMode: .inline)
-                
-                .onAppear(perform: {
-                    UITableView.appearance().backgroundColor = .clear
-                    UITableViewCell.appearance().backgroundColor = .clear
-                    UITableView.appearance().showsVerticalScrollIndicator = false
-                })
-                
-                .background(Color("BackgroundColor"))
-                .accentColor(Color("ButtonColor"))
-                .edgesIgnoringSafeArea(.bottom)
             }
             .autoNavigationViewStyle()
             .frame(width: self.width)
             
-            Spacer()
+            //Spacer()
             
             Rectangle()
                 .edgesIgnoringSafeArea(.all)
