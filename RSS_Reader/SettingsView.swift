@@ -55,16 +55,9 @@ struct SettingsView: View {
             .listRowBackground(Color.clear)
             
             // Picker to select if the App apears in light/ dark mode or system behaviour
-            VStack(alignment: .leading) {
-                
-                //#### 1. version
-                
-                // Picker Title
-                HStack {
-                    Image(systemName: "paintpalette").imageScale(.large)
-                    Text("Theme").font(.headline)
-                }
-                
+            HStack {
+                Image(systemName: "paintpalette").imageScale(.large)
+                Text("Theme").font(.headline)
                 Picker("Theme", selection: $dark_mode_enabled) {
                     Text("System").tag(0)
                     Text("Light").tag(1)
@@ -74,24 +67,6 @@ struct SettingsView: View {
                 .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
                     overrideColorScheme(theme_index: dark_mode_enabled)
                             }
-                
-                //#### 2. version
-                
-                HStack {
-                    Image(systemName: "paintpalette").imageScale(.large)
-                
-                    Picker("Theme", selection: $dark_mode_enabled) {
-                        Text("System").tag(0)
-                        Text("Light").tag(1)
-                        Text("Dark").tag(2)
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
-                        overrideColorScheme(theme_index: dark_mode_enabled)
-                                }
-                }
-                
-                //end
             }
             .listRowBackground(Color.clear)
 
