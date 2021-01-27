@@ -66,7 +66,7 @@ struct CollectionSettingsView: View {
                     .cornerRadius(8)
                     
                     // Send Button for new collection
-                    Button(action: {
+                    CDButton(action: {
                         if self.new_coll_name != "" {
                             print(self.new_coll_name)
                             let new_collection = Collection(name: self.new_coll_name)
@@ -75,11 +75,7 @@ struct CollectionSettingsView: View {
                         } else {
                             print("Collection name is empty")
                         }
-                    }, label: {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.green)
-                    })
-                    .buttonStyle(BorderlessButtonStyle())
+                    }, exits: false)
                 }
                 .listRowBackground(Color.clear)
             }
@@ -96,14 +92,9 @@ struct CollectionSettingsView: View {
                         DefaultListEntryView(image_name: "folder.circle", image_scale: image_scale, text: collection.name, font: .headline)
                         
                         Spacer()
-                        
-                        Button(action: {
+                        CDButton(action: {
                             model.collection_data.removeAll( where: { $0.id == collection.id })
-                        }, label: {
-                            Image(systemName: "minus.circle.fill")
-                                .foregroundColor(.red)
-                        })
-                        .buttonStyle(BorderlessButtonStyle())
+                        }, exits: edit_mode)
                     }
                     
                 } else {
@@ -119,19 +110,7 @@ struct CollectionSettingsView: View {
         .defaultScreenLayout()
         .navigationBarTitle("Collection Settings", displayMode: .inline)
         .navigationBarItems(trailing:
-                                Button(action: {
-                                    if (edit_mode) {
-                                        edit_mode = false
-                                    } else {
-                                        edit_mode = true
-                                    }
-                                }, label: {
-                                    if (edit_mode) {
-                                        Image(systemName: "checkmark.circle").imageScale(.large)
-                                    } else {
-                                        Image(systemName: "pencil.circle").imageScale(.large)
-                                    }
-                                })
+                                ECButton(action: {}, is_editing: $edit_mode)
         )
     }
 }

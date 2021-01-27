@@ -43,24 +43,16 @@ struct CollectionDetailSettingsView: View {
                     Spacer()
                     
                     if (edit_mode) {
-                        
-                        if (collection.containsFeed(feed)) {
-                           
-                            Button(action: {
+                        let contains_feed: Bool = collection.containsFeed(feed)
+                        if (contains_feed) {
+                            CDButton(action: {
                                 let _ = collection.removeFeed(feed)
-                            }, label: {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
-                            })
-                            .buttonStyle(BorderlessButtonStyle())
+                            }, exits: contains_feed)
+                            
                         } else {
-                            Button(action: {
+                            CDButton(action: {
                                 let _ = collection.addFeed(feed)
-                            }, label: {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.green)
-                            })
-                            .buttonStyle(BorderlessButtonStyle())
+                            }, exits: contains_feed)
                         }
                     }
                 }
@@ -71,20 +63,10 @@ struct CollectionDetailSettingsView: View {
         .defaultScreenLayout()
         .navigationBarTitle(collection.name, displayMode: .inline)
         .navigationBarItems(trailing:
-            Button(action: {
-                if (edit_mode) {
-                    edit_mode = false
-                } else {
-                    edit_mode = true
-                }
-                fillFeedLis()
-            }, label: {
-                if (edit_mode) {
-                    Image(systemName: "checkmark.circle").imageScale(.large)
-                } else {
-                    Image(systemName: "pencil.circle").imageScale(.large)
-                }
-            })
+                                ECButton(action: {
+                                    fillFeedLis()
+                                }, is_editing: $edit_mode)
+                            
         )
         .onAppear(perform: {
             fillFeedLis()
