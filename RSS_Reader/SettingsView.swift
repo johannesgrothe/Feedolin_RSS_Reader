@@ -97,25 +97,9 @@ struct SettingsView: View {
         .edgesIgnoringSafeArea(.bottom)
         
     }
-    
-    /**
-     * Sets the color scheme of the app to light/ dark mode or system preferences
-     */
-//    func overrideColorScheme() {
-//        var userInterfaceStyle: UIUserInterfaceStyle
-//
-//        switch dark_mode_enabled {
-//        case 1: userInterfaceStyle = .light
-//        case 2: userInterfaceStyle = .dark
-//        default : userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
-//        }
-//
-//        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
-//    }
-    
 }
 
-// dark_mode_enabled as para
+/// Sets the color scheme of the app to light/ dark mode or system preferences
 func overrideColorScheme(theme_index: Int) {
     var userInterfaceStyle: UIUserInterfaceStyle
 

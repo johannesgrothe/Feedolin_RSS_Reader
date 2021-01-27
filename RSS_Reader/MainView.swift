@@ -38,9 +38,6 @@ struct MainView: View {
             }
         }
         
-        // instance of the SettingView to call their function
-        let settings_view : SettingsView = SettingsView()
-        
         GeometryReader{
             geometry in
             NavigationView {
