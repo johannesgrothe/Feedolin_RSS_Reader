@@ -82,7 +82,6 @@ struct MainView: View {
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(Color(UIColor(named: "ButtonColor")!))
-//            .onAppear(perform: settings_view.overrideColorScheme)
             .onAppear(perform: { overrideColorScheme(theme_index: dark_mode_enabled) } )
         }
     }
