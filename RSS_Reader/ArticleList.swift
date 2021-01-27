@@ -25,11 +25,6 @@ struct ArticleList: View {
      */
     @State private var search_ignore_casing = true
     
-    /**
-     * ToDo add comment
-     */
-    @Environment(\.colorScheme) var colorScheme
-    
     var body: some View {
         List {
             
