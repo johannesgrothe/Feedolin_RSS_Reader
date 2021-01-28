@@ -16,11 +16,9 @@ struct CDButton: View {
             action()
         }, label: {
             if (exits) {
-                Image(systemName: "minus.circle.fill")
-                    .foregroundColor(.red)
+                CustomIcon(icon: .minus, style: .nothing, size: .xsmall, color: .red)
             } else {
-                Image(systemName: "plus.circle.fill")
-                    .foregroundColor(.green)
+                CustomIcon(icon: .plus, style: .nothing, size: .xsmall, color: .green)
             }
         })
         .buttonStyle(BorderlessButtonStyle())

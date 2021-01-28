@@ -16,18 +16,20 @@ struct FeedSettingsView: View {
     /// Model Singleton
     @ObservedObject var model: Model = .shared
     /// scale of all icons
-    let image_scale: CGFloat = 35
-    
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+
     var body: some View {
         List {
             ForEach(model.feed_data) { feed_provider in
                 Section(header: Text(feed_provider.name)) {
                     NavigationLink(destination: FeedProviderSettingsView(feed_provider: feed_provider)) {
-                        DefaultListEntryView(image: feed_provider.icon.img, image_corner_radius: 100, image_scale: image_scale, text: feed_provider.name, font: .headline)
+                            DefaultListEntryView(image: CustomImage(image: feed_provider.icon.img, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: feed_provider.name, font: .headline)
                     }
                     ForEach(feed_provider.feeds) { feed in
                         NavigationLink(destination: FeedEditSettingsView(feed:feed)) {
-                            DefaultListEntryView(image_name: "circlebadge", image_scale: image_scale*0.33, image_padding: image_scale*0.33, text: feed.name, font: .subheadline)
+                            DefaultListEntryView(icon: CustomIcon(icon: .circle_small, style: .nothing, size: .xxsmall), padding: IconSize.init(rawValue: image_size_int)!.width*0.4, text: feed.name, font: .subheadline)
                         }
                     }
                 }
@@ -41,7 +43,7 @@ struct FeedSettingsView: View {
                                 Button(action: {
                                     self.show_add_feed_view.toggle()
                                 }, label: {
-                                    Image(systemName: "plus.circle").imageScale(.large)
+                                    CustomIcon(icon: .add, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
                                 })
         )
         .sheet(isPresented: self.$show_add_feed_view) {

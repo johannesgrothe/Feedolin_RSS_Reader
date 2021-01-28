@@ -45,6 +45,10 @@ struct FeedEditSettingsView: View {
      @model is the shared model singelton
      */
     @ObservedObject var model: Model = .shared
+    /// IconStyle that indicates the style of every icon
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
     
     var body: some View {
         // hole content
@@ -136,7 +140,7 @@ struct FeedEditSettingsView: View {
                     self.showing_alert = true
                 }
             }) {
-                Image(systemName: "trash").imageScale(.large)
+                CustomIcon(icon: .trash, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
             }
             .alert(isPresented: $showing_alert) {
                 Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(feed)), primaryButton: .default(Text("Okay"), action: {

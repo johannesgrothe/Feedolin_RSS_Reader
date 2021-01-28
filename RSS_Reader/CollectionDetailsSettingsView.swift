@@ -29,16 +29,17 @@ struct CollectionDetailSettingsView: View {
      @presented_feed_list is a list that contained all the feeds that should be shown depending on the value of edit_mode
      */
     @State private var presented_feed_list: [NewsFeed] = []
-    
-    /// scale of all icons
-    let image_scale: CGFloat = 28
+    /// IconStyle that indicates the style of every icon
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
     
     var body: some View {
         List {
             ForEach(presented_feed_list) { feed in
                 // a row that contains the name of a feed, his parent token and icon
                 HStack {
-                    DefaultListEntryView(image: feed.parent_feed!.icon.img, image_corner_radius: 100, image_scale: image_scale, text: "\(feed.parent_feed!.token) - \(feed.name)", font: .headline)
+                    DefaultListEntryView(image: CustomImage(image: feed.parent_feed!.icon.img, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "\(feed.parent_feed!.token) - \(feed.name)", font: .headline)
                     
                     Spacer()
                     

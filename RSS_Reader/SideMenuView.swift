@@ -19,7 +19,9 @@ struct SideMenuView: View {
     /// closed the sidemenu with animation
     let menu_close: () -> Void
     /// scale of all icons
-    var image_scale: CGFloat = 26
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
     
     var body: some View {
         // Drag gesture to close the side menu by swiping
@@ -45,7 +47,7 @@ struct SideMenuView: View {
                         model.setFilterAll()
                         model.refreshFilter()
                     }, label: {
-                        DefaultListEntryView(image_name: "infinity.circle", image_scale: image_scale, text: "All", font: .headline)
+                        DefaultListEntryView(icon: CustomIcon(icon: .infinity, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "All", font: .headline)
                     })
                     .listRowBackground(Color.clear)
                     /**
@@ -56,7 +58,7 @@ struct SideMenuView: View {
                         model.setFilterBookmarked()
                         model.refreshFilter()
                     }, label: {
-                        DefaultListEntryView(image_name: "bookmark.circle", image_scale: image_scale, text: "Bookmarked", font: .headline)
+                        DefaultListEntryView(icon: CustomIcon(icon: .bookmark, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Bookmarked", font: .headline)
                     })
                     .listRowBackground(Color.clear)
                     /**
@@ -70,7 +72,7 @@ struct SideMenuView: View {
                                 model.setFilterCollection(collection)
                                 model.refreshFilter()
                             }, label: {
-                                DefaultListEntryView(image_name: "folder.circle", image_scale: image_scale, text: collection.name, font: .headline)
+                                DefaultListEntryView(icon: CustomIcon(icon: .folder, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: collection.name, font: .headline)
                             })
                         }
                         .listRowBackground(Color.clear)
@@ -86,7 +88,7 @@ struct SideMenuView: View {
                                 model.setFilterFeedProvider(feed_provider)
                                 model.refreshFilter()
                             }, label: {
-                                DefaultListEntryView(image: feed_provider.icon.img, image_corner_radius: 100, image_scale: image_scale, text: feed_provider.name, font: .headline)
+                                DefaultListEntryView(image: CustomImage(image: feed_provider.icon.img, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: feed_provider.name, font: .headline)
                             })
                             /**
                              displayes the feeds connected to the feed provider
@@ -97,7 +99,8 @@ struct SideMenuView: View {
                                     model.setFilterFeed(feed)
                                     model.refreshFilter()
                                 }, label: {
-                                    DefaultListEntryView(image_name: "circlebadge", image_scale: image_scale*0.33, image_padding: image_scale*0.33, text: feed.name, font: .subheadline)
+                                    DefaultListEntryView(icon: CustomIcon(icon: .circle_small, style: .nothing, size: .xxsmall), padding: IconSize.init(rawValue: image_size_int)!.width*0.4, text: feed.name, font: .subheadline)
+                                        
                                 })
                             }
                         }

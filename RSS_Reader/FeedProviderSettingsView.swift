@@ -32,6 +32,10 @@ struct FeedProviderSettingsView: View {
      @presentationMode make the View dismiss itself
      */
     @Environment(\.presentationMode) var presentationMode
+    /// IconStyle that indicates the style of every icon
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
     
     var body: some View {
         // hole content
@@ -39,32 +43,19 @@ struct FeedProviderSettingsView: View {
             // image and change-button
             ZStack{
                 // image of provider
-                feed_provider.icon.img
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .cornerRadius(100)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 100)
-                            .stroke(Color("ButtonColor"), lineWidth: 3.5)
-                            .foregroundColor(.clear)
-                    )
-                // background of change image button
-                Circle()
-                    .frame(width: 34, height: 34)
-                    .foregroundColor(Color("BackgroundColor"))
-                    .offset(x: 35, y: 35)
-                
+                CustomImage(image: feed_provider.icon.img, style: ImageStyle.init(rawValue: image_style_int)!, size: .xxxlarge)
+                /* Not used right now 
                 // change image button
                 Button(action: {
                     print("change image pressed")
                 }, label: {
-                    Image(systemName: "pencil.circle")
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                        
+                    CustomIcon(icon: .edit, style: ImageStyle.init(rawValue: image_style_int)!, size: image_size)
                 })
+                .background(Color("BackgroundColor"))
                 .foregroundColor(Color("ButtonColor"))
-                .offset(x: 35, y: 35)
+                .cornerRadius(image_style_int == 0 ? 0 : ImageStyle.init(rawValue: image_style_int)!.radius)
+                .offset(x: image_size.size.width, y: image_size.size.height)
+                */
                 
             }
             .frame(width: 100, height: 100, alignment: .center)

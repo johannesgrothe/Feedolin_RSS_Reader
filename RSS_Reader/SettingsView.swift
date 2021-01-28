@@ -13,87 +13,119 @@ struct SettingsView: View {
     /// Boolean that shows an alert if true
     @State private var showing_alert = false
     /// Boolean that show if aurto_refresh is on and saves at coredata
-    @AppStorage("auto_refresh") private var auto_refresh: Bool = true
-    /// scale of all icons
-    let image_scale: CGFloat = 28
-    
-    /**
-     * Indicates which color scheme is selected by the user
-     */
+    @AppStorage("auto_refresh") var auto_refresh: Bool = true
+    /// Indicates which color scheme is selected by the user
     @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 0
+    /// IconStyle that indicates the style of every icon
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+    
+    @State private var isEditing = false
+    @State private var size = 3.0
     
     var body: some View {
         List {
-            /** Calling FeedSettingsView()*/
-            NavigationLink(destination: FeedSettingsView()) {
-                DefaultListEntryView(image_name: "wave.3.right.circle", image_scale: image_scale, text: "Feed Settings", font: .headline)
-            }
-            .listRowBackground(Color.clear)
-            
-            /**Calling CollectionSettingsView()*/
-            NavigationLink(destination: CollectionSettingsView()) {
-                DefaultListEntryView(image_name: "rectangle.fill.on.rectangle.fill.circle", image_scale: image_scale, text: "Collection Settings", font: .headline)
-            }
-            .listRowBackground(Color.clear)
-            
-            /**ToggleButton that toogles the value of @auto_refresh*/
-            HStack{
-                Toggle(isOn: $auto_refresh){
-                    DefaultListEntryView(image_name: "arrow.clockwise.circle", image_scale: image_scale, text: "Auto Refresh", font: .headline)
+            Section {
+                /** Calling FeedSettingsView()*/
+                NavigationLink(destination: FeedSettingsView()) {
+                    DefaultListEntryView(icon: CustomIcon(icon: .feed_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Feed Settings", font: .headline)
                 }
-                .onChange(of: auto_refresh){ _ in
-                    model.runAutoRefresh()
+                .listRowBackground(Color.clear)
+                
+                /**Calling CollectionSettingsView()*/
+                NavigationLink(destination: CollectionSettingsView()) {
+                    DefaultListEntryView(icon: CustomIcon(icon: .collection_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Collection Settings", font: .headline)
                 }
+                .listRowBackground(Color.clear)
             }
-            .listRowBackground(Color.clear)
             
-            // Picker to select if the App apears in light/ dark mode or system behaviour
-            HStack {
-                Image(systemName: "paintpalette").imageScale(.large)
-                Text("theme_option".localized).font(.headline)
-                Picker("Theme", selection: $dark_mode_enabled) {
-                    Text("theme_system".localized).tag(0)
-                    Text("theme_light".localized).tag(1)
-                    Text("theme_dark".localized).tag(2)
+            Section {
+                /**ToggleButton that toogles the value of @auto_refresh*/
+                HStack{
+                    Toggle(isOn: $auto_refresh){
+                        DefaultListEntryView(icon: CustomIcon(icon: .auto_refresh, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!),text: "Auto Refresh", font: .headline)
+                    }
+                    .onChange(of: auto_refresh){ _ in
+                        model.runAutoRefresh()
+                    }
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
-                    overrideColorScheme(theme_index: dark_mode_enabled)
-                            }
+                .listRowBackground(Color.clear)
             }
-            .listRowBackground(Color.clear)
-
-            //Picker mit icon links daneben und andere variante mit theme
             
-            Button(action: {
-                self.showing_alert = true
-            }) {
-                DefaultListEntryView(image_name: "trash.circle", image_scale: image_scale, text: "Reset App", font: .headline)
+            Section {
+                /// Picker to select if the App apears in light/ dark mode or system behaviour
+                HStack {
+                    CustomIcon(icon: .theme, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                    Picker("Theme", selection: $dark_mode_enabled) {
+                        Text("System").tag(0)
+                        Text("Light").tag(1)
+                        Text("Dark").tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .onReceive([self.dark_mode_enabled].publisher.first()) { _ in
+                        overrideColorScheme(theme_index: dark_mode_enabled)
+                    }
+                }
+                .listRowBackground(Color.clear)
+                /// Picker to choose the image style
+                HStack{
+                    CustomIcon(icon: .image_style, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                    Picker("Image Style", selection: $image_style_int) {
+                        CustomIcon(icon: .square_dashed, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(0)
+                        CustomIcon(icon: .square, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(1)
+                        CustomIcon(icon: .square_rounded, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(2)
+                        CustomIcon(icon: .circle, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(3)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                .listRowBackground(Color.clear)
+                
+                /// Slider to choose the image size
+                HStack {
+                    DefaultListEntryView(icon: CustomIcon(icon: .icon_size, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Icon Size", font: .headline)
+                    Slider(value: $size,
+                           in: 2...4, step: 1,
+                           onEditingChanged: { editing in
+                           isEditing = editing
+                            image_size_int = Int(size)
+                       }
+                   )
+                }
+                .listRowBackground(Color.clear)
             }
-            .alert(isPresented: $showing_alert) {
-                Alert(title: Text("app_reset_alert_title".localized),
-                      message: Text(genAppResetWarning()),
-                      primaryButton: .default(Text("ok_btn_title".localized),action: {model.reset()}),secondaryButton: .cancel())
+            
+            Section {
+                Button(action: {
+                    self.showing_alert = true
+                }) {
+                    DefaultListEntryView(icon: CustomIcon(icon: .trash, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Reset App", font: .headline)
+                }
+                .alert(isPresented: $showing_alert) {
+                    Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
+                }
+                .listRowBackground(Color.clear)
             }
-            .listRowBackground(Color.clear)
         }
-        .listStyle(PlainListStyle())
-        .navigationBarTitle("settings_title".localized, displayMode: .inline)
-        .background(Color("BackgroundColor"))
+        .listStyle(GroupedListStyle())
+        .navigationBarTitle("Settings", displayMode: .inline)
         .defaultScreenLayout()
+        .onAppear(perform: {
+            size = Double(image_size_int)
+        })
     }
 }
 
 /// Sets the color scheme of the app to light/ dark mode or system preferences
 func overrideColorScheme(theme_index: Int) {
     var userInterfaceStyle: UIUserInterfaceStyle
-
+    
     switch theme_index {
     case 1: userInterfaceStyle = .light
     case 2: userInterfaceStyle = .dark
-    default : userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
+    default : userInterfaceStyle = .unspecified
     }
-
+    
     UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
 }
 

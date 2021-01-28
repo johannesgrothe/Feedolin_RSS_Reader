@@ -19,12 +19,14 @@ struct MainView: View {
      @model is the shared model singelton
      */
     @ObservedObject var model: Model = .shared
-
     /**
      * Indicates which color scheme is selected by the user
      */
     @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 0
-
+    /// IconStyle that indicates the style of every icon
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
     /**
      @menu_open is a function to open the sidemenu with animation
      */
@@ -50,10 +52,9 @@ struct MainView: View {
                             Button(action: {
                                 self.menu_open()
                             }, label: {
-                                Image(systemName: "line.horizontal.3.circle").imageScale(.large)
+                                CustomIcon(icon: .side_menu, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
                             }),
                         trailing:
-                            
                             // container for right navigation items
                             HStack {
                                 Button(action: {
@@ -61,15 +62,14 @@ struct MainView: View {
                                     model.refreshFilter()
                                 }) {
                                     if model.hide_read_articles {
-                                        Image(systemName: "eye.circle.fill").imageScale(.large)
+                                        CustomIcon(icon: .hide_read, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
                                     } else {
-                                        Image(systemName: "eye.circle").imageScale(.large)
+                                        CustomIcon(icon: .show_read, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
                                     }
-                                    
                                 }
                                 
                                 NavigationLink(destination: SettingsView()) {
-                                    Image(systemName: "gearshape").imageScale(.large)
+                                    CustomIcon(icon: .settings, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
                                 }
                             }
                     )

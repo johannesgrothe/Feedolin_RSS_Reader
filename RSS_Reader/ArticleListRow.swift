@@ -49,8 +49,7 @@ struct ArticleListRow: View {
                     // parent_feed indicators to the left than seperator and pubdate to the right
                     HStack {
                         if self.bookmarked{
-                            Image(systemName: "bookmark.fill").resizable()
-                                .frame(width:5, height: 7)
+                            CustomIcon(icon: .bookmark, style: .nothing, size: .xxsmall)
                         }
                         Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
                             .font(.caption2)
@@ -96,36 +95,31 @@ struct ArticleListRow: View {
         }
         .contextMenu{
             Button(action: {
-                self.setBookmarked(article: article)
+                self.article.bookmarked.toggle()
             }, label: {
                 if self.bookmarked {
-                    Label("Unmark", systemImage: "bookmark.slash")
+                    DefaultListEntryView(icon: CustomIcon(icon: .unmark, style: .square, size: .xsmall), text: "Unmark", font: .body)
                 } else {
-                    Label("Bookmark", systemImage: "bookmark")
+                    DefaultListEntryView(icon: CustomIcon(icon: .bookmark, style: .square, size: .xsmall), text: "Bookmark", font: .body)
                 }
             })
             
             Button(action:{
-                self.setMarkAsRead(article: article)
+                self.article.read.toggle()
             }, label: {
                 if self.read {
-                    Label("Unread", systemImage: "checkmark.square.fill")
+                    DefaultListEntryView(icon: CustomIcon(icon: .close, style: .circle, size: .xsmall), text: "Unread", font: .body)
                 } else {
-                    Label("Read", systemImage: "checkmark.square")
+                    DefaultListEntryView(icon: CustomIcon(icon: .check, style: .circle, size: .xsmall), text: "Read", font: .body)
                 }
             })
             
             Button(action:{
                 self.setShare(article: article)
             }, label: {
-                Label("Share", systemImage: "square.and.arrow.up")
+                DefaultListEntryView(icon: CustomIcon(icon: .share, style: .nothing, size: .xsmall), text: "Share", font: .body)
             })
         }
-    }
-    
-    /**Toggles the boolean bookmarked of an Instance of Article*/
-    private func setBookmarked(article: ArticleData) {
-        self.article.bookmarked.toggle()
     }
     
     /**Opens the Activity View to share a article link*/
@@ -145,11 +139,6 @@ struct ArticleListRow: View {
                 width: 200,
                 height: 200)
         }
-    }
-    
-    /**Toggles the boolean read of an Instance of Article*/
-    private func setMarkAsRead(article: ArticleData){
-        self.article.read.toggle()
     }
     
     struct ArticleListRow_Previews: PreviewProvider {
