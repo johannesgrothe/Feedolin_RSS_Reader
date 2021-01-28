@@ -57,11 +57,11 @@ struct SettingsView: View {
             // Picker to select if the App apears in light/ dark mode or system behaviour
             HStack {
                 Image(systemName: "paintpalette").imageScale(.large)
-                Text("Theme").font(.headline)
+                Text("theme_option".localized).font(.headline)
                 Picker("Theme", selection: $dark_mode_enabled) {
-                    Text("System").tag(0)
-                    Text("Light").tag(1)
-                    Text("Dark").tag(2)
+                    Text("theme_system".localized).tag(0)
+                    Text("theme_light".localized).tag(1)
+                    Text("theme_dark".localized).tag(2)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .onReceive([self.dark_mode_enabled].publisher.first()) { _ in

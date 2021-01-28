@@ -11,7 +11,7 @@
 "filter_comp" = "Filters";
 
 // Title
-"settings_title" = "Döner";
+"settings_title" = "Settings";
 "feed_settings_title" = "Feed Settings";
 "coll_settings_title" = "Collection Settings";
 "add_feed_title" = "Add Feeds";
@@ -26,6 +26,7 @@
 // Options
 "auto_refresh_option" = "Auto Refresh";
 "reset_app_option" = "Reset App";
+"theme_option" = "Appearance";
 
 // Buttons
 "edit_btn_title" = "Edit";
@@ -53,3 +54,8 @@
 "add_collection_textfield" = "Add a new collection name...";
 "search_bar_textfield" = "Search...";
 "url_textfield" = "Enter URL...";
+
+// Theme Selection
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";

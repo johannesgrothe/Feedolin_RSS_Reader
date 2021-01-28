@@ -26,6 +26,7 @@
 // Options
 "auto_refresh_option" = "Hintergrundaktualisierungen";
 "reset_app_option" = "App zurücksetzen";
+"theme_option" = "Ansicht";
 
 // Buttons
 "edit_btn_title" = "Ändern";
@@ -53,3 +54,8 @@
 "add_collection_textfield" = "Name der neuen Sammlung...";
 "search_bar_textfield" = "Suchen...";
 "url_textfield" = "URL eingeben...";
+
+// Theme Selection
+"theme_system" = "System";
+"theme_light" = "Hell";
+"theme_dark" = "Dunkel";
