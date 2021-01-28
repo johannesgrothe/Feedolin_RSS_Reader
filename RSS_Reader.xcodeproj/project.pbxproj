@@ -23,6 +23,8 @@
 		1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */; };
 		1BD2A3DE254B036F00FCA510 /* RSS_ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3DD254B036F00FCA510 /* RSS_ReaderTests.swift */; };
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
+		7C22853525C2EA1F00FC6EE9 /* CustomTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */; };
+		7C22853A25C2FA2300FC6EE9 /* TButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C22853925C2FA2300FC6EE9 /* TButton.swift */; };
 		7C86307225BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */; };
 		7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */; };
 		7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */; };
@@ -100,6 +102,8 @@
 		1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSS_ReaderUITests.swift; sourceTree = "<group>"; };
 		1BD2A3EA254B036F00FCA510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
+		7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfield.swift; sourceTree = "<group>"; };
+		7C22853925C2FA2300FC6EE9 /* TButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TButton.swift; sourceTree = "<group>"; };
 		7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultScreenLayoutModifier.swift; sourceTree = "<group>"; };
 		7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListEntryView.swift; sourceTree = "<group>"; };
 		7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleModifier.swift; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 				7CC52C5125C1F8E200DA2100 /* ImageStyle.swift */,
 				7CC52C5625C20ED900DA2100 /* ImageSize.swift */,
 				7CC52C5B25C20F2D00DA2100 /* CustomSystemImage.swift */,
+				7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */,
+				7C22853925C2FA2300FC6EE9 /* TButton.swift */,
 			);
 			path = RSS_Reader;
 			sourceTree = "<group>";
@@ -438,6 +444,7 @@
 				1B3F89F925894AD100B6F9CA /* Errors.swift in Sources */,
 				1BD2A3D3254B036F00FCA510 /* RSS_Reader.xcdatamodeld in Sources */,
 				1BD2A3C9254B036E00FCA510 /* ContentView.swift in Sources */,
+				7C22853525C2EA1F00FC6EE9 /* CustomTextfield.swift in Sources */,
 				7CC52C4825C1C3B100DA2100 /* SystemImage.swift in Sources */,
 				1BBFF80D25532AD30091541B /* ArticleListRow.swift in Sources */,
 				EBAB4B9D25680F9F00ABF623 /* AsyncImage.swift in Sources */,
@@ -465,6 +472,7 @@
 				7CC52C5725C20ED900DA2100 /* ImageSize.swift in Sources */,
 				EB7383AA258A70AC0025864B /* SearchPhrase.swift in Sources */,
 				1BC46CB425576D0C0029D436 /* RefreshableScrollView.swift in Sources */,
+				7C22853A25C2FA2300FC6EE9 /* TButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

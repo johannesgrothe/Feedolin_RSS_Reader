@@ -75,26 +75,12 @@ struct FeedProviderSettingsView: View {
                 Text("Name")
                     .padding(.trailing)
                 // input textfield
-                HStack{
-                    TextField(feed_provider.name, text: $name) { isEditing in
-                        self.isEditing = isEditing
-                        } onCommit: {
-                            feed_provider.name = self.name
-                            self.name = ""
-                        }
-                    // x-button
-                    Button(action: {
-                        self.name = ""
-                    }, label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .opacity(self.name == "" ? 0 : 1)
-                    })
-                    .buttonStyle(BorderlessButtonStyle())
-                }
-                .padding(10)
-                .background(Color(.secondarySystemBackground))
-                .foregroundColor(.secondary)
-                .cornerRadius(10)
+                CustomTextfield(placholder: feed_provider.name,
+                                text: $name,
+                                on_commit: {
+                                    feed_provider.name = self.name
+                                    self.name = ""
+                                })
             }
             .padding(.horizontal)
             
@@ -103,26 +89,12 @@ struct FeedProviderSettingsView: View {
                 Text("Abbreviation")
                     .padding(.trailing)
                 // input textfield
-                HStack{
-                    TextField(feed_provider.token, text: $abbreviation) { isEditing in
-                        self.isEditing = isEditing
-                        } onCommit: {
-                            feed_provider.token = self.abbreviation
-                            self.abbreviation = ""
-                        }
-                    // x-button
-                    Button(action: {
-                        self.abbreviation = ""
-                    }, label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .opacity(self.abbreviation == "" ? 0 : 1)
-                    })
-                    .buttonStyle(BorderlessButtonStyle())
-                }
-                .padding(10)
-                .background(Color(.secondarySystemBackground))
-                .foregroundColor(.secondary)
-                .cornerRadius(10)
+                CustomTextfield(placholder: feed_provider.token,
+                                text: $abbreviation,
+                                on_commit: {
+                                    feed_provider.token = self.abbreviation
+                                    self.abbreviation = ""
+                                })
             }
             .padding(.horizontal)
             

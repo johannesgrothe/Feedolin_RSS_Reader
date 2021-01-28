@@ -27,43 +27,20 @@ struct ArticleList: View {
     
     var body: some View {
         List {
-            
-            // Search bar
-            HStack {
-                //search bar magnifying glass image
-                Image(systemName: "magnifyingglass")
-                            
-                //search bar text field
-                TextField("search_bar_textfield".localized, text: $search_phrase)
-                   
-                // x Button
-                Button(action: {
-                    search_phrase = ""
-                }, label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .opacity(search_phrase == "" ? 0 : 1)
-                })
-                .buttonStyle(BorderlessButtonStyle())
-                
+            HStack{
+                CustomTextfield(image: .search,
+                                placholder: "Search",
+                                text: $search_phrase,
+                                on_commit: {})
                 // Casing selector
-                Button(action: {
-                    search_ignore_casing = !search_ignore_casing
+                TButton(action: {
                     print("Ignore Casing set to \(search_ignore_casing)")
-                }, label: {
-                    if search_ignore_casing {
-                        Image(systemName: "textformat.size.larger")
-                    } else {
-                        Image(systemName: "textformat")
-                    }
-                })
-                .buttonStyle(BorderlessButtonStyle())
+                }, image_one: .casing_insensitive, image_two: .casing_sensitive,
+                bool: $search_ignore_casing)
                 
             }
             .listRowBackground(Color.clear)
-            .padding(10)
-            .foregroundColor(.secondary)
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(10)
+            
             
             
             /** Create search object */

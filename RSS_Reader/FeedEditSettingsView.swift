@@ -67,26 +67,12 @@ struct FeedEditSettingsView: View {
                 Text("Name")
                     .padding(.trailing)
                 // input textfield
-                HStack {
-                    TextField(feed.name, text: $name) { isEditing in
-                        self.isEditing = isEditing
-                        } onCommit: {
-                            feed.name = self.name
-                            self.name = ""
-                        }
-                    // x-button
-                    Button(action: {
-                        self.name = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .opacity(self.name == "" ? 0 : 1)
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                }
-                .padding(10)
-                .background(Color(.secondarySystemBackground))
-                .foregroundColor(.secondary)
-                .cornerRadius(10)
+                CustomTextfield(placholder: feed.name,
+                                text: $name,
+                                on_commit: {
+                                    feed.name = self.name
+                                    self.name = ""
+                                })
             }
             .padding(.horizontal)
             

@@ -57,22 +57,11 @@ struct AddFeedView: View {
                     })
                 }
                 HStack {
-                    HStack {
-                        TextField(
-                            "url_textfield".localized,
-                            text: $text
-                        )
-                        
-                        // x Button
-                        Button(action: {
-                            text = ""
-                        }, label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
-                                .opacity(text == "" ? 0 : 1)
-                        })
-                    }
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    CustomTextfield(placholder: "Enter URL",
+                                    text: $text,
+                                    on_commit: {
+                                        detector.detect(text)
+                                    })
                     .padding(.horizontal, 25.0)
                     .onChange(of: text) { newValue in
                         detector.detect(text)
