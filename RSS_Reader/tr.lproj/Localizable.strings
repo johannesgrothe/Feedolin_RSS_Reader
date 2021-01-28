@@ -2,60 +2,60 @@
   Localization.strings
   RSS_Reader
 
-  Created by Johannes Grothe on 14.01.21.
+  Created by Emircan Duman on 28.01.21.
 */
 
 // Components
-"collection_comp" = "Collections";
-"feed_comp" = "Feeds";
-"filter_comp" = "Filters";
+"collection_comp" = "Koleksiyon";
+"feed_comp" = "Haber";
+"filter_comp" = "Filtre";
 
 // Title
-"settings_title" = "Settings";
-"feed_settings_title" = "Feed Settings";
-"coll_settings_title" = "Collection Settings";
-"add_feed_title" = "Add Feeds";
+"settings_title" = "Ayarlar";
+"feed_settings_title" = "Haber Ayarlar";
+"coll_settings_title" = "Koleksiyon Ayarlari";
+"add_feed_title" = "Haber Ekle";
 
 // Feed Settings Labels
-"feed_name_lbl" = "Name";
-"feed_abbreviation_lbl" = "Abbreviation";
-"show_in_main_lbl" = "Show in Main Feed";
-"use_filters_lbl" = "Use Filters";
-"filters_selected_lbl" = "Filters Selected";
+"feed_name_lbl" = "Ad";
+"feed_abbreviation_lbl" = "Kısaltma";
+"show_in_main_lbl" = "Ana menüde göster";
+"use_filters_lbl" = "Filtreleri Kullan";
+"filters_selected_lbl" = "Seçilen Filtreler";
 
 // Options
-"auto_refresh_option" = "Auto Refresh";
-"reset_app_option" = "Reset App";
-"theme_option" = "Appearance";
+"auto_refresh_option" = "Otomatik Yenileme";
+"reset_app_option" = "Uygulamayı Sıfırla";
+"theme_option" = "Görünüm";
 
 // Buttons
-"edit_btn_title" = "Edit";
-"done_btn_title" = "Done";
-"ok_btn_title" = "Okay";
-"close_btn_title" = "Close";
-"scan_btn_title" = "Scan";
+"edit_btn_title" = "Düzenle";
+"done_btn_title" = "Bitti";
+"ok_btn_title" = "Tamam";
+"close_btn_title" = "Kapat";
+"scan_btn_title" = "Tara";
 
 // Filter Options
-"all_filter" = "All";
-"bookmarked_filter" = "Bookmarked";
+"all_filter" = "Tümü";
+"bookmarked_filter" = "işaretli";
 
 // Alerts
-"general_warning_phrase" = "WARNING";
+"general_warning_phrase" = "Uyarı";
 
-"app_reset_alert_title" = "Reset Data";
-"app_reset_alert_text" = "This action will irreversible delete all Data!";
+"app_reset_alert_title" = "Verileri sıfırla";
+"app_reset_alert_text" = "Bu işlem geri alınamaz tüm Verileri siler!";
 
-"feed_delete_alert_title" = "Delete Feed";
-"feed_delete_general_text" = "This action will irreversible delete the feed and all of its articles.";
-"feed_delete_bookmarked_part_1" = "You have";
-"feed_delete_bookmarked_part_2" = "bookmarked articles in this feed.";
+"feed_delete_alert_title" = "Haberleri sil";
+"feed_delete_general_text" = "Bu işlem, haberleri ve tüm makalelerini geri alınamaz şekilde silecektir.";
+"feed_delete_bookmarked_part_1" = "Bu beslemede yer işaretli";
+"feed_delete_bookmarked_part_2" = "makaleniz var";
 
 // Textfield Defaults
-"add_collection_textfield" = "Add a new collection name...";
-"search_bar_textfield" = "Search...";
-"url_textfield" = "Enter URL...";
+"add_collection_textfield" = "Yeni bir koleksiyon adı ekleyin...";
+"search_bar_textfield" = "Arama...";
+"url_textfield" = "URL Giriş...";
 
 // Theme Selection
-"theme_system" = "System";
-"theme_light" = "Light";
-"theme_dark" = "Dark";
+"theme_system" = "Sistem";
+"theme_light" = "Açık";
+"theme_dark" = "Koyu";
