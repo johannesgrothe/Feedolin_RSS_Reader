@@ -114,17 +114,6 @@ struct SideMenuView: View {
             .autoNavigationViewStyle()
             .frame(width: self.width)
             
-            //Spacer()
-            
-            Rectangle()
-                .edgesIgnoringSafeArea(.all)
-                .foregroundColor(.black)
-                .disabled(self.show_menu ? false : true)
-                .opacity(self.show_menu ? 0.3 : 0)
-                .onTapGesture {
-                    self.menu_close()
-                }
-            
         }
         .gesture(drag_left)
         
