@@ -7,32 +7,32 @@
 
 import SwiftUI
 
-struct CustomIcon: View {
-    var icon: SystemIcon
+struct CustomSystemImage: View {
+    var image: SystemImage
     var style: ImageStyle
-    var size: IconSize
+    var size: ImageSize
     var color: Color = Color.accentColor
     
     var body: some View {
         if style != .nothing {
-            Image(systemName: icon.name)
+            image.image
                 .resizable()
                 .scaledToFit()
-                .frame(width: size.width*0.5, height: size.width*0.5)
+                .frame(width: size.size.width*0.5, height: size.size.width*0.5)
                 .padding(7)
                 .cornerRadius(style.radius)
                 .overlay(
                     RoundedRectangle(cornerRadius: style.radius)
-                        .stroke(color, lineWidth: size.width*0.08)
-                        .frame(width: size.width*0.92, height: size.width*0.92)
+                        .stroke(color, lineWidth: size.size.width*0.08)
+                        .frame(width: size.size.width*0.92, height: size.size.width*0.92)
                 )
                 .frame(width: size.size.width, height: size.size.height)
                 .foregroundColor(color)
         } else {
-            Image(systemName: icon.name)
+            image.image
                 .resizable()
                 .scaledToFit()
-                .frame(width: size.width, height: size.width)
+                .frame(width: size.size.width, height: size.size.width)
                 .foregroundColor(color)
         }
     }

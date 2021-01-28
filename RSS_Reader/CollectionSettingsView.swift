@@ -31,7 +31,7 @@ struct CollectionSettingsView: View {
     /// IconStyle that indicates the style of every icon
     @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
     /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     var body: some View {
         
@@ -91,7 +91,7 @@ struct CollectionSettingsView: View {
                      * Container for list row in edit mode
                      */
                     HStack {
-                        DefaultListEntryView(icon: CustomIcon(icon: .folder, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: collection.name, font: .headline)
+                        DefaultListEntryView(sys_image: CustomSystemImage(image: .folder, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: collection.name, font: .headline)
                         
                         Spacer()
                         CDButton(action: {
@@ -101,7 +101,7 @@ struct CollectionSettingsView: View {
                     
                 } else {
                     NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
-                        DefaultListEntryView(icon: CustomIcon(icon: .folder, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: collection.name, font: .headline)
+                        DefaultListEntryView(sys_image: CustomSystemImage(image: .folder, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: collection.name, font: .headline)
                     }
                 }
                 

@@ -49,7 +49,7 @@ struct ArticleListRow: View {
                     // parent_feed indicators to the left than seperator and pubdate to the right
                     HStack {
                         if self.bookmarked{
-                            CustomIcon(icon: .bookmark, style: .nothing, size: .xxsmall)
+                            CustomSystemImage(image: .bookmark, style: .nothing, size: .xxsmall)
                         }
                         Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
                             .font(.caption2)
@@ -85,22 +85,22 @@ struct ArticleListRow: View {
             self.bookmarked = article.bookmarked
             self.read = article.read
         })
-        .onChange(of: article.bookmarked){value in
+        .onChange(of: article.bookmarked) {value in
             self.bookmarked = value
             self.model.refreshFilter()
         }
-        .onChange(of: article.read){value in
+        .onChange(of: article.read) {value in
             self.read = value
             self.model.refreshFilter()
         }
-        .contextMenu{
+        .contextMenu {
             Button(action: {
                 self.article.bookmarked.toggle()
             }, label: {
                 if self.bookmarked {
-                    DefaultListEntryView(icon: CustomIcon(icon: .unmark, style: .square, size: .xsmall), text: "Unmark", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .unmark, style: .square, size: .xsmall), text: "Unmark", font: .body)
                 } else {
-                    DefaultListEntryView(icon: CustomIcon(icon: .bookmark, style: .square, size: .xsmall), text: "Bookmark", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .bookmark, style: .square, size: .xsmall), text: "Bookmark", font: .body)
                 }
             })
             
@@ -108,16 +108,16 @@ struct ArticleListRow: View {
                 self.article.read.toggle()
             }, label: {
                 if self.read {
-                    DefaultListEntryView(icon: CustomIcon(icon: .close, style: .circle, size: .xsmall), text: "Unread", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .close, style: .circle, size: .xsmall), text: "Unread", font: .body)
                 } else {
-                    DefaultListEntryView(icon: CustomIcon(icon: .check, style: .circle, size: .xsmall), text: "Read", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .check, style: .circle, size: .xsmall), text: "Read", font: .body)
                 }
             })
             
             Button(action:{
                 self.setShare(article: article)
             }, label: {
-                DefaultListEntryView(icon: CustomIcon(icon: .share, style: .nothing, size: .xsmall), text: "Share", font: .body)
+                DefaultListEntryView(sys_image: CustomSystemImage(image: .share, style: .nothing, size: .xsmall), text: "Share", font: .body)
             })
         }
     }

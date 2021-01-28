@@ -12,7 +12,7 @@ struct DefaultListEntryView: View {
     /// exact CustomImage
     var image: CustomImage?
     /// excact CustomIcon
-    var icon: CustomIcon?
+    var sys_image: CustomSystemImage?
     /// padding around image
     var padding: CGFloat = 0
     /// text
@@ -25,10 +25,9 @@ struct DefaultListEntryView: View {
             if image != nil {
                 image!
                     .padding(padding)
-            } else if icon != nil {
-                icon!
+            } else if sys_image != nil {
+                sys_image!
                     .padding(padding)
-                
             }
             
             Text(text)

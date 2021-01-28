@@ -35,7 +35,7 @@ struct AddFeedView: View {
     /// IconStyle that indicates the style of every icon
     @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
     /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     var body: some View {
         VStack {
@@ -44,7 +44,7 @@ struct AddFeedView: View {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }, label: {
-                        CustomIcon(icon: .close, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                        CustomSystemImage(image: .close, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                     })
                     Spacer()
                     Text("Add Feeds")
@@ -53,7 +53,7 @@ struct AddFeedView: View {
                     Button(action: {
                         detector.detect(text, deep_scan: true)
                     },label: {
-                        CustomIcon(icon: .search, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                        CustomSystemImage(image: .search, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                     })
                 }
                 HStack {
@@ -145,7 +145,7 @@ struct DetectedFeedEntry: View {
                     self.showing_alert = true
                     detected_feed = feed_in_model
                 }) {
-                    CustomIcon(icon: .minus, style: .nothing, size: .small, color: .red)
+                    CustomSystemImage(image: .minus, style: .nothing, size: .small, color: .red)
                 }
                 .alert(isPresented: $showing_alert) {
                     Alert(title: Text("feed_delete_alert_title".localized), message: Text(getWaringTextForFeedRemoval(detected_feed!)), primaryButton: .default(Text("ok_btn_title".localized), action: {
@@ -165,7 +165,7 @@ struct DetectedFeedEntry: View {
                     print("Add Detected Feed Button clicked.")
                     _ = model.addFeed(feed_meta: feed_data)
                 }) {
-                    CustomIcon(icon: .plus, style: .nothing, size: .small, color: .green)
+                    CustomSystemImage(image: .plus, style: .nothing, size: .small, color: .green)
                 }
                 .buttonStyle(BorderlessButtonStyle())
             }

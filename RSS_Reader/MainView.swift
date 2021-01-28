@@ -26,7 +26,7 @@ struct MainView: View {
     /// IconStyle that indicates the style of every icon
     @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
     /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     /**
      @menu_open is a function to open the sidemenu with animation
      */
@@ -52,7 +52,7 @@ struct MainView: View {
                             Button(action: {
                                 self.menu_open()
                             }, label: {
-                                CustomIcon(icon: .side_menu, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                                CustomSystemImage(image: .side_menu, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                             }),
                         trailing:
                             // container for right navigation items
@@ -62,14 +62,14 @@ struct MainView: View {
                                     model.refreshFilter()
                                 }) {
                                     if model.hide_read_articles {
-                                        CustomIcon(icon: .hide_read, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                                        CustomSystemImage(image: .hide_read, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                                     } else {
-                                        CustomIcon(icon: .show_read, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                                        CustomSystemImage(image: .show_read, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                                     }
                                 }
                                 
                                 NavigationLink(destination: SettingsView()) {
-                                    CustomIcon(icon: .settings, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                                    CustomSystemImage(image: .settings, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                                 }
                             }
                     )

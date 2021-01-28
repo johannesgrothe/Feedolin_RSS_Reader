@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomImage: View {
     var image: Image
     var style: ImageStyle
-    var size: IconSize
+    var size: ImageSize
     var color: Color = Color.accentColor
     
     var body: some View {

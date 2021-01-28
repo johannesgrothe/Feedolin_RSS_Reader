@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum SystemIcon {
+enum SystemImage {
     /// SideMenuView
     case infinity
     /// MainView
@@ -115,5 +115,12 @@ enum SystemIcon {
             str = "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left"
         }
         return str!
+    }
+    
+    var image: Image {
+        switch  self {
+        default:
+            return Image(systemName: self.name)
+        }
     }
 }

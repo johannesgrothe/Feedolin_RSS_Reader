@@ -19,7 +19,7 @@ struct SettingsView: View {
     /// IconStyle that indicates the style of every icon
     @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
     /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     @State private var isEditing = false
     @State private var size = 3.0
@@ -29,13 +29,13 @@ struct SettingsView: View {
             Section {
                 /** Calling FeedSettingsView()*/
                 NavigationLink(destination: FeedSettingsView()) {
-                    DefaultListEntryView(icon: CustomIcon(icon: .feed_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Feed Settings", font: .headline)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .feed_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Feed Settings", font: .headline)
                 }
                 .listRowBackground(Color.clear)
                 
                 /**Calling CollectionSettingsView()*/
                 NavigationLink(destination: CollectionSettingsView()) {
-                    DefaultListEntryView(icon: CustomIcon(icon: .collection_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Collection Settings", font: .headline)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .collection_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Collection Settings", font: .headline)
                 }
                 .listRowBackground(Color.clear)
             }
@@ -44,7 +44,7 @@ struct SettingsView: View {
                 /**ToggleButton that toogles the value of @auto_refresh*/
                 HStack{
                     Toggle(isOn: $auto_refresh){
-                        DefaultListEntryView(icon: CustomIcon(icon: .auto_refresh, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!),text: "Auto Refresh", font: .headline)
+                        DefaultListEntryView(sys_image: CustomSystemImage(image: .auto_refresh, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!),text: "Auto Refresh", font: .headline)
                     }
                     .onChange(of: auto_refresh){ _ in
                         model.runAutoRefresh()
@@ -56,7 +56,7 @@ struct SettingsView: View {
             Section {
                 /// Picker to select if the App apears in light/ dark mode or system behaviour
                 HStack {
-                    CustomIcon(icon: .theme, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                    CustomSystemImage(image: .theme, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                     Picker("Theme", selection: $dark_mode_enabled) {
                         Text("System").tag(0)
                         Text("Light").tag(1)
@@ -70,12 +70,12 @@ struct SettingsView: View {
                 .listRowBackground(Color.clear)
                 /// Picker to choose the image style
                 HStack{
-                    CustomIcon(icon: .image_style, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!)
+                    CustomSystemImage(image: .image_style, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
                     Picker("Image Style", selection: $image_style_int) {
-                        CustomIcon(icon: .square_dashed, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(0)
-                        CustomIcon(icon: .square, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(1)
-                        CustomIcon(icon: .square_rounded, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(2)
-                        CustomIcon(icon: .circle, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!).tag(3)
+                        CustomSystemImage(image: .square_dashed, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!).tag(0)
+                        CustomSystemImage(image: .square, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!).tag(1)
+                        CustomSystemImage(image: .square_rounded, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!).tag(2)
+                        CustomSystemImage(image: .circle, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!).tag(3)
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
@@ -83,7 +83,7 @@ struct SettingsView: View {
                 
                 /// Slider to choose the image size
                 HStack {
-                    DefaultListEntryView(icon: CustomIcon(icon: .icon_size, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Icon Size", font: .headline)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .icon_size, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Icon Size", font: .headline)
                     Slider(value: $size,
                            in: 2...4, step: 1,
                            onEditingChanged: { editing in
@@ -99,7 +99,7 @@ struct SettingsView: View {
                 Button(action: {
                     self.showing_alert = true
                 }) {
-                    DefaultListEntryView(icon: CustomIcon(icon: .trash, style: ImageStyle.init(rawValue: image_style_int)!, size: IconSize.init(rawValue: image_size_int)!), text: "Reset App", font: .headline)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .trash, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Reset App", font: .headline)
                 }
                 .alert(isPresented: $showing_alert) {
                     Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())

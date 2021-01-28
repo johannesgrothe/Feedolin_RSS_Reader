@@ -35,7 +35,7 @@ struct FeedProviderSettingsView: View {
     /// IconStyle that indicates the style of every icon
     @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
     /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = IconSize.medium.rawValue
+    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     var body: some View {
         // hole content
