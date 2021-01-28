@@ -77,7 +77,7 @@ struct ArticleListRow: View {
             }
             .frame(minHeight: 0, maxHeight: 200)
             .padding(.all, 10.0)
-            .background(Color(UIColor(named: "ArticleColor")!))
+            .background(Color.article)
             .cornerRadius(10)
             .opacity(self.read ? 0.4 : 1)
         }

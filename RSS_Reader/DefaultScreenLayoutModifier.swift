@@ -11,8 +11,8 @@ import SwiftUI
 struct DefaultScreenLayoutModifier: ViewModifier {
     func body(content: Content) -> some View {
         return AnyView(content
-                        .background(Color("BackgroundColor"))
-                        .accentColor(Color("ButtonColor"))
+                        .background(Color.background)
+                        .accentColor(Color.button)
                         .edgesIgnoringSafeArea(.bottom))
     }
 }

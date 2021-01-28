@@ -13,11 +13,11 @@ struct NavigationViewStyleModifier: ViewModifier {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return AnyView(content
                 .navigationViewStyle(StackNavigationViewStyle()))
-                .accentColor(Color("ButtonColor"))
+                .accentColor(Color.button)
         } else {
             return AnyView(content
                 .navigationViewStyle(DefaultNavigationViewStyle()))
-                .accentColor(Color("ButtonColor"))
+                .accentColor(Color.button)
         }
     }
 }

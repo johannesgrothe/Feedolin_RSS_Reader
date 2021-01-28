@@ -31,15 +31,13 @@ struct SettingsView: View {
                 NavigationLink(destination: FeedSettingsView()) {
                     DefaultListEntryView(sys_image: CustomSystemImage(image: .feed_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Feed Settings", font: .headline)
                 }
-                .listRowBackground(Color.clear)
                 
                 /**Calling CollectionSettingsView()*/
                 NavigationLink(destination: CollectionSettingsView()) {
                     DefaultListEntryView(sys_image: CustomSystemImage(image: .collection_settings, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Collection Settings", font: .headline)
                 }
-                .listRowBackground(Color.clear)
             }
-            
+            .listRowBackground(Color.article)
             Section {
                 /**ToggleButton that toogles the value of @auto_refresh*/
                 HStack{
@@ -50,9 +48,8 @@ struct SettingsView: View {
                         model.runAutoRefresh()
                     }
                 }
-                .listRowBackground(Color.clear)
             }
-            
+            .listRowBackground(Color.article)
             Section {
                 /// Picker to select if the App apears in light/ dark mode or system behaviour
                 HStack {
@@ -67,7 +64,6 @@ struct SettingsView: View {
                         overrideColorScheme(theme_index: dark_mode_enabled)
                     }
                 }
-                .listRowBackground(Color.clear)
                 /// Picker to choose the image style
                 HStack{
                     CustomSystemImage(image: .image_style, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
@@ -79,7 +75,6 @@ struct SettingsView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
-                .listRowBackground(Color.clear)
                 
                 /// Slider to choose the image size
                 HStack {
@@ -92,9 +87,8 @@ struct SettingsView: View {
                        }
                    )
                 }
-                .listRowBackground(Color.clear)
             }
-            
+            .listRowBackground(Color.article)
             Section {
                 Button(action: {
                     self.showing_alert = true
@@ -104,8 +98,8 @@ struct SettingsView: View {
                 .alert(isPresented: $showing_alert) {
                     Alert(title: Text("App Reset"), message: Text("WARNING: This action will irreversible delete all Data!"), primaryButton: .default(Text("Okay"), action: {model.reset()}),secondaryButton: .cancel())
                 }
-                .listRowBackground(Color.clear)
             }
+            .listRowBackground(Color.article)
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle("Settings", displayMode: .inline)

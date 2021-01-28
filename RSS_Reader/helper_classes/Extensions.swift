@@ -64,3 +64,24 @@ extension UINavigationController {
         navigationBar.standardAppearance = appearance
     }
 }
+
+/// extension color for custom colors
+extension Color {
+    /// article color
+    public static var article: Color {
+        return Color("ArticleColor")
+    }
+    /// topbar color
+    public static var topbar: Color {
+        return Color("TopbarColor")
+    }
+    /// background color
+    public static var background: Color {
+        return Color("BackgroundColor")
+    }
+    /// button color
+    public static var button: Color {
+        return Color("ButtonColor")
+    }
+
+}

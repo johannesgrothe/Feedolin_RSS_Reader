@@ -85,7 +85,7 @@ struct AddFeedView: View {
                 }
             }
             .padding()
-            .background(Color(UIColor(named: "TopbarColor")!))
+            .background(Color.topbar)
             
             /** All of the detected feeds */
             List {
@@ -109,9 +109,7 @@ struct AddFeedView: View {
             
             Spacer()
         }
-        .background(Color("BackgroundColor"))
-        .accentColor(Color("ButtonColor"))
-        .edgesIgnoringSafeArea(.bottom)
+        .defaultScreenLayout()
     }
 }
 
