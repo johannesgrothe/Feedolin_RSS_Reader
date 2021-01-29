@@ -7,12 +7,14 @@
 
 import SwiftUI
 
+/// ImageStyle that represent which border th Images has
 enum ImageStyle: Int {
     case nothing = 0
     case square
     case square_rounded
     case circle
     
+    /// returns legal cornerRadius if legal
     var radius: CGFloat {
         switch self {
         case .nothing:

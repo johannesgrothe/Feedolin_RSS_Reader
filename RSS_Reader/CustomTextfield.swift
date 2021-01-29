@@ -7,19 +7,17 @@
 
 import SwiftUI
 
-///
+/// A Customizable Textfield
 struct CustomTextfield: View {
-    ///
+    /// optinal image that is shown in leading position
     var image: SystemImage?
-    ///
+    /// the placholdertext of the textfield
     var placholder: String = ""
-    ///
+    /// the binding text of the textfield
     @Binding var text: String
-    ///
+    /// the action that is called after the enter-key is clicked
     var on_commit: () -> Void
-    ///
-    var button: AnyView?
-    ///
+    /// a private boolean that indcates if the textfield is in editing mode
     @State private var is_editing: Bool = false
     
     var body: some View {
@@ -45,10 +43,6 @@ struct CustomTextfield: View {
                     .opacity(self.text == "" ? 0 : 1)
             }
             .buttonStyle(BorderlessButtonStyle())
-            
-            if button != nil {
-                button
-            }
         }
         .padding(10)
         .foregroundColor(.secondary)

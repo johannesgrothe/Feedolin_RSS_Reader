@@ -32,10 +32,6 @@ struct FeedProviderSettingsView: View {
      @presentationMode make the View dismiss itself
      */
     @Environment(\.presentationMode) var presentationMode
-    /// IconStyle that indicates the style of every icon
-    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
-    /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     var body: some View {
         // hole content
@@ -43,7 +39,7 @@ struct FeedProviderSettingsView: View {
             // image and change-button
             ZStack{
                 // image of provider
-                CustomImage(image: feed_provider.icon.img, style: ImageStyle.init(rawValue: image_style_int)!, size: .xxxlarge)
+                CustomImage(image: feed_provider.icon.img, size: .xxxlarge)
                 /* Not used right now 
                 // change image button
                 Button(action: {
@@ -58,7 +54,7 @@ struct FeedProviderSettingsView: View {
                 */
                 
             }
-            .frame(width: 100, height: 100, alignment: .center)
+            .frame(width: ImageSize.xxxlarge.size.width, height: ImageSize.xxxlarge.size.height, alignment: .center)
             .padding(.horizontal)
             
             // row with original url

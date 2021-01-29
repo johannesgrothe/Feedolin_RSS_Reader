@@ -98,9 +98,9 @@ struct ArticleListRow: View {
                 self.article.bookmarked.toggle()
             }, label: {
                 if self.bookmarked {
-                    DefaultListEntryView(sys_image: CustomSystemImage(image: .unmark, style: .square, size: .xsmall), text: "Unmark", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .unmark, size: .xsmall), text: "Unmark", font: .body)
                 } else {
-                    DefaultListEntryView(sys_image: CustomSystemImage(image: .bookmark, style: .square, size: .xsmall), text: "Bookmark", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .bookmark, size: .xsmall), text: "Bookmark", font: .body)
                 }
             })
             
@@ -108,9 +108,9 @@ struct ArticleListRow: View {
                 self.article.read.toggle()
             }, label: {
                 if self.read {
-                    DefaultListEntryView(sys_image: CustomSystemImage(image: .close, style: .circle, size: .xsmall), text: "Unread", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .close, size: .xsmall), text: "Unread", font: .body)
                 } else {
-                    DefaultListEntryView(sys_image: CustomSystemImage(image: .check, style: .circle, size: .xsmall), text: "Read", font: .body)
+                    DefaultListEntryView(sys_image: CustomSystemImage(image: .check, size: .xsmall), text: "Read", font: .body)
                 }
             })
             

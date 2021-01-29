@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// ImageSize that has much more different sizes than the normal
 enum ImageSize: Int {
     case xxsmall = 0
     case xsmall
@@ -17,6 +18,7 @@ enum ImageSize: Int {
     case xxlarge
     case xxxlarge
     
+    /// private scale to easy write
     private var scale: CGFloat {
         switch self {
         case .xxsmall:
@@ -38,6 +40,7 @@ enum ImageSize: Int {
         }
     }
     
+    /// returns the CGSize of specific scale
     var size: CGSize {
         switch self {
         default:

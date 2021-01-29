@@ -45,10 +45,6 @@ struct FeedEditSettingsView: View {
      @model is the shared model singelton
      */
     @ObservedObject var model: Model = .shared
-    /// IconStyle that indicates the style of every icon
-    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
-    /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     var body: some View {
         // hole content
@@ -91,7 +87,7 @@ struct FeedEditSettingsView: View {
                     }
             }
             .padding(.horizontal)
-            
+            /*
             // use filters toggle
             HStack{
                 Toggle("Use Filters",isOn: $use_filters)
@@ -105,13 +101,11 @@ struct FeedEditSettingsView: View {
             }
             .padding(.horizontal)
             
-            NavigationLink(destination: DummyDetailView()){
+            NavigationLink(destination: EMPTY){
                 Text("Filters Selected")
-                Spacer()
-                Image(systemName: "chevron.forward")
             }
             .padding(.horizontal)
-            
+            */
             Spacer()
         }
         .padding(.top)
@@ -126,7 +120,7 @@ struct FeedEditSettingsView: View {
                     self.showing_alert = true
                 }
             }) {
-                CustomSystemImage(image: .trash, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
+                CustomSystemImage(image: .trash)
             }
             .alert(isPresented: $showing_alert) {
                 Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(feed)), primaryButton: .default(Text("Okay"), action: {

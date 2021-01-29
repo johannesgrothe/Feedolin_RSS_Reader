@@ -35,7 +35,7 @@ struct ArticleList: View {
                 // Casing selector
                 TButton(action: {
                     print("Ignore Casing set to \(search_ignore_casing)")
-                }, image_one: .casing_insensitive, image_two: .casing_sensitive,
+                }, image_one: .insensitive, image_two: .sensitive,
                 bool: $search_ignore_casing)
                 
             }

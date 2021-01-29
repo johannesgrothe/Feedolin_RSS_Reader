@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+/// All SystemImages Strings in app, easily to get
 enum SystemImage {
     /// SideMenuView
-    case infinity
+    case all
+    case bookmarked
     /// MainView
     case side_menu
     case hide_read
@@ -17,19 +19,20 @@ enum SystemImage {
     case settings
     case share
     case search
-    case casing_sensitive
-    case casing_insensitive
+    case sensitive
+    case insensitive
     /// settings
     case feed_settings
     case collection_settings
-    case auto_refresh
-    case theme
-    case square_dashed
-    case square
-    case square_rounded
-    case circle
-    case image_style
-    case icon_size
+    case option_auto_refresh
+    case option_theme
+    case no_style
+    case square_style
+    case square_round_style
+    case circle_style
+    case option_image_style
+    case option_icon_size
+    case option_reset_app
     /// several occurences
     case add
     case trash
@@ -45,78 +48,81 @@ enum SystemImage {
     case bookmark
     case unmark
 
-    
+    /// returns the String of specific SystemImages
     var name: String {
-        var str: String? = nil
         switch self {
         case .side_menu:
-            str = "line.horizontal.3"
-        case .infinity:
-            str = "infinity"
+            return "sidebar.left"
+        case .all:
+            return "infinity.circle"
         case .bookmark:
-            str = "bookmark.fill"
+            return "bookmark.fill"
         case .unmark:
-            str = "bookmark"
+            return "bookmark"
         case .hide_read:
-            str = "eye.fill"
+            return "eye.fill"
         case .show_read:
-            str = "eye"
+            return "eye"
         case .settings:
-            str = "gearshape.fill"
+            return "gear"
         case .share:
-            str = "square.and.arrow.up"
+            return "square.and.arrow.up"
         case .search:
-            str = "magnifyingglass"
-        case .casing_sensitive:
-            str = "textformat"
-        case .casing_insensitive:
-            str = "textformat.size.larger"
+            return "magnifyingglass"
+        case .sensitive:
+            return "textformat"
+        case .insensitive:
+            return "textformat.size.larger"
         case .feed_settings:
-            str = "wave.3.right"
+            return "newspaper"
         case .collection_settings:
-            str = "rectangle.fill.on.rectangle.fill"
-        case .auto_refresh:
-            str = "arrow.clockwise"
-        case .theme:
-            str = "moon.fill"
+            return "folder"
+        case .option_auto_refresh:
+            return "arrow.clockwise"
+        case .option_theme:
+            return "paintpalette"
         case .add:
-            str = "plus"
+            return "plus"
         case .trash:
-            str = "trash.fill"
+            return "trash"
         case .folder:
-            str = "folder.fill"
+            return "folder"
         case .edit:
-            str = "pencil"
+            return "pencil"
         case .check:
-            str = "checkmark"
+            return "checkmark"
         case .xmark:
-            str = "xmark.circle.fill"
+            return "xmark.circle.fill"
         case .minus:
-            str =  "minus.circle.fill"
+            return "minus.circle.fill"
         case .plus:
-            str = "plus.circle.fill"
+            return "plus.circle.fill"
         case .circle_small:
-            str = "circle.fill"
+            return "circle.fill"
         case .close:
-            str = "xmark"
+            return "xmark"
         case .forward:
-            str = "chevron.forward"
-        case .square_dashed:
-            str = "square.dashed"
-        case .square:
-            str = "squareshape"
-        case .square_rounded:
-            str = "square"
-        case .circle:
-            str = "circle"
-        case .image_style:
-            str = "cursorarrow.and.square.on.square.dashed"
-        case .icon_size:
-            str = "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left"
+            return "chevron.forward"
+        case .no_style:
+            return "square.dashed"
+        case .square_style:
+            return "squareshape"
+        case .square_round_style:
+            return "square"
+        case .circle_style:
+            return "circle"
+        case .option_image_style:
+            return "cursorarrow.and.square.on.square.dashed"
+        case .option_icon_size:
+            return "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left"
+        case .option_reset_app:
+            return "doc.badge.gearshape"
+        case .bookmarked:
+            return "bookmark"
         }
-        return str!
     }
     
+    /// returns the Image of specific SystemImage
     var image: Image {
         switch  self {
         default:

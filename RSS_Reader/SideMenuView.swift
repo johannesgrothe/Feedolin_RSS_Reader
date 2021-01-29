@@ -18,10 +18,6 @@ struct SideMenuView: View {
     @ObservedObject var model: Model = .shared
     /// closed the sidemenu with animation
     let menu_close: () -> Void
-    /// scale of all icons
-    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
-    /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
     
     var body: some View {
         // Drag gesture to close the side menu by swiping
@@ -47,7 +43,10 @@ struct SideMenuView: View {
                         model.setFilterAll()
                         model.refreshFilter()
                     }, label: {
-                        DefaultListEntryView(sys_image: CustomSystemImage(image: .infinity, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "All", font: .headline)
+                        DefaultListEntryView(
+                            sys_image: CustomSystemImage(image: .all),
+                            text: "All",
+                            font: .headline)
                     })
                     .listRowBackground(Color.clear)
                     /**
@@ -58,7 +57,10 @@ struct SideMenuView: View {
                         model.setFilterBookmarked()
                         model.refreshFilter()
                     }, label: {
-                        DefaultListEntryView(sys_image: CustomSystemImage(image: .bookmark, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: "Bookmarked", font: .headline)
+                        DefaultListEntryView(
+                            sys_image: CustomSystemImage(image: .bookmarked),
+                            text: "Bookmarked",
+                            font: .headline)
                     })
                     .listRowBackground(Color.clear)
                     /**
@@ -72,7 +74,10 @@ struct SideMenuView: View {
                                 model.setFilterCollection(collection)
                                 model.refreshFilter()
                             }, label: {
-                                DefaultListEntryView(sys_image: CustomSystemImage(image: .folder, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: collection.name, font: .headline)
+                                DefaultListEntryView(
+                                    sys_image: CustomSystemImage(image: .folder),
+                                    text: collection.name,
+                                    font: .headline)
                             })
                         }
                         .listRowBackground(Color.clear)
@@ -88,7 +93,10 @@ struct SideMenuView: View {
                                 model.setFilterFeedProvider(feed_provider)
                                 model.refreshFilter()
                             }, label: {
-                                DefaultListEntryView(image: CustomImage(image: feed_provider.icon.img, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!), text: feed_provider.name, font: .headline)
+                                DefaultListEntryView(
+                                    image: CustomImage(image: feed_provider.icon.img),
+                                    text: feed_provider.name,
+                                    font: .headline)
                             })
                             /**
                              displayes the feeds connected to the feed provider
@@ -99,7 +107,14 @@ struct SideMenuView: View {
                                     model.setFilterFeed(feed)
                                     model.refreshFilter()
                                 }, label: {
-                                    DefaultListEntryView(sys_image: CustomSystemImage(image: .circle_small, style: .nothing, size: .xxsmall), padding: ImageSize.init(rawValue: image_size_int)!.size.width*0.4, text: feed.name, font: .subheadline)
+                                    DefaultListEntryView(
+                                        sys_image: CustomSystemImage(
+                                            image: .circle_small,
+                                            style: .nothing,
+                                            size: .xxsmall),
+                                        padding: ImageSize.small.size.width*0.33,
+                                        text: feed.name,
+                                        font: .subheadline)
                                         
                                 })
                             }

@@ -7,11 +7,20 @@
 
 import SwiftUI
 
+/// Creates from an Image a custom one
 struct CustomImage: View {
+    /// the image to customize
     var image: Image
-    var style: ImageStyle
-    var size: ImageSize
+    /// the image style that cutomize the image
+    var style: ImageStyle = .circle
+    /// the image size that cutomize the image
+    var size: ImageSize = .small
+    /// the color that cutomize the image
     var color: Color = Color.accentColor
+    /// IconStyle that indicates the style of every icon
+    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.nothing.rawValue
+    /// IconSize that indicates the size of every icon
+    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.small.rawValue
     
     var body: some View {
         if style != .nothing {

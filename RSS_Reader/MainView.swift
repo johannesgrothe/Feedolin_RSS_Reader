@@ -7,29 +7,13 @@
 
 import SwiftUI
 
-/**
- View that contains the hole
- */
+/// View that contains the hole
 struct MainView: View {
-    /**
-     @show_menu is  boolean if side menu is shown
-     */
+    /// @show_menu is  boolean if side menu is shown
     @Binding var show_menu : Bool
-    /**
-     @model is the shared model singelton
-     */
+    /// @model is the shared model singelton
     @ObservedObject var model: Model = .shared
-    /**
-     * Indicates which color scheme is selected by the user
-     */
-    @AppStorage("dark_mode_enabled") var dark_mode_enabled: Int = 0
-    /// IconStyle that indicates the style of every icon
-    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.square_rounded.rawValue
-    /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.medium.rawValue
-    /**
-     @menu_open is a function to open the sidemenu with animation
-     */
+    /// @menu_open is a function to open the sidemenu with animation
     let menu_open: () -> Void
     
     var body: some View {
@@ -52,7 +36,7 @@ struct MainView: View {
                             Button(action: {
                                 self.menu_open()
                             }, label: {
-                                CustomSystemImage(image: .side_menu, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
+                                CustomSystemImage(image: .side_menu)
                             }),
                         trailing:
                             // container for right navigation items
@@ -62,14 +46,14 @@ struct MainView: View {
                                     model.refreshFilter()
                                 }) {
                                     if model.hide_read_articles {
-                                        CustomSystemImage(image: .hide_read, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
+                                        CustomSystemImage(image: .hide_read)
                                     } else {
-                                        CustomSystemImage(image: .show_read, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
+                                        CustomSystemImage(image: .show_read)
                                     }
                                 }
                                 
                                 NavigationLink(destination: SettingsView()) {
-                                    CustomSystemImage(image: .settings, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
+                                    CustomSystemImage(image: .settings)
                                 }
                             }
                     )
