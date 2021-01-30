@@ -29,7 +29,7 @@ struct ArticleList: View {
         List {
             HStack{
                 CustomTextfield(image: .search,
-                                placholder: "Search",
+                                placholder: "search_bar_textfield".localized,
                                 text: $search_phrase,
                                 on_commit: {})
                 // Casing selector

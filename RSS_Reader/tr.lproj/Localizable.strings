@@ -59,3 +59,7 @@
 "theme_system" = "Sistem";
 "theme_light" = "Açık";
 "theme_dark" = "Koyu";
+
+// List Segments
+"found_in_website_section_title" = "Web Sitesinde Bulunan Haberler";
+"found_in_url_section_title" = "Haberler URL’de bulundu";

@@ -60,7 +60,7 @@ struct FeedEditSettingsView: View {
             
             // row with name and textfield
             HStack {
-                Text("Name")
+                Text("feed_name_lbl".localized)
                     .padding(.trailing)
                 // input textfield
                 CustomTextfield(placholder: feed.name,
@@ -74,7 +74,7 @@ struct FeedEditSettingsView: View {
             
             // show in main feed toggle
             HStack{
-                Toggle("Show in Main Feed", isOn: $show_in_main)
+                Toggle("show_in_main_lbl".localized, isOn: $show_in_main)
                     .onAppear(){
                         show_in_main = feed.show_in_main
                     }
@@ -90,7 +90,7 @@ struct FeedEditSettingsView: View {
             /*
             // use filters toggle
             HStack{
-                Toggle("Use Filters",isOn: $use_filters)
+                Toggle("use_filters_lbl".localized,isOn: $use_filters)
                     .onAppear(){
                         use_filters = feed.use_filters
                     }
@@ -102,7 +102,7 @@ struct FeedEditSettingsView: View {
             .padding(.horizontal)
             
             NavigationLink(destination: EMPTY){
-                Text("Filters Selected")
+                Text("filters_selected_lbl".localized)
             }
             .padding(.horizontal)
             */
@@ -123,7 +123,10 @@ struct FeedEditSettingsView: View {
                 CustomSystemImage(image: .trash)
             }
             .alert(isPresented: $showing_alert) {
-                Alert(title: Text("Removing Feed"), message: Text(getWaringTextForFeedRemoval(feed)), primaryButton: .default(Text("Okay"), action: {
+                Alert(
+                    title: Text("feed_delete_alert_title".localized),
+                    message: Text(getWaringTextForFeedRemoval(feed)),
+                    primaryButton: .default(Text("ok_btn_title".localized), action: {
                         model.removeFeed(feed)
                         self.presentationMode.wrappedValue.dismiss()
                 }),secondaryButton: .cancel())

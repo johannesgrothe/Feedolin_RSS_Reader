@@ -68,7 +68,7 @@ struct FeedProviderSettingsView: View {
             
             // row with name and textfield
             HStack {
-                Text("Name")
+                Text("feed_name_lbl".localized)
                     .padding(.trailing)
                 // input textfield
                 CustomTextfield(placholder: feed_provider.name,
@@ -82,7 +82,7 @@ struct FeedProviderSettingsView: View {
             
             // row with abbreviation and textfield
             HStack {
-                Text("Abbreviation")
+                Text("feed_abbreviation_lbl".localized)
                     .padding(.trailing)
                 // input textfield
                 CustomTextfield(placholder: feed_provider.token,

@@ -24,10 +24,10 @@ struct ECButton: View {
             action()
         }, label: {
             if (is_editing) {
-                Text("Done").font(.headline)
+                Text("done_btn_title".localized).font(.headline)
 //                CustomSystemImage(image: .check, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
             } else {
-                Text("Edit").font(.headline)
+                Text("edit_btn_title".localized).font(.headline)
 //                CustomSystemImage(image: .edit, style: ImageStyle.init(rawValue: image_style_int)!, size: ImageSize.init(rawValue: image_size_int)!)
             }
         })

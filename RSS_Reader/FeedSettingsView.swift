@@ -44,7 +44,7 @@ struct FeedSettingsView: View {
         }
         .listStyle(SidebarListStyle())
         .defaultScreenLayout()
-        .navigationBarTitle("Feed Settings", displayMode: .inline)
+        .navigationBarTitle("feed_settings_title".localized, displayMode: .inline)
         .navigationBarItems(trailing:
                                 Button(action: {
                                     self.show_add_feed_view.toggle()

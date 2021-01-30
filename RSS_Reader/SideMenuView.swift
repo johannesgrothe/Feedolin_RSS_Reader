@@ -45,7 +45,7 @@ struct SideMenuView: View {
                     }, label: {
                         DefaultListEntryView(
                             sys_image: CustomSystemImage(image: .all),
-                            text: "All",
+                            text: "all_filter".localized,
                             font: .headline)
                     })
                     .listRowBackground(Color.clear)
@@ -59,14 +59,14 @@ struct SideMenuView: View {
                     }, label: {
                         DefaultListEntryView(
                             sys_image: CustomSystemImage(image: .bookmarked),
-                            text: "Bookmarked",
+                            text: "bookmarked_filter".localized,
                             font: .headline)
                     })
                     .listRowBackground(Color.clear)
                     /**
                      displayes the collections
                      */
-                    Section(header: Text("Collections (\(model.collection_data.endIndex))")) {
+                    Section(header: Text("\("collection_comp".localized) (\(model.collection_data.endIndex))")) {
                         
                         ForEach(model.collection_data) { collection in
                             Button(action: {
@@ -124,7 +124,7 @@ struct SideMenuView: View {
                 }
                 .listStyle(SidebarListStyle())
                 .defaultScreenLayout()
-                .navigationBarTitle("Filter",displayMode: .inline)
+                .navigationBarTitle("filter_comp".localized,displayMode: .inline)
             }
             .autoNavigationViewStyle()
             .frame(width: self.width)

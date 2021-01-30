@@ -42,7 +42,7 @@ struct AddFeedView: View {
                         CustomSystemImage(image: .close, size: .xsmall)
                     })
                     Spacer()
-                    Text("Add Feeds")
+                    Text("add_feed_title".localized)
                         .font(.headline)
                     Spacer()
                     Button(action: {
@@ -52,7 +52,7 @@ struct AddFeedView: View {
                     })
                 }
                 HStack {
-                    CustomTextfield(placholder: "Enter URL",
+                    CustomTextfield(placholder: "url_textfield".localized,
                                     text: $text,
                                     on_commit: {
                                         detector.detect(text)
@@ -74,14 +74,14 @@ struct AddFeedView: View {
             /** All of the detected feeds */
             List {
                 if (detector.specific_feed != nil) {
-                    Section(header: Text("Feed found in link:")) {
+                    Section(header: Text("found_in_website_section_title".localized)) {
                         DetectedFeedEntry(feed_data: detector.specific_feed!)
                     }
                     .listRowBackground(Color.clear)
                 }
                 
                 if !detector.detected_feeds.isEmpty {
-                    Section(header: Text("Feed found in website:")) {
+                    Section(header: Text("found_in_url_section_title".localized)) {
                         ForEach(detector.detected_feeds) { feed_data in
                             DetectedFeedEntry(feed_data: feed_data)
                         }

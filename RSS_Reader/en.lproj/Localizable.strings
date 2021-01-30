@@ -59,3 +59,7 @@
 "theme_system" = "System";
 "theme_light" = "Light";
 "theme_dark" = "Dark";
+
+// List Segments
+"found_in_website_section_title" = "Feeds found in Website";
+"found_in_url_section_title" = "Feeds found in URL";

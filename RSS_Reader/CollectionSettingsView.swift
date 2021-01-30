@@ -29,38 +29,21 @@ struct CollectionSettingsView: View {
     @State private var new_coll_name: String = ""
     
     var body: some View {
-        
-        //    CollectionSettingsList()
         List {
-            
             if (edit_mode) {
-                
-                /**
-                 * Container for new collection input
-                 */
+                // collection name text field for new collection input
                 HStack {
-                    /**
-                     * Container for Textfield and clear-btn
-                     */
-                    HStack {
-                        
-                        // collection name text field
-                        TextField("add_collection_textfield".localized, text: self.$new_coll_name, onEditingChanged: { isEditing in
+                    // collection name text field
+                    CustomTextfield(
+                        placholder: "add_collection_textfield".localized,
+                        text: self.$new_coll_name,
+                        on_commit: {
+                            if self.new_coll_name != "" {
+                                print(self.new_coll_name)
+                                model.collection_data.append(Collection(name: self.new_coll_name))
+                                self.new_coll_name = ""
+                            }
                         })
-                        
-                        // x Button
-                        Button(action: {
-                            new_coll_name = ""
-                        }, label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
-                                .opacity(new_coll_name == "" ? 0 : 1)
-                        })
-                        .buttonStyle(BorderlessButtonStyle())
-                    }
-                    .padding(8)
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(8)
                     
                     // Send Button for new collection
                     CDButton(action: {
@@ -69,8 +52,6 @@ struct CollectionSettingsView: View {
                             let new_collection = Collection(name: self.new_coll_name)
                             _ = model.addCollection(new_collection)
                             self.new_coll_name = ""
-                        } else {
-                            print("Collection name is empty")
                         }
                     }, exits: false)
                 }
@@ -111,7 +92,7 @@ struct CollectionSettingsView: View {
         }
         .listStyle(PlainListStyle())
         .defaultScreenLayout()
-        .navigationBarTitle("Collection Settings", displayMode: .inline)
+        .navigationBarTitle("coll_settings_title".localized, displayMode: .inline)
         .navigationBarItems(trailing:
                                 ECButton(action: {}, is_editing: $edit_mode)
         )
