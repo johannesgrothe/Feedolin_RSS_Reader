@@ -25,6 +25,13 @@ struct ContentView: View {
                 .toolbar{
                     ToolbarItem(placement: ToolbarItemPlacement.navigation){
                         Button(action: {
+                            NSApp.keyWindow?.contentViewController?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+                        }){ Label("",systemImage: "sidebar.left")
+                        }
+                    }
+                    
+                    ToolbarItem(placement: ToolbarItemPlacement.navigation){
+                        Button(action: {
                             print("Add feed button clicked")
                             self.show_add_feed_view.toggle()
                         }) {
@@ -36,7 +43,6 @@ struct ContentView: View {
                     AddFeedView()
                 }
                 .navigationTitle("")
-                .frame(minWidth: 1000, minHeight: 700)
         }
     }
 }

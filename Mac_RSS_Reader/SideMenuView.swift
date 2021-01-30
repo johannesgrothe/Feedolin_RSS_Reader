@@ -106,21 +106,17 @@ struct SideMenuView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .listRowBackground(Color.clear)
         }
-        .frame(minWidth: 100, idealWidth: 200)
         .listStyle(SidebarListStyle())
         .toolbar{
             Spacer()
-            VStack{
-                Button(action: {
-                    print("Add feed button clicked")
-                    self.edit_mode.toggle()
-                }) {
-                    if edit_mode{
-                        Text("Done")
-                    }
-                    else{
-                        Text("Edit")
-                    }
+            Button(action: {
+                self.edit_mode.toggle()
+            }) {
+                if edit_mode{
+                    Text("Done")
+                }
+                else{
+                    Text("Edit")
                 }
             }
         }
