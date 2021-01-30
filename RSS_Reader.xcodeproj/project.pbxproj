@@ -62,6 +62,7 @@
 		7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */; };
 		7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */; };
 		1BEAC5D225A9DC440067C440 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E11E254D7BAD00006B70 /* ArticleView.swift */; };
+		1BEC8ADB25C5961600A4DD14 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */; };
 		7C9C4A8325924AB20025BBBC /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = EB3F6ABA2554046F003FA72F /* XMLCoder */; };
 		7C9C4A88259269100025BBBC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9C4A87259269100025BBBC /* MainView.swift */; };
 		7CB831DC2628A5ED00F41B92 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB831DB2628A5ED00F41B92 /* ScrollViewOffset.swift */; };
@@ -166,6 +167,7 @@
 		7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultScreenLayoutModifier.swift; sourceTree = "<group>"; };
 		7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListEntryView.swift; sourceTree = "<group>"; };
 		7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleModifier.swift; sourceTree = "<group>"; };
+		1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		7C9C4A87259269100025BBBC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7CB831DB2628A5ED00F41B92 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
 		7CB831E02628A96200F41B92 /* WaitingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingButton.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				1BA30E9A25A495120048FA60 /* Mac_RSS_Reader.xcdatamodeld */,
 				1BA30E9525A495120048FA60 /* Preview Content */,
 				1B723C7025B5D44D004446B2 /* FeedSettingsView.swift */,
+				1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */,
 			);
 			path = Mac_RSS_Reader;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				1B0F2B1B25B70CDE00EF2B1F /* TextGenerators.swift in Sources */,
 				1B12DFFD25A897670068ED15 /* ArticleList.swift in Sources */,
 				1B572E5425A4B35300CA8A1B /* CollectionDetailsSettingsView.swift in Sources */,
+				1BEC8ADB25C5961600A4DD14 /* GeneralSettingsView.swift in Sources */,
 				1B572E5225A4B35300CA8A1B /* CollectionSettingsView.swift in Sources */,
 				1BA30EC425A496F10048FA60 /* RSS_ReaderApp.swift in Sources */,
 				1B12DFE725A894E90068ED15 /* ArticleView.swift in Sources */,
