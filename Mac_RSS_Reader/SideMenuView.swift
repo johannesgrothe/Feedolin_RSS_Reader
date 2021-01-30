@@ -29,6 +29,7 @@ struct SideMenuView: View {
          displayes the collections and the feedproviders with their feeds
          */
         List {
+            
             /**
              displayes all-button
              */
@@ -41,7 +42,7 @@ struct SideMenuView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 22, height: 22)
-                        .foregroundColor(Color.red)
+                        .foregroundColor(Color("ButtonColor"))
                     Text("All")
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +61,7 @@ struct SideMenuView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 22, height: 22)
-                        .foregroundColor(Color.red)
+                        .foregroundColor(Color("ButtonColor"))
                     Text("Bookmarked")
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -126,6 +127,7 @@ struct SideMenuView: View {
                             Text(feed_provider.name)
                                 .font(.headline)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(Color("ButtonColor"))
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -174,7 +176,7 @@ struct CollectionButtonView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 16, height: 16)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color("ButtonColor"))
                     
                     Text(collection.name)
                         .font(.headline)
@@ -225,6 +227,7 @@ struct FeedButtonView: View {
                     Text(feed.name)
                         .font(.subheadline)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(Color("ButtonColor"))
                 }
             }
             .padding(.leading)

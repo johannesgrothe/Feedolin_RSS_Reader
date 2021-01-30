@@ -38,7 +38,6 @@ struct SettingsView: View {
                 }
                 .tag(Tabs.collection)
         }
-        .frame(minWidth:1000, minHeight: 500)
     }
 }
 

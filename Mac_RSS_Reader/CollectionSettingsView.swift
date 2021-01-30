@@ -38,6 +38,7 @@ struct CollectionSettingsView: View {
                         }
                     }
                 }
+                .listStyle(SidebarListStyle())
             }
         }
     }
