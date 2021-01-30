@@ -18,6 +18,11 @@ struct SideMenuView: View {
      */
     @State private var edit_mode = false
     
+    /**
+     * name of a new collection the user wants to add
+     */
+    @State private var new_coll_name: String = ""
+    
     var body: some View {
         
         /**
@@ -66,6 +71,36 @@ struct SideMenuView: View {
              displayes the collections
              */
             Section(header: Text("Collections (\(model.collection_data.endIndex))")) {
+                if edit_mode{
+                    /**
+                     * Container for new collection input
+                     */
+                    HStack {
+                        
+                        // collection name text field
+                        TextField("Collection Name", text: self.$new_coll_name, onEditingChanged: { isEditing in
+                        })
+                        .padding(8)
+                        .cornerRadius(8)
+                        
+                        // Send Button for new collection
+                        Button(action: {
+                            print("Add Collection Button clicked.")
+                            if self.new_coll_name != "" {
+                                print(self.new_coll_name)
+                                model.collection_data.append(Collection(name: self.new_coll_name))
+                                self.new_coll_name = ""
+                            } else {
+                                print("Collection name is empty")
+                            }
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundColor(.green)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                    }
+                    .listRowBackground(Color.clear)
+                }
                 ForEach(model.collection_data) { item in
                     CollectionButtonView(edit_mode: $edit_mode, collection: item)
                 }
