@@ -75,7 +75,6 @@ struct AddFeedView: View {
                 }
             }
             .padding()
-            .background(Color("TopbarColor"))
             
             /** All of the detected feeds */
             List {
