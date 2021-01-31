@@ -67,7 +67,8 @@ struct CollectionSettingsView: View {
                         print("Add Collection Button clicked.")
                         if self.new_coll_name != "" {
                             print(self.new_coll_name)
-                            model.collection_data.append(Collection(name: self.new_coll_name))
+                            let new_collection = Collection(name: self.new_coll_name)
+                            _ = model.addCollection(new_collection)
                             self.new_coll_name = ""
                         } else {
                             print("Collection name is empty")

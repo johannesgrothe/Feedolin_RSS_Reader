@@ -140,9 +140,6 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
          */
         self.icon = AsyncImage("https://www.google.com/s2/favicons?sz=64&domain_url=\(url)", default_image: default_icon)
         
-        // For testing fb53 uncomment line 129 and comment line 126 out
-//        self.icon = AsyncImage("https:/=\(url)", default_image: default_icon)
-        
         /**
          the icon_loaded_indicator is 'chained' to the images 'objectWillChange'
          This way, the NewsFeedProvider is changing as soon as the image is changing, updating

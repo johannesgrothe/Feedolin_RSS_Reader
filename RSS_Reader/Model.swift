@@ -187,6 +187,15 @@ final class Model: ObservableObject {
         }
     }
     
+    /// Adds a new collection to the model
+    /// - Parameter collection: Collection to add
+    /// - Returns: Whether adding the collection was successful
+    func addCollection(_ collection: Collection) -> Bool {
+        self.collection_data.append(collection)
+        collection.make_persistent()
+        return true
+    }
+    
     /**
      Adds an article to the database after checking if it already exists
      - Parameter article: The article thats supposed to be added
@@ -239,10 +248,6 @@ final class Model: ObservableObject {
             }
         }
         return nil
-    }
-    
-    private func addFeedfromData() {
-        
     }
     
     func addFeed(feed_meta: NewsFeedMeta) -> Bool {

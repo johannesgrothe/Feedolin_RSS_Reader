@@ -24,7 +24,7 @@ class Collection: Identifiable, ObservableObject, Codable{
      */
     @Published var name: String {
         didSet {
-            model.saveCollection(self)
+            save()
         }
     }
     
@@ -33,7 +33,7 @@ class Collection: Identifiable, ObservableObject, Codable{
      */
     @Published var feed_list: [NewsFeed] {
         didSet {
-            model.saveCollection(self)
+            save()
         }
     }
     
@@ -50,7 +50,7 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.name = name
         self.feed_list = []
         self.id = UUID()
-        model.saveCollection(self)
+        self.is_permanent = false
     }
     
     /**
@@ -63,6 +63,7 @@ class Collection: Identifiable, ObservableObject, Codable{
         self.id = try container.decode(UUID.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
         self.feed_list = []
+        self.is_permanent = true
         
         /** Load list of all UUIDS for the feeds */
         let local_feed_id_list = try container.decode([UUID].self, forKey: .feed_id_list)
@@ -147,5 +148,23 @@ class Collection: Identifiable, ObservableObject, Codable{
             }
         }
         return false
+    }
+    
+    /// Whether the Collection is saved and kept after restarting or not
+    private var is_permanent: Bool
+    
+    /// Aktivates persistence to save Collection as soon as it gets changed
+    func make_persistent() {
+        if is_permanent != true {
+            is_permanent = true
+            self.save()
+        }
+    }
+    
+    /// Saves the Collection to make it permanent
+    func save() {
+        if is_permanent {
+            model.saveCollection(self)
+        }
     }
 }
