@@ -37,6 +37,9 @@ class Collection: Identifiable, ObservableObject, Codable{
         }
     }
     
+    /// Whether the Collection is saved and kept after restarting or not
+    private var is_permanent: Bool
+    
     /**
      * Unique id belong to the instance of a Collection
      */
@@ -149,9 +152,6 @@ class Collection: Identifiable, ObservableObject, Codable{
         }
         return false
     }
-    
-    /// Whether the Collection is saved and kept after restarting or not
-    private var is_permanent: Bool
     
     /// Aktivates persistence to save Collection as soon as it gets changed
     func make_persistent() {

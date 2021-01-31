@@ -67,6 +67,9 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
         }
     }
     
+    /// Whether the Feed Provider is saved and kept after restarting or not
+    private var is_permanent: Bool
+    
     /**
      List storing indicators to update the FeedProvider when any Feed is updated
      */
@@ -185,9 +188,6 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
         }
         return nil
     }
-    
-    /// Whether the Feed Provider is saved and kept after restarting or not
-    private var is_permanent: Bool
     
     /// Aktivates persistence to save Feed Provider as soon as it gets changed
     func make_persistent() {

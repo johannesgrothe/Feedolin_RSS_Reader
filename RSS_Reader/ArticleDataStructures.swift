@@ -68,6 +68,9 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
         }
     }
     
+    /// Whether the Article is saved and kept after restarting or not
+    private var is_permanent: Bool
+    
     /** Encode function to serialize a instance of ArticleData to a json string, writes out all the properties attached to their respective key */
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -219,9 +222,6 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
         date_formatter.unitsStyle = .short
         return date_formatter.localizedString(for: pub_date, relativeTo: Date())
     }
-    
-    /// Whether the Article is saved and kept after restarting or not
-    private var is_permanent: Bool
     
     /// Aktivates persistence to save Article as soon as it gets changed
     func make_persistent() {
