@@ -11,7 +11,7 @@ import Combine
 /**
  Class that represents a news feed provider
  */
-class NewsFeedProvider: Codable, Identifiable, ObservableObject{
+class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
     
     /**
      Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "id":"value"...
@@ -35,7 +35,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      */
     @Published var name: String {
         didSet {
-            model.saveFeedProvider(self)
+            save()
         }
     }
     
@@ -44,7 +44,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      */
     @Published var token: String {
         didSet {
-            model.saveFeedProvider(self)
+            save()
         }
     }
     
@@ -63,7 +63,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
      */
     @Published var feeds: [NewsFeed] {
         didSet {
-            model.saveFeedProvider(self)
+            save()
         }
     }
     
@@ -98,6 +98,8 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         token = try container.decode(String.self, forKey: .token)
         icon = try container.decode(AsyncImage.self, forKey: .icon)
         feeds = try container.decode([NewsFeed].self, forKey: .feeds)
+        is_permanent = true
+        
         for feed in feeds{
             feed.parent_feed = self
         }
@@ -122,6 +124,7 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         self.token = token
         self.feeds = feeds
         self.id = UUID.init()
+        self.is_permanent = false
         
         var default_icon: String = ""
         let prefix = String(token.lowercased().prefix(1))
@@ -185,6 +188,24 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject{
         }
         return nil
     }
+    
+    /// Whether the Feed Provider is saved and kept after restarting or not
+    private var is_permanent: Bool
+    
+    /// Aktivates persistence to save Feed Provider as soon as it gets changed
+    func make_persistent() {
+        if is_permanent != true {
+            is_permanent = true
+            self.save()
+        }
+    }
+    
+    /// Saves the Feed Provider to make it permanent
+    func save() {
+        if is_permanent {
+            model.saveFeedProvider(self)
+        }
+    }
 }
 
 /**
@@ -212,7 +233,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      */
     @Published var name: String {
         didSet {
-            if parent_feed != nil { model.saveFeedProvider(parent_feed!) }
+            if parent_feed != nil { parent_feed!.save() }
         }
     }
     
@@ -221,7 +242,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      */
     @Published var show_in_main: Bool {
         didSet {
-            if parent_feed != nil { model.saveFeedProvider(parent_feed!) }
+            if parent_feed != nil { parent_feed!.save() }
         }
     }
     
@@ -230,7 +251,7 @@ class NewsFeed: Codable, Identifiable, ObservableObject {
      */
     @Published var use_filters: Bool {
         didSet {
-            if parent_feed != nil { model.saveFeedProvider(parent_feed!) }
+            if parent_feed != nil { parent_feed!.save() }
         }
     }
     

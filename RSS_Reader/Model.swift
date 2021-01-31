@@ -255,6 +255,7 @@ final class Model: ObservableObject {
         if parent_feed == nil {
             parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
             self.feed_data.append(parent_feed!)
+            parent_feed!.make_persistent()
             
             /**Link update of the feed to the feed provider*/
             self.feed_provider_update_indicators.append(parent_feed!.objectWillChange.sink { _ in
@@ -275,6 +276,7 @@ final class Model: ObservableObject {
                 print("Something stupid happened while adding '\(lower_url)'")
                 return false
             }
+            
         } else {
             print("Feed with url '\(lower_url)' altready exists")
             return false
