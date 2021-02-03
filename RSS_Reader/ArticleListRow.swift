@@ -56,7 +56,7 @@ struct ArticleListRow: View {
                             .font(.caption2)
                             .lineLimit(1)
                         Text("|").font(.caption2)
-                        Text(article.time_ago_date_to_string())
+                        Text(article.timeAgoDateToString())
                             .font(.caption2)
                             .italic()
                             .lineLimit(1)

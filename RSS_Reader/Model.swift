@@ -192,7 +192,7 @@ final class Model: ObservableObject {
     /// - Returns: Whether adding the collection was successful
     func addCollection(_ collection: Collection) -> Bool {
         self.collection_data.append(collection)
-        collection.make_persistent()
+        collection.makePersistent()
         return true
     }
     
@@ -214,7 +214,7 @@ final class Model: ObservableObject {
             }
         }
         stored_article_data.append(article)
-        article.make_persistent()
+        article.makePersistent()
         return true
     }
     
@@ -260,7 +260,7 @@ final class Model: ObservableObject {
         if parent_feed == nil {
             parent_feed = NewsFeedProvider(url: feed_meta.main_url, name: feed_meta.main_url, token: feed_meta.main_url, icon_url: "https://cdn2.iconfinder.com/data/icons/social-icon-3/512/social_style_3_rss-256.png", feeds: [])
             self.feed_data.append(parent_feed!)
-            parent_feed!.make_persistent()
+            parent_feed!.makePersistent()
             
             /**Link update of the feed to the feed provider*/
             self.feed_provider_update_indicators.append(parent_feed!.objectWillChange.sink { _ in
@@ -736,11 +736,10 @@ final class Model: ObservableObject {
     }
     
     func getFeedByURL(_ url: String) -> NewsFeed? {
-        print("Searching for feed with url '\(url)'")
+//        print("Searching for feed with url '\(url)'")
         for feed_provider in feed_data{
             for feed in feed_provider.feeds{
                 if url == feed.url {
-                    print("FOUND")
                     return feed
                 }
             }

@@ -189,8 +189,8 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
         return nil
     }
     
-    /// Aktivates persistence to save Feed Provider as soon as it gets changed
-    func make_persistent() {
+    /// Activates persistence to save Feed Provider as soon as it gets changed
+    func makePersistent() {
         if is_permanent != true {
             is_permanent = true
             self.save()

@@ -153,8 +153,8 @@ class Collection: Identifiable, ObservableObject, Codable{
         return false
     }
     
-    /// Aktivates persistence to save Collection as soon as it gets changed
-    func make_persistent() {
+    /// Activates persistence to save Collection as soon as it gets changed
+    func makePersistent() {
         if is_permanent != true {
             is_permanent = true
             self.save()

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Savable {
-    func make_persistent()
+    func makePersistent()
     
     func save()
 }

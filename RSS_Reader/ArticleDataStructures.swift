@@ -209,22 +209,22 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
     }
 
     /** Function that returns a Date-/Timestamp as a String */
-    func date_to_string() -> String{
+    func dateToString() -> String{
         let date_formatter = DateFormatter()
         date_formatter.dateFormat = "dd-MM-yyyy HH:mm"
         return date_formatter.string(from: pub_date)
     }
     
     /// Function that returns the timeAgoDate frim Date() as a String
-    func time_ago_date_to_string() -> String {
+    func timeAgoDateToString() -> String {
         
         let date_formatter = RelativeDateTimeFormatter()
         date_formatter.unitsStyle = .short
         return date_formatter.localizedString(for: pub_date, relativeTo: Date())
     }
     
-    /// Aktivates persistence to save Article as soon as it gets changed
-    func make_persistent() {
+    /// Activates persistence to save Article as soon as it gets changed
+    func makePersistent() {
         if is_permanent != true {
             is_permanent = true
             self.save()
