@@ -14,12 +14,12 @@
 		1B12DFE725A894E90068ED15 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B12DFE625A894E90068ED15 /* ArticleView.swift */; };
 		1B12DFFD25A897670068ED15 /* ArticleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E3325A4B20D00CA8A1B /* ArticleList.swift */; };
 		1B3F89F925894AD100B6F9CA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3F89F825894AD100B6F9CA /* Errors.swift */; };
+		1B5332C925CB0FF900E3C8AF /* ArticleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5332C825CB0FF900E3C8AF /* ArticleListRow.swift */; };
 		1B55A96D257134CE001485DD /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B55A96C257134CE001485DD /* FeedParser.swift */; };
 		1B572E5225A4B35300CA8A1B /* CollectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E4C25A4B35300CA8A1B /* CollectionSettingsView.swift */; };
 		1B572E5425A4B35300CA8A1B /* CollectionDetailsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E4E25A4B35300CA8A1B /* CollectionDetailsSettingsView.swift */; };
 		1B572E5625A4B35300CA8A1B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E5025A4B35300CA8A1B /* SettingsView.swift */; };
 		1B572E7A25A4CFF900CA8A1B /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E7925A4CFF900CA8A1B /* SideMenuView.swift */; };
-		1B64286B25AA05FF00E0610C /* ArticleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBFF80C25532AD20091541B /* ArticleListRow.swift */; };
 		1B68EA3D255B32BE00504207 /* FeedEditSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B68EA3C255B32BE00504207 /* FeedEditSettingsView.swift */; };
 		1B723C6625B5B98E004446B2 /* FeedEditSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E4B25A4B35300CA8A1B /* FeedEditSettingsView.swift */; };
 		1B723C6B25B5B990004446B2 /* FeedProviderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E4D25A4B35300CA8A1B /* FeedProviderSettingsView.swift */; };
@@ -123,6 +123,7 @@
 /* Begin PBXFileReference section */
 		1B12DFE625A894E90068ED15 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		1B3F89F825894AD100B6F9CA /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		1B5332C825CB0FF900E3C8AF /* ArticleListRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleListRow.swift; sourceTree = "<group>"; };
 		1B55A96C257134CE001485DD /* FeedParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedParser.swift; sourceTree = "<group>"; };
 		1B572E3325A4B20D00CA8A1B /* ArticleList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleList.swift; sourceTree = "<group>"; };
 		1B572E4B25A4B35300CA8A1B /* FeedEditSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedEditSettingsView.swift; sourceTree = "<group>"; };
@@ -242,6 +243,7 @@
 			children = (
 				1B572E4F25A4B35300CA8A1B /* AddFeedView.swift */,
 				1B572E3325A4B20D00CA8A1B /* ArticleList.swift */,
+				1B5332C825CB0FF900E3C8AF /* ArticleListRow.swift */,
 				1B12DFE625A894E90068ED15 /* ArticleView.swift */,
 				1BA30E9125A495100048FA60 /* ContentView.swift */,
 				1B572E4E25A4B35300CA8A1B /* CollectionDetailsSettingsView.swift */,
@@ -683,6 +685,7 @@
 				1BA30EC925A496F10048FA60 /* Errors.swift in Sources */,
 				1BA30ED225A496F10048FA60 /* FilterDataStructures.swift in Sources */,
 				1B0F2B1625B70CDA00EF2B1F /* FeedDetector.swift in Sources */,
+				1B5332C925CB0FF900E3C8AF /* ArticleListRow.swift in Sources */,
 				1BA30EBA25A496DD0048FA60 /* SearchPhrase.swift in Sources */,
 				1BA30EC625A496F10048FA60 /* FeedDataStructures.swift in Sources */,
 				1BA30E9C25A495120048FA60 /* Mac_RSS_Reader.xcdatamodeld in Sources */,
@@ -698,7 +701,6 @@
 				1B572E5625A4B35300CA8A1B /* SettingsView.swift in Sources */,
 				1B0F2B1125B70CD600EF2B1F /* Extensions.swift in Sources */,
 				1B723C6B25B5B990004446B2 /* FeedProviderSettingsView.swift in Sources */,
-				1B64286B25AA05FF00E0610C /* ArticleListRow.swift in Sources */,
 				1BA30ECC25A496F10048FA60 /* Model.swift in Sources */,
 				1BA30E9225A495100048FA60 /* ContentView.swift in Sources */,
 			);
