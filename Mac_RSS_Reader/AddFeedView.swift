@@ -20,7 +20,7 @@ struct AddFeedView: View {
     /** Model of the app */
     @ObservedObject var model: Model = .shared
     
-    @ObservedObject var detector = FeedDetector()
+    @ObservedObject var detector: FeedDetector = .shared
     
     /** Buffer for the feed that should be removed: Alert does not capture the correct feed, so it needs to be stored somewhere */
     @State var remove_feed: NewsFeed? = nil
