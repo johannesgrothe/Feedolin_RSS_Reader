@@ -38,6 +38,8 @@ class FeedDetector: ObservableObject {
             return current_url_private
         }
     }
+    /// feed_detector singleton
+    static let shared = FeedDetector()
     
     /// Constructor
     init() {

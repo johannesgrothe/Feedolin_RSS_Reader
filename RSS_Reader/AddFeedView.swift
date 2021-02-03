@@ -20,10 +20,7 @@ struct AddFeedView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    /** Model of the app */
-    @ObservedObject var model: Model = .shared
-    
-    @ObservedObject var detector = FeedDetector()
+    @ObservedObject var detector: FeedDetector = .shared
     
     /** Buffer for the feed that should be removed: Alert does not capture the correct feed, so it needs to be stored somewhere */
     @State var remove_feed: NewsFeed? = nil
@@ -38,6 +35,7 @@ struct AddFeedView: View {
                 HStack {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
+                        detector.detect("")
                     }, label: {
                         CustomSystemImage(image: .close, size: .xsmall)
                     })
