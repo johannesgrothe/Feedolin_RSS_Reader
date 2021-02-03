@@ -15,9 +15,6 @@ struct AddFeedView: View {
     /** Buffer for the textfield */
     @State private var text = ""
     
-    /** Little hack to refresh the view: set it to !refresh_view to trigger refresh */
-    @State private var refresh_view: Bool = false
-    
     @Environment(\.presentationMode) var presentationMode
     
     /** Model of the app */

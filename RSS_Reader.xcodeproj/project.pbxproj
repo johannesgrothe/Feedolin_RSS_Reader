@@ -240,6 +240,7 @@
 		1BA30E8E25A495100048FA60 /* Mac_RSS_Reader */ = {
 			isa = PBXGroup;
 			children = (
+				1B572E4F25A4B35300CA8A1B /* AddFeedView.swift */,
 				1B572E3325A4B20D00CA8A1B /* ArticleList.swift */,
 				1B12DFE625A894E90068ED15 /* ArticleView.swift */,
 				1BA30E9125A495100048FA60 /* ContentView.swift */,
@@ -247,7 +248,8 @@
 				1B572E4C25A4B35300CA8A1B /* CollectionSettingsView.swift */,
 				1B572E4B25A4B35300CA8A1B /* FeedEditSettingsView.swift */,
 				1B572E4D25A4B35300CA8A1B /* FeedProviderSettingsView.swift */,
-				1B572E4F25A4B35300CA8A1B /* AddFeedView.swift */,
+				1B723C7025B5D44D004446B2 /* FeedSettingsView.swift */,
+				1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */,
 				1B572E5025A4B35300CA8A1B /* SettingsView.swift */,
 				1B572E7925A4CFF900CA8A1B /* SideMenuView.swift */,
 				1BA30E9825A495120048FA60 /* Persistence.swift */,
@@ -255,8 +257,6 @@
 				1BA30E9E25A495120048FA60 /* Mac_RSS_Reader.entitlements */,
 				1BA30E9A25A495120048FA60 /* Mac_RSS_Reader.xcdatamodeld */,
 				1BA30E9525A495120048FA60 /* Preview Content */,
-				1B723C7025B5D44D004446B2 /* FeedSettingsView.swift */,
-				1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */,
 			);
 			path = Mac_RSS_Reader;
 			sourceTree = "<group>";
