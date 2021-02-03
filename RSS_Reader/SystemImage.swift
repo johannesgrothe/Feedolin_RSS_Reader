@@ -118,7 +118,7 @@ enum SystemImage {
         case .option_reset_app:
             return "doc.badge.gearshape"
         case .bookmarked:
-            return "bookmark"
+            return "bookmark.circle"
         }
     }
     

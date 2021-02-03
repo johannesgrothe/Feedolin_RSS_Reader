@@ -24,9 +24,9 @@ struct TButton: View {
             action()
         }, label: {
             if (bool) {
-                CustomSystemImage(image: image_one, style: .nothing, size: .xsmall)
+                CustomSystemImage(image: image_one, style: .nothing, size: .medium)
             } else {
-                CustomSystemImage(image: image_two, style: .nothing, size: .xsmall)
+                CustomSystemImage(image: image_two, style: .nothing, size: .medium)
             }
         })
         .buttonStyle(BorderlessButtonStyle())

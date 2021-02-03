@@ -37,7 +37,7 @@ struct AddFeedView: View {
                         self.presentationMode.wrappedValue.dismiss()
                         detector.detect("")
                     }, label: {
-                        CustomSystemImage(image: .close, size: .xsmall)
+                        CustomSystemImage(image: .close, size: .medium)
                     })
                     Spacer()
                     Text("add_feed_title".localized)
@@ -46,7 +46,7 @@ struct AddFeedView: View {
                     Button(action: {
                         detector.detect(text, deep_scan: true)
                     },label: {
-                        CustomSystemImage(image: .search, size: .xsmall)
+                        CustomSystemImage(image: .search, size: .medium)
                     })
                 }
                 HStack {
@@ -120,13 +120,11 @@ struct DetectedFeedEntry: View {
                     Text(feed_in_model!.name)
                 }
                 Spacer()
-                Button(action: {
+                CDButton(action: {
                     print("Remove Detected Feed Button clicked.")
                     self.showing_alert = true
                     detected_feed = feed_in_model
-                }) {
-                    CustomSystemImage(image: .minus, style: .nothing, size: .xsmall, color: .red)
-                }
+                }, exits: true)
                 .alert(isPresented: $showing_alert) {
                     Alert(title: Text("feed_delete_alert_title".localized), message: Text(getWaringTextForFeedRemoval(detected_feed!)), primaryButton: .default(Text("ok_btn_title".localized), action: {
                             model.removeFeed(detected_feed!)
@@ -141,13 +139,10 @@ struct DetectedFeedEntry: View {
                     Text(feed_data.title)
                 }
                 Spacer()
-                Button(action: {
+                CDButton(action: {
                     print("Add Detected Feed Button clicked.")
                     _ = model.addFeed(feed_meta: feed_data)
-                }) {
-                    CustomSystemImage(image: .plus, style: .nothing, size: .xsmall, color: .green)
-                }
-                .buttonStyle(BorderlessButtonStyle())
+                }, exits: false)
             }
         }
     }

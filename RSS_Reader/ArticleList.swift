@@ -61,8 +61,8 @@ struct ArticleList: View {
                 ArticleListRow(article: article)
             }
             .listRowBackground(Color.clear)
-            Spacer()
-                .listRowBackground(Color.clear)
+//            Spacer()
+//                .listRowBackground(Color.clear)
         }
         .listStyle(PlainListStyle())
     }

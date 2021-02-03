@@ -22,19 +22,19 @@ enum ImageSize: Int {
     private var scale: CGFloat {
         switch self {
         case .xxsmall:
-            return 8
+            return 7
         case .xsmall:
-            return 16
+            return 9.5
         case .small:
-            return 24
+            return 11.5
         case .medium:
-            return 32
+            return 13.5
         case .large:
-            return 40
+            return 17.5
         case .xlarge:
-            return 48
+            return 26
         case .xxlarge:
-            return 56
+            return 35
         case .xxxlarge:
             return 64
         }

@@ -23,7 +23,7 @@ struct CustomTextfield: View {
     var body: some View {
         HStack {
             if image != nil {
-                CustomSystemImage(image: image!, style: .nothing, size: .xsmall)
+                CustomSystemImage(image: image!, style: .nothing, size: .medium)
             }
             
             TextField(placholder,
@@ -39,7 +39,7 @@ struct CustomTextfield: View {
             Button(action: {
                 self.text = ""
             }) {
-                CustomSystemImage(image: .xmark, style: .nothing, size: .xsmall)
+                CustomSystemImage(image: .xmark, style: .nothing, size: .medium)
                     .opacity(self.text == "" ? 0 : 1)
             }
             .buttonStyle(BorderlessButtonStyle())

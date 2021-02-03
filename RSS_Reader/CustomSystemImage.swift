@@ -14,7 +14,7 @@ struct CustomSystemImage: View {
     /// the image style that cutomize the image
     var style: ImageStyle = .nothing
     /// the image size that cutomize the image
-    var size: ImageSize = .small
+    var size: ImageSize = .large
     /// the color that cutomize the image
     var color: Color = Color.accentColor
     /// IconStyle that indicates the style of every icon
@@ -38,11 +38,24 @@ struct CustomSystemImage: View {
                 .frame(width: size.size.width, height: size.size.height)
                 .foregroundColor(color)
         } else {
-            image.image
-                .resizable()
-                .scaledToFit()
-                .frame(width: size.size.width, height: size.size.width)
-                .foregroundColor(color)
+            switch self.size {
+            case .small:
+                image.image.imageScale(.small)
+                    .foregroundColor(color)
+            case .medium:
+                image.image.imageScale(.medium)
+                    .foregroundColor(color)
+            case .large:
+                image.image.imageScale(.large)
+                    .foregroundColor(color)
+            default:
+                image.image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: size.size.width, height: size.size.width)
+                    .foregroundColor(color)
+            }
+
         }
     }
 }
