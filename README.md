@@ -38,7 +38,7 @@ This project is now available as Beta-Realse in version 1.0.
 
 Implemented, open and drawed Features can be found in the [Issue-Board](https://gitlab.beuth-hochschule.de/s75706/rss-reader/-/boards) of this repository.
 
-### Software to be used
+### Software used
 
 Xcode (Main IDE): [‎Xcode on the Mac App Store](https://apps.apple.com/us/app/xcode/id497799835)
 
@@ -46,8 +46,15 @@ draw.io (UML & sequence diagrams): [Releases · jgraph/drawio-desktop · GitHub]
 
 Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 
+### How it's deployed
+
+The App is deployed in the Apple App Store and currently aviable in Beta.
+
 ### How to get the app
 
+#### Easy Way
+
+##### iPhone
 Click this link: [https://testflight.apple.com/join/1YWo4VAe](https://testflight.apple.com/join/1YWo4VAe)
 
 First you have to download Apple's TestFlight-App.
@@ -55,6 +62,18 @@ First you have to download Apple's TestFlight-App.
 Afterwards you can download and install Feedolin.
 
 Feedback and Bug-Reports are welcome!
+
+#### Hard Way
+
+##### iPhone
+- Clone the repository and open the RSS_Reader.xcodeproj with XCode 12.2+
+- Select Scheme 'RUN' and any iOS Simulator (We developed the App mainly for big Screens like the iPhone X or newer but all should work)
+
+##### Mac
+- Checkout the 'fb_96_macOS' branch
+- Open RSS_Reader.xcodeproj with XCode 12.2+
+- Select Scheme 'Mac_RSS_Reader' and select 'My Mac' to run on
+- If any Problems occurr you may need to select Your Personal Team in 'RSS_Reader' -> Signingn and Capabilities ->Team
 
 ### How to use the App (short)
 
