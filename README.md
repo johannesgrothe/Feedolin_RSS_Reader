@@ -22,6 +22,31 @@ The whole project will realized as an Xcode project, with optimizations for each
   
   We are currently not quite happy with our rss readers, so we want to build a better one and use it ourself.
 
+### The Feedolin-Team
+
+Emircan Duman - Time Manager
+
+Johannes Grothe - Product Owner
+
+Katharina J. Kühn - Scrum Master
+
+Kenanja Nuding - Frontend-Entwickler
+
+### Project status
+
+This project is now available as Beta-Realse in version 1.0.
+
+Implemented, open and drawed Features can be found in the [Issue-Board](https://gitlab.beuth-hochschule.de/s75706/rss-reader/-/boards) of this repository.
+
+### How to use the App (short)
+
+//ToDo: Add Screenshots
+![](path/image.svg)
+
+### UML (architecture)
+
+![](documentation/uml.svg)
+
 ### Software to be used
 
 Xcode (Main IDE): [‎Xcode on the Mac App Store](https://apps.apple.com/us/app/xcode/id497799835)
@@ -30,7 +55,17 @@ draw.io (UML & sequence diagrams): [Releases · jgraph/drawio-desktop · GitHub]
 
 Mark Text (Markdown): [Mark Text Homepage](https://marktext.app)
 
-### Git Flow
+### How to get the app
+
+Click this link: [https://testflight.apple.com/join/1YWo4VAe](https://testflight.apple.com/join/1YWo4VAe)
+
+First you have to download Apple's TestFlight-App.
+
+Afterwards you can download and install Feedolin.
+
+Feedback and Bug-Reports are welcome!
+
+### Additional Informations
 
 #### Git Hooks
 
@@ -43,18 +78,12 @@ If that does not work, update your git version to at least 2.9.
 
 #### Git-Flow Diagram
 
-
-
 ![](documentation/git_flow.svg)
 
-### UML
-
-![](documentation/uml.svg)
-
-### Wireframes
+#### Wireframes
 
 ![](documentation/wireframes.svg)
 
-### Glossary
+#### Glossary
 
 read glossary [here](documentation/glossary.md)
