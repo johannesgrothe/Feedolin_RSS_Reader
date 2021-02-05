@@ -38,15 +38,6 @@ This project is now available as Beta-Realse in version 1.0.
 
 Implemented, open and drawed Features can be found in the [Issue-Board](https://gitlab.beuth-hochschule.de/s75706/rss-reader/-/boards) of this repository.
 
-### How to use the App (short)
-
-//ToDo: Add Screenshots
-![](path/image.svg)
-
-### UML (architecture)
-
-![](documentation/uml.svg)
-
 ### Software to be used
 
 Xcode (Main IDE): [‎Xcode on the Mac App Store](https://apps.apple.com/us/app/xcode/id497799835)
@@ -65,6 +56,11 @@ Afterwards you can download and install Feedolin.
 
 Feedback and Bug-Reports are welcome!
 
+### How to use the App (short)
+
+//ToDo: Add Screenshots
+![](documentation/instruction.svg)
+
 ### Additional Informations
 
 #### Git Hooks
@@ -75,6 +71,10 @@ To activate them, open the repository source folder in a terminal and execute:
 `git config core.hooksPath .githooks` 
 
 If that does not work, update your git version to at least 2.9.
+
+#### UML (architecture)
+
+![](documentation/uml.svg)
 
 #### Git-Flow Diagram
 
