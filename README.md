@@ -58,8 +58,7 @@ Feedback and Bug-Reports are welcome!
 
 ### How to use the App (short)
 
-//ToDo: Add Screenshots
-![](documentation/instruction.svg)
+![](documentation/instruction.png)
 
 ### Additional Informations
 
