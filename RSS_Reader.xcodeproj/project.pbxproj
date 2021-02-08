@@ -199,7 +199,11 @@
 		1BD2A3C5254B036E00FCA510 /* RSS_Reader */ = {
 			isa = PBXGroup;
 			children = (
-				EBAB4B9B25680F6B00ABF623 /* helper_classes */,
+				EB8DF7BB25D1554300A80C69 /* Modifiers */,
+				EB8DF7B725D13B4500A80C69 /* HelperViews */,
+				EB8DF7B625D13B2C00A80C69 /* Datastructures */,
+				EB8DF7B525D13B2300A80C69 /* Views */,
+				EBAB4B9B25680F6B00ABF623 /* HelperClasses */,
 				1BBFF7DC2552E4080091541B /* Ressources */,
 				1BD2A3CC254B036F00FCA510 /* Preview Content */,
 				1BD2A3CA254B036F00FCA510 /* Assets.xcassets */,
@@ -209,40 +213,6 @@
 				1BD2A3D1254B036F00FCA510 /* RSS_Reader.xcdatamodeld */,
 				1BD2A3C6254B036E00FCA510 /* RSS_ReaderApp.swift */,
 				1BD2A3CF254B036F00FCA510 /* Persistence.swift */,
-				7C9C4A87259269100025BBBC /* MainView.swift */,
-				EB08E123254D7BD200006B70 /* DummyDetailView.swift */,
-				1BD2A3C8254B036E00FCA510 /* ContentView.swift */,
-				EB08E11E254D7BAD00006B70 /* ArticleView.swift */,
-				EB08E128254D7BF000006B70 /* ListEntryView.swift */,
-				1BBFF80C25532AD20091541B /* ArticleListRow.swift */,
-				1BC46CA32556CD1A0029D436 /* ArticleList.swift */,
-				EB3F6AAF2552F9F2003FA72F /* FeedSettingsView.swift */,
-				EB3F6AAA2552F7F0003FA72F /* SettingsView.swift */,
-				C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */,
-				EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */,
-				1B68EA3C255B32BE00504207 /* FeedEditSettingsView.swift */,
-				EB08E12D254D7C1200006B70 /* SideMenuView.swift */,
-				EB08E138254D7EBD00006B70 /* Model.swift */,
-				EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */,
-				EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */,
-				EB6702EB254DABE6006BD9C1 /* FilterDataStructures.swift */,
-				1BC46CB325576D0C0029D436 /* RefreshableScrollView.swift */,
-				C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */,
-				C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */,
-				1B3F89F825894AD100B6F9CA /* Errors.swift */,
-				EB40038125A333FA00FA87DB /* AddFeedView.swift */,
-				7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */,
-				7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */,
-				7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */,
-				7CC52C2925C1B2FF00DA2100 /* CDButton.swift */,
-				7CC52C2E25C1B7E400DA2100 /* ECButton.swift */,
-				7CC52C4725C1C3B100DA2100 /* SystemImage.swift */,
-				7CC52C4C25C1EC4700DA2100 /* CustomImage.swift */,
-				7CC52C5125C1F8E200DA2100 /* ImageStyle.swift */,
-				7CC52C5625C20ED900DA2100 /* ImageSize.swift */,
-				7CC52C5B25C20F2D00DA2100 /* CustomSystemImage.swift */,
-				7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */,
-				7C22853925C2FA2300FC6EE9 /* TButton.swift */,
 			);
 			path = RSS_Reader;
 			sourceTree = "<group>";
@@ -273,9 +243,71 @@
 			path = RSS_ReaderUITests;
 			sourceTree = "<group>";
 		};
-		EBAB4B9B25680F6B00ABF623 /* helper_classes */ = {
+		EB8DF7B525D13B2300A80C69 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5EE54052586A8EF00174230 /* CollectionDetailsSettingsView.swift */,
+				1BC46CB325576D0C0029D436 /* RefreshableScrollView.swift */,
+				EB40038125A333FA00FA87DB /* AddFeedView.swift */,
+				7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */,
+				1BD2A3C8254B036E00FCA510 /* ContentView.swift */,
+				EB08E123254D7BD200006B70 /* DummyDetailView.swift */,
+				7C9C4A87259269100025BBBC /* MainView.swift */,
+				EB08E11E254D7BAD00006B70 /* ArticleView.swift */,
+				EB08E128254D7BF000006B70 /* ListEntryView.swift */,
+				1BBFF80C25532AD20091541B /* ArticleListRow.swift */,
+				1BC46CA32556CD1A0029D436 /* ArticleList.swift */,
+				EB3F6AAF2552F9F2003FA72F /* FeedSettingsView.swift */,
+				EB3F6AAA2552F7F0003FA72F /* SettingsView.swift */,
+				C50DDE7625680F7A00A2A1DA /* CollectionSettingsView.swift */,
+				EBADDEC1255743A3008AD1C5 /* FeedProviderSettingsView.swift */,
+				1B68EA3C255B32BE00504207 /* FeedEditSettingsView.swift */,
+				EB08E12D254D7C1200006B70 /* SideMenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EB8DF7B625D13B2C00A80C69 /* Datastructures */ = {
+			isa = PBXGroup;
+			children = (
+				EB08E138254D7EBD00006B70 /* Model.swift */,
+				EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */,
+				EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */,
+				EB6702EB254DABE6006BD9C1 /* FilterDataStructures.swift */,
+				C50DDE5D25652F1D00A2A1DA /* CollectionDataStructur.swift */,
+			);
+			path = Datastructures;
+			sourceTree = "<group>";
+		};
+		EB8DF7B725D13B4500A80C69 /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				7CC52C2925C1B2FF00DA2100 /* CDButton.swift */,
+				7CC52C2E25C1B7E400DA2100 /* ECButton.swift */,
+				7CC52C4725C1C3B100DA2100 /* SystemImage.swift */,
+				7CC52C4C25C1EC4700DA2100 /* CustomImage.swift */,
+				7CC52C5B25C20F2D00DA2100 /* CustomSystemImage.swift */,
+				7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */,
+				7C22853925C2FA2300FC6EE9 /* TButton.swift */,
+			);
+			path = HelperViews;
+			sourceTree = "<group>";
+		};
+		EB8DF7BB25D1554300A80C69 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */,
+				7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		EBAB4B9B25680F6B00ABF623 /* HelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				7CC52C5125C1F8E200DA2100 /* ImageStyle.swift */,
+				7CC52C5625C20ED900DA2100 /* ImageSize.swift */,
+				1B3F89F825894AD100B6F9CA /* Errors.swift */,
 				EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */,
 				1B55A96C257134CE001485DD /* FeedParser.swift */,
 				EB7383A9258A70AC0025864B /* SearchPhrase.swift */,
@@ -284,7 +316,7 @@
 				EBA0931A25A911A500F070BC /* TextGenerators.swift */,
 				EBEFF55025B9A89100B734A0 /* Savable_Protocol.swift */,
 			);
-			path = helper_classes;
+			path = HelperClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
