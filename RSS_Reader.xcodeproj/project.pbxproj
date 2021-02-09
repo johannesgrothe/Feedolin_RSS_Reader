@@ -10,8 +10,6 @@
 		1B3F89F925894AD100B6F9CA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3F89F825894AD100B6F9CA /* Errors.swift */; };
 		1B55A96D257134CE001485DD /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B55A96C257134CE001485DD /* FeedParser.swift */; };
 		1B68EA3D255B32BE00504207 /* FeedEditSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B68EA3C255B32BE00504207 /* FeedEditSettingsView.swift */; };
-		1BBFF7F425531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */; };
-		1BBFF7F525531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */; };
 		1BBFF80D25532AD30091541B /* ArticleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBFF80C25532AD20091541B /* ArticleListRow.swift */; };
 		1BC46CA42556CD1A0029D436 /* ArticleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC46CA32556CD1A0029D436 /* ArticleList.swift */; };
 		1BC46CB425576D0C0029D436 /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC46CB325576D0C0029D436 /* RefreshableScrollView.swift */; };
@@ -81,8 +79,6 @@
 		1B3F89F825894AD100B6F9CA /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		1B55A96C257134CE001485DD /* FeedParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedParser.swift; sourceTree = "<group>"; };
 		1B68EA3C255B32BE00504207 /* FeedEditSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEditSettingsView.swift; sourceTree = "<group>"; };
-		1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg"; sourceTree = "<group>"; };
-		1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg"; sourceTree = "<group>"; };
 		1BBFF80C25532AD20091541B /* ArticleListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListRow.swift; sourceTree = "<group>"; };
 		1BC46CA32556CD1A0029D436 /* ArticleList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleList.swift; sourceTree = "<group>"; };
 		1BC46CB325576D0C0029D436 /* RefreshableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
@@ -168,8 +164,6 @@
 		1BBFF7DC2552E4080091541B /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				1BBFF7F325531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg */,
-				1BBFF7F225531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg */,
 			);
 			name = Ressources;
 			sourceTree = "<group>";
@@ -198,10 +192,10 @@
 			isa = PBXGroup;
 			children = (
 				EB8DF7BB25D1554300A80C69 /* Modifiers */,
+				EBAB4B9B25680F6B00ABF623 /* HelperClasses */,
 				EB8DF7B725D13B4500A80C69 /* HelperViews */,
 				EB8DF7B625D13B2C00A80C69 /* Datastructures */,
 				EB8DF7B525D13B2300A80C69 /* Views */,
-				EBAB4B9B25680F6B00ABF623 /* HelperClasses */,
 				1BBFF7DC2552E4080091541B /* Ressources */,
 				1BD2A3CC254B036F00FCA510 /* Preview Content */,
 				1BD2A3CA254B036F00FCA510 /* Assets.xcassets */,
@@ -453,10 +447,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BBFF7F525531F980091541B /* 824cf0bb-20a4-4655-a50e-0e6ff7520d0f.jpeg in Resources */,
 				1BD2A3CE254B036F00FCA510 /* Preview Assets.xcassets in Resources */,
 				EBFD7B7425B0E7D5003A726E /* Localizable.strings in Resources */,
-				1BBFF7F425531F980091541B /* c9f82579-efeb-4ed5-bf07-e10edafc3a4d.jpeg in Resources */,
 				1BD2A3CB254B036F00FCA510 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
