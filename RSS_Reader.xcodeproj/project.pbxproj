@@ -273,7 +273,6 @@
 		EB8DF7B525D13B2300A80C69 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */,
 				EB1D4A2025D30D740071EC17 /* Reader */,
 				EB1D4A1F25D30D6B0071EC17 /* Settings */,
 				EB1D4A1E25D30D650071EC17 /* Main */,
@@ -296,6 +295,7 @@
 		EB8DF7B725D13B4500A80C69 /* HelperViews */ = {
 			isa = PBXGroup;
 			children = (
+				7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */,
 				EB08E123254D7BD200006B70 /* DummyDetailView.swift */,
 				7CC52C2925C1B2FF00DA2100 /* CDButton.swift */,
 				7CC52C2E25C1B7E400DA2100 /* ECButton.swift */,
