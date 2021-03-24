@@ -1,0 +1,22 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  clean:
+    runs-on: self-hosted
+
+    steps:
+    - xcodebuild clean -project RSS_Reader.xcodeproj -scheme Run
+    
+  compile:
+    runs-on: self-hosted
+
+    steps:
+    - xcodebuild -project RSS_Reader.xcodeproj -scheme Run -destination 'platform=iOS Simulator,name=iPhone 12'
+        
+  unit_tests:
+    runs-on: self-hosted
+
+    steps:
+    - xcodebuild -project RSS_Reader.xcodeproj -scheme Tests -destination 'platform=iOS Simulator,name=iPhone 12' test
