@@ -3,30 +3,22 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-  clean:
-    runs-on: self-hosted
+  compile:
+    runs-on: macos-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       
-    - run: ls -la
-    
-    - name: Clean Workdir
-      run: xcodebuild clean -project RSS_Reader.xcodeproj -scheme Run
-    
-  compile:
-    runs-on: self-hosted
-    
-    needs: clean
-
-    steps:
     - run: xcodebuild -project RSS_Reader.xcodeproj -scheme Run -destination 'platform=iOS Simulator,name=iPhone 12'
         
   unit_tests:
-    runs-on: self-hosted
+    runs-on: macos-latest
     
     needs: compile
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
     - run: xcodebuild -project RSS_Reader.xcodeproj -scheme Tests -destination 'platform=iOS Simulator,name=iPhone 12' test
