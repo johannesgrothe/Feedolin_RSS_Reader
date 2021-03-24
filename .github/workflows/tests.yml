@@ -7,8 +7,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
     - run: ls -la
-    - run: xcodebuild clean -project RSS_Reader.xcodeproj -scheme Run
+    
+    - name: Clean Workdir
+      run: xcodebuild clean -project RSS_Reader.xcodeproj -scheme Run
     
   compile:
     runs-on: self-hosted
