@@ -34,7 +34,6 @@
 		1BA30EB425A495650048FA60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BD2A3CA254B036F00FCA510 /* Assets.xcassets */; };
 		1BA30EB925A496DD0048FA60 /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B55A96C257134CE001485DD /* FeedParser.swift */; };
 		1BA30EBA25A496DD0048FA60 /* SearchPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7383A9258A70AC0025864B /* SearchPhrase.swift */; };
-		1BA30EC125A496F10048FA60 /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50DDE5D25652F1D00A2A1DA /* FilterDataStructures.swift */; };
 		1BA30EC425A496F10048FA60 /* RSS_ReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3C6254B036E00FCA510 /* RSS_ReaderApp.swift */; };
 		1BA30EC625A496F10048FA60 /* FeedDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */; };
 		1BA30EC925A496F10048FA60 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3F89F825894AD100B6F9CA /* Errors.swift */; };
@@ -48,8 +47,8 @@
 		1BD2A3DE254B036F00FCA510 /* RSS_ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3DD254B036F00FCA510 /* RSS_ReaderTests.swift */; };
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
 		1BEC8ADB25C5961600A4DD14 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */; };
-		4E06162A260C069800F0D78B /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E06161D260C066800F0D78B /* FilterDataStructures.swift */; };
-		4E06162F260C069A00F0D78B /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E06161D260C066800F0D78B /* FilterDataStructures.swift */; };
+		4E06164E260C082800F0D78B /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E06164D260C082700F0D78B /* FilterDataStructures.swift */; };
+		4E061653260C083000F0D78B /* FilterDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E06164D260C082700F0D78B /* FilterDataStructures.swift */; };
 		4E36E211260BFEDE00DB7CEA /* ImageSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E36E20F260BFEDE00DB7CEA /* ImageSize.swift */; };
 		4E36E212260BFEDE00DB7CEA /* ImageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E36E210260BFEDE00DB7CEA /* ImageStyle.swift */; };
 		4E36E220260BFF5600DB7CEA /* CustomTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E36E217260BFF5600DB7CEA /* CustomTextfield.swift */; };
@@ -154,7 +153,7 @@
 		1BD2A3EA254B036F00FCA510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
 		1BEC8ADA25C5961600A4DD14 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
-		4E06161D260C066800F0D78B /* FilterDataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDataStructures.swift; sourceTree = "<group>"; };
+		4E06164D260C082700F0D78B /* FilterDataStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDataStructures.swift; sourceTree = "<group>"; };
 		4E36E20F260BFEDE00DB7CEA /* ImageSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSize.swift; sourceTree = "<group>"; };
 		4E36E210260BFEDE00DB7CEA /* ImageStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageStyle.swift; sourceTree = "<group>"; };
 		4E36E217260BFF5600DB7CEA /* CustomTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextfield.swift; sourceTree = "<group>"; };
@@ -404,8 +403,8 @@
 			children = (
 				4E36E26D260C010D00DB7CEA /* CollectionDataStructures.swift */,
 				EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */,
-				4E06161D260C066800F0D78B /* FilterDataStructures.swift */,
 				EB6702E6254DA694006BD9C1 /* FeedDataStructures.swift */,
+				4E06164D260C082700F0D78B /* FilterDataStructures.swift */,
 				EB08E138254D7EBD00006B70 /* Model.swift */,
 			);
 			path = Datastructures;
@@ -634,7 +633,6 @@
 				1B04100525C5C178004AA0C2 /* AddFeedView.swift in Sources */,
 				1BA30EB925A496DD0048FA60 /* FeedParser.swift in Sources */,
 				1B723C7A25B5DDAB004446B2 /* FeedSettingsView.swift in Sources */,
-				1BA30EC125A496F10048FA60 /* FilterDataStructures.swift in Sources */,
 				1BA30E9925A495120048FA60 /* Persistence.swift in Sources */,
 				1BA30EC925A496F10048FA60 /* Errors.swift in Sources */,
 				1B0F2B1625B70CDA00EF2B1F /* FeedDetector.swift in Sources */,
@@ -647,7 +645,6 @@
 				1B572E5425A4B35300CA8A1B /* CollectionDetailsSettingsView.swift in Sources */,
 				1B5332E625CB10F800E3C8AF /* Savable_Protocol.swift in Sources */,
 				1BEC8ADB25C5961600A4DD14 /* GeneralSettingsView.swift in Sources */,
-				4E06162F260C069A00F0D78B /* FilterDataStructures.swift in Sources */,
 				1B572E5225A4B35300CA8A1B /* CollectionSettingsView.swift in Sources */,
 				4E36E273260C011700DB7CEA /* CollectionDataStructures.swift in Sources */,
 				1BA30EC425A496F10048FA60 /* RSS_ReaderApp.swift in Sources */,
@@ -656,6 +653,7 @@
 				1B572E5625A4B35300CA8A1B /* SettingsView.swift in Sources */,
 				1B0F2B1125B70CD600EF2B1F /* Extensions.swift in Sources */,
 				1B723C6B25B5B990004446B2 /* FeedProviderSettingsView.swift in Sources */,
+				4E061653260C083000F0D78B /* FilterDataStructures.swift in Sources */,
 				1BA30ECC25A496F10048FA60 /* Model.swift in Sources */,
 				1BA30E9225A495100048FA60 /* ContentView.swift in Sources */,
 			);
@@ -684,7 +682,7 @@
 				4E36E211260BFEDE00DB7CEA /* ImageSize.swift in Sources */,
 				EBAB4B9D25680F9F00ABF623 /* AsyncImage.swift in Sources */,
 				EB400350259E12CD00FA87DB /* FeedDetector.swift in Sources */,
-				4E06162A260C069800F0D78B /* FilterDataStructures.swift in Sources */,
+				4E06164E260C082800F0D78B /* FilterDataStructures.swift in Sources */,
 				4E36E264260C001600DB7CEA /* CustomButtonProtocol.swift in Sources */,
 				4E36E230260BFF6B00DB7CEA /* DefaultScreenLayoutModifier.swift in Sources */,
 				4E36E226260BFF5600DB7CEA /* CustomSystemImage.swift in Sources */,
@@ -781,7 +779,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.beuth.project.Mac-RSS-Reader";
+				PRODUCT_BUNDLE_IDENTIFIER = tech.feedolin.rss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
@@ -806,7 +804,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.beuth.project.Mac-RSS-Reader";
+				PRODUCT_BUNDLE_IDENTIFIER = tech.feedolin.rss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
