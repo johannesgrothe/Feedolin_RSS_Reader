@@ -152,40 +152,28 @@ class FeedParser {
         
         guard let data = article_str.data(using: .utf8) else { return nil }
 
-        let art_data = try? XMLDecoder().decode(XMLArticle.self, from: data)
-        
-        if art_data == nil {
+        guard let art_data = try? XMLDecoder().decode(XMLArticle.self, from: data) else {
             return nil
         }
         
         let article_thumbnail_url = parseThumbnailURL(from: article_str)
-        
-        var art_pub_date: Date?
-        
-        // Create date from ISO8601 string
-        let iso_data_formatter = ISO8601DateFormatter()
-        var date = iso_data_formatter.date(from: art_data!.pubDate)
-        if date == nil {
-            let date_formatter = DateFormatter()
-            date_formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss +zzzz"
-            date = date_formatter.date(from: art_data!.pubDate)
-            if date == nil {
-                date_formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
-                date = date_formatter.date(from: art_data!.pubDate)
-                if date == nil {
-                    print("Error parsing date: '\(art_data!.pubDate)'")
-                    art_pub_date = Date()
-                } else {
-                    art_pub_date = date!
-                }
-            } else {
-                art_pub_date = date!
-            }
-        } else {
-            art_pub_date = date!
+        let article_pub_date = parseArticlePubDate(from: art_data.pubDate)
+
+        return ArticleData(article_id: art_data.guid, title: art_data.title, description: art_data.description, link: art_data.link, pub_date: article_pub_date, thumbnail_url: article_thumbnail_url, parent_feeds: [])
+    }
+    
+    private func parseArticlePubDate(from string: String) -> Date {
+        if let date = Date.iso8601Date(from: string) {
+            return date
         }
-        
-        return ArticleData(article_id: art_data!.guid, title: art_data!.title, description: art_data!.description, link: art_data!.link, pub_date: art_pub_date!, thumbnail_url: article_thumbnail_url, parent_feeds: [])
+        if let date = Date.EEEddMMMyyyyHHmmsszzzzDate(from: string) {
+            return date
+        }
+        if let date = Date.EEEddMMMyyyyHHmmsszzzDate(from: string) {
+            return date
+        }
+        print("❗️Error: failed parsing date '\(string)'")
+        return Date()
     }
     
     /**

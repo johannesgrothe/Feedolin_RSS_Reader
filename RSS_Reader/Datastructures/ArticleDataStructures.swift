@@ -210,17 +210,12 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
 
     /** Function that returns a Date-/Timestamp as a String */
     func dateToString() -> String{
-        let date_formatter = DateFormatter()
-        date_formatter.dateFormat = "dd-MM-yyyy HH:mm"
-        return date_formatter.string(from: pub_date)
+        return pub_date.ddMMyyyyHHmm_date
     }
     
-    /// Function that returns the timeAgoDate frim Date() as a String
+    /// Function that returns the timeAgoDate from pub_date as a String
     func timeAgoDateToString() -> String {
-        
-        let date_formatter = RelativeDateTimeFormatter()
-        date_formatter.unitsStyle = .short
-        return date_formatter.localizedString(for: pub_date, relativeTo: Date())
+        return pub_date.relative_short_date
     }
     
     /// Activates persistence to save Article as soon as it gets changed
