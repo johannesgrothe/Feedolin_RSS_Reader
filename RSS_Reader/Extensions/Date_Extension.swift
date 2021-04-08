@@ -1,5 +1,5 @@
 //
-//  Date+Readable.swift
+//  Date_Extension.swift
 //  RSS_Reader
 //
 //  Created by Kenanja Nuding on 4/2/21.
