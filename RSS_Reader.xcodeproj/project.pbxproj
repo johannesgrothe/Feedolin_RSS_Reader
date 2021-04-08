@@ -23,7 +23,7 @@
 		1BD2A3E9254B036F00FCA510 /* RSS_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2A3E8254B036F00FCA510 /* RSS_ReaderUITests.swift */; };
 		7C22853525C2EA1F00FC6EE9 /* CustomTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */; };
 		7C22853A25C2FA2300FC6EE9 /* TButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C22853925C2FA2300FC6EE9 /* TButton.swift */; };
-		7C6931A42616C5B300715157 /* Date+Readable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6931A32616C5B300715157 /* Date+Readable.swift */; };
+		7C6931A42616C5B300715157 /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6931A32616C5B300715157 /* Date_Extension.swift */; };
 		7C86307225BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */; };
 		7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */; };
 		7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */; };
@@ -100,7 +100,7 @@
 		1BD2A484254B177B00FCA510 /* RSS_Reader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSS_Reader.entitlements; sourceTree = "<group>"; };
 		7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfield.swift; sourceTree = "<group>"; };
 		7C22853925C2FA2300FC6EE9 /* TButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TButton.swift; sourceTree = "<group>"; };
-		7C6931A32616C5B300715157 /* Date+Readable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Readable.swift"; sourceTree = "<group>"; };
+		7C6931A32616C5B300715157 /* Date_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
 		7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultScreenLayoutModifier.swift; sourceTree = "<group>"; };
 		7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListEntryView.swift; sourceTree = "<group>"; };
 		7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleModifier.swift; sourceTree = "<group>"; };
@@ -193,6 +193,7 @@
 		1BD2A3C5254B036E00FCA510 /* RSS_Reader */ = {
 			isa = PBXGroup;
 			children = (
+				7C53046F261F7F8D0047C070 /* Extensions */,
 				EB8DF7BB25D1554300A80C69 /* Modifiers */,
 				EBAB4B9B25680F6B00ABF623 /* HelperClasses */,
 				EB8DF7B725D13B4500A80C69 /* HelperViews */,
@@ -235,6 +236,15 @@
 				1BD2A3EA254B036F00FCA510 /* Info.plist */,
 			);
 			path = RSS_ReaderUITests;
+			sourceTree = "<group>";
+		};
+		7C53046F261F7F8D0047C070 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C5813EC725A096290009F7F0 /* Extensions.swift */,
+				7C6931A32616C5B300715157 /* Date_Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		EB1D4A1E25D30D650071EC17 /* Main */ = {
@@ -328,11 +338,9 @@
 				EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */,
 				1B55A96C257134CE001485DD /* FeedParser.swift */,
 				EB7383A9258A70AC0025864B /* SearchPhrase.swift */,
-				C5813EC725A096290009F7F0 /* Extensions.swift */,
 				EB40034F259E12CD00FA87DB /* FeedDetector.swift */,
 				EBA0931A25A911A500F070BC /* TextGenerators.swift */,
 				EBEFF55025B9A89100B734A0 /* Savable_Protocol.swift */,
-				7C6931A32616C5B300715157 /* Date+Readable.swift */,
 			);
 			path = HelperClasses;
 			sourceTree = "<group>";
@@ -484,7 +492,7 @@
 				EB6702E7254DA694006BD9C1 /* FeedDataStructures.swift in Sources */,
 				7CC52C2A25C1B2FF00DA2100 /* CDButton.swift in Sources */,
 				EBA0931B25A911A500F070BC /* TextGenerators.swift in Sources */,
-				7C6931A42616C5B300715157 /* Date+Readable.swift in Sources */,
+				7C6931A42616C5B300715157 /* Date_Extension.swift in Sources */,
 				7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */,
 				EB08E12E254D7C1200006B70 /* SideMenuView.swift in Sources */,
 				EB40038225A333FA00FA87DB /* AddFeedView.swift in Sources */,
