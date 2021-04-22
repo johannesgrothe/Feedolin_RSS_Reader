@@ -36,7 +36,7 @@ enum ImageSize: Int {
         case .xxlarge:
             return 35
         case .xxxlarge:
-            return 64
+            return 46
         }
     }
     

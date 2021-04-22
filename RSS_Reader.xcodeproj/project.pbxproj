@@ -29,6 +29,8 @@
 		7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */; };
 		7C9C4A8325924AB20025BBBC /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = EB3F6ABA2554046F003FA72F /* XMLCoder */; };
 		7C9C4A88259269100025BBBC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9C4A87259269100025BBBC /* MainView.swift */; };
+		7CB831DC2628A5ED00F41B92 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB831DB2628A5ED00F41B92 /* ScrollViewOffset.swift */; };
+		7CB831E12628A96200F41B92 /* WaitingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB831E02628A96200F41B92 /* WaitingButton.swift */; };
 		7CC52C2A25C1B2FF00DA2100 /* CDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC52C2925C1B2FF00DA2100 /* CDButton.swift */; };
 		7CC52C2F25C1B7E400DA2100 /* ECButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC52C2E25C1B7E400DA2100 /* ECButton.swift */; };
 		7CC52C4825C1C3B100DA2100 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC52C4725C1C3B100DA2100 /* SystemImage.swift */; };
@@ -105,6 +107,8 @@
 		7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListEntryView.swift; sourceTree = "<group>"; };
 		7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleModifier.swift; sourceTree = "<group>"; };
 		7C9C4A87259269100025BBBC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		7CB831DB2628A5ED00F41B92 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
+		7CB831E02628A96200F41B92 /* WaitingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingButton.swift; sourceTree = "<group>"; };
 		7CC52C2925C1B2FF00DA2100 /* CDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDButton.swift; sourceTree = "<group>"; };
 		7CC52C2E25C1B7E400DA2100 /* ECButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECButton.swift; sourceTree = "<group>"; };
 		7CC52C4725C1C3B100DA2100 /* SystemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImage.swift; sourceTree = "<group>"; };
@@ -316,6 +320,8 @@
 				7CC52C5B25C20F2D00DA2100 /* CustomSystemImage.swift */,
 				7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */,
 				7C22853925C2FA2300FC6EE9 /* TButton.swift */,
+				7CB831DB2628A5ED00F41B92 /* ScrollViewOffset.swift */,
+				7CB831E02628A96200F41B92 /* WaitingButton.swift */,
 			);
 			path = HelperViews;
 			sourceTree = "<group>";
@@ -506,6 +512,7 @@
 				1BBFF80D25532AD30091541B /* ArticleListRow.swift in Sources */,
 				EBAB4B9D25680F9F00ABF623 /* AsyncImage.swift in Sources */,
 				EB3F6AAB2552F7F0003FA72F /* SettingsView.swift in Sources */,
+				7CB831E12628A96200F41B92 /* WaitingButton.swift in Sources */,
 				EB400350259E12CD00FA87DB /* FeedDetector.swift in Sources */,
 				7CC52C5C25C20F2D00DA2100 /* CustomSystemImage.swift in Sources */,
 				EBADDEC2255743A3008AD1C5 /* FeedProviderSettingsView.swift in Sources */,
@@ -513,6 +520,7 @@
 				C50DDE5E25652F1D00A2A1DA /* CollectionDataStructures.swift in Sources */,
 				1B55A96D257134CE001485DD /* FeedParser.swift in Sources */,
 				EB6702DF254D983A006BD9C1 /* ArticleDataStructures.swift in Sources */,
+				7CB831DC2628A5ED00F41B92 /* ScrollViewOffset.swift in Sources */,
 				EB3F6AB02552F9F2003FA72F /* FeedSettingsView.swift in Sources */,
 				EB08E11F254D7BAD00006B70 /* ArticleView.swift in Sources */,
 				EB08E139254D7EBD00006B70 /* Model.swift in Sources */,

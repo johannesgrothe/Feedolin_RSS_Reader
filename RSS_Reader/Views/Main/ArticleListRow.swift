@@ -23,67 +23,74 @@ struct ArticleListRow: View {
     
     /**State value that changes case if read value changes*/
     @State private var read: Bool = false
+
+    /// active when click on it, to manually activate the NavigationLink
+    @State private var is_active_link: Bool = false
     
     var body: some View {
         // undelaying navigation link and on top the content in HStack
         ZStack {
             // hacky way to hide the navigation link arrow
-            NavigationLink(destination: ArticleView(article: article)){
-                EmptyView()
-            }
-            .opacity(0)
-            .buttonStyle(PlainButtonStyle())
-            
-            // VStack with text to the left and image to the right
-            HStack {
+            NavigationLink(destination: ArticleView(article: article), isActive: $is_active_link){
+                                EmptyView()
+                            }
+                            .opacity(0)
+                            .buttonStyle(PlainButtonStyle())
                 
-                // article.title on top following by HStack and article.description
-                VStack(alignment: .leading, spacing: 8.0){
-                    HStack{
-                        Text(article.title)
-                            .font(.subheadline)
-                            .bold()
-                            .lineLimit(4)
-                            .layoutPriority(1)
-                    }
-                    // parent_feed indicators to the left than seperator and pubdate to the right
-                    HStack {
-                        if self.bookmarked{
-                            CustomSystemImage(image: .bookmark, style: .nothing, size: .xxsmall)
+                // VStack with text to the left and image to the right
+                HStack {
+                    
+                    // article.title on top following by HStack and article.description
+                    VStack(alignment: .leading, spacing: 8.0){
+                        HStack{
+                            Text(article.title)
+                                .font(.subheadline)
+                                .bold()
+                                .lineLimit(4)
+                                .layoutPriority(1)
                         }
-                        Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
-                            .font(.caption2)
-                            .lineLimit(1)
-                        Text("|").font(.caption2)
-                        Text(article.timeAgoDateToString())
-                            .font(.caption2)
-                            .italic()
-                            .lineLimit(1)
+                        // parent_feed indicators to the left than seperator and pubdate to the right
+                        HStack {
+                            if self.bookmarked{
+                                CustomSystemImage(image: .bookmark, style: .nothing, size: .xxsmall)
+                            }
+                            Text("\(article.parent_feeds[0].parent_feed!.token) - \(article.parent_feeds[0].name)")
+                                .font(.caption2)
+                                .lineLimit(1)
+                            Text("|").font(.caption2)
+                            Text(article.timeAgoDateToString())
+                                .font(.caption2)
+                                .italic()
+                                .lineLimit(1)
+                            
+                        }
                         
+                        Text(article.description)
+                            .font(.caption)
+                            .lineLimit(4)
                     }
                     
-                    Text(article.description)
-                        .font(.caption)
-                        .lineLimit(4)
+                    Spacer()
+                    
+                    article.image?.img
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
+                    
                 }
-                
-                Spacer()
-                
-                article.image?.img
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 110, maxHeight: 180, alignment: .center)
-                
-            }
-            .frame(minHeight: 0, maxHeight: 200)
-            .padding(.all, 10.0)
-            .background(Color.article)
-            .cornerRadius(10)
-            .opacity(self.read ? 0.4 : 1)
+                .frame(minHeight: 0, maxHeight: 200)
+                .padding(.all, 10.0)
+                .background(Color.article)
+                .cornerRadius(10)
+                .opacity(self.read ? 0.4 : 1)
+        }
+        .onTapGesture {
+            self.is_active_link = true
         }
         .onAppear(perform: {
             self.bookmarked = article.bookmarked
             self.read = article.read
+            self.is_active_link = false
         })
         .onChange(of: article.bookmarked) {value in
             self.bookmarked = value
