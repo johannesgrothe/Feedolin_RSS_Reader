@@ -142,6 +142,9 @@ final class Model: ObservableObject {
      */
     @Published var collection_data: [Collection]
     
+    /// Boolean that indicaties if the model is currently fetching feeds
+    @Published var is_fetching: Bool = false
+    
     /**Path property to the directory where all the NewFeedProvider json's are saved*/
     let feed_providers_path = getPathURL(directory_name: "FeedProviders")
 
@@ -350,7 +353,7 @@ final class Model: ObservableObject {
      */
     func fetchFeeds() {
         print("Fetching new articles...")
-        
+        is_fetching = true
         DispatchQueue.global().async {
 
             // Parser object to get the data
@@ -398,6 +401,9 @@ final class Model: ObservableObject {
                     self.refreshFilter()
                     self.cleanupStoredFiles()
                 }
+            }
+            DispatchQueue.main.sync {
+                self.is_fetching = false
             }
         }
     }

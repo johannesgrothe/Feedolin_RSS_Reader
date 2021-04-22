@@ -21,6 +21,7 @@ enum SystemImage {
     case search
     case sensitive
     case insensitive
+    case spring_to_top
     /// settings
     case feed_settings
     case collection_settings
@@ -119,6 +120,8 @@ enum SystemImage {
             return "doc.badge.gearshape"
         case .bookmarked:
             return "bookmark.circle"
+        case .spring_to_top:
+            return "arrow.up"
         }
     }
     

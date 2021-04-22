@@ -23,44 +23,42 @@ struct MainView: View {
                 menu_open()
             }
         }
-        
-        GeometryReader{
-            geometry in
-            NavigationView {
-                
-                RefreshableScrollView(width: geometry.size.width, height: geometry.size.height)
-                    .defaultScreenLayout()
-                    .navigationBarTitle(model.filter_option.description, displayMode: .inline)
-                    .navigationBarItems(
-                        leading:
-                            Button(action: {
-                                self.menu_open()
-                            }, label: {
-                                CustomSystemImage(image: .side_menu)
-                            }),
-                        trailing:
-                            // container for right navigation items
-                            HStack {
-                                Button(action: {
-                                    model.hide_read_articles = !model.hide_read_articles
-                                    model.refreshFilter()
-                                }) {
-                                    if model.hide_read_articles {
-                                        CustomSystemImage(image: .hide_read)
-                                    } else {
-                                        CustomSystemImage(image: .show_read)
-                                    }
-                                }
-                                
-                                NavigationLink(destination: SettingsView()) {
-                                    CustomSystemImage(image: .settings)
-                                }
+        NavigationView {
+            ArticleList(model: model)
+            .defaultScreenLayout()
+            .navigationBarTitle(model.filter_option.description, displayMode: .inline)
+            .navigationBarItems(
+                leading:
+                    Button(action: {
+                        self.menu_open()
+                    }, label: {
+                        CustomSystemImage(image: .side_menu)
+                    }),
+                trailing:
+                    // container for right navigation items
+                    HStack {
+                        WaitingButton(action: {
+                            model.fetchFeeds()
+                        }, publisher: model.$is_fetching)
+                        
+                        Button(action: {
+                            model.hide_read_articles = !model.hide_read_articles
+                            model.refreshFilter()
+                        }) {
+                            if model.hide_read_articles {
+                                CustomSystemImage(image: .hide_read)
+                            } else {
+                                CustomSystemImage(image: .show_read)
                             }
-                    )
-                    .gesture(drag_right)
-                
-            }
-            .autoNavigationViewStyle()
+                        }
+                        
+                        NavigationLink(destination: SettingsView()) {
+                            CustomSystemImage(image: .settings)
+                        }
+                    }
+            )
+            .gesture(drag_right)
         }
+        .autoNavigationViewStyle()
     }
 }
