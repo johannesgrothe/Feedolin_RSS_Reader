@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1B04100525C5C178004AA0C2 /* AddFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B572E4F25A4B35300CA8A1B /* AddFeedView.swift */; };
-		1B0F2B1125B70CD600EF2B1F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5813EC725A096290009F7F0 /* Extensions.swift */; };
 		1B0F2B1625B70CDA00EF2B1F /* FeedDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB40034F259E12CD00FA87DB /* FeedDetector.swift */; };
 		1B0F2B1B25B70CDE00EF2B1F /* TextGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA0931A25A911A500F070BC /* TextGenerators.swift */; };
 		1B12DFE725A894E90068ED15 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B12DFE625A894E90068ED15 /* ArticleView.swift */; };
@@ -80,8 +79,13 @@
 		4E36E264260C001600DB7CEA /* CustomButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E36E263260C001600DB7CEA /* CustomButtonProtocol.swift */; };
 		4E36E26E260C010D00DB7CEA /* CollectionDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E36E26D260C010D00DB7CEA /* CollectionDataStructures.swift */; };
 		4E36E273260C011700DB7CEA /* CollectionDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E36E26D260C010D00DB7CEA /* CollectionDataStructures.swift */; };
+		4E55450D2639EFC100B29540 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55450B2639EFC100B29540 /* ScrollViewOffset.swift */; };
+		4E55450E2639EFC100B29540 /* WaitingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55450C2639EFC100B29540 /* WaitingButton.swift */; };
+		4E5545282639F08600B29540 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5545262639F08600B29540 /* Extensions.swift */; };
+		4E5545292639F08600B29540 /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5545272639F08600B29540 /* Date_Extension.swift */; };
+		4E5545322639F0C900B29540 /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5545272639F08600B29540 /* Date_Extension.swift */; };
+		4E5545372639F0CC00B29540 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5545262639F08600B29540 /* Extensions.swift */; };
 		7C9C4A8325924AB20025BBBC /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = EB3F6ABA2554046F003FA72F /* XMLCoder */; };
-		C5813EC825A096290009F7F0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5813EC725A096290009F7F0 /* Extensions.swift */; };
 		EB08E139254D7EBD00006B70 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB08E138254D7EBD00006B70 /* Model.swift */; };
 		EB400350259E12CD00FA87DB /* FeedDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB40034F259E12CD00FA87DB /* FeedDetector.swift */; };
 		EB6702DF254D983A006BD9C1 /* ArticleDataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */; };
@@ -184,8 +188,11 @@
 		4E36E25D260BFFD400DB7CEA /* ImageStyleModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageStyleModifier.swift; sourceTree = "<group>"; };
 		4E36E263260C001600DB7CEA /* CustomButtonProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonProtocol.swift; sourceTree = "<group>"; };
 		4E36E26D260C010D00DB7CEA /* CollectionDataStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDataStructures.swift; sourceTree = "<group>"; };
+		4E55450B2639EFC100B29540 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
+		4E55450C2639EFC100B29540 /* WaitingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitingButton.swift; sourceTree = "<group>"; };
+		4E5545262639F08600B29540 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4E5545272639F08600B29540 /* Date_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
 		C50DDE5D25652F1D00A2A1DA /* FilterDataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDataStructures.swift; sourceTree = "<group>"; };
-		C5813EC725A096290009F7F0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EB08E138254D7EBD00006B70 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		EB40034F259E12CD00FA87DB /* FeedDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetector.swift; sourceTree = "<group>"; };
 		EB6702DE254D983A006BD9C1 /* ArticleDataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDataStructures.swift; sourceTree = "<group>"; };
@@ -303,6 +310,7 @@
 				1BD2A3CA254B036F00FCA510 /* Assets.xcassets */,
 				EB8DF7B625D13B2C00A80C69 /* Datastructures */,
 				EBFD7B7625B0E7D5003A726E /* Localizable.strings */,
+				4E5545252639F08600B29540 /* Extensions */,
 				EBAB4B9B25680F6B00ABF623 /* HelperClasses */,
 				EB8DF7B725D13B4500A80C69 /* HelperViews */,
 				EB8DF7BB25D1554300A80C69 /* Modifiers */,
@@ -343,6 +351,15 @@
 				1BD2A3EA254B036F00FCA510 /* Info.plist */,
 			);
 			path = RSS_ReaderUITests;
+			sourceTree = "<group>";
+		};
+		4E5545252639F08600B29540 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4E5545262639F08600B29540 /* Extensions.swift */,
+				4E5545272639F08600B29540 /* Date_Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		4ECECBAA260C033A00B2243F /* Recovered References */ = {
@@ -413,6 +430,8 @@
 		EB8DF7B725D13B4500A80C69 /* HelperViews */ = {
 			isa = PBXGroup;
 			children = (
+				4E55450B2639EFC100B29540 /* ScrollViewOffset.swift */,
+				4E55450C2639EFC100B29540 /* WaitingButton.swift */,
 				4E36E219260BFF5600DB7CEA /* CDButton.swift */,
 				4E36E218260BFF5600DB7CEA /* CustomImage.swift */,
 				4E36E21D260BFF5600DB7CEA /* CustomSystemImage.swift */,
@@ -440,7 +459,6 @@
 			children = (
 				EBAB4B9C25680F9F00ABF623 /* AsyncImage.swift */,
 				1B3F89F825894AD100B6F9CA /* Errors.swift */,
-				C5813EC725A096290009F7F0 /* Extensions.swift */,
 				EB40034F259E12CD00FA87DB /* FeedDetector.swift */,
 				1B55A96C257134CE001485DD /* FeedParser.swift */,
 				4E36E20F260BFEDE00DB7CEA /* ImageSize.swift */,
@@ -627,6 +645,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E5545322639F0C900B29540 /* Date_Extension.swift in Sources */,
 				1B572E7A25A4CFF900CA8A1B /* SideMenuView.swift in Sources */,
 				1B723C6625B5B98E004446B2 /* FeedEditSettingsView.swift in Sources */,
 				1B83D53625A617F5009A5EE7 /* AsyncImage.swift in Sources */,
@@ -651,7 +670,7 @@
 				1B12DFE725A894E90068ED15 /* ArticleView.swift in Sources */,
 				1BA30ED425A496F10048FA60 /* ArticleDataStructures.swift in Sources */,
 				1B572E5625A4B35300CA8A1B /* SettingsView.swift in Sources */,
-				1B0F2B1125B70CD600EF2B1F /* Extensions.swift in Sources */,
+				4E5545372639F0CC00B29540 /* Extensions.swift in Sources */,
 				1B723C6B25B5B990004446B2 /* FeedProviderSettingsView.swift in Sources */,
 				4E061653260C083000F0D78B /* FilterDataStructures.swift in Sources */,
 				1BA30ECC25A496F10048FA60 /* Model.swift in Sources */,
@@ -668,11 +687,11 @@
 				4E36E224260BFF5600DB7CEA /* TButton.swift in Sources */,
 				4E36E244260BFF8700DB7CEA /* CollectionSettingsView.swift in Sources */,
 				4E36E255260BFF8F00DB7CEA /* SideMenuView.swift in Sources */,
-				C5813EC825A096290009F7F0 /* Extensions.swift in Sources */,
 				4E36E245260BFF8700DB7CEA /* FeedEditSettingsView.swift in Sources */,
 				EB6702E7254DA694006BD9C1 /* FeedDataStructures.swift in Sources */,
 				EBA0931B25A911A500F070BC /* TextGenerators.swift in Sources */,
 				4E36E228260BFF5600DB7CEA /* SystemImage.swift in Sources */,
+				4E5545292639F08600B29540 /* Date_Extension.swift in Sources */,
 				4E36E246260BFF8700DB7CEA /* AddFeedView.swift in Sources */,
 				1B3F89F925894AD100B6F9CA /* Errors.swift in Sources */,
 				4E36E257260BFF8F00DB7CEA /* MainView.swift in Sources */,
@@ -685,10 +704,12 @@
 				4E06164E260C082800F0D78B /* FilterDataStructures.swift in Sources */,
 				4E36E264260C001600DB7CEA /* CustomButtonProtocol.swift in Sources */,
 				4E36E230260BFF6B00DB7CEA /* DefaultScreenLayoutModifier.swift in Sources */,
+				4E55450D2639EFC100B29540 /* ScrollViewOffset.swift in Sources */,
 				4E36E226260BFF5600DB7CEA /* CustomSystemImage.swift in Sources */,
 				1B55A96D257134CE001485DD /* FeedParser.swift in Sources */,
 				4E36E26E260C010D00DB7CEA /* CollectionDataStructures.swift in Sources */,
 				4E36E253260BFF8F00DB7CEA /* ContentView.swift in Sources */,
+				4E55450E2639EFC100B29540 /* WaitingButton.swift in Sources */,
 				4E36E248260BFF8700DB7CEA /* FeedProviderSettingsView.swift in Sources */,
 				EB6702DF254D983A006BD9C1 /* ArticleDataStructures.swift in Sources */,
 				4E36E258260BFF8F00DB7CEA /* ArticleListRow.swift in Sources */,
@@ -705,6 +726,7 @@
 				1BD2A3C7254B036E00FCA510 /* RSS_ReaderApp.swift in Sources */,
 				EB7383AA258A70AC0025864B /* SearchPhrase.swift in Sources */,
 				4E36E222260BFF5600DB7CEA /* CDButton.swift in Sources */,
+				4E5545282639F08600B29540 /* Extensions.swift in Sources */,
 				4E36E225260BFF5600DB7CEA /* DummyDetailView.swift in Sources */,
 				4E36E220260BFF5600DB7CEA /* CustomTextfield.swift in Sources */,
 				4E36E254260BFF8F00DB7CEA /* RefreshableScrollView.swift in Sources */,
@@ -949,7 +971,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = tech.feedolin.rss;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.feedolin.rss.de;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = NO;
@@ -976,7 +998,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = tech.feedolin.rss;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.feedolin.rss.de;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = NO;
