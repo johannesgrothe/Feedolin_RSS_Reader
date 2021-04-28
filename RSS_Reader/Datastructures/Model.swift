@@ -926,7 +926,13 @@ final class Model: ObservableObject {
 
         print("Collection with the ID:\(collection.id) got saved")
     }
-
+    
+    /**@removeCollection(_ collection: Collection) will remove the given collection*/
+    func removeCollection(_ collection: Collection) {
+        self.collection_data.removeAll(where:{ $0.id == collection.id })
+        self.cleanupStoredFiles()
+    }
+    
     /** @autoRefrehs() will fetch the feeds and refresh all Filter*/
     @objc private func autoRefresh(){
             self.fetchFeeds()

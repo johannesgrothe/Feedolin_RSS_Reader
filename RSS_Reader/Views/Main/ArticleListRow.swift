@@ -134,6 +134,7 @@ struct ArticleListRow: View {
         // URL instance to the article link
         let link = URL(string: article.link)
         // action_sheet with the link as activity item
+        #if os(iOS)
         let action_sheet = UIActivityViewController(activityItems:[link!], applicationActivities: nil)
         // presenting the action_sheet
         UIApplication.shared.windows.first?.rootViewController?.present(action_sheet, animated: true, completion: nil)
@@ -146,6 +147,7 @@ struct ArticleListRow: View {
                 width: 200,
                 height: 200)
         }
+        #endif
     }
     
     struct ArticleListRow_Previews: PreviewProvider {

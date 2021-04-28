@@ -17,7 +17,7 @@ struct DummyDetailView: View {
             Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
             Spacer()
         }
-        .background(Color(UIColor(named: "BackgroundColor")!))
+        .background(Color("BackgroundColor"))
         .edgesIgnoringSafeArea(.bottom)
     }
 }

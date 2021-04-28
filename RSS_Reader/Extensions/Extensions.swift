@@ -31,6 +31,8 @@ extension String {
         return final_str
     }
 }
+
+#if os(iOS)
 /// extends NavigationView
 extension NavigationView {
     
@@ -64,7 +66,7 @@ extension UINavigationController {
         navigationBar.standardAppearance = appearance
     }
 }
-
+#endif
 /// extension color for custom colors
 extension Color {
     /// article color

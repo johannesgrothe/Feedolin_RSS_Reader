@@ -31,43 +31,6 @@ struct ArticleView: View {
 }
 
 /**
- UPDATE: not used right now, maybe later
- View that loads the url of the article and shows it
- */
-/*
-struct ArticleWebView: UIViewRepresentable {
-    
-    // String that represents the url of the article, that is shown
-    let url: String
-    
-    /**
-     creates the view and returns it
-     */
-    func makeUIView(context: Context) -> WKWebView {
-        //test url from url-String
-        guard let url = URL(string: self.url) else {
-            return WKWebView()
-        }
-        // the url-request from url
-        let request = URLRequest(url: url)
-        // the WebkitView that loads the website
-        let wk_view = WKWebView()
-        wk_view.load(request)
-        
-        return wk_view
-    }
-    
-    /**
-     updates the view, needs to be there
-     */
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        
-    }
-
-}
-*/
-
-/**
  View that loads the url of the article and shows it in the safari view
  */
 struct SafariView: UIViewControllerRepresentable {

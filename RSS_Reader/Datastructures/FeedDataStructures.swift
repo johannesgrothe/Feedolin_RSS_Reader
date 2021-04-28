@@ -131,13 +131,13 @@ class NewsFeedProvider: Codable, Identifiable, ObservableObject, Savable {
         
         var default_icon: String = ""
         let prefix = String(token.lowercased().prefix(1))
-        
+        #if os(iOS)
         if prefix.isAlphanumeric {
             default_icon = token.lowercased().prefix(1) + ".circle"
         } else {
             default_icon = "questionmark.circle"
         }
-        
+        #endif
         /**
          Google-API for getting an icon for the url
          */
