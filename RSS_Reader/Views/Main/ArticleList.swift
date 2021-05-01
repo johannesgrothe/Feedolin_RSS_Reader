@@ -40,6 +40,9 @@ struct ArticleList: View {
             }, image_one: .insensitive, image_two: .sensitive,
             bool: $search_ignore_casing)
         }
+        .padding(.all, 10)
+        .background(EmptyView().background(Color.topbar))
+        
     }
     
     var body: some View {
@@ -50,28 +53,32 @@ struct ArticleList: View {
                     ScrollViewOffset(shows_indicators: false, on_offset_change: {
                         scroll_offset = $0
                     }, content: {
-                        LazyVStack(alignment: .center, spacing: 10, pinnedViews: [], content: {
-                            textfield_row
-                                .id(0)
-                            /// Create search object
-                            let search_phrase_obj = SearchPhrase(pattern: search_phrase,
-                                                             is_regex: false,
-                                                             search_description: true,
-                                                             ignore_casing: search_ignore_casing)
-                            /// filter list with search phrase
-                            let filtered_list = model.filtered_article_data.filter { (article) -> Bool in
-                                if !self.search_phrase.isEmpty {
-                                    return search_phrase_obj.matchesArticle(article)
+                        LazyVStack(alignment: .center, pinnedViews: [.sectionHeaders], content: {
+                            Section(header: textfield_row) {
+                                EmptyView().id(0)
+                                /// Create search object
+                                let search_phrase_obj = SearchPhrase(pattern: search_phrase,
+                                                                 is_regex: false,
+                                                                 search_description: true,
+                                                                 ignore_casing: search_ignore_casing)
+                                /// filter list with search phrase
+                                let filtered_list = model.filtered_article_data.filter { (article) -> Bool in
+                                    if !self.search_phrase.isEmpty {
+                                        return search_phrase_obj.matchesArticle(article)
+                                    }
+                                    return true
                                 }
-                                return true
-                            }
-                            
-                            ForEach(filtered_list){ article in
-                                ArticleListRow(article: article)
+                                
+                                ForEach(filtered_list){ article in
+                                    ArticleCellView(article: article)
+                                        .padding(.top, 5)
+                                        .padding(.horizontal, 10)
+                                }
                             }
                         })
-                        .padding(.vertical, 10)
+                        
                     })
+                    
                     // jump to top button
                     VStack(alignment: .trailing) {
                         Spacer()
@@ -95,16 +102,14 @@ struct ArticleList: View {
                         .animation(.easeInOut)
                     }
                 }
-                .padding(.horizontal, 10)
             }
         }
     }
-    
 }
 
 struct ArticleList_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleList(model: preview_model)
+        ArticleList(model: fake_data_preview)
         
     }
 }
