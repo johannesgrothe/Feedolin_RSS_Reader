@@ -74,7 +74,7 @@ struct RefreshableScrollView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader{
             geometry in
-            RefreshableScrollView(width: geometry.size.width, height: geometry.size.height, model: preview_model)
+            RefreshableScrollView(width: geometry.size.width, height: geometry.size.height, model: fake_data_preview)
         }
     }
 }

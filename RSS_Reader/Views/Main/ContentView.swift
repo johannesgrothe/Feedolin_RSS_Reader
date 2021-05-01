@@ -59,6 +59,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(show_menu: false, model: preview_model)
+        ContentView(show_menu: false, model: fake_data_preview)
     }
 }
