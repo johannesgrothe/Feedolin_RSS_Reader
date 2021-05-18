@@ -24,6 +24,7 @@
 		7C22853525C2EA1F00FC6EE9 /* CustomTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */; };
 		7C22853A25C2FA2300FC6EE9 /* TButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C22853925C2FA2300FC6EE9 /* TButton.swift */; };
 		7C6931A42616C5B300715157 /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6931A32616C5B300715157 /* Date_Extension.swift */; };
+		7C6B659426543D4B003ACF77 /* DateFormatter_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6B659326543D4B003ACF77 /* DateFormatter_Extension.swift */; };
 		7C86307225BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */; };
 		7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */; };
 		7C91656C25BB13300017FE3C /* NavigationViewStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */; };
@@ -103,6 +104,7 @@
 		7C22853425C2EA1F00FC6EE9 /* CustomTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfield.swift; sourceTree = "<group>"; };
 		7C22853925C2FA2300FC6EE9 /* TButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TButton.swift; sourceTree = "<group>"; };
 		7C6931A32616C5B300715157 /* Date_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
+		7C6B659326543D4B003ACF77 /* DateFormatter_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter_Extension.swift; sourceTree = "<group>"; };
 		7C86307125BC49F9008EB6F0 /* DefaultScreenLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultScreenLayoutModifier.swift; sourceTree = "<group>"; };
 		7C91656325BAF7D90017FE3C /* DefaultListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListEntryView.swift; sourceTree = "<group>"; };
 		7C91656B25BB13300017FE3C /* NavigationViewStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewStyleModifier.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				C5813EC725A096290009F7F0 /* Extensions.swift */,
 				7C6931A32616C5B300715157 /* Date_Extension.swift */,
+				7C6B659326543D4B003ACF77 /* DateFormatter_Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				EB6702E7254DA694006BD9C1 /* FeedDataStructures.swift in Sources */,
 				7CC52C2A25C1B2FF00DA2100 /* CDButton.swift in Sources */,
 				EBA0931B25A911A500F070BC /* TextGenerators.swift in Sources */,
+				7C6B659426543D4B003ACF77 /* DateFormatter_Extension.swift in Sources */,
 				7C6931A42616C5B300715157 /* Date_Extension.swift in Sources */,
 				7C91656425BAF7D90017FE3C /* DefaultListEntryView.swift in Sources */,
 				EB08E12E254D7C1200006B70 /* SideMenuView.swift in Sources */,

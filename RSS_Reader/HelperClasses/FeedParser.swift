@@ -166,10 +166,13 @@ class FeedParser {
         if let date = Date.iso8601Date(from: string) {
             return date
         }
-        if let date = Date.EEEddMMMyyyyHHmmsszzzzDate(from: string) {
+        if let date = Date.fullDate(from: string) {
             return date
         }
         if let date = Date.EEEddMMMyyyyHHmmsszzzDate(from: string) {
+            return date
+        }
+        if let date = Date.EEEddMMMyyyyHHmmsszzzzDate(from: string) {
             return date
         }
         print("❗️Error: failed parsing date '\(string)'")
