@@ -163,16 +163,10 @@ class FeedParser {
     }
     
     private func parseArticlePubDate(from string: String) -> Date {
+        if let date = Date.rfc822Date(from: string) {
+            return date
+        }
         if let date = Date.iso8601Date(from: string) {
-            return date
-        }
-        if let date = Date.fullDate(from: string) {
-            return date
-        }
-        if let date = Date.EEEddMMMyyyyHHmmsszzzDate(from: string) {
-            return date
-        }
-        if let date = Date.EEEddMMMyyyyHHmmsszzzzDate(from: string) {
             return date
         }
         print("❗️Error: failed parsing date '\(string)'")

@@ -9,10 +9,10 @@ import Foundation
 
 extension Date {
     
-    private static var long_date_formatter: DateFormatter = DateFormatter(timeStyle: .short, dateStyle: .long)
+    private static var long_date_short_time_formatter: DateFormatter = DateFormatter(timeStyle: .short, dateStyle: .long)
     
-    var long_date: String {
-        return Date.long_date_formatter.string(from: self)
+    var long_date_short_time: String {
+        return Date.long_date_short_time_formatter.string(from: self)
     }
     
     private static var relativ_short_date_formatter: RelativeDateTimeFormatter {
@@ -26,41 +26,17 @@ extension Date {
         return Date.relativ_short_date_formatter.localizedString(for: self, relativeTo: Date())
     }
     
-    private static var ddMMyyyyHHmm_date_formatter: DateFormatter = DateFormatter(dateFormat: "dd-MM-yyyy HH:mm")
+    /// parsing rss feed pubdate
+    private static var rfc_822_format: DateFormatter = DateFormatter(locale: Locale(identifier: "en_US_POSIX"), dateFormat: "E, d MMM yyyy HH:mm:ss Z", localDependingDateFormat: false)
     
-    var ddMMyyyyHHmm_date: String {
-        return Date.ddMMyyyyHHmm_date_formatter.string(from: self)
+    static func rfc822Date(from string: String) -> Date? {
+        return Date.rfc_822_format.date(from: string)
     }
     
     /// parsing rss feed pubdate
-    private static var EEEddMMMyyyyHHmmsszzzz_date_formatter: DateFormatter = DateFormatter(locale: Locale(identifier: "GMT") ,dateFormat: "EEE, dd MMM yyyy HH:mm:ss +zzzz")
-    
-    static func EEEddMMMyyyyHHmmsszzzzDate(from string: String) -> Date? {
-        return Date.EEEddMMMyyyyHHmmsszzzz_date_formatter.date(from: string)
-    }
-    
-    /// parsing rss feed pubdate
-    private static var EEEddMMMyyyyHHmmsszzz_date_formatter: DateFormatter = DateFormatter(locale: Locale(identifier: "GMT"), dateFormat: "EEE, dd MMM yyyy HH:mm:ss zzz")
-    
-    static func EEEddMMMyyyyHHmmsszzzDate(from string: String) -> Date? {
-        return Date.EEEddMMMyyyyHHmmsszzz_date_formatter.date(from: string)
-    }
-    
-    /// parsing rss feed pubdate
-    private static var iso8601_date_formatter: ISO8601DateFormatter {
-        let iso_date_formatter = ISO8601DateFormatter()
-        iso_date_formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        return iso_date_formatter
-    }
+    private static var iso8601_date_formatter: ISO8601DateFormatter = ISO8601DateFormatter()
     
     static func iso8601Date(from string: String) -> Date? {
         return Date.iso8601_date_formatter.date(from: string)
-    }
-
-    /// parsing rss feed pubdate
-    private static var full_date_formatter: DateFormatter = DateFormatter(locale: Locale(identifier: "GMT"),timeStyle: .full, dateStyle: .full)
-
-    static func fullDate(from string: String) -> Date? {
-        return Date.full_date_formatter.date(from: string)
     }
 }
