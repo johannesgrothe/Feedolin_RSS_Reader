@@ -42,7 +42,7 @@ struct ArticleCellView: View {
                     article.image?.img
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(minWidth: 0, maxWidth: 130, minHeight: 0, maxHeight: 100, alignment: .top)
+                        .frame(minWidth: 0, maxWidth: 130, minHeight: 0, maxHeight: 100, alignment: .center)
                         .clipped()
                         .cornerRadius(5)
                 }
@@ -85,7 +85,7 @@ struct ArticleCellView: View {
             Text(article.title)
                 .font(.subheadline)
                 .bold()
-                .lineLimit(4)
+                .lineLimit(3)
             // parent_feed indicators to the left than seperator and pubdate to the right
             HStack {
                 if self.bookmarked{
@@ -162,8 +162,14 @@ struct ArticleListRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ArticleCellView(article: fake_data_preview.stored_article_data[0])
+                .frame(width: 400, height: 200)
+                .previewLayout(.sizeThatFits)
             ArticleCellView(article: fake_data_preview.stored_article_data[1])
+                .frame(width: 400, height: 200)
+                .previewLayout(.sizeThatFits)
             ArticleCellView(article: fake_data_preview.stored_article_data[2])
+                .frame(width: 400, height: 200)
+                .previewLayout(.sizeThatFits)
         }
     }
 }

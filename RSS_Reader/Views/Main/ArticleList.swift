@@ -40,9 +40,7 @@ struct ArticleList: View {
             }, image_one: .insensitive, image_two: .sensitive,
             bool: $search_ignore_casing)
         }
-        .padding(.all, 10)
-        .background(EmptyView().background(Color.topbar))
-        
+        .padding([.horizontal, .top], 10)
     }
     
     var body: some View {
@@ -53,7 +51,7 @@ struct ArticleList: View {
                     ScrollViewOffset(shows_indicators: false, on_offset_change: {
                         scroll_offset = $0
                     }, content: {
-                        LazyVStack(alignment: .center, pinnedViews: [.sectionHeaders], content: {
+                        LazyVStack(alignment: .center, pinnedViews: [], content: {
                             Section(header: textfield_row) {
                                 EmptyView().id(0)
                                 /// Create search object
