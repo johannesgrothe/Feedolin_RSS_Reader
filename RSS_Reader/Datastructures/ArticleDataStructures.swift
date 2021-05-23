@@ -210,7 +210,7 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
 
     /** Function that returns a Date-/Timestamp as a String */
     func dateToString() -> String{
-        return pub_date.ddMMyyyyHHmm_date
+        return pub_date.long_date_short_time
     }
     
     /// Function that returns the timeAgoDate from pub_date as a String

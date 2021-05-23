@@ -12,16 +12,18 @@ public extension DateFormatter {
     /// - Parameter locale: its default value is `Locale.current` so your `dateFormat` depent from this locale, if you dont want this set it to nil
     /// - Parameter dateFormat: you need to set the `dateFormat` property for custom formats
     convenience init(locale: Locale? = .current,
-                     dateFormat: String)
+                     dateFormat: String, localDependingDateFormat: Bool)
     {
         self.init()
-        if let locale = locale {
+        if let locale = locale, localDependingDateFormat {
             self.locale = locale
             self.dateFormat = DateFormatter.dateFormat(fromTemplate: dateFormat, options: 0, locale: locale)
         } else {
+            self.locale = locale
             self.dateFormat = dateFormat
         }
     }
+    
     /// custom init for short writing
     /// - Parameters will only set if its given, in other cases the `init()` default is used
     /// - Parameter locale: default is seit to Locale.current
