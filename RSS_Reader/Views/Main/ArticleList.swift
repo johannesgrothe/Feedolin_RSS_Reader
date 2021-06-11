@@ -26,7 +26,7 @@ struct ArticleList: View {
      */
     @State private var search_ignore_casing: Bool = true
     
-    @State private var scroll_offset: CGFloat = .zero
+    @State private var show_jump_to_top_button: Bool = false
     
     var textfield_row: some View {
         HStack {
@@ -49,7 +49,10 @@ struct ArticleList: View {
                 ZStack {
                     // Scroll View with content
                     ScrollViewOffset(shows_indicators: false, on_offset_change: {
-                        scroll_offset = $0
+                        let show_button = $0 < -400
+                        if show_jump_to_top_button != show_button {
+                            show_jump_to_top_button = show_button
+                        }
                     }, content: {
                         LazyVStack(alignment: .center, pinnedViews: [], content: {
                             Section(header: textfield_row) {
@@ -96,7 +99,7 @@ struct ArticleList: View {
                         }
                         .padding(.bottom, 40)
                         .padding(.trailing, 10)
-                        .opacity(scroll_offset < -400 ? 1 : 0)
+                        .opacity(show_jump_to_top_button ? 1 : 0)
                         .animation(.easeInOut)
                     }
                 }
