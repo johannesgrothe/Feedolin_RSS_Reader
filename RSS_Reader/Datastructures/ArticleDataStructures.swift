@@ -43,7 +43,8 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
     
     /** Indicator to auto-refresh Views when Icon is changed */
     @Published private var image_loaded_indicator: AnyCancellable? = nil
-    
+
+    @Published var image_loaded: Bool = false
     /** Actual image to display */
     let image: AsyncImage?
     
@@ -125,6 +126,7 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
             /**Chain images objectWillChange to the indicator*/
             image_loaded_indicator = self.image!.objectWillChange.sink { _ in
                 print("Triggering: Article Image loaded")
+                self.image_loaded = true
                 self.objectWillChange.send()
             }
         } else {
@@ -167,6 +169,7 @@ class ArticleData: Identifiable, ObservableObject, Codable, Savable {
             /**Chain images objectWillChange to the indicator*/
             image_loaded_indicator = self.image!.objectWillChange.sink { _ in
                 print("Triggering: Article Image loaded")
+                self.image_loaded = true
                 self.objectWillChange.send()
             }
         } else {

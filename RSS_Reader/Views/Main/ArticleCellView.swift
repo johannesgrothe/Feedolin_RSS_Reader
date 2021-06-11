@@ -19,6 +19,7 @@ struct ArticleCellView: View {
     @State private var read: Bool = false
     /// active when click on it, to manually activate the NavigationLink
     @State private var is_active_link: Bool = false
+    @State private var image_loaded: Bool = false
     
     var body: some View {
         // undelaying navigation link and on top the content in HStack
@@ -45,8 +46,11 @@ struct ArticleCellView: View {
                         .frame(minWidth: 0, maxWidth: 130, minHeight: 0, maxHeight: 100, alignment: .center)
                         .clipped()
                         .cornerRadius(5)
+                        .redacted(reason: image_loaded ? [] : .placeholder)
                 }
-                
+                .onReceive(article.$image_loaded, perform: { value in
+                    image_loaded = value
+                })
             }
             .frame(maxHeight: 160, alignment: .top)
             .padding(.all, 10.0)
