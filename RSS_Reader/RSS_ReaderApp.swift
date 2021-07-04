@@ -11,10 +11,13 @@ import SwiftUI
 struct RSS_ReaderApp: App {
     let persistenceController = PersistenceController.shared
     
-    /**Property that  indication of a scene’s operational state*/
+    /// Property that  indication of a scene’s operational state
     @Environment(\.scenePhase) var scene_phase
     
-    /**Model Singleton*/
+    /// colorScheme storage
+    @AppStorage("appearance") var appearance: Appearance = .automatic
+    
+    /// Model Singleton
     @ObservedObject var model: Model = .shared
 
     init(){
@@ -28,6 +31,7 @@ struct RSS_ReaderApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .preferredColorScheme(appearance.colorScheme())
         }
     }
 }

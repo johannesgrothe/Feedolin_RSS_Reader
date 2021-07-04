@@ -8,12 +8,15 @@
 import SwiftUI
 
 /// ImageStyle that represent which border th Images has
-enum ImageStyle: Int {
+enum ImageStyle: Int, CaseIterable, Identifiable {
     case nothing = 0
     case square
     case square_rounded
     case circle
     
+    /// for Identifable Protocol
+    var id: Int { self.rawValue }
+
     /// returns legal cornerRadius if legal
     var radius: CGFloat {
         switch self {

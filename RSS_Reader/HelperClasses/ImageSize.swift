@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// ImageSize that has much more different sizes than the normal
-enum ImageSize: Int {
+enum ImageSize: Int, CaseIterable, Identifiable {
     case xxsmall = 0
     case xsmall
     case small
@@ -17,6 +17,9 @@ enum ImageSize: Int {
     case xlarge
     case xxlarge
     case xxxlarge
+    
+    /// for Identifable Protocol
+    var id: Int { self.rawValue }
     
     /// private scale to easy write
     private var scale: CGFloat {
