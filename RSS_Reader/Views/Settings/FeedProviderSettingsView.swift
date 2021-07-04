@@ -45,11 +45,11 @@ struct FeedProviderSettingsView: View {
                 Button(action: {
                     print("change image pressed")
                 }, label: {
-                    CustomIcon(icon: .edit, style: ImageStyle.init(rawValue: image_style_int)!, size: image_size)
+                    CustomIcon(icon: .edit, style: ImageStyle.init(rawValue: image_style)!, size: image_size)
                 })
                 .background(Color("BackgroundColor"))
                 .foregroundColor(Color("ButtonColor"))
-                .cornerRadius(image_style_int == 0 ? 0 : ImageStyle.init(rawValue: image_style_int)!.radius)
+                .cornerRadius(image_style == 0 ? 0 : ImageStyle.init(rawValue: image_style)!.radius)
                 .offset(x: image_size.size.width, y: image_size.size.height)
                 */
                 

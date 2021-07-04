@@ -18,9 +18,9 @@ struct CustomImage: View {
     /// the color that cutomize the image
     var color: Color = Color.accentColor
     /// IconStyle that indicates the style of every icon
-    @AppStorage("image_style_int") var image_style_int: Int = ImageStyle.nothing.rawValue
+    @AppStorage("image_style") var image_style: ImageStyle = .nothing
     /// IconSize that indicates the size of every icon
-    @AppStorage("image_size_int") var image_size_int: Int = ImageSize.large.rawValue
+    @AppStorage("image_size") var image_size: ImageSize = .large
     
     var body: some View {
         if style != .nothing {
