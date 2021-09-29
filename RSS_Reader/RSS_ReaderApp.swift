@@ -21,7 +21,6 @@ struct RSS_ReaderApp: App {
     @ObservedObject var model: Model = .shared
 
     init(){
-        model.loadData()
         model.refreshFilter()
         model.isAppAlreadyLaunchedOnce()
         model.runAutoRefresh()

@@ -68,19 +68,19 @@ struct SideMenuView: View {
                      */
                     Section(header: Text("\("collection_comp".localized) (\(model.collection_data.endIndex))")) {
                         
-                        ForEach(model.collection_data) { collection in
-                            Button(action: {
-                                menu_close()
-                                model.setFilterCollection(collection)
-                                model.refreshFilter()
-                            }, label: {
-                                DefaultListEntryView(
-                                    sys_image: CustomSystemImage(image: .folder),
-                                    text: collection.name,
-                                    font: .headline)
-                            })
-                        }
-                        .listRowBackground(Color.clear)
+//                        ForEach(model.collection_data) { collection in
+//                            Button(action: {
+//                                menu_close()
+//                                model.setFilterCollection(collection)
+//                                model.refreshFilter()
+//                            }, label: {
+//                                DefaultListEntryView(
+//                                    sys_image: CustomSystemImage(image: .folder),
+//                                    text: collection.name,
+//                                    font: .headline)
+//                            })
+//                        }
+//                        .listRowBackground(Color.clear)
                     }
                     
                     /**

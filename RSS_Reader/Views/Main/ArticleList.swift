@@ -70,11 +70,11 @@ struct ArticleList: View {
                                     return true
                                 }
                                 
-                                ForEach(filtered_list){ article in
-                                    ArticleCellView(article: article)
-                                        .padding(.top, 5)
-                                        .padding(.horizontal, 10)
-                                }
+//                                ForEach(filtered_list){ article in
+//                                    ArticleCellView(article: article)
+//                                        .padding(.top, 5)
+//                                        .padding(.horizontal, 10)
+//                                }
                             }
                         })
                         

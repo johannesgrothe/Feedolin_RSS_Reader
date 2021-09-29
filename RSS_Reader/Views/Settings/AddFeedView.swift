@@ -127,7 +127,7 @@ struct DetectedFeedEntry: View {
                 }, exits: true)
                 .alert(isPresented: $showing_alert) {
                     Alert(title: Text("feed_delete_alert_title".localized), message: Text(getWaringTextForFeedRemoval(detected_feed!)), primaryButton: .default(Text("ok_btn_title".localized), action: {
-                            model.removeFeed(detected_feed!)
+                            //model.removeFeed(detected_feed!)
                     }),secondaryButton: .cancel())
                 }
                 .buttonStyle(BorderlessButtonStyle())

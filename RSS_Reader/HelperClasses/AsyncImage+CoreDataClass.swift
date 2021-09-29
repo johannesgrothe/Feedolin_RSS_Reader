@@ -1,58 +1,34 @@
 //
-//  AsyncImage.swift
+//  AsyncImage+CoreDataClass.swift
 //  RSS_Reader
 //
-//  Created by Johannes Grothe on 20.11.20.
+//  Created by Emircan Duman on 29.09.21.
+//
 //
 
 import Foundation
+import CoreData
 import SwiftUI
 
-class AsyncImage: ObservableObject, Codable {
+public class AsyncImage: NSManagedObject {
     
-    /**
-     Listing all the properties we want to serialize. The case's in the enum are the json propertys(left side) for example "url":"value"...
-     */
-    enum CodingKeys: CodingKey {
-        case url, default_img
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<AsyncImage> {
+        return NSFetchRequest<AsyncImage>(entityName: "AsyncImage")
     }
     
-    /**
-     Encode function to serialize a instance of AsyncImage to a json string, writes out all the properties attached to their respective key
-     */
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(url, forKey: .url)
-        try container.encode(default_img, forKey: .default_img)
-    }
+    @NSManaged public var url: URL?
+    @NSManaged public var default_img: String
+    private var stored_img: Image?
     
-    /**
-     Decoding constructor to deserialize the archived json data into a instance of AsyncImage
-     */
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        url = try container.decode(URL?.self, forKey: .url)
-        default_img = try container.decode(String.self, forKey: .default_img)
-    }
-    
-    init(_ url: String, default_image: String?) {
+    convenience init(_ url: String, default_img: String?) {
+        self.init()
         self.url = URL(string: url)
-        if default_image != nil {
-            self.default_img = default_image!
+        if default_img != nil {
+            self.default_img = default_img!
         } else {
             self.default_img = "xmark.octagon"
         }
     }
-    
-    // URL of the image to be loaded
-    let url: URL?
-    
-    // Default image to be displayed
-    private let default_img: String
-    
-    private var stored_img: Image?
     
     var img: Image {
         get {
@@ -60,7 +36,7 @@ class AsyncImage: ObservableObject, Codable {
                 return stored_img!
             }
             load()
-            return Image(systemName: default_img)
+            return Image(systemName: self.default_img)
         }
         set(newValue) {
             stored_img = newValue
@@ -103,6 +79,6 @@ class AsyncImage: ObservableObject, Codable {
     }
 }
 
-class AsyncImageContainer: ObservableObject {
+extension AsyncImage : Identifiable {
     
 }

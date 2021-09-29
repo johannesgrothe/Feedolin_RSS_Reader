@@ -60,35 +60,35 @@ struct CollectionSettingsView: View {
             
             let sorted_collection_data = model.collection_data.sorted(by: { return $0.name < $1.name })
             
-            ForEach(sorted_collection_data) { collection in
-                
-                if (edit_mode) {
-                    /**
-                     * Container for list row in edit mode
-                     */
-                    HStack {
-                        DefaultListEntryView(
-                            sys_image: CustomSystemImage(image: .folder),
-                            text: collection.name,
-                            font: .headline)
-                        
-                        Spacer()
-                        CDButton(action: {
-                            model.collection_data.removeAll( where: { $0.id == collection.id })
-                        }, exits: edit_mode)
-                    }
-                    
-                } else {
-                    NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
-                        DefaultListEntryView(
-                            sys_image: CustomSystemImage(image: .folder),
-                            text: collection.name,
-                            font: .headline)
-                    }
-                }
-                
-            }
-            .listRowBackground(Color.clear)
+//            ForEach(sorted_collection_data) { collection in
+//                
+//                if (edit_mode) {
+//                    /**
+//                     * Container for list row in edit mode
+//                     */
+//                    HStack {
+//                        DefaultListEntryView(
+//                            sys_image: CustomSystemImage(image: .folder),
+//                            text: collection.name,
+//                            font: .headline)
+//                        
+//                        Spacer()
+//                        CDButton(action: {
+//                            model.collection_data.removeAll( where: { $0.id == collection.id })
+//                        }, exits: edit_mode)
+//                    }
+//                    
+//                } else {
+//                    NavigationLink(destination: CollectionDetailSettingsView(collection: collection)) {
+//                        DefaultListEntryView(
+//                            sys_image: CustomSystemImage(image: .folder),
+//                            text: collection.name,
+//                            font: .headline)
+//                    }
+//                }
+//                
+//            }
+//            .listRowBackground(Color.clear)
         }
         .listStyle(PlainListStyle())
         .defaultScreenLayout()

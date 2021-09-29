@@ -144,15 +144,6 @@ final class Model: ObservableObject {
     
     /// Boolean that indicaties if the model is currently fetching feeds
     @Published var is_fetching: Bool = false
-    
-    /**Path property to the directory where all the NewFeedProvider json's are saved*/
-    let feed_providers_path = getPathURL(directory_name: "FeedProviders")
-
-    /**Path property to the directory where all the ArticleData json's are saved*/
-    let articles_path = getPathURL(directory_name: "Articles")
-
-    /**Path property to the directory where all the Collection json's are saved*/
-    let collections_path = getPathURL(directory_name: "Collections")
 
     /**
      * Singleton for the Model.
@@ -399,7 +390,7 @@ final class Model: ObservableObject {
                 // Execute code in the main Queue
                 DispatchQueue.main.sync {
                     self.refreshFilter()
-                    self.cleanupStoredFiles()
+                    //self.cleanupStoredFiles()
                 }
             }
             DispatchQueue.main.sync {
@@ -636,95 +627,6 @@ final class Model: ObservableObject {
     /// END OF THE FILTERING
     ///
     
-    /**Generates a path to the IOS app storage of this app and generates for all DataStructers an own direcotry where the instance of the objects can be saved as json data.
-     ( A path where you can read and write your app's files there without worrying about colliding with other apps).
-     */
-    static func getPathURL(directory_name: String) -> URL{
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let path = paths[0].appendingPathComponent("\(directory_name)")
-        let path_string = path.path
-        let fileManager = FileManager.default
-
-        do{
-            try fileManager.createDirectory(atPath: path_string, withIntermediateDirectories: true, attributes: nil)
-        } catch   {
-            print("error")
-        }
-        print(path.absoluteURL)
-        return path
-    }
-
-    /**Writes in the given path a json data from a given json_string and names it after the given file_name*/
-    private func writeObjectStringToJsonFile(path: URL, json_string: String, file_name: String){
-        let filename = path.appendingPathComponent("\(file_name).json")
-        do {
-            try json_string.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            print("failed to write file")
-        }
-    }
-
-    /** loades all the Instances of our objects in the right order to avoid conflicts */
-    func loadData() {
-        print("Loading Data")
-        load(path: feed_providers_path)
-        load(path: articles_path)
-        load(path: collections_path)
-        print("Loading Data OK")
-    }
-
-    /**
-     Loades all the Instances of our objects, function knows wich object to load by checking given path
-     - Parameter path: Path to the folder the files should be loaded from
-     */
-    private func load(path: URL){
-        let fileManager = FileManager.default
-        let decoder = JSONDecoder()
-
-        do {
-            let items = try fileManager.contentsOfDirectory(atPath: path.path)
-            for item in items{
-                let item_path = "\(path)\(item)"
-                let json_data = try Data(contentsOf: URL(string:item_path)!)
-
-                switch path.pathComponents[path.pathComponents.count-1] {
-                case "FeedProviders":
-                    /** Deserialize FeedProvider*/
-                    let object = try! decoder.decode(NewsFeedProvider.self, from: json_data)
-                    
-                    /** Add feed provider to list */
-                    feed_data.append(object)
-                    
-                    /**Link update of the feed to the feed provider*/
-                    self.feed_provider_update_indicators.append(object.objectWillChange.sink { _ in
-                        print("Triggering: Feed Provider changed")
-                        self.objectWillChange.send()
-                    })
-                    
-                case "Articles":
-                    /** Deserialize Artivle */
-                    let object = try! decoder.decode(ArticleData.self, from: json_data)
-                    
-                    /** Add article to list */
-                    stored_article_data.append(object)
-                    
-                case "Collections":
-                    /** Deserialize Collection */
-                    let object = try! decoder.decode(Collection.self, from: json_data)
-
-                    /** Add collection to list */
-                    collection_data.append(object)
-                    
-                default:
-                    print("ERROR: Path = \(path.pathComponents[path.pathComponents.count-1]) not supported")
-                }
-            }
-        }
-        catch {
-            print("Failed to read Directory")
-        }
-    }
-
     /**
      Returns a Instance of NewsFeed by the NewsFeed's id
      - Parameter feed_id: ID so search for
@@ -753,106 +655,6 @@ final class Model: ObservableObject {
         return nil
     }
 
-        /**
-     Find and deletes all files in the list contained in the superfolder.
-     - Parameters:
-     - path: Directory these files are located in
-     - list: list with AnyObject's (for example feed_data, stored_data...)
-     
-                        !ATTENTION!:
-     This method is Private and should only be called by @cleanupStoredFiles() and list has to be an array of ArticeData, Collection or NewsFeedProvider nothing else. Otherwise this will throw an error
-     */
-    private func removeFiles(path: URL, list: [AnyObject]) throws {
-        
-        /** Create FileManager instance */
-        let file_manager = FileManager()
-
-        /** Find files and append list of files to remove */
-        do {
-            /** Load all filenames at given path */
-            let files = try file_manager.contentsOfDirectory(atPath: path.path)
-
-            /**
-             Initialize array for all files that should be removed.
-             (cannot remove them while iterating because thats the rules and you would blow shit up)
-             */
-            var remove_files: [String] = []
-
-            /** Iterate over filenames */
-            for filename in files {
-                var found: Bool = false
-
-                /** Iterate over objects and check if their id fits */
-                for object in list{
-                    if let news_feed_provider = object as? NewsFeedProvider{
-                        if news_feed_provider.id.uuidString + ".json" == filename {
-                            found = true
-                            break
-                        }
-                    } else if let article = object as? ArticleData{
-                        if article.id.uuidString + ".json" == filename {
-                            found = true
-                            break
-                        }
-                    } else if let collection = object as? Collection{
-                        if collection.id.uuidString + ".json" == filename {
-                            found = true
-                            break
-                        }
-                    }
-                    else{
-                        throw ModelErrors.WrongDataType("[ERROR] Datatype: \(type(of: object)) is wrong. Change Datatype to 'NewsFeedProvider', 'ArticleData' or 'Collection'")
-                    }
-                }
-
-                /** If no id fitted, the file should be marked for deleting */
-                if !found {
-                    remove_files.append(filename)
-                }
-            }
-
-            /** Check if theres anything to remove in the first place */
-            if remove_files.count > 0 {
-                print("Removing \(remove_files.count)")
-
-                /** Iterate over all files to remove */
-                for filename in remove_files {
-
-                    /** Generate full file path */
-                    let full_file_path = "\(path.path)/\(filename)"
-
-                    if file_manager.fileExists(atPath: full_file_path) {
-                        do {
-                            /** Delete file */
-                            try file_manager.removeItem(atPath: full_file_path)
-                        }
-                        catch let error as NSError {
-                            print("Cannot delete File: \(error)")
-                        }
-                    } else {
-                        print("File does not exist")
-                    }
-
-                }
-            }
-        }
-        catch let error as NSError {
-            print("Ooops! Something went wrong: \(error)")
-        }
-    }
-
-    /** Cleans up the storage by calling removesFiles with given path and list, removing all files that are not represented by any alive feedprovider, article or collection object */
-    private func cleanupStoredFiles() {
-        do{
-            try removeFiles(path: feed_providers_path, list: feed_data)
-            try removeFiles(path: articles_path, list: stored_article_data)
-            try removeFiles(path: collections_path, list: collection_data)
-        }
-        catch{
-            print("\(error)")
-        }
-    }
-    
     /** Set all Data in the model to empty List and after it will call @cleanupStoredFiles() to remove all the serialized json's*/
     func reset(){
         self.collection_data = []
@@ -862,69 +664,6 @@ final class Model: ObservableObject {
         self.filter_keywords = []
         self.feed_provider_update_indicators = []
         self.timer = nil
-        cleanupStoredFiles()
-    }
-    
-    /**@saveArticle(_ article: ArticleData) will overwrite the given article*/
-    func saveArticle(_ article: ArticleData){
-        
-        let json_encoder = JSONEncoder()
-        let json_data = try! json_encoder.encode(article)
-        let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-        
-        writeObjectStringToJsonFile(path: self.articles_path, json_string: json_string, file_name: article.id.uuidString)
-        
-        print("Article with the ID:\(article.id) got saved")
-    }
-    
-    /**
-    Saves the passed feed provider to device storage
-     
-     - Parameter feed_provider: The feed provider to save
-     */
-    func saveFeedProvider(_ feed_provider: NewsFeedProvider){
-        
-        let json_encoder = JSONEncoder()
-        let json_data = try! json_encoder.encode(feed_provider)
-        let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-        
-        writeObjectStringToJsonFile(path: self.feed_providers_path, json_string: json_string, file_name: feed_provider.id.uuidString)
-        
-        print("Feed Provider with the ID:\(feed_provider.id) got saved")
-    }
-
-    /**@removeFeed(_ givenFeed: NewsFeed) will remove the feed from his parents list and if the parent list is empty the parent will be removed*/
-    func removeFeed(_ given_feed: NewsFeed){
-        let parent_feed = given_feed.parent_feed!
-        
-        stored_article_data.removeAll{
-            $0.hasParentFeed(given_feed)
-        }
-        
-        parent_feed.feeds.removeAll{
-            $0.id == given_feed.id
-        }
-        
-        if parent_feed.feeds.isEmpty{
-            feed_data.removeAll{
-                $0.id == parent_feed.id
-            }
-        }
-        
-        self.cleanupStoredFiles()
-    }
-    
-
-    /**@saveCollection(_ collection: Collection) will overwrite the given article*/
-    func saveCollection(_ collection: Collection){
-
-        let json_encoder = JSONEncoder()
-        let json_data = try! json_encoder.encode(collection)
-        let json_string = String(data: json_data, encoding: String.Encoding.utf8)!
-
-        writeObjectStringToJsonFile(path: self.collections_path, json_string: json_string, file_name: collection.id.uuidString)
-
-        print("Collection with the ID:\(collection.id) got saved")
     }
 
     /** @autoRefrehs() will fetch the feeds and refresh all Filter*/

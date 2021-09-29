@@ -127,7 +127,7 @@ struct FeedEditSettingsView: View {
                     title: Text("feed_delete_alert_title".localized),
                     message: Text(getWaringTextForFeedRemoval(feed)),
                     primaryButton: .default(Text("ok_btn_title".localized), action: {
-                        model.removeFeed(feed)
+                        //model.removeFeed(feed)
                         self.presentationMode.wrappedValue.dismiss()
                 }),secondaryButton: .cancel())
             }
